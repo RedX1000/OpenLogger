@@ -1,10 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
+
 	<link rel="stylesheet" type="text/css" href="styles/nis/nis.css"/>
 	<link rel="stylesheet" type="text/css" href="styles/nis/alt1-currentskin/skinstyle.css"/><!--stylesheet with all nis styles (Will be part of public resources so feel free to copy/paste)-->
 	<script type="text/javascript" src="scripts/alt1lib.js"></script><!--alt1 wrapper library (Will be part of public resources so feel free to copy/paste)-->
 	<script type="text/javascript" src="scripts/imagedetect.js"></script><!--Basic alt1 image processing library-->
+    <script src="https://www.unpkg.com/@alt1/base/dist/index.bundle.js"></script>
+	<script src="https://www.npmjs.com/package/@alt1/imagedata-loader"></script>
+	
 	<script type="text/javascript">
 		capturecenter={x:300,y:300};
 		xpcallback=false;
@@ -208,25 +212,43 @@
 	<mainsection>
 		<div id="docapturebutton" class="nisbutton" onclick="docapture();">Capture Rewards</div>
 		<div class="math_box">
-			<div class="math_box_count">Total number of logged scrolls</div>
-			<div class="math_box_total">Total value of logged clues</div>
-			<div class="math_box_average">Average value of logged clues</div>
+			<div class="math_box_elements" id="math_box_count"><span id="clue_tier">Current</span> clues logged:&nbsp;<span id="number_of_clues">999</span></div>
+			<div class="math_box_elements" id="math_box_total">Total value of logged clues:&nbsp;<span id="value_of_clues">999</span></div>
+			<div class="math_box_elements" id="math_box_average">Average value of logged clues:&nbsp;<span id="average_of_clues">999</span></div>
 		</div>
-		<div class="general">
-            General items go here!
-        </div>
-        <div class="common">
-            Common items go here!
-        </div>
-        <div class="rare">
-            Rare items go here!
-        </div>
-		<div class="broadcasts" id="broadcasts_and_caskets">
-            Broadcast & Caskets items go here!
-        </div>
+		<div class="loot_container">
+			<div class="general">
+				<div class="general_title"><span id="general_rewards">General Rewards</span></div>
+				<div class="bottom_border"></div>
+				<div class="loot_display" id="general_loot">
+
+				</div>
+        	</div>
+        	<div class="common">
+				<div class="common_title"><span id="common_rewards">Common Rewards</span></div>
+				<div class="bottom_border"></div>
+				<div class="loot_display" id="common_loot">
+					
+				</div>
+        	</div>
+        	<div class="rare">
+				<div class="rare_title"><span id="rare_rewards">Rare Rewards</span></div>
+				<div class="bottom_border"></div>
+				<div class="loot_display" id="rare_loot">
+					
+				</div>
+        	</div>
+			<div class="broadcasts" id="broadcasts_and_caskets">
+				<div class="broadcasts_title"><span id="broadcasts_rewards">Broadcast Rewards</span></div>
+				<div class="bottom_border"></div>
+				<div class="loot_display" id="broadcasts_loot">
+					
+				</div>
+        	</div>
+		</div>	
     </mainsection>
     <footer>
-        <div>
+        <div class=>
             OpenLogger(c) 2021 RedX1000/CrownMauler
         </div>
     </footer>
