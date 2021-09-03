@@ -356,6 +356,10 @@ body.scrollreset * {
   overflow: hidden !important;
 }
 
+body {
+  margin-bottom:50px;
+}
+
 header {
   display: flex;
   justify-content: center;
@@ -508,8 +512,7 @@ mainsection {
 
 .loot_container {
   overflow-y: scroll;
-  height: 350;
-  max-height: 500px;
+  max-height: 350px;
 }
 
 .general_title,
@@ -551,10 +554,14 @@ mainsection {
 }
 
 footer {
+  position: fixed;
+  height: 20px;
   font-size: 16px;
   font-weight: 600;
-  padding-left: 6px;
-  padding-bottom: 6px;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  margin-bottom: 0px;
 }
 
 /*font stolen from jagex*/
