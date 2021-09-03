@@ -1,5 +1,5 @@
 {
-    "appName": "FreeClogger",
+    "appName": "OpenLogger",
     "description": "A Free, Open-source clue logger",
     "appUrl": "./index.html",
     "configUrl": "./appconfig.json",
