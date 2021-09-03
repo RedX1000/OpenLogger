@@ -170,46 +170,49 @@
     <!--Set the window size to 600 x 400-->
 
     <header>
-        <h1 class="title">OpenLogger, an open-source clue logger</h1>
-        <div class="button_box">
-            <div class="clue_scrolls_buttons">
-                <div class="clue_scrolls_button_box">
-                    <h3 class="clue_scrolls_button_header">Select the tier you're opening</h3>
-                    <div class="clue_button_label_holder" id="clue_easy">
-                        <label for="easy" id="clue_scroll_level_label">Easy</label>
-                        <input type="radio" id="easy" name="clue_scroll_level" class="clue_scroll_level" value="easy">
-                    </div>
-                    <div class="clue_button_label_holder" id="clue_medium">
-                        <label for="medium" id="clue_scroll_level_label">Medium</label>
-                        <input type="radio" id="medium" name="clue_scroll_level" class="clue_scroll_level" value="medium">
-                    </div>
-                    <div class="clue_button_label_holder" id="clue_hard">
-                        <label for="hard" id="clue_scroll_level_label">Hard</label>
-                        <input type="radio" id="hard" name="clue_scroll_level" class="clue_scroll_level" value="hard">
-                    </div>
-                    <div class="clue_button_label_holder" id="clue_elite">
-                        <label for="elite" id="clue_scroll_level_label">Elite</label>
-                        <input type="radio" id="elite" name="clue_scroll_level" class="clue_scroll_level" value="elite">
-                    </div>
-                    <div class="clue_button_label_holder" id="clue_master">
-                        <label for="master" id="clue_scroll_level_label">Master</label>
-                        <input type="radio" id="master" name="clue_scroll_level" class="clue_scroll_level" value="master">
-                    </div>
-                </div>
-            </div>
-            <div class="other_buttons">
-                <div id="csv_button" class="nisbutton" onclick="exporttocsv();">Export to CSV</div>
-                <div id="clear_button" class="nisbutton" onclick="refresh();">Clear Database</div>
-            </div>
-        </div>
-        <div id="docapturebutton" class="nisbutton" onclick="docapture();">Capture Rewards</div>
+		<div class="header_box">
+        	<h1 class="title">OpenLogger, an open-source clue logger</h1>
+        	<div class="button_box">
+        	    <div class="clue_scrolls_buttons">
+        	        <div class="clue_scrolls_button_box">
+        	            <h3 class="clue_scrolls_button_header">Select the tier you're opening</h3>
+        	            <div class="clue_button_label_holder" id="clue_easy">
+        	                <label for="easy" id="clue_scroll_level_label">Easy</label>
+        	                <input type="radio" id="easy" name="clue_scroll_level" class="clue_scroll_level" value="easy">
+        	            </div>
+        	            <div class="clue_button_label_holder" id="clue_medium">
+        	                <label for="medium" id="clue_scroll_level_label">Medium</label>
+        	                <input type="radio" id="medium" name="clue_scroll_level" class="clue_scroll_level" value="medium">
+						</div>
+        	            <div class="clue_button_label_holder" id="clue_hard">
+        	                <label for="hard" id="clue_scroll_level_label">Hard</label>
+        	                <input type="radio" id="hard" name="clue_scroll_level" class="clue_scroll_level" value="hard">
+        	            </div>
+        	            <div class="clue_button_label_holder" id="clue_elite">
+        	                <label for="elite" id="clue_scroll_level_label">Elite</label>
+        	                <input type="radio" id="elite" name="clue_scroll_level" class="clue_scroll_level" value="elite">
+        	            </div>
+        	            <div class="clue_button_label_holder" id="clue_master">
+        	                <label for="master" id="clue_scroll_level_label">Master</label>
+        	                <input type="radio" id="master" name="clue_scroll_level" class="clue_scroll_level" value="master">
+        	            </div>
+        	        </div>
+        	    </div>
+        	    <div class="other_buttons">
+        	        <div id="csv_button" class="nisbutton" onclick="exporttocsv();">Export to CSV</div>
+        	        <div id="clear_button" class="nisbutton" onclick="refresh();">Clear Database</div>
+        	    </div>
+        	</div>
+		</div>
     </header>
-    <mainsection>
-        <div></div>
-        <div class="broadcasts" id="broadcasts_and_caskets">
-            Broadcast & Caskets items go here!
-        </div>
-        <div class="general">
+	<mainsection>
+		<div id="docapturebutton" class="nisbutton" onclick="docapture();">Capture Rewards</div>
+		<div class="math_box">
+			<div class="math_box_count">Total number of logged scrolls</div>
+			<div class="math_box_total">Total value of logged clues</div>
+			<div class="math_box_average">Average value of logged clues</div>
+		</div>
+		<div class="general">
             General items go here!
         </div>
         <div class="common">
@@ -217,6 +220,9 @@
         </div>
         <div class="rare">
             Rare items go here!
+        </div>
+		<div class="broadcasts" id="broadcasts_and_caskets">
+            Broadcast & Caskets items go here!
         </div>
     </mainsection>
     <footer>
