@@ -1,2 +1,2 @@
-Free Clue Logger: A free, open-source clue logger for Alt1. Currently in development
+OpenLogger: A free, open-source clue logger for Alt1. Currently in development
 Discord: RedX1000#3655
