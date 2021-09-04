@@ -7,7 +7,8 @@
 	<script type="text/javascript" src="scripts/alt1lib.js"></script><!--alt1 wrapper library (Will be part of public resources so feel free to copy/paste)-->
 	<script type="text/javascript" src="scripts/imagedetect.js"></script><!--Basic alt1 image processing library-->
     <script src="https://www.unpkg.com/@alt1/base/dist/index.bundle.js"></script>
-	<script src="https://www.npmjs.com/package/@alt1/imagedata-loader"></script>
+	<script src="https://runeapps.org/runeappslib.js"></script>
+	<script src="https://www.unpkg.com/@alt1/imagedata-loader/dist/index.bundle.js"></script>
 	
 	<script type="text/javascript">
 		capturecenter={x:300,y:300};
@@ -126,53 +127,31 @@
 			message("Xp: " + str);
 		}
 		
-		function message(str){
-			elid("eventlog").innerHTML=str+"\n"+elid("eventlog").innerHTML;
+		
+
+		//My own functions for this project
+
+		function start(){
+			span.number_of_clues = 50
+		}
+
+		console.log(localStorage)
+		localStorage.setItem("item", 4323432423,)
+		console.log(localStorage.getItem("item"))
+
+		names = []
+		for(let i = 0; i < names.length; i++) {
+
 		}
 		
-		function start(){
-			if(window.alt1){
-				message("Page loaded, alt1 recognised.");
-				message("Alt1 version: "+alt1.version);
-				message("Press alt-1 to capture.");
-				
-				if(alt1.permissionInstalled) {
-					console.log(JSON.parse(alt1.openInfo));
-				}
-				//dump all events onto the console (right-click the settings spanner to view)
-				for (var a in alt1.events) {
-					alt1.events[a].push(function (e) { console.log(e); });
-				}
-			}
-			else{
-				message("Page loaded, alt1 not recognised.");
-			}
-
-		}
-
         function refresh(){
             location.reload()
         }
+
+
 	</script>
-	<!--<style type="text/css">
-		#eventlog{position:absolute; top:210px; right:5px; bottom:5px; left:5px; white-space:pre; background:rgba(0,0,0,0.5); outline:1px solid gray; padding:5px; font-family:monospace; overflow-x:hidden; overflow-y:auto;}
-		#capturecnv{position:absolute; top:5px; left:5px; height:200px; width:calc(100% - 130px); background:url('transblocks.png'); outline:1px solid gray;}
-		#xpdroptoggle{position:absolute; top:0px; right:0px; width:90px;}
-		#docapturebutton{position:absolute; top:0px; right:0px; width:90px;}
-		#tooltipbutton{position:absolute; top:40px; right:0px; width:90px;}
-		#xpcountertoggle{position:absolute; top:120px; right:0px; width:90px;}
-		#coloroutput{position:absolute; top:165px; height:40px; width:115px; right:5px; outline:1px solid gray; color:white; text-shadow:1px 1px 0px black;}
-	</style>-->
 </head>
 <body class="nis" onload="start();">
-	<!--<canvas id="capturecnv"></canvas>
-	<div id="docapturebutton" class="nisbutton" onclick="docapture();">Capture</div>
-	<div id="tooltipbutton" class="nisbutton" onclick="toggletooltip();">Tooltip</div>
-	<div id="coloroutput">Press alt+1 to grab a color</div>
-	<div id="eventlog" class="nistext"></div>-->
-    
-    <!--Set the window size to 600 x 400-->
-
     <header>
 		<div class="header_box">
         	<h1 class="title">OpenLogger, an open-source clue logger</h1>
@@ -203,8 +182,8 @@
         	        </div>
         	    </div>
         	    <div class="other_buttons">
-        	        <div id="csv_button" class="nisbutton" onclick="exporttocsv();">Export to CSV</div>
-        	        <div id="clear_button" class="nisbutton" onclick="refresh();">Clear Database</div>
+        	        <div id="csv_button" class="nisbutton" onclick="exporttocsv();"><strike>Export to CSV</strike></div>
+        	        <div id="clear_button" class="nisbutton" onclick="refresh();"><strike>Clear Database</strike></div>
         	    </div>
         	</div>
 		</div>
@@ -235,7 +214,7 @@
 				<div class="rare_title"><span id="rare_rewards">Rare Rewards</span></div>
 				<div class="bottom_border"></div>
 				<div class="loot_display" id="rare_loot">
-					
+
 				</div>
         	</div>
 			<div class="broadcasts" id="broadcasts_and_caskets">
@@ -249,7 +228,7 @@
     </mainsection>
     <footer>
         <div class=>
-            OpenLogger(c) 2021 RedX1000/CrownMauler
+            OpenLogger &copy; 2021 RedX1000/CrownMauler
         </div>
     </footer>
 </body>
