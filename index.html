@@ -6,9 +6,10 @@
 	<link rel="stylesheet" type="text/css" href="styles/nis/alt1-currentskin/skinstyle.css"/><!--stylesheet with all nis styles (Will be part of public resources so feel free to copy/paste)-->
 	<script type="text/javascript" src="scripts/alt1lib.js"></script><!--alt1 wrapper library (Will be part of public resources so feel free to copy/paste)-->
 	<script type="text/javascript" src="scripts/imagedetect.js"></script><!--Basic alt1 image processing library-->
-    <script src="https://www.unpkg.com/@alt1/base/dist/index.bundle.js"></script>
+    <script src="https://www.unpkg.com/@alt1/base"></script>
+	<script src="https://www.unpkg.com/@alt1/ocr"></script>
+	<script src="https://www.unpkg.com/@alt1/chatbox"></script>
 	<script src="https://runeapps.org/runeappslib.js"></script>
-	<script src="https://www.unpkg.com/@alt1/imagedata-loader/dist/index.bundle.js"></script>
 	
 	<script type="text/javascript">
 		capturecenter={x:300,y:300};
@@ -58,6 +59,7 @@
 		
 		//captures the area around the last alt+1 press and displays it on a canvas
 		function docapture(){
+			/*
 			var size,rawcapture,image,ctx,cnv,capturex,capturey,color,pixelindex,red,green,blue;
 			cnv=elid("capturecnv");
 			ctx=cnv.getContext("2d");
@@ -99,40 +101,13 @@
 			cnv.width=image.width;
 			cnv.height=image.height;
 			ctx.drawImage(image,0,0);
+			*/
 		}
-
-		function toggletooltip(){
-			var tooltips;
-			tooltips=["Hi!","Good morning","whoosh","Don't mind me"];
-			if(currenttooltip==""){
-				currenttooltip=tooltips[Math.floor(Math.random()*tooltips.length)];
-				if(!alt1.setTooltip(currenttooltip)){
-					currenttooltip="";
-					message("No tooltip permission");}}
-			else{
-				currenttooltip="";
-				alt1.clearTooltip();}
-		}
-		
-		function xprise(str){
-			message("Xp rise: \""+str+"\"");
-		}
-		
-		function xpcounter(obj) {
-			var a,str;
-			str = "";
-			for (a in obj.counters) {
-				str += obj.counters[a].skill + " " + obj.counters[a].text + " - ";
-			}
-			message("Xp: " + str);
-		}
-		
-		
 
 		//My own functions for this project
 
 		function start(){
-			span.number_of_clues = 50
+			
 		}
 
 		console.log(localStorage)
