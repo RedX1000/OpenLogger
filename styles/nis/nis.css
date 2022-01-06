@@ -550,7 +550,8 @@ mainsection {
 .loot_display {
   display: flex;
   justify-content: left;
-  padding: 15px 0px;
+  padding: 15px 10px;
+  word-wrap: normal;
 }
 
 footer {
