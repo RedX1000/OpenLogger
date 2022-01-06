@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-
 	<link rel="stylesheet" type="text/css" href="styles/nis/nis.css"/>
 	<link rel="stylesheet" type="text/css" href="styles/nis/alt1-currentskin/skinstyle.css"/><!--stylesheet with all nis styles (Will be part of public resources so feel free to copy/paste)-->
 	<script type="text/javascript" src="scripts/alt1lib.js"></script><!--alt1 wrapper library (Will be part of public resources so feel free to copy/paste)-->
@@ -10,6 +9,12 @@
 	<script src="https://www.unpkg.com/@alt1/ocr"></script>
 	<script src="https://www.unpkg.com/@alt1/chatbox"></script>
 	<script src="https://runeapps.org/runeappslib.js"></script>
+	<script
+  		src="https://code.jquery.com/jquery-3.6.0.js"
+  		integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+  		crossorigin="anonymous"></script>
+	<script type="text/javascript" src="scripts/iconcomparison.js"></script>
+	
 	
 	<script type="text/javascript">
 		capturecenter={x:300,y:300};
@@ -107,7 +112,7 @@
 		//My own functions for this project
 
 		function start(){
-			
+			pass;
 		}
 
 		console.log(localStorage)
@@ -122,11 +127,19 @@
         function refresh(){
             location.reload()
         }
+		
+		function solution(){
+			//A few notes
+			// - Skip over yellow and white text
+			// - Is an autocompletion
+			// - pixel comparison each time
+			// - check within 2 absolute value I think
 
-
+		}
+	
 	</script>
 </head>
-<body class="nis" onload="start();">
+<body class="nis"><!-- onload="start();"-->
     <header>
 		<div class="header_box">
         	<h1 class="title">OpenLogger, an open-source clue logger</h1>
@@ -136,7 +149,7 @@
         	            <h3 class="clue_scrolls_button_header">Select the tier you're opening</h3>
         	            <div class="clue_button_label_holder" id="clue_easy">
         	                <label for="easy" id="clue_scroll_level_label">Easy</label>
-        	                <input type="radio" id="easy" name="clue_scroll_level" class="clue_scroll_level" value="easy">
+        	                <input type="radio" id="easy" name="clue_scroll_level" class="clue_scroll_level" value="easy" checked>
         	            </div>
         	            <div class="clue_button_label_holder" id="clue_medium">
         	                <label for="medium" id="clue_scroll_level_label">Medium</label>
@@ -164,7 +177,7 @@
 		</div>
     </header>
 	<mainsection>
-		<div id="docapturebutton" class="nisbutton" onclick="docapture();">Capture Rewards</div>
+		<div id="docapturebutton" class="nisbutton" onclick="firstFunction();"><!--docapture()-->Capture Rewards</div>
 		<div class="math_box">
 			<div class="math_box_elements" id="math_box_count"><span id="clue_tier">Current</span> clues logged:&nbsp;<span id="number_of_clues">999</span></div>
 			<div class="math_box_elements" id="math_box_total">Total value of logged clues:&nbsp;<span id="value_of_clues">999</span></div>
@@ -175,7 +188,6 @@
 				<div class="general_title"><span id="general_rewards">General Rewards</span></div>
 				<div class="bottom_border"></div>
 				<div class="loot_display" id="general_loot">
-
 				</div>
         	</div>
         	<div class="common">
@@ -203,7 +215,7 @@
     </mainsection>
     <footer>
         <div class=>
-            OpenLogger &copy; 2021 RedX1000/CrownMauler
+            OpenLogger &copy; 2022 RedX1000/CrownMauler
         </div>
     </footer>
 </body>
