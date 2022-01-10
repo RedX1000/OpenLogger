@@ -355,14 +355,29 @@ body.scrollreset * {
   overflow: hidden !important;
 }
 
-html{
+html,
+body{
   height: 100%;
+  width: 100%;
+  display:flex;
+  flex-direction: column;
+  /*https://stackoverflow.com/questions/147528
+  Absolute savior*/
 }
 
-body {
+html{
+  min-height: 840;
+  min-width: 630;
+}
+
+/*body {
   min-height: 100%;
   display: flex;
   flex-flow: column;
+}*/
+
+body > *{
+  flex-shrink: 0;
 }
 
 header {
@@ -376,7 +391,7 @@ header {
   text-align: center;
   font-size: 28px;
   padding: 0px 12px;
-  line-height: 10px;
+  line-height: 3px;
 }
 
 .header_box {
@@ -395,7 +410,7 @@ header {
 .clue_scrolls_buttons {
   position: relative;
   text-align: center;
-  padding: 15px 0px 0px 0px;
+  padding: 5px 0px 0px 0px;
   line-height: 35px;
 }
 
@@ -468,7 +483,7 @@ header {
 .main_buttons {
   position: relative;
   text-align: center;
-  padding: 10px 0px 0px 0px;
+  padding: 5px 0px 0px 0px;
   line-height: 32px;
   font-weight: 600;
 }
@@ -577,13 +592,12 @@ mainsection {
   border: solid;
   border-bottom-width: 0px;
   border-image: url(alt1-currentskin/borderB.png) 5 0 20 0 repeat;
-  margin: 5px 0px 10px 0px;
-  height: auto;
-  display: flex;
-  flex-wrap: wrap;
+  margin: 5px 0px 30px 0px;
+  height: 1px;
+  display: inline-block;
   flex-flow: column;
-  flex: 1;
-  overflow-y: scroll;
+  overflow-y: auto;
+  flex-grow: 1;
 }
 
 .general,
@@ -591,15 +605,30 @@ mainsection {
 .rare,
 .broadcasts {
   display: block;
-  flex-direction: row;
-  min-height:105px;
+  min-height:23%;
   padding: 5px 0px 0px 0px;
+  background: url(alt1-currentskin/background.png)
 }
 
-.loot_container {
+/*.general{
+  background: red;
+}
+.common{
+  background: orangered;
+}
+
+.rare{
+  background: orange;
+}
+
+.broadcasts{
+  background: yellow;
+}*/
+
+/*.loot_container {
   overflow-y: scroll;
   max-height: 350px;
-}
+}*/
 
 .general_title,
 .common_title,
@@ -641,9 +670,9 @@ mainsection {
   word-wrap: normal;
 }
 
-prefooter {
+/*prefooter {
   height: 27px;
-}
+}*/
 
 footer {
   position: fixed;
