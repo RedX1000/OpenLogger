@@ -2,14 +2,14 @@ function firstFunction(){
     var node = document.createElement("Tificates");
     var textnode = document.createTextNode("Test");
     node.setAttribute("id", "loot");
-    node.setAttribute('style', 'padding:5px 0px 0px 0px;color:green;height:35px;width:35px;background:blue;margin:0px 5px;');
+    node.setAttribute('style', 'padding:5px 0px 0px 0px;color:green;height:35px;width:35px;background:blue;margin:0px 2px;');
     node.appendChild(textnode);
     console.log(document.getElementsByClassName("loot_display").length)
     for(i = 0; i < document.getElementsByClassName("loot_display").length; i++){
         var node = document.createElement("Tificates");
         var textnode = document.createTextNode("Test");
         node.setAttribute("class", "loot");
-        node.setAttribute('style', 'padding:0px 0px;color:green;height:40px;width:40px;background:blue;margin:0px 5px 5px 5px;');
+        node.setAttribute('style', 'padding:0px 0px;color:green;height:40px;width:40px;background:blue;margin:0px 3px 5px 3px;');
         node.appendChild(textnode);
         document.getElementsByClassName("loot_display")[i].appendChild(node)
     }
