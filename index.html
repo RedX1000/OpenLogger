@@ -14,6 +14,7 @@
   		integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
   		crossorigin="anonymous"></script>
 	<script type="text/javascript" src="scripts/iconcomparison.js"></script>
+	<script type="text/javascript" src="images/ItemsAndImages.js"></script>
 	
 	
 	<script type="text/javascript">
@@ -110,20 +111,6 @@
 		}
 
 		//My own functions for this project
-
-		function start(){
-			pass;
-		}
-
-		console.log(localStorage)
-		localStorage.setItem("item", 4323432423,)
-		console.log(localStorage.getItem("item"))
-
-		names = []
-		for(let i = 0; i < names.length; i++) {
-
-		}
-		
         function refresh(){
             location.reload()
         }
@@ -139,14 +126,14 @@
 	
 	</script>
 </head>
-<body class="nis"><!-- onload="start();"-->
+<body class="nis" onload="start();">
     <header>
+		<h1 class="title">OpenLogger, an open-source clue logger</h1>
 		<div class="header_box">
-        	<h1 class="title">OpenLogger, an open-source clue logger</h1>
         	<div class="button_box">
-        	    <div class="clue_scrolls_buttons">
+        	    <div class="clue_scrolls_buttons" id="top">
+					<h3 class="clue_scrolls_button_header">Select the tier you're opening</h3>
         	        <div class="clue_scrolls_button_box">
-        	            <h3 class="clue_scrolls_button_header">Select the tier you're opening</h3>
         	            <div class="clue_button_label_holder" id="clue_easy">
         	                <label for="easy" id="clue_scroll_level_label">Easy</label>
         	                <input type="radio" id="easy" name="clue_scroll_level" class="clue_scroll_level" value="easy" checked>
@@ -169,53 +156,94 @@
         	            </div>
         	        </div>
         	    </div>
-        	    <div class="other_buttons">
-        	        <div id="csv_button" class="nisbutton" onclick="exporttocsv();"><strike>Export to CSV</strike></div>
-        	        <div id="clear_button" class="nisbutton" onclick="refresh();"><strike>Clear Database</strike></div>
+        	    <div class="main_buttons" id="top">
+        	        <div id="csv_button" class="nisbutton" onclick="refresh();"><!--exporttocsv()--><strike>Export to CSV</strike></div>
+        	        <div id="clear_button" class="nisbutton" onclick="cleardb();"><strike>Clear Database</strike></div>
+					<div id="docapturebutton" class="nisbutton" onclick="firstFunction();"><!--docapture()-->Capture Rewards</div>
         	    </div>
+				<div class="capture_info" id="top">
+					<div class="capture_box_elements" id="math_box_count">
+						<u><span id="clue_tier">Current</span> clues logged</u>
+						<div><span id="number_of_clues">0</span></div>
+					</div>
+					<div class="capture_box_elements" id="math_box_total">
+						<u>Total value of logged clues</u>
+						<div><span id="value_of_clues">0</span></div>
+					</div>
+					<div class="capture_box_elements" id="math_box_average">
+						<u>Average value of logged clues</u>
+						<div><span id="average_of_clues">0</span></div>
+					</div>
+				</div>
+				<div class="captured_rewards" id="top">
+					<div id="captured_rewards_title">
+						Rewards Captured
+					</div>
+					<div id="captured_rewards_grid">
+						<div id="first_item" class="rewards">
+							1
+						</div>
+						<div id="second_item" class="rewards">
+							2
+						</div>
+						<div id="third_item" class="rewards">
+							3
+						</div>
+						<div id="fourth_item" class="rewards">
+							4
+						</div>
+						<div id="fifth_item" class="rewards">
+							5
+						</div>
+						<div id="sixth_item" class="rewards">
+							6
+						</div>
+						<div id="seventh_item" class="rewards">
+							7
+						</div>
+						<div id="eigth_item" class="rewards">
+							8
+						</div>
+						<div id="ninth_item" class="rewards">
+							9
+						</div>
+					</div>
+					<div id="self_button" class="nisbutton" onclick="refresh();"><strike>Self Insert into DB</strike></div>	
+				</div>
         	</div>
 		</div>
     </header>
 	<mainsection>
-		<div id="docapturebutton" class="nisbutton" onclick="firstFunction();"><!--docapture()-->Capture Rewards</div>
-		<div class="math_box">
-			<div class="math_box_elements" id="math_box_count"><span id="clue_tier">Current</span> clues logged:&nbsp;<span id="number_of_clues">999</span></div>
-			<div class="math_box_elements" id="math_box_total">Total value of logged clues:&nbsp;<span id="value_of_clues">999</span></div>
-			<div class="math_box_elements" id="math_box_average">Average value of logged clues:&nbsp;<span id="average_of_clues">999</span></div>
-		</div>
-		<div class="loot_container">
-			<div class="general">
-				<div class="general_title"><span id="general_rewards">General Rewards</span></div>
-				<div class="bottom_border"></div>
-				<div class="loot_display" id="general_loot">
-				</div>
-        	</div>
-        	<div class="common">
-				<div class="common_title"><span id="common_rewards">Common Rewards</span></div>
-				<div class="bottom_border"></div>
-				<div class="loot_display" id="common_loot">
-					
-				</div>
-        	</div>
-        	<div class="rare">
-				<div class="rare_title"><span id="rare_rewards">Rare Rewards</span></div>
-				<div class="bottom_border"></div>
-				<div class="loot_display" id="rare_loot">
-
-				</div>
-        	</div>
-			<div class="broadcasts" id="broadcasts_and_caskets">
-				<div class="broadcasts_title"><span id="broadcasts_rewards">Broadcast Rewards</span></div>
-				<div class="bottom_border"></div>
-				<div class="loot_display" id="broadcasts_loot">
-					
-				</div>
-        	</div>
-		</div>	
+		<div class="general">
+			<div class="general_title"><span id="general_rewards">General Rewards</span></div>
+			<div class="bottom_border"></div>
+			<div class="loot_display" id="general_loot"></div>
+        </div>
+        <div class="common">
+			<div class="common_title"><span id="common_rewards">Common Rewards</span></div>
+			<div class="bottom_border"></div>
+			<div class="loot_display" id="common_loot"></div>
+        </div>
+        <div class="rare">
+			<div class="rare_title"><span id="rare_rewards">Rare Rewards</span></div>
+			<div class="bottom_border"></div>
+			<div class="loot_display" id="rare_loot"></div>
+        </div>
+		<div class="broadcasts" id="broadcasts_and_caskets">
+			<div class="broadcasts_title"><span id="broadcasts_rewards">Broadcast Rewards</span></div>
+			<div class="bottom_border"></div>
+			<div class="loot_display" id="broadcasts_loot"></div>
+        </div>
     </mainsection>
+	<prefooter>
+
+	</prefooter>
     <footer>
-        <div class=>
-            OpenLogger &copy; 2022 RedX1000/CrownMauler
+		<div class="footer_bar">
+
+		</div>
+        <div class="copyright">
+            &nbsp;&nbsp;Reach out on Discord for questions or inquiries @RedX1000#3655
         </div>
     </footer>
 </body>
