@@ -4,8 +4,10 @@
     "appUrl": "./index.html",
     "configUrl": "./appconfig.json",
     "iconUrl": "./images/Treasure_Trail_collection_log.png",
-    "defaultWidth": 630,
-    "defaultHeight": 845,
+    "defaultWidth": 635,
+    "defaultHeight": 825,
+    "minWidth": 635,
+    "minHeight": 825,
     "requestHandlers": [],
     "activators": [],
     "permissions": "pixel,gamestate,overlay"
