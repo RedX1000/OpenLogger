@@ -2,34 +2,45 @@ function firstFunction(){
     var node = document.createElement("Tificates");
     var textnode = document.createTextNode("Test");
     node.setAttribute("id", "loot");
-    node.setAttribute('style', 'padding:5 100;color:green');
+    node.setAttribute('style', 'padding:5px 0px 0px 0px;color:green;height:35px;width:35px;background:blue;margin:0px 5px;');
     node.appendChild(textnode);
-    document.getElementById("general_loot").appendChild(node);
+    console.log(document.getElementsByClassName("loot_display").length)
+    for(i = 0; i < document.getElementsByClassName("loot_display").length; i++){
+        var node = document.createElement("Tificates");
+        var textnode = document.createTextNode("Test");
+        node.setAttribute("class", "loot");
+        node.setAttribute('style', 'padding:0px 0px;color:green;height:40px;width:40px;background:blue;margin:0px 5px 5px 5px;');
+        node.appendChild(textnode);
+        document.getElementsByClassName("loot_display")[i].appendChild(node)
+    }
+
     
     console.log("Creating the dataset");
-    
-    // WHAT THE FUCK IS GOING ON HERE???
-    // ASYNC? JUST GIMMIE MY JSON INFO
 
-    const data = require('./images/ItemsAndImages.json');
-    console.log(data);
+    console.log(items);
 
-    let anyArray = [];
-    $.getJSON("../images/ItemsAndImages.json", function(json){
-        anyArray.load(json.any);
-        console.log(anyArray);
-    }) 
-    console.log(anyArray);
-    console.log(anyArray);
+    let anyArray = items.any;
+    let otherArray = [];
+    if(document.getElementById("easy").checked)
+        otherArray = items.easy;
+    else if(document.getElementById("medium").checked)
+        otherArray = items.medium;
+    else if(document.getElementById("hard").checked)
+        otherArray = items.hard;
+    else if(document.getElementById("elite").checked)
+        otherArray = items.elite;
+    else if(document.getElementById("master").checked)
+        otherArray = items.master;
 
-    //let tierArray = []
-    //if document.getElementById("easy")
-    
-    var dat;
-    $.getJSON("../images/ItemsAndImages.json", function(json){
-        dat = json;
-        console.log(dat);
-    }) 
+    let itemList = anyArray.concat(otherArray);
+    console.log(itemList);
+
+}
+
+function cleardb(){
+    [].forEach.call(document.querySelectorAll('.loot'),function(e){
+        e.parentNode.removeChild(e);
+    });
 }
 
 function solution(){
