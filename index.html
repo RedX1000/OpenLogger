@@ -14,6 +14,7 @@
   		integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
   		crossorigin="anonymous"></script>
 	<script type="text/javascript" src="scripts/iconcomparison.js"></script>
+	<script type="text/javascript" src="scripts/LocalStorageInit.js"></script>
 	<script type="text/javascript" src="images/ItemsAndImages.js"></script>
 	
 	
@@ -135,24 +136,24 @@
 					<h3 class="clue_scrolls_button_header">Select the tier you're opening</h3>
         	        <div class="clue_scrolls_button_box">
         	            <div class="clue_button_label_holder" id="clue_easy">
-        	                <label for="easy" id="clue_scroll_level_label">Easy</label>
-        	                <input type="radio" id="easy" name="clue_scroll_level" class="clue_scroll_level" value="easy" checked>
+        	                <label for="easy" id="clue_scroll_level_label" onclick="changeClueTierSpan('easy');">Easy</label>
+        	                <input type="radio" id="easy" name="clue_scroll_level" class="clue_scroll_level" value="easy" onclick="changeClueTierSpan('easy');">
         	            </div>
         	            <div class="clue_button_label_holder" id="clue_medium">
-        	                <label for="medium" id="clue_scroll_level_label">Medium</label>
-        	                <input type="radio" id="medium" name="clue_scroll_level" class="clue_scroll_level" value="medium">
+        	                <label for="medium" id="clue_scroll_level_label" onclick="changeClueTierSpan('medium');">Medium</label>
+        	                <input type="radio" id="medium" name="clue_scroll_level" class="clue_scroll_level" value="medium" onclick="changeClueTierSpan('medium');">
 						</div>
         	            <div class="clue_button_label_holder" id="clue_hard">
-        	                <label for="hard" id="clue_scroll_level_label">Hard</label>
-        	                <input type="radio" id="hard" name="clue_scroll_level" class="clue_scroll_level" value="hard">
+        	                <label for="hard" id="clue_scroll_level_label" onclick="changeClueTierSpan('hard');">Hard</label>
+        	                <input type="radio" id="hard" name="clue_scroll_level" class="clue_scroll_level" value="hard" onclick="changeClueTierSpan('hard');">
         	            </div>
         	            <div class="clue_button_label_holder" id="clue_elite">
-        	                <label for="elite" id="clue_scroll_level_label">Elite</label>
-        	                <input type="radio" id="elite" name="clue_scroll_level" class="clue_scroll_level" value="elite">
+        	                <label for="elite" id="clue_scroll_level_label" onclick="changeClueTierSpan('elite');">Elite</label>
+        	                <input type="radio" id="elite" name="clue_scroll_level" class="clue_scroll_level" value="elite" onclick="changeClueTierSpan('elite');">
         	            </div>
         	            <div class="clue_button_label_holder" id="clue_master">
-        	                <label for="master" id="clue_scroll_level_label">Master</label>
-        	                <input type="radio" id="master" name="clue_scroll_level" class="clue_scroll_level" value="master">
+        	                <label for="master" id="clue_scroll_level_label" onclick="changeClueTierSpan('master');">Master</label>
+        	                <input type="radio" id="master" name="clue_scroll_level" class="clue_scroll_level" value="master" onclick="changeClueTierSpan('master');">
         	            </div>
         	        </div>
         	    </div>
@@ -161,10 +162,11 @@
         	        <div id="clear_button" class="nisbutton" onclick="cleardb();"><strike>Clear Database</strike></div>
 					<div id="docapturebutton" class="nisbutton" onclick="firstFunction();"><!--docapture()-->Capture Rewards</div>
         	    </div>
+			</div>
+			<div class="value_box">
 				<div class="capture_info" id="top">
 					<div class="capture_box_elements" id="math_box_count">
-						<u><span id="clue_tier">Current</span> clues logged</u>
-						<div><span id="number_of_clues">0</span></div>
+						<span id="clue_tier">Easy</span> clues logged: <span id="number_of_clues">10000</span>
 					</div>
 					<div class="capture_box_elements" id="math_box_total">
 						<u>Total value of logged clues</u>
@@ -177,36 +179,18 @@
 				</div>
 				<div class="captured_rewards" id="top">
 					<div id="captured_rewards_title">
-						Rewards Captured
+						Rewards Capture Value: <span id="rewards_value">0,000,000,000</span>
 					</div>
 					<div id="captured_rewards_grid">
-						<div id="first_item" class="rewards">
-							1
-						</div>
-						<div id="second_item" class="rewards">
-							2
-						</div>
-						<div id="third_item" class="rewards">
-							3
-						</div>
-						<div id="fourth_item" class="rewards">
-							4
-						</div>
-						<div id="fifth_item" class="rewards">
-							5
-						</div>
-						<div id="sixth_item" class="rewards">
-							6
-						</div>
-						<div id="seventh_item" class="rewards">
-							7
-						</div>
-						<div id="eigth_item" class="rewards">
-							8
-						</div>
-						<div id="ninth_item" class="rewards">
-							9
-						</div>
+						<div id="first_item" class="rewards"></div>
+						<div id="second_item" class="rewards"></div>
+						<div id="third_item" class="rewards"></div>
+						<div id="fourth_item" class="rewards"></div>
+						<div id="fifth_item" class="rewards"></div>
+						<div id="sixth_item" class="rewards"></div>
+						<div id="seventh_item" class="rewards"></div>
+						<div id="eigth_item" class="rewards"></div>
+						<div id="ninth_item" class="rewards"></div>
 					</div>
 					<div id="self_button" class="nisbutton" onclick="refresh();"><strike>Self Insert into DB</strike></div>	
 				</div>
@@ -214,6 +198,15 @@
 		</div>
     </header>
 	<mainsection>
+		<!-- Consider making the tabs toggleable to hide them 
+				- Create assets for the tabs for on hover and onclick
+				- Have is hide display for its respective child
+		-->
+		<div class="broadcasts" id="broadcasts_and_caskets">
+			<div class="broadcasts_title"><span id="broadcasts_rewards">Broadcast Rewards</span></div>
+			<div class="bottom_border"></div>
+			<div class="loot_display" id="broadcasts_loot"></div>
+        </div>
 		<div class="general">
 			<div class="general_title"><span id="general_rewards">General Rewards</span></div>
 			<div class="bottom_border"></div>
@@ -229,13 +222,7 @@
 			<div class="bottom_border"></div>
 			<div class="loot_display" id="rare_loot"></div>
         </div>
-		<div class="broadcasts" id="broadcasts_and_caskets">
-			<div class="broadcasts_title"><span id="broadcasts_rewards">Broadcast Rewards</span></div>
-			<div class="bottom_border"></div>
-			<div class="loot_display" id="broadcasts_loot"></div>
-        </div>
     </mainsection>
-	<!--prefooter></prefooter-->
     <footer>
 		<div class="footer_bar">
 
