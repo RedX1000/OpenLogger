@@ -1,4 +1,4 @@
-{
+let lsdb = {
     "Coins": {
         "tab": "general",
         "tier": [
