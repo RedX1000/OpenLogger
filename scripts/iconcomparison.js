@@ -1,20 +1,20 @@
-function firstFunction(){
-    // var node = document.createElement("Tificates");
-    // var textnode = document.createTextNode("Test");
-    // node.setAttribute("id", "loot");
-    // node.setAttribute('style', 'padding:5px 0px 0px 0px;color:green;height:35px;width:35px;background:blue;margin:0px 2px;');
-    // node.appendChild(textnode);
-    // console.log(document.getElementsByClassName("loot_display").length)
-    // for(i = 0; i < document.getElementsByClassName("loot_display").length; i++){
-    //     var node = document.createElement("Tificates");
-    //     var textnode = document.createTextNode("Test");
-    //     node.setAttribute("class", "loot");
-    //     node.setAttribute('style', 'padding:0px 0px;color:green;height:35px;width:35px;background:blue;margin:0px 3px 5px 3px;');
-    //     node.appendChild(textnode);
-    //     document.getElementsByClassName("loot_display")[i].appendChild(node)
-    // }
-    
-    // Creating dataset array from 
+function firstFunction(){ 
+    /* var node = document.createElement("Tificates");
+     var textnode = document.createTextNode("Test");
+     node.setAttribute("id", "loot");
+     node.setAttribute('style', 'padding:5px 0px 0px 0px;color:green;height:35px;width:35px;background:blue;margin:0px 2px;');
+     node.appendChild(textnode);
+     console.log(document.getElementsByClassName("loot_display").length)
+     for(i = 0; i < document.getElementsByClassName("loot_display").length; i++){
+         var node = document.createElement("Tificates");
+         var textnode = document.createTextNode("Test");
+         node.setAttribute("class", "loot");
+         node.setAttribute('style', 'padding:0px 0px;color:green;height:35px;width:35px;background:blue;margin:0px 3px 5px 3px;');
+         node.appendChild(textnode);
+         document.getElementsByClassName("loot_display")[i].appendChild(node)
+     }
+
+     Creating dataset array from  */
     console.log("Creating the dataset");
     console.log(items);
     let anyImages = items.any;
@@ -47,19 +47,37 @@ function firstFunction(){
     for(i=0; i < 4; i++){
         randomList.push(keys[Math.floor(Math.random() * (keys.length + 0) + 0)]);
     }
+
     console.log(randomList);
     for(i=0; i<randomList.length; i++){
         var node = document.createElement("Tificates");
         var img = document.createElement("img");
-        var text = document.createTextNode(localStorage.getItem(randomList[i]).quantity.localStorage.getItem("Checked button"))
-        img.src = encodeURI("images/picture files/items/"+randomList[i]+".png")
+        var value = document.createElement("value");
+        //set style to parent for value
+        var text
+        if (localStorage.getItem("Checked button") == "easy"){
+            text = document.createTextNode(JSON.stringify(JSON.parse(localStorage.getItem(randomList[i])).quantity.easy));
+        }
+        else if (localStorage.getItem("Checked button") == "medium"){
+            text = document.createTextNode(JSON.stringify(JSON.parse(localStorage.getItem(randomList[i])).quantity.medium));
+        }
+        else if (localStorage.getItem("Checked button") == "hard"){
+            text = document.createTextNode(JSON.stringify(JSON.parse(localStorage.getItem(randomList[i])).quantity.hard));
+        }
+        else if (localStorage.getItem("Checked button") == "elite"){
+            text = document.createTextNode(JSON.stringify(JSON.parse(localStorage.getItem(randomList[i])).quantity.elite));
+        }
+        else if (localStorage.getItem("Checked button") == "master"){
+            text = document.createTextNode(JSON.stringify(JSON.parse(localStorage.getItem(randomList[i])).quantity.master));
+        }
+        img.src = encodeURI("images/picture files/items/"+randomList[i]+".png");
         img.setAttribute("class", "loot");
         node.setAttribute('style', 'width:35px; height:35px; background:green; margin:0px 3px 5px 3px; display:flex; align-items:center; text-align:center;data-hover:'+randomList[i]+';');
-        node
-        img.setAttribute('style', 'background:purple; margin:0 auto;')
+        img.setAttribute('style', 'background:purple; margin:0 auto;');
+        value.setAttribute("style", "position:absolute;")
         node.appendChild(img);
         node.appendChild(text);
-        document.getElementsByClassName("loot_display")[i].appendChild(node)
+        document.getElementsByClassName("loot_display")[i].appendChild(node);
     }
         
     
