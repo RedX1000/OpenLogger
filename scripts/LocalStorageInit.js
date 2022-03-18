@@ -197,7 +197,7 @@ let lsdb = {
         },
         "order": 11
     },
-    "Gutanoth Teleport": {
+    "Gu'Tanoth Teleport": {
         "tab": "general",
         "tier": [
             "easy",
@@ -503,7 +503,7 @@ let lsdb = {
         },
         "order": 28
     },
-    "Fetch Casket scroll": {
+    "Meerkat scroll (Fetch Casket)": {
         "tab": "general",
         "tier": [
             "easy",
@@ -522,7 +522,7 @@ let lsdb = {
         "order": 29
     },
     "Golden compass": {
-        "tab": "general",
+        "tab": "broadcast",
         "tier": [
             "easy",
             "medium",
@@ -1772,7 +1772,7 @@ let lsdb = {
         },
         "order": 117
     },
-    "Black full helm (h1)": {
+    "Black helm (h1)": {
         "tab": "rare",
         "tier": [
             "easy"
@@ -1828,7 +1828,7 @@ let lsdb = {
         },
         "order": 121
     },
-    "Black kiteshield (h1)": {
+    "Black shield (h1)": {
         "tab": "rare",
         "tier": [
             "easy"
@@ -1842,7 +1842,7 @@ let lsdb = {
         },
         "order": 122
     },
-    "Black full helm (h2)": {
+    "Black helm (h2)": {
         "tab": "rare",
         "tier": [
             "easy"
@@ -1898,7 +1898,7 @@ let lsdb = {
         },
         "order": 126
     },
-    "Black kiteshield (h2)": {
+    "Black shield (h2)": {
         "tab": "rare",
         "tier": [
             "easy"
@@ -1912,7 +1912,7 @@ let lsdb = {
         },
         "order": 127
     },
-    "Black full helm (h3)": {
+    "Black helm (h3)": {
         "tab": "rare",
         "tier": [
             "easy"
@@ -1968,7 +1968,7 @@ let lsdb = {
         },
         "order": 131
     },
-    "Black kiteshield (h3)": {
+    "Black shield (h3)": {
         "tab": "rare",
         "tier": [
             "easy"
@@ -1982,7 +1982,7 @@ let lsdb = {
         },
         "order": 132
     },
-    "Black full helm (h4)": {
+    "Black helm (h4)": {
         "tab": "rare",
         "tier": [
             "easy"
@@ -2038,7 +2038,7 @@ let lsdb = {
         },
         "order": 136
     },
-    "Black kiteshield (h4)": {
+    "Black shield (h4)": {
         "tab": "rare",
         "tier": [
             "easy"
@@ -2052,7 +2052,7 @@ let lsdb = {
         },
         "order": 137
     },
-    "Black full helm (h5)": {
+    "Black helm (h5)": {
         "tab": "rare",
         "tier": [
             "easy"
@@ -2108,7 +2108,7 @@ let lsdb = {
         },
         "order": 141
     },
-    "Black kiteshield (h5)": {
+    "Black shield (h5)": {
         "tab": "rare",
         "tier": [
             "easy"
@@ -2728,7 +2728,7 @@ let lsdb = {
         },
         "order": 185
     },
-    "Adamant full helm (h1)": {
+    "Adamant helm (h1)": {
         "tab": "rare",
         "tier": [
             "medium"
@@ -2784,7 +2784,7 @@ let lsdb = {
         },
         "order": 189
     },
-    "Adamant kiteshield (h1)": {
+    "Adamant shield (h1)": {
         "tab": "rare",
         "tier": [
             "medium"
@@ -2798,7 +2798,7 @@ let lsdb = {
         },
         "order": 190
     },
-    "Adamant full helm (h2)": {
+    "Adamant helm (h2)": {
         "tab": "rare",
         "tier": [
             "medium"
@@ -2854,7 +2854,7 @@ let lsdb = {
         },
         "order": 194
     },
-    "Adamant kiteshield (h2)": {
+    "Adamant shield (h2)": {
         "tab": "rare",
         "tier": [
             "medium"
@@ -2868,7 +2868,7 @@ let lsdb = {
         },
         "order": 195
     },
-    "Adamant full helm (h3)": {
+    "Adamant helm (h3)": {
         "tab": "rare",
         "tier": [
             "medium"
@@ -2924,7 +2924,7 @@ let lsdb = {
         },
         "order": 199
     },
-    "Adamant kiteshield (h3)": {
+    "Adamant shield (h3)": {
         "tab": "rare",
         "tier": [
             "medium"
@@ -2938,7 +2938,7 @@ let lsdb = {
         },
         "order": 200
     },
-    "Adamant full helm (h4)": {
+    "Adamant helm (h4)": {
         "tab": "rare",
         "tier": [
             "medium"
@@ -2994,7 +2994,7 @@ let lsdb = {
         },
         "order": 204
     },
-    "Adamant kiteshield (h4)": {
+    "Adamant shield (h4)": {
         "tab": "rare",
         "tier": [
             "medium"
@@ -3008,7 +3008,7 @@ let lsdb = {
         },
         "order": 205
     },
-    "Adamant full helm (h5)": {
+    "Adamant helm (h5)": {
         "tab": "rare",
         "tier": [
             "medium"
@@ -3064,7 +3064,7 @@ let lsdb = {
         },
         "order": 209
     },
-    "Adamant kiteshield (h5)": {
+    "Adamant shield (h5)": {
         "tab": "rare",
         "tier": [
             "medium"
@@ -3554,7 +3554,7 @@ let lsdb = {
         },
         "order": 244
     },
-    "Clue casket (easy)": {
+    "Reward casket (easy)": {
         "tab": "general",
         "tier": [
             "medium"
@@ -4315,7 +4315,7 @@ let lsdb = {
         },
         "order": 298
     },
-    "Rune full helm (h1)": {
+    "Rune helm (h1)": {
         "tab": "rare",
         "tier": [
             "hard"
@@ -4371,7 +4371,7 @@ let lsdb = {
         },
         "order": 302
     },
-    "Rune kiteshield (h1)": {
+    "Rune shield (h1)": {
         "tab": "rare",
         "tier": [
             "hard"
@@ -4385,7 +4385,7 @@ let lsdb = {
         },
         "order": 303
     },
-    "Rune full helm (h2)": {
+    "Rune helm (h2)": {
         "tab": "rare",
         "tier": [
             "hard"
@@ -4441,7 +4441,7 @@ let lsdb = {
         },
         "order": 307
     },
-    "Rune kiteshield (h2)": {
+    "Rune shield (h2)": {
         "tab": "rare",
         "tier": [
             "hard"
@@ -4455,7 +4455,7 @@ let lsdb = {
         },
         "order": 308
     },
-    "Rune full helm (h3)": {
+    "Rune helm (h3)": {
         "tab": "rare",
         "tier": [
             "hard"
@@ -4511,7 +4511,7 @@ let lsdb = {
         },
         "order": 312
     },
-    "Rune kiteshield (h3)": {
+    "Rune shield (h3)": {
         "tab": "rare",
         "tier": [
             "hard"
@@ -4525,7 +4525,7 @@ let lsdb = {
         },
         "order": 313
     },
-    "Rune full helm (h4)": {
+    "Rune helm (h4)": {
         "tab": "rare",
         "tier": [
             "hard"
@@ -4581,7 +4581,7 @@ let lsdb = {
         },
         "order": 317
     },
-    "Rune kiteshield (h4)": {
+    "Rune shield (h4)": {
         "tab": "rare",
         "tier": [
             "hard"
@@ -4595,7 +4595,7 @@ let lsdb = {
         },
         "order": 318
     },
-    "Rune full helm (h5)": {
+    "Rune helm (h5)": {
         "tab": "rare",
         "tier": [
             "hard"
@@ -4651,7 +4651,7 @@ let lsdb = {
         },
         "order": 322
     },
-    "Rune kiteshield (h5)": {
+    "Rune shield (h5)": {
         "tab": "rare",
         "tier": [
             "hard"
@@ -4861,7 +4861,7 @@ let lsdb = {
         },
         "order": 337
     },
-    "Saradomin coif": {
+    "Blessed dragonhide coif (Saradomin)": {
         "tab": "rare",
         "tier": [
             "hard"
@@ -4875,7 +4875,7 @@ let lsdb = {
         },
         "order": 338
     },
-    "Saradomin body": {
+    "Blessed dragonhide body (Saradomin)": {
         "tab": "rare",
         "tier": [
             "hard"
@@ -4889,7 +4889,7 @@ let lsdb = {
         },
         "order": 339
     },
-    "Saradomin chaps": {
+    "Blessed dragonhide chaps (Saradomin)": {
         "tab": "rare",
         "tier": [
             "hard"
@@ -4903,7 +4903,7 @@ let lsdb = {
         },
         "order": 340
     },
-    "Saradomin vambraces": {
+    "Blessed dragonhide vambraces (Saradomin)": {
         "tab": "rare",
         "tier": [
             "hard"
@@ -4917,7 +4917,7 @@ let lsdb = {
         },
         "order": 341
     },
-    "Guthix coif": {
+    "Blessed dragonhide coif (Guthix)": {
         "tab": "rare",
         "tier": [
             "hard"
@@ -4931,7 +4931,7 @@ let lsdb = {
         },
         "order": 342
     },
-    "Guthix body": {
+    "Blessed dragonhide body (Guthix)": {
         "tab": "rare",
         "tier": [
             "hard"
@@ -4945,7 +4945,7 @@ let lsdb = {
         },
         "order": 343
     },
-    "Guthix chaps": {
+    "Blessed dragonhide chaps (Guthix)": {
         "tab": "rare",
         "tier": [
             "hard"
@@ -4959,7 +4959,7 @@ let lsdb = {
         },
         "order": 344
     },
-    "Guthix vambraces": {
+    "Blessed dragonhide vambraces (Guthix)": {
         "tab": "rare",
         "tier": [
             "hard"
@@ -4973,7 +4973,7 @@ let lsdb = {
         },
         "order": 345
     },
-    "Zamorak coif": {
+    "Blessed dragonhide coif (Zamorak)": {
         "tab": "rare",
         "tier": [
             "hard"
@@ -4987,7 +4987,7 @@ let lsdb = {
         },
         "order": 346
     },
-    "Zamorak body": {
+    "Blessed dragonhide body (Zamorak)": {
         "tab": "rare",
         "tier": [
             "hard"
@@ -5001,7 +5001,7 @@ let lsdb = {
         },
         "order": 347
     },
-    "Zamorak chaps": {
+    "Blessed dragonhide chaps (Zamorak)": {
         "tab": "rare",
         "tier": [
             "hard"
@@ -5015,7 +5015,7 @@ let lsdb = {
         },
         "order": 348
     },
-    "Zamorak vambraces": {
+    "Blessed dragonhide vambraces (Zamorak)": {
         "tab": "rare",
         "tier": [
             "hard"
@@ -5141,10 +5141,11 @@ let lsdb = {
         },
         "order": 357
     },
-    "Guido bonfire in a bottle": {
+    "Guido's bonfire in a bottle": {
         "tab": "general",
         "tier": [
             "hard",
+            "elite",
             "master"
         ],
         "quantity": {
@@ -5155,48 +5156,6 @@ let lsdb = {
             "master": 0
         },
         "order": 358
-    },
-    "Costume skipping ticket": {
-        "tab": "general",
-        "tier": [
-            "hard"
-        ],
-        "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
-        },
-        "order": 359
-    },
-    "Puzzle box skipping ticket": {
-        "tab": "general",
-        "tier": [
-            "hard"
-        ],
-        "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
-        },
-        "order": 360
-    },
-    "Knot skipping ticket": {
-        "tab": "general",
-        "tier": [
-            "hard"
-        ],
-        "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
-        },
-        "order": 361
     },
     "Bonus XP star (large)": {
         "tab": "general",
@@ -5211,10 +5170,52 @@ let lsdb = {
             "elite": 0,
             "master": 0
         },
+        "order": 359
+    },
+    "Costume skipping ticket": {
+        "tab": "general",
+        "tier": [
+            "hard"
+        ],
+        "quantity": {
+            "easy": 0,
+            "medium": 0,
+            "hard": 0,
+            "elite": 0,
+            "master": 0
+        },
+        "order": 360
+    },
+    "Puzzle box skipping ticket": {
+        "tab": "general",
+        "tier": [
+            "hard"
+        ],
+        "quantity": {
+            "easy": 0,
+            "medium": 0,
+            "hard": 0,
+            "elite": 0,
+            "master": 0
+        },
+        "order": 361
+    },
+    "Knot skipping ticket": {
+        "tab": "general",
+        "tier": [
+            "hard"
+        ],
+        "quantity": {
+            "easy": 0,
+            "medium": 0,
+            "hard": 0,
+            "elite": 0,
+            "master": 0
+        },
         "order": 362
     },
     "Re-roll token (hard)": {
-        "tab": "broadcast",
+        "tab": "general",
         "tier": [
             "hard"
         ],
@@ -5292,7 +5293,7 @@ let lsdb = {
         "order": 367
     },
     "Explosive barrel": {
-        "tab": "rare",
+        "tab": "broadcast",
         "tier": [
             "hard"
         ],
@@ -5305,7 +5306,7 @@ let lsdb = {
         },
         "order": 368
     },
-    "Gilded full helm": {
+    "Rune full helm (Gilded)": {
         "tab": "rare",
         "tier": [
             "hard"
@@ -5319,7 +5320,7 @@ let lsdb = {
         },
         "order": 369
     },
-    "Gilded platebody": {
+    "Rune platebody (Gilded)": {
         "tab": "rare",
         "tier": [
             "hard"
@@ -5333,7 +5334,7 @@ let lsdb = {
         },
         "order": 370
     },
-    "Gilded platelegs": {
+    "Rune platelegs (Gilded)": {
         "tab": "rare",
         "tier": [
             "hard"
@@ -5347,7 +5348,7 @@ let lsdb = {
         },
         "order": 371
     },
-    "Gilded plateskirt": {
+    "Rune plateskirt (Gilded)": {
         "tab": "rare",
         "tier": [
             "hard"
@@ -5361,8 +5362,8 @@ let lsdb = {
         },
         "order": 372
     },
-    "Gilded kiteshield": {
-        "tab": "common",
+    "Rune kiteshield (Gilded)": {
+        "tab": "rare",
         "tier": [
             "hard"
         ],
@@ -5375,7 +5376,7 @@ let lsdb = {
         },
         "order": 373
     },
-    "Super attack": {
+    "Super attack (4)": {
         "tab": "common",
         "tier": [
             "hard"
@@ -5389,7 +5390,7 @@ let lsdb = {
         },
         "order": 374
     },
-    "Super defence": {
+    "Super defence (4)": {
         "tab": "common",
         "tier": [
             "hard"
@@ -5403,7 +5404,7 @@ let lsdb = {
         },
         "order": 375
     },
-    "Super strength": {
+    "Super strength (4)": {
         "tab": "common",
         "tier": [
             "hard"
@@ -5417,7 +5418,7 @@ let lsdb = {
         },
         "order": 376
     },
-    "Super energy": {
+    "Super energy (4)": {
         "tab": "common",
         "tier": [
             "hard"
@@ -5431,7 +5432,7 @@ let lsdb = {
         },
         "order": 377
     },
-    "Super restore": {
+    "Super restore (4)": {
         "tab": "common",
         "tier": [
             "hard",
@@ -5446,7 +5447,7 @@ let lsdb = {
         },
         "order": 378
     },
-    "Antifire": {
+    "Antifire (4)": {
         "tab": "common",
         "tier": [
             "hard",
@@ -5462,7 +5463,7 @@ let lsdb = {
         "order": 379
     },
     "Starved ancient effigy": {
-        "tab": "broadcast",
+        "tab": "common",
         "tier": [
             "hard",
             "elite",
@@ -5477,7 +5478,7 @@ let lsdb = {
         },
         "order": 380
     },
-    "Third-Age full helmet": {
+    "Third age full helmet": {
         "tab": "broadcast",
         "tier": [
             "hard"
@@ -5491,7 +5492,7 @@ let lsdb = {
         },
         "order": 381
     },
-    "Third-Age platebody": {
+    "Third age platebody": {
         "tab": "broadcast",
         "tier": [
             "hard"
@@ -5505,7 +5506,7 @@ let lsdb = {
         },
         "order": 382
     },
-    "Third-Age platelegs": {
+    "Third age platelegs": {
         "tab": "broadcast",
         "tier": [
             "hard"
@@ -5519,7 +5520,7 @@ let lsdb = {
         },
         "order": 383
     },
-    "Third-Age kiteshield": {
+    "Third age kiteshield": {
         "tab": "broadcast",
         "tier": [
             "hard"
@@ -5533,7 +5534,7 @@ let lsdb = {
         },
         "order": 384
     },
-    "Third-Age mage hat": {
+    "Third age mage hat": {
         "tab": "broadcast",
         "tier": [
             "hard"
@@ -5547,7 +5548,7 @@ let lsdb = {
         },
         "order": 385
     },
-    "Third-Age robe top": {
+    "Third age robe top": {
         "tab": "broadcast",
         "tier": [
             "hard"
@@ -5561,7 +5562,7 @@ let lsdb = {
         },
         "order": 386
     },
-    "Third-Age robe": {
+    "Third age robe": {
         "tab": "broadcast",
         "tier": [
             "hard"
@@ -5575,7 +5576,7 @@ let lsdb = {
         },
         "order": 387
     },
-    "Third-Age amulet": {
+    "Third age amulet": {
         "tab": "broadcast",
         "tier": [
             "hard"
@@ -5589,7 +5590,7 @@ let lsdb = {
         },
         "order": 388
     },
-    "Third-Age ranger coif": {
+    "Third age ranger coif": {
         "tab": "broadcast",
         "tier": [
             "hard"
@@ -5603,7 +5604,7 @@ let lsdb = {
         },
         "order": 389
     },
-    "Third-Age ranger body": {
+    "Third age ranger body": {
         "tab": "broadcast",
         "tier": [
             "hard"
@@ -5617,7 +5618,7 @@ let lsdb = {
         },
         "order": 390
     },
-    "Third-Age vambraces": {
+    "Third age vambraces": {
         "tab": "broadcast",
         "tier": [
             "hard"
@@ -5631,8 +5632,8 @@ let lsdb = {
         },
         "order": 391
     },
-    "Third-Age ranger chaps": {
-        "tab": "general",
+    "Third age ranger chaps": {
+        "tab": "broadcast",
         "tier": [
             "hard"
         ],
@@ -5645,8 +5646,8 @@ let lsdb = {
         },
         "order": 392
     },
-    "Clue casket (medium)": {
-        "tab": "common",
+    "Reward casket (medium)": {
+        "tab": "general",
         "tier": [
             "hard"
         ],
@@ -5787,7 +5788,7 @@ let lsdb = {
         },
         "order": 402
     },
-    "Prayer potion": {
+    "Prayer potion (4)": {
         "tab": "common",
         "tier": [
             "elite"
@@ -5860,7 +5861,7 @@ let lsdb = {
         "order": 407
     },
     "Dragon helm": {
-        "tab": "rare",
+        "tab": "common",
         "tier": [
             "elite",
             "master"
@@ -6084,7 +6085,7 @@ let lsdb = {
         },
         "order": 423
     },
-    "Armadyl coif": {
+    "Blessed dragonhide coif (Armadyl)": {
         "tab": "rare",
         "tier": [
             "elite"
@@ -6098,7 +6099,7 @@ let lsdb = {
         },
         "order": 424
     },
-    "Armadyl body": {
+    "Blessed dragonhide body (Armadyl)": {
         "tab": "rare",
         "tier": [
             "elite"
@@ -6112,7 +6113,7 @@ let lsdb = {
         },
         "order": 425
     },
-    "Armadyl chaps": {
+    "Blessed dragonhide chaps (Armadyl)": {
         "tab": "rare",
         "tier": [
             "elite"
@@ -6126,7 +6127,7 @@ let lsdb = {
         },
         "order": 426
     },
-    "Armadyl vambraces": {
+    "Blessed dragonhide vambraces (Armadyl)": {
         "tab": "rare",
         "tier": [
             "elite"
@@ -6140,7 +6141,7 @@ let lsdb = {
         },
         "order": 427
     },
-    "Bandos coif": {
+    "Blessed dragonhide coif (Bandos)": {
         "tab": "rare",
         "tier": [
             "elite"
@@ -6154,7 +6155,7 @@ let lsdb = {
         },
         "order": 428
     },
-    "Bandos body": {
+    "Blessed dragonhide body (Bandos)": {
         "tab": "rare",
         "tier": [
             "elite"
@@ -6168,7 +6169,7 @@ let lsdb = {
         },
         "order": 429
     },
-    "Bandos chaps": {
+    "Blessed dragonhide chaps (Bandos)": {
         "tab": "rare",
         "tier": [
             "elite"
@@ -6182,7 +6183,7 @@ let lsdb = {
         },
         "order": 430
     },
-    "Bandos vambraces": {
+    "Blessed dragonhide vambraces (Bandos)": {
         "tab": "rare",
         "tier": [
             "elite"
@@ -6196,7 +6197,7 @@ let lsdb = {
         },
         "order": 431
     },
-    "Zaros coif": {
+    "Blessed dragonhide coif (Zaros)": {
         "tab": "rare",
         "tier": [
             "elite"
@@ -6210,7 +6211,7 @@ let lsdb = {
         },
         "order": 432
     },
-    "Zaros body": {
+    "Blessed dragonhide body (Zaros)": {
         "tab": "rare",
         "tier": [
             "elite"
@@ -6224,7 +6225,7 @@ let lsdb = {
         },
         "order": 433
     },
-    "Zaros chaps": {
+    "Blessed dragonhide chaps (Zaros)": {
         "tab": "rare",
         "tier": [
             "elite"
@@ -6238,7 +6239,7 @@ let lsdb = {
         },
         "order": 434
     },
-    "Zaros vambraces": {
+    "Blessed dragonhide vambraces (Zaros)": {
         "tab": "rare",
         "tier": [
             "elite"
@@ -6364,7 +6365,7 @@ let lsdb = {
         },
         "order": 443
     },
-    "Dragon platelegs ornament kit (or)": {
+    "Dragon platelegs-skirt ornament kit (or)": {
         "tab": "rare",
         "tier": [
             "elite"
@@ -6420,7 +6421,7 @@ let lsdb = {
         },
         "order": 447
     },
-    "Dragon platelegs ornament kit (sp)": {
+    "Dragon platelegs-skirt ornament kit (sp)": {
         "tab": "rare",
         "tier": [
             "elite"
@@ -6561,7 +6562,7 @@ let lsdb = {
         "order": 457
     },
     "Dragon cane": {
-        "tab": "general",
+        "tab": "rare",
         "tier": [
             "elite"
         ],
@@ -6589,7 +6590,7 @@ let lsdb = {
         "order": 459
     },
     "Lockbox skipping ticket": {
-        "tab": "common",
+        "tab": "general",
         "tier": [
             "elite"
         ],
@@ -6603,7 +6604,7 @@ let lsdb = {
         "order": 460
     },
     "Black dragon mask": {
-        "tab": "rare",
+        "tab": "common",
         "tier": [
             "elite"
         ],
@@ -6686,11 +6687,10 @@ let lsdb = {
         },
         "order": 466
     },
-    "Third-Age dye": {
-        "tab": "broadcast",
+    "Third Age dye": {
+        "tab": "rare",
         "tier": [
-            "elite",
-            "master"
+            "elite"
         ],
         "quantity": {
             "easy": 0,
@@ -6732,9 +6732,10 @@ let lsdb = {
         "order": 469
     },
     "Re-roll token (elite)": {
-        "tab": "general",
+        "tab": "broadcast",
         "tier": [
-            "elite"
+            "elite",
+            "master"
         ],
         "quantity": {
             "easy": 0,
@@ -6746,10 +6747,9 @@ let lsdb = {
         "order": 470
     },
     "Crystal triskelion fragment 1": {
-        "tab": "common",
+        "tab": "general",
         "tier": [
-            "elite",
-            "master"
+            "elite"
         ],
         "quantity": {
             "easy": 0,
@@ -6790,10 +6790,11 @@ let lsdb = {
         },
         "order": 473
     },
-    "Third-Age druidic wreath": {
-        "tab": "broadcast",
+    "Third age druidic wreath": {
+        "tab": "common",
         "tier": [
-            "elite"
+            "elite",
+            "master"
         ],
         "quantity": {
             "easy": 0,
@@ -6804,7 +6805,7 @@ let lsdb = {
         },
         "order": 474
     },
-    "Third-Age druidic robe top": {
+    "Third age druidic robe top": {
         "tab": "broadcast",
         "tier": [
             "elite"
@@ -6818,7 +6819,7 @@ let lsdb = {
         },
         "order": 475
     },
-    "Third-Age druidic robe bottom": {
+    "Third age druidic robe bottom": {
         "tab": "broadcast",
         "tier": [
             "elite"
@@ -6832,7 +6833,7 @@ let lsdb = {
         },
         "order": 476
     },
-    "Third-Age druidic cloak": {
+    "Third age druidic cloak": {
         "tab": "broadcast",
         "tier": [
             "elite"
@@ -6846,7 +6847,7 @@ let lsdb = {
         },
         "order": 477
     },
-    "Third-Age druidic staff": {
+    "Third age druidic staff": {
         "tab": "broadcast",
         "tier": [
             "elite"
@@ -6861,7 +6862,7 @@ let lsdb = {
         "order": 478
     },
     "Guthix bow": {
-        "tab": "common",
+        "tab": "broadcast",
         "tier": [
             "elite"
         ],
@@ -6902,8 +6903,8 @@ let lsdb = {
         },
         "order": 481
     },
-    "Clue casket (hard)": {
-        "tab": "general",
+    "Reward casket (hard)": {
+        "tab": "common",
         "tier": [
             "elite"
         ],
@@ -6917,9 +6918,9 @@ let lsdb = {
         "order": 482
     },
     "Crystal key": {
-        "tab": "common",
+        "tab": "general",
         "tier": [
-            "master"
+            "elite"
         ],
         "quantity": {
             "easy": 0,
@@ -7028,7 +7029,7 @@ let lsdb = {
         },
         "order": 490
     },
-    "Prayer renewal": {
+    "Prayer renewal (4)": {
         "tab": "common",
         "tier": [
             "master"
@@ -7042,7 +7043,7 @@ let lsdb = {
         },
         "order": 491
     },
-    "Weapon poison++": {
+    "Weapon poison++ (4)": {
         "tab": "common",
         "tier": [
             "master"
@@ -7085,7 +7086,7 @@ let lsdb = {
         "order": 494
     },
     "Box of clue scrolls": {
-        "tab": "rare",
+        "tab": "common",
         "tier": [
             "master"
         ],
@@ -7701,7 +7702,7 @@ let lsdb = {
         "order": 538
     },
     "Orlando Smith's hat": {
-        "tab": "broadcast",
+        "tab": "rare",
         "tier": [
             "master"
         ],
@@ -7715,7 +7716,7 @@ let lsdb = {
         "order": 539
     },
     "Elemental battlestaff": {
-        "tab": "rare",
+        "tab": "broadcast",
         "tier": [
             "master"
         ],
@@ -7729,7 +7730,7 @@ let lsdb = {
         "order": 540
     },
     "Re-roll token (master)": {
-        "tab": "general",
+        "tab": "rare",
         "tier": [
             "master"
         ],
@@ -7743,7 +7744,7 @@ let lsdb = {
         "order": 541
     },
     "Second-Age full helm": {
-        "tab": "broadcast",
+        "tab": "general",
         "tier": [
             "master"
         ],
@@ -7910,8 +7911,8 @@ let lsdb = {
         },
         "order": 553
     },
-    "Clue casket (elite)": {
-        "tab": "general",
+    "Reward casket (elite)": {
+        "tab": "broadcast",
         "tier": [
             "master"
         ],
