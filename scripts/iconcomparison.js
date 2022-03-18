@@ -70,7 +70,7 @@ function firstFunction(){
         else if (localStorage.getItem("Checked button") == "master"){
             text = document.createTextNode(JSON.stringify(JSON.parse(localStorage.getItem(randomList[i])).quantity.master));
         }
-        img.src = encodeURI("images/picture files/items/"+randomList[i]+".png");
+        img.src = encodeURI("images/items/"+randomList[i]+".png");
         img.setAttribute("class", "loot");
         node.setAttribute('style', 'width:35px; height:35px; background:green; margin:0px 3px 5px 3px; display:flex; align-items:center; text-align:center;data-hover:'+randomList[i]+';');
         img.setAttribute('style', 'background:purple; margin:0 auto;');
