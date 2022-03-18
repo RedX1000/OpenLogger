@@ -6604,7 +6604,7 @@
         "order": 460
     },
     "Black dragon mask": {
-        "tab": "common",
+        "tab": "rare",
         "tier": [
             "elite"
         ],
@@ -6688,9 +6688,10 @@
         "order": 466
     },
     "Third Age dye": {
-        "tab": "rare",
+        "tab": "broadcast",
         "tier": [
-            "elite"
+            "elite",
+            "master"
         ],
         "quantity": {
             "easy": 0,
@@ -6732,10 +6733,9 @@
         "order": 469
     },
     "Re-roll token (elite)": {
-        "tab": "broadcast",
+        "tab": "general",
         "tier": [
-            "elite",
-            "master"
+            "elite"
         ],
         "quantity": {
             "easy": 0,
@@ -6747,9 +6747,10 @@
         "order": 470
     },
     "Crystal triskelion fragment 1": {
-        "tab": "general",
+        "tab": "common",
         "tier": [
-            "elite"
+            "elite",
+            "master"
         ],
         "quantity": {
             "easy": 0,
@@ -6791,10 +6792,9 @@
         "order": 473
     },
     "Third age druidic wreath": {
-        "tab": "common",
+        "tab": "broadcast",
         "tier": [
-            "elite",
-            "master"
+            "elite"
         ],
         "quantity": {
             "easy": 0,
@@ -6862,7 +6862,7 @@
         "order": 478
     },
     "Guthix bow": {
-        "tab": "broadcast",
+        "tab": "common",
         "tier": [
             "elite"
         ],
@@ -6904,7 +6904,7 @@
         "order": 481
     },
     "Reward casket (hard)": {
-        "tab": "common",
+        "tab": "general",
         "tier": [
             "elite"
         ],
@@ -6918,9 +6918,9 @@
         "order": 482
     },
     "Crystal key": {
-        "tab": "general",
+        "tab": "common",
         "tier": [
-            "elite"
+            "master"
         ],
         "quantity": {
             "easy": 0,
@@ -7086,7 +7086,7 @@
         "order": 494
     },
     "Box of clue scrolls": {
-        "tab": "common",
+        "tab": "rare",
         "tier": [
             "master"
         ],
@@ -7702,7 +7702,7 @@
         "order": 538
     },
     "Orlando Smith's hat": {
-        "tab": "rare",
+        "tab": "broadcast",
         "tier": [
             "master"
         ],
@@ -7716,7 +7716,7 @@
         "order": 539
     },
     "Elemental battlestaff": {
-        "tab": "broadcast",
+        "tab": "rare",
         "tier": [
             "master"
         ],
@@ -7730,7 +7730,7 @@
         "order": 540
     },
     "Re-roll token (master)": {
-        "tab": "rare",
+        "tab": "general",
         "tier": [
             "master"
         ],
@@ -7744,7 +7744,7 @@
         "order": 541
     },
     "Second-Age full helm": {
-        "tab": "general",
+        "tab": "broadcast",
         "tier": [
             "master"
         ],
@@ -7912,7 +7912,7 @@
         "order": 553
     },
     "Reward casket (elite)": {
-        "tab": "broadcast",
+        "tab": "general",
         "tier": [
             "master"
         ],
