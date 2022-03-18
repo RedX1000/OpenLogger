@@ -1591,7 +1591,7 @@ let lsdb = {
         "order": 104
     },
     "Bonus XP star (small)": {
-        "tab": "rare",
+        "tab": "general",
         "tier": [
             "easy"
         ],
@@ -3527,7 +3527,7 @@ let lsdb = {
         "order": 242
     },
     "Bonus XP star (medium)": {
-        "tab": "rare",
+        "tab": "general",
         "tier": [
             "medium"
         ],
@@ -7072,7 +7072,7 @@ let lsdb = {
         "order": 493
     },
     "Bonus XP star (huge)": {
-        "tab": "common",
+        "tab": "general",
         "tier": [
             "master"
         ],
