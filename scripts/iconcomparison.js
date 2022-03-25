@@ -1,20 +1,7 @@
 function firstFunction(){ 
-    /* var node = document.createElement("Tificates");
-     var textnode = document.createTextNode("Test");
-     node.setAttribute("id", "loot");
-     node.setAttribute('style', 'padding:5px 0px 0px 0px;color:green;height:35px;width:35px;background:blue;margin:0px 2px;');
-     node.appendChild(textnode);
-     console.log(document.getElementsByClassName("loot_display").length)
-     for(i = 0; i < document.getElementsByClassName("loot_display").length; i++){
-         var node = document.createElement("Tificates");
-         var textnode = document.createTextNode("Test");
-         node.setAttribute("class", "loot");
-         node.setAttribute('style', 'padding:0px 0px;color:green;height:35px;width:35px;background:blue;margin:0px 3px 5px 3px;');
-         node.appendChild(textnode);
-         document.getElementsByClassName("loot_display")[i].appendChild(node)
-     }
 
-     Creating dataset array from  */
+    // Creates array of base64 names and values from ItemsAndImagees.js items var
+    // Grabs from Any first, then grabs the currently selected tier.
     console.log("Creating the dataset");
     console.log(items);
     let anyImages = items.any;
@@ -31,23 +18,17 @@ function firstFunction(){
     else if(document.getElementById("master").checked)
         otherImages = items.master;
 
+    // Concateneates the two arrays together. 
+    // These are the base64 images to compare to the caaptured information.
     let itemList = anyImages.concat(otherImages);
     console.log(itemList);
     var keys = Object.keys(lsdb);
-
-    let anyItem = []
-    for(i=0; i<keys.length; i++){
-        if(lsdb[keys[i]].tab);
-    }
-
-    //for(i=0; i<lsdb.length; i++){
-    //    for(j=0; j<JSON.parse(lsdb.ge))
-    //}
+    
+    //Placement UI testing
     var randomList = []
     for(i=0; i < 4; i++){
         randomList.push(keys[Math.floor(Math.random() * (keys.length + 0) + 0)]);
     }
-
     console.log(randomList);
     for(i=0; i<randomList.length; i++){
         var node = document.createElement("Tificates");
@@ -79,8 +60,14 @@ function firstFunction(){
         node.appendChild(text);
         document.getElementsByClassName("loot_display")[i].appendChild(node);
     }
-        
     
+    // Use this to try to figure out how to capture the image :((((
+    var node1 = document.createElement("test");
+    var img1 = document.createElement("test2");
+    img1.src = encodeURL(image)
+    node1.appendChild(img1);
+    document.getElementsByClassName("loot_display")[0].appendChild(node1)
+
     // randomList.push(JSON.parse(otherImages[Math.floor(Math.random() * (otherImages.length + 0) + 0)]))
 
     console.log(randomList)
@@ -107,8 +94,8 @@ function changeClueTierSpan(id){
     localStorage.setItem("Checked button", id);
 }
 
-function start(){
-    //  Initializing/Loading radio button
+function init(){
+    //  Initializing/Loading radio button from LS
     var keys = Object.keys(lsdb);
     if(localStorage.getItem("Checked button") == null){ // If doesn't exist yet
         console.log("Defaulting button to easy...");
@@ -116,7 +103,7 @@ function start(){
         document.getElementById('clue_tier').textContent = "Easy";
         localStorage.setItem("Checked button", "easy");
     }
-    else{ // If it does, set the button and span
+    else{ // If it is set, set the button and span in the interface
         console.log("Setting previously set radio button: " + localStorage.getItem("Checked button") + "...");
         var temp = localStorage.getItem("Checked button");
         document.getElementById(temp).checked = true;
