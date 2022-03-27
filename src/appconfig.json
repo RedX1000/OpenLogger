@@ -3,7 +3,7 @@
     "description": "A Free, Open-source clue logger",
     "appUrl": "./index.html",
     "configUrl": "./appconfig.json",
-    "iconUrl": "./images/Treasure_Trail_collection_log.png",
+    "iconUrl": "../images/Treasure_Trail_collection_log.png",
     "defaultWidth": 580,
     "defaultHeight": 785,
 	"minWidth": 250,
