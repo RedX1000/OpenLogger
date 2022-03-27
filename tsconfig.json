@@ -1,0 +1,10 @@
+{
+	"compilerOptions": {
+		"moduleResolution": "Node",
+        "module": "CommonJS",
+        "target": "ES5",
+		"resolveJsonModule": true,
+		"esModuleInterop": true
+	},
+	"allowTsInNodeModules": true
+}
