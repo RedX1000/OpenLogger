@@ -2039,6 +2039,16 @@ function captureStream(x, y, width, height, fps, framecb, errorcb) {
 
 /***/ }),
 
+/***/ "./images/TrailComplete.data.png":
+/*!***************************************!*\
+  !*** ./images/TrailComplete.data.png ***!
+  \***************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+module.exports=(__webpack_require__(/*! @alt1/base */ "../node_modules/@alt1/base/dist/index.js").ImageDetect.imageDataFromBase64)("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")
+
+/***/ }),
+
 /***/ "../node_modules/file-loader/dist/cjs.js?name=[name].[ext]!./appconfig.json":
 /*!**********************************************************************************!*\
   !*** ../node_modules/file-loader/dist/cjs.js?name=[name].[ext]!./appconfig.json ***!
@@ -3555,7 +3565,7 @@ function changeClueTierSpan(id) {
 //this function is async, so you cant acccess the images instantly but generally takes <20ms
 //use `await imgs.promise` if you want to use the images as soon as they are loaded
 var imgs = _alt1_base__WEBPACK_IMPORTED_MODULE_0__.ImageDetect.webpackImages({
-    trailComplete: __webpack_require__(Object(function webpackMissingModule() { var e = new Error("Cannot find module '../images/TrailComplete.data.png'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()))
+    trailComplete: __webpack_require__(/*! ./images/TrailComplete.data.png */ "./images/TrailComplete.data.png")
 });
 //listen for pasted (ctrl-v) images, usually used in the browser version of an app
 _alt1_base__WEBPACK_IMPORTED_MODULE_0__.PasteInput.listen(img => {
@@ -3611,17 +3621,17 @@ function findtrailComplete(img) {
     }
     console.log("Checking items...");
     for (let i = 0; i < 9; i++) {
-        console.log(crops[i]);
+        // console.log(crops[i])
         compareItems(crops[i]);
     }
     console.log("Items checked.");
 }
 function compareItems(item) {
     let matches = listOfItemsArray.slice();
-    console.log("");
-    console.log("");
-    console.log("");
-    console.log("");
+    // console.log("")
+    // console.log("")
+    // console.log("")
+    // console.log("")
     /* Some notes for myself
     What you should do:
     - Get the image
@@ -3657,40 +3667,33 @@ function compareItems(item) {
         b: 2,
         a: 255
     };
+    let colors = { yellow, black1, black2, black3 };
     // Check blank first
     console.log("Values of ListOfItemsArray");
     console.log(listOfItemsArray);
     console.log("Values of Matches 1");
     console.log(matches);
+    console.log(matches.length);
+    // WHY
+    // ON FIRST RUN, OCCASIONALLY IT WILL FLAG ALL THE IMAGES
+    // AS ALL BLANK WHEN IT ISNT. WHY DOES THIS HAPPEN???
+    // I HAVE NO IDEA. THE SCRIPT HAS A MIND OF ITS OWN!
+    // MAYBE I SHOULD LEARN ASYNCHRONICITY BETTER...
     console.log("Getting difference from all items...");
-    for (let i = 0; i < matches.length; i++)
-        // Comparing item to all applicable candidates...
-        var diff = resemblejs__WEBPACK_IMPORTED_MODULE_1__(item)
-            .compareTo(matches[i][1])
-            .outputSettings({
-            ignoreAreasColoredWith: { yellow, black1, black2, black3 }
-        })
-            .onComplete(function (data) {
-            //console.log("item name: "+matches[i][0]+"  item value: "+i)
-            try {
-                console.log("i: " + i);
-                matches[i][2] = data.misMatchPercentage;
-            }
-            catch (e) {
-                //throw "Something happened... i: "+i
-                //matches[i][2] = data.misMatchPercentage;
-            }
-        });
+    matches = compareGetter(item, matches, colors);
+    console.log("Getting difference from all items...");
     console.log("Values of Matches 2");
     console.log(matches);
     if (matches[0][2] == 0.00) {
         console.log("it is blank");
         return;
     }
-    console.log("Difference values gathered");
-    matches = matches.slice(1);
-    console.log("Values of Matches 3");
-    console.log(matches);
+    // So odd, this command happens after the loop
+    // matches = matches.slice(1)
+    // but the script breaks because of this
+    // it affects the length of the array in the 
+    // above loop even though this happens after...
+    // I'M CONFUSION
     /*
     console.log("Looking for match...")
     let precision = 20.00
@@ -3749,6 +3752,32 @@ function compareItems(item) {
         totalDiscovered = 0
     }*/
     console.log("Out of while loop");
+}
+function compareGetter(item, arr, colors) {
+    for (let i = 0; i < arr.length; i++) {
+        // Comparing item to all applicable candidates...
+        // console.log("Within loop, length is "+matches.length)
+        var diff = resemblejs__WEBPACK_IMPORTED_MODULE_1__(item)
+            .compareTo(arr[i][1])
+            .outputSettings({
+            ignoreAreasColoredWith: { colors }
+        })
+            .onComplete(function (data) {
+            // console.log("item name: "+matches[i][0]+"  item value: "+i)
+            try {
+                // console.log(matches)
+                // console.log("Within try, length is: "+matches.length)
+                //if(i == matches.length-2 || i == matches.length-1)
+                //	  console.log("i: "+i)
+                arr[i][2] = data.misMatchPercentage;
+            }
+            catch (e) {
+                throw e;
+                //matches[i][2] = data.misMatchPercentage;
+            }
+        });
+    }
+    return arr;
 }
 function imagedata_to_image(imagedata) {
     var canvas = document.createElement('canvas');

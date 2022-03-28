@@ -114,7 +114,7 @@ export function changeClueTierSpan(id){
 //this function is async, so you cant acccess the images instantly but generally takes <20ms
 //use `await imgs.promise` if you want to use the images as soon as they are loaded
 var imgs = a1lib.ImageDetect.webpackImages({
-	trailComplete: require("../images/TrailComplete.data.png")
+	trailComplete: require("./images/TrailComplete.data.png")
 });
 
 //listen for pasted (ctrl-v) images, usually used in the browser version of an app
@@ -179,7 +179,7 @@ function findtrailComplete(img: ImgRef) {
 	
 	console.log("Checking items...");
 	for(let i = 0; i < 9; i++){
-		console.log(crops[i])
+		// console.log(crops[i])
 		compareItems(crops[i]);
 	}
 	console.log("Items checked.");
@@ -188,10 +188,10 @@ function findtrailComplete(img: ImgRef) {
 function compareItems(item:ImageData){
 	let matches = listOfItemsArray.slice();
 	
-	console.log("")
-	console.log("")
-	console.log("")
-	console.log("")
+	// console.log("")
+	// console.log("")
+	// console.log("")
+	// console.log("")
 	/* Some notes for myself
 	What you should do:
 	- Get the image
@@ -228,42 +228,35 @@ function compareItems(item:ImageData){
 		b: 2,
 		a: 255
 	};
-
+	let colors = {yellow, black1, black2, black3}
 	// Check blank first
 	console.log("Values of ListOfItemsArray")
 	console.log(listOfItemsArray)
 	console.log("Values of Matches 1")
 	console.log(matches)
-
+	console.log(matches.length)
+	
+	// WHY
+	// ON FIRST RUN, OCCASIONALLY IT WILL FLAG ALL THE IMAGES
+	// AS ALL BLANK WHEN IT ISNT. WHY DOES THIS HAPPEN???
+	// I HAVE NO IDEA. THE SCRIPT HAS A MIND OF ITS OWN!
+	// MAYBE I SHOULD LEARN ASYNCHRONICITY BETTER...
 	console.log("Getting difference from all items...");
-	for(let i = 0; i < matches.length; i++)
-		// Comparing item to all applicable candidates...
-		var diff = resemble(item)
-			.compareTo(matches[i][1])
-			.outputSettings({
-				ignoreAreasColoredWith: {yellow, black1, black2, black3}
-			})
-			.onComplete(function (data) {
-				//console.log("item name: "+matches[i][0]+"  item value: "+i)
-				try{
-					console.log("i: "+i)
-					matches[i][2] = data.misMatchPercentage;
-				} catch(e){
-					//throw "Something happened... i: "+i
-					//matches[i][2] = data.misMatchPercentage;
-				}
-					
-			});
+	matches = compareGetter(item, matches, colors)
+	console.log("Getting difference from all items...");
+
 	console.log("Values of Matches 2")
 	console.log(matches)
 	if(matches[0][2] == 0.00){
 		console.log("it is blank")
 		return;
 	}
-	console.log("Difference values gathered");
-	matches = matches.slice(1)
-	console.log("Values of Matches 3")
-	console.log(matches)
+	// So odd, this command happens after the loop
+	// matches = matches.slice(1)
+	// but the script breaks because of this
+	// it affects the length of the array in the 
+	// above loop even though this happens after...
+	// I'M CONFUSION
 	
 	
 	/*
@@ -324,6 +317,32 @@ function compareItems(item:ImageData){
 		totalDiscovered = 0
 	}*/
 	console.log("Out of while loop")
+}
+
+function compareGetter(item: ImageData, arr: any[], colors:any){
+	for(let i = 0; i < arr.length; i++){
+		// Comparing item to all applicable candidates...
+		// console.log("Within loop, length is "+matches.length)
+		var diff = resemble(item)
+			.compareTo(arr[i][1])
+			.outputSettings({
+				ignoreAreasColoredWith: {colors}
+			})
+			.onComplete(function (data) {
+				// console.log("item name: "+matches[i][0]+"  item value: "+i)
+				try{
+					// console.log(matches)
+					// console.log("Within try, length is: "+matches.length)
+					//if(i == matches.length-2 || i == matches.length-1)
+					//	  console.log("i: "+i)
+					arr[i][2] = data.misMatchPercentage;
+				} catch(e){
+					throw e
+					//matches[i][2] = data.misMatchPercentage;
+				}	
+			});
+	}
+	return arr
 }
 
 function imagedata_to_image(imagedata: ImageData) {
