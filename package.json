@@ -5,6 +5,7 @@
 	},
 	"dependencies": {
 		"@alt1/base": "^1.0.0-alpha.2",
+		"@types/resemblejs": "^4.1.0",
 		"resemblejs": "^4.1.0"
 	},
 	"devDependencies": {
