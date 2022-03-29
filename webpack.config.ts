@@ -2,8 +2,7 @@ import alt1chain from "@alt1/webpack";
 import * as path from "path";
 
 var srcdir = path.resolve(__dirname, "./src/");
-//var outdir = path.resolve(__dirname, "./dist/");
-var outdir = path.resolve(__dirname, process.env.BUILD_DIR ?? "./dist/")
+var outdir = path.resolve(__dirname, "./dist/");
 
 //wrapper around webpack-chain, most stuff you'll need are direct properties,
 //more finetuning can be done at config.chain
