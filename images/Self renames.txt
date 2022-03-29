@@ -1,0 +1,19 @@
+Edits for newlist to match DB
+=============================
+Guido's to Guido
+Gu'tanoth to Gutanoth
+Reward casket to Clue casket
+Meerkat scroll (Fetch Casket) to Fetch casket scroll
+Small/Medium/Large/Huge prismatic fallen star to Prismatic star (small, medium, large, huge)
+Dragon platelegs/skirt ornament kit to Dragon platelegs ornament kit
+Black, adamant, and Rune shield and helm to kiteshield and full helm
+Blessed leathers to (God) (armor type), Guthix chaps
+Third age to Third-Age
+Rune (armor) (Gilded) to Gilded (Armor)
+
+
+EDIT TO DB: Move all golden compass to Any
+EDIT TO DB: Move all Any from where it is to Any
+ADD TO DB: Find Second age platebody, Robe legs, and range body, add air battlestaff
+
+ADD Adamant Crossbow Amulet of Power and after bolts
