@@ -14,10 +14,10 @@ jobs:
       - name: Install and Build 🔧
         run: |
           npm i
+          export BUILD_DIR="./release/"
           npm run build
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4.2.2
         with:
           branch: gh-pages # The branch the action should deploy to.
-          folder: dist # The folder the action should deploy.
-    # The type of runner that the job will run on
+          folder: release # The folder the action should deploy.
