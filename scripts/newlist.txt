@@ -1,0 +1,554 @@
+Coins
+Holy biscuits
+Purple sweets
+Miscellania Teleport
+Lumber Yard Teleport
+Bandit Camp Teleport
+Pollnivneach Teleport
+Phoenix Lair Teleport
+Tai Bwo Wannai Teleport
+Lighthouse Teleport
+Clocktower Teleport
+Gutanoth Teleport
+Grand Exchange Teleport
+Saradomin page
+Guthix page
+Zamorak page
+Armadyl page
+Bandos page
+Ancient page
+Red firelighter
+Green firelighter
+Blue firelighter
+Purple firelighter
+White firelighter
+Saradomin arrows
+Guthix arrows
+Zamorak arrows
+Meerkats pouch
+Fetch Casket scroll
+Golden compass
+Fire rune
+Air rune
+Water rune
+Earth rune
+Law rune
+Nature rune
+Pure essence
+Black 2h crossbow
+Black crossbow
+Off-hand black crossbow
+Staff of air
+Staff of water
+Staff of earth
+Staff of fire
+Small bladed mithril salvage
+Medium bladed mithril salvage
+Oak plank
+Amulet of magic
+Mithril arrow
+Black bolts
+Air talisman
+Fire talisman
+Earth talisman
+Water talisman
+Small plated mithril salvage
+Medium plated mithril salvage
+Huge plated mithril salvage
+Hard leather
+Willow composite bow
+Yew composite bow
+Magic composite bow
+Black full helm (t)
+Black platebody (t)
+Black platelegs (t)
+Black plateskirt (t)
+Black kiteshield (t)
+Black full helm (g)
+Black platebody (g)
+Black platelegs (g)
+Black plateskirt (g)
+Black kiteshield (g)
+Black beret
+Blue beret
+White beret
+Highwayman mask
+Wizard hat (t)
+Wizard robe top (t)
+Wizard robe skirt (t)
+Wizard hat (g)
+Wizard robe top (g)
+Wizard robe skirt (g)
+Studded body (t)
+Studded chaps (t)
+Studded body (g)
+Studded chaps (g)
+Bob shirt (black)
+Bob shirt (blue)
+Bob shirt (green)
+Bob shirt (purple)
+Bob shirt (red)
+Flared trousers
+Sleeping cap
+Powdered wig
+Pantaloons
+Saradomin robe top
+Saradomin robe legs
+Guthix robe top
+Guthix robe legs
+Zamorak robe top
+Zamorak robe legs
+Amulet of magic (t)
+Black cane
+Spiked helmet
+Suitcase
+Prismatic star (Small)
+Blue elegant shirt
+Blue elegant blouse
+Blue elegant legs
+Blue elegant skirt
+Green elegant shirt
+Green elegant blouse
+Green elegant legs
+Green elegant skirt
+Red elegant shirt
+Red elegant blouse
+Red elegant legs
+Red elegant skirt
+Black full helm (h1)
+Black platebody (h1)
+Black platelegs (h1)
+Black plateskirt (h1)
+Black kiteshield (h1)
+Black full helm (h2)
+Black platebody (h2)
+Black platelegs (h2)
+Black plateskirt (h2)
+Black kiteshield (h2)
+Black full helm (h3)
+Black platebody (h3)
+Black platelegs (h3)
+Black plateskirt (h3)
+Black kiteshield (h3)
+Black full helm (h4)
+Black platebody (h4)
+Black platelegs (h4)
+Black plateskirt (h4)
+Black kiteshield (h4)
+Black full helm (h5)
+Black platebody (h5)
+Black platelegs (h5)
+Black plateskirt (h5)
+Black kiteshield (h5)
+Re-roll token (easy)
+Sealed clue scroll (master)
+Mind rune
+Death rune
+Air battlestaff
+Water battlestaff
+Earth battlestaff
+Fire battlestaff
+Green dragonhide
+Teak plank
+Green dragonhide body
+Green dragonhide chaps
+Adamant arrow
+Adamant bolts
+Small bladed adamant salvage
+Medium bladed adamant salvage
+Small plated adamant salvage
+Medium plated adamant salvage
+Huge plated adamant salvage
+Adamant full helm (t)
+Adamant platebody (t)
+Adamant platelegs (t)
+Adamant plateskirt (t)
+Adamant kiteshield (t)
+Adamant full helm (g)
+Adamant platebody (g)
+Adamant platelegs (g)
+Adamant plateskirt (g)
+Adamant kiteshield (g)
+Ranger boots
+Wizard boots (t)
+Black headband
+Red headband
+Brown headband
+Red boater
+Orange boater
+Blue boater
+Green boater
+Black boater
+Green dragonhide body (t)
+Green dragonhide chaps (t)
+Green dragonhide body (g)
+Green dragonhide chaps (g)
+Adamant full helm (h1)
+Adamant platebody (h1)
+Adamant platelegs (h1)
+Adamant plateskirt (h1)
+Adamant kiteshield (h1)
+Adamant full helm (h2)
+Adamant platebody (h2)
+Adamant platelegs (h2)
+Adamant plateskirt (h2)
+Adamant kiteshield (h2)
+Adamant full helm (h3)
+Adamant platebody (h3)
+Adamant platelegs (h3)
+Adamant plateskirt (h3)
+Adamant kiteshield (h3)
+Adamant full helm (h4)
+Adamant platebody (h4)
+Adamant platelegs (h4)
+Adamant plateskirt (h4)
+Adamant kiteshield (h4)
+Adamant full helm (h5)
+Adamant platebody (h5)
+Adamant platelegs (h5)
+Adamant plateskirt (h5)
+Adamant kiteshield (h5)
+White elegant blouse
+White elegant skirt
+Black elegant shirt
+Black elegant legs
+Purple elegant blouse
+Purple elegant skirt
+Purple elegant shirt
+Purple elegant legs
+Saradomin mitre
+Guthix mitre
+Zamorak mitre
+Saradomin cloak
+Guthix cloak
+Zamorak cloak
+Armadyl robe top
+Armadyl robe legs
+Bandos robe top
+Bandos robe legs
+Ancient robe top
+Ancient robe legs
+Sheep mask
+Bat mask
+Penguin mask
+Cat mask
+Wolf mask
+Strength amulet (t)
+Adamant cane
+Pith helmet
+Briefcase
+Blue checkered shirt
+Green checkered shirt
+Purple checkered shirt
+Prismatic star (Medium)
+Re-roll token (medium)
+Clue casket (easy)
+Astral rune
+Blood rune
+Mystic air staff
+Mystic water staff
+Mystic earth staff
+Mystic fire staff
+Black dragonhide
+Medium spiky rune salvage
+Medium bladed rune salvage
+Large bladed rune salvage
+Medium plated rune salvage
+Large plated rune salvage
+Huge plated rune salvage
+Mahogany plank
+Rune arrow
+Court summons
+Rune full helm (t)
+Rune platebody (t)
+Rune platelegs (t)
+Rune plateskirt (t)
+Rune kiteshield (t)
+Rune full helm (g)
+Rune platebody (g)
+Rune platelegs (g)
+Rune plateskirt (g)
+Rune kiteshield (g)
+Rune full helm (Saradomin)
+Rune platebody (Saradomin)
+Rune platelegs (Saradomin)
+Rune plateskirt (Saradomin)
+Rune kiteshield (Saradomin)
+Rune full helm (Guthix)
+Rune platebody (Guthix)
+Rune platelegs (Guthix)
+Rune plateskirt (Guthix)
+Rune kiteshield (Guthix)
+Rune full helm (Zamorak)
+Rune platebody (Zamorak)
+Rune platelegs (Zamorak)
+Rune plateskirt (Zamorak)
+Rune kiteshield (Zamorak)
+Blue dragonhide body (t)
+Blue dragonhide chaps (t)
+Blue dragonhide body (g)
+Blue dragonhide chaps (g)
+Pirate's hat
+Robin Hood hat
+Enchanted hat
+Enchanted top
+Enchanted robe
+Tan cavalier
+Dark cavalier
+Black cavalier
+Rune full helm (h1)
+Rune platebody (h1)
+Rune platelegs (h1)
+Rune plateskirt (h1)
+Rune kiteshield (h1)
+Rune full helm (h2)
+Rune platebody (h2)
+Rune platelegs (h2)
+Rune plateskirt (h2)
+Rune kiteshield (h2)
+Rune full helm (h3)
+Rune platebody (h3)
+Rune platelegs (h3)
+Rune plateskirt (h3)
+Rune kiteshield (h3)
+Rune full helm (h4)
+Rune platebody (h4)
+Rune platelegs (h4)
+Rune plateskirt (h4)
+Rune kiteshield (h4)
+Rune full helm (h5)
+Rune platebody (h5)
+Rune platelegs (h5)
+Rune plateskirt (h5)
+Rune kiteshield (h5)
+Amulet of glory (t)
+Amulet of fury (t)
+Saradomin stole
+Guthix stole
+Zamorak stole
+Saradomin crozier
+Guthix crozier
+Zamorak crozier
+Armadyl mitre
+Bandos mitre
+Ancient mitre
+Armadyl cloak
+Bandos cloak
+Ancient cloak
+Saradomin coif
+Saradomin body
+Saradomin chaps
+Saradomin vambraces
+Guthix coif
+Guthix body
+Guthix chaps
+Guthix vambraces
+Zamorak coif
+Zamorak body
+Zamorak chaps
+Zamorak vambraces
+Fox mask
+White unicorn mask
+Black unicorn mask
+Green dragon mask
+Blue dragon mask
+Red dragon mask
+Top hat
+Rune cane
+Guido bonfire in a bottle
+Costume skipping ticket
+Puzzle box skipping ticket
+Knot skipping ticket
+Re-roll token (hard)
+Barrows dye
+Shadow dye
+Backstab cape
+Sack of effigies
+Explosive barrel
+Gilded full helm
+Gilded platebody
+Gilded platelegs
+Gilded plateskirt
+Gilded kiteshield
+Super attack
+Super defence
+Super strength
+Super energy
+Super restore
+Antifire
+Starved ancient effigy
+Third-Age full helmet
+Third-Age platebody
+Third-Age platelegs
+Third-Age kiteshield
+Third-Age mage hat
+Third-Age robe top
+Third-Age robe
+Third-Age amulet
+Third-Age ranger coif
+Third-Age ranger body
+Third-Age vambraces
+Third-Age ranger chaps
+Clue casket (medium)
+Royal dragonhide
+Uncut dragonstone
+Runite stone spirit
+Papaya tree seed
+Yew seed
+Dragonfruit seed
+Mango seed
+Lychee seed
+Guarana seed
+Prayer potion
+Green salamander
+Unicorn horn
+Onyx bolt tips
+Battlestaff
+Dragon helm
+Rune full helm (Armadyl)
+Rune platebody (Armadyl)
+Rune platelegs (Armadyl)
+Rune plateskirt (Armadyl)
+Rune kiteshield (Armadyl)
+Rune full helm (Bandos)
+Rune platebody (Bandos)
+Rune platelegs (Bandos)
+Rune plateskirt (Bandos)
+Rune kiteshield (Bandos)
+Rune full helm (Ancient)
+Rune platebody (Ancient)
+Rune platelegs (Ancient)
+Rune plateskirt (Ancient)
+Rune kiteshield (Ancient)
+Armadyl coif
+Armadyl body
+Armadyl chaps
+Armadyl vambraces
+Bandos coif
+Bandos body
+Bandos chaps
+Bandos vambraces
+Ancient coif
+Ancient body
+Ancient chaps
+Ancient vambraces
+Robin Hood tunic
+Robin Hood tights
+Armadyl stole
+Bandos stole
+Ancient stole
+Armadyl crozier
+Bandos crozier
+Ancient crozier
+Dragon platelegs ornament kit (or)
+Dragon sq shield ornament kit (or)
+Dragon full helm ornament kit (sp)
+Dragon platebody ornament kit (sp)
+Dragon platelegs ornament kit (sp)
+Dragon sq shield ornament kit (sp)
+Fury ornament kit
+Dragon full helm ornament kit (or)
+Dragon platebody ornament kit (or)
+Bat staff
+Wolf staff
+Dragon staff
+Cat staff
+Penguin staff
+Dragon cane
+Tower skipping ticket
+Lockbox skipping ticket
+Prismatic star (Large)
+Black dragon mask
+Bronze dragon mask
+Iron dragon mask
+Steel dragon mask
+Mithril dragon mask
+Frost dragon mask
+Third-Age dye
+Blood dye
+Ice dye
+Re-roll token (elite)
+Crystal triskelion fragment 1
+Crystal triskelion fragment 2
+Crystal triskelion fragment 3
+Third-Age druidic wreath
+Third-Age druidic robe top
+Third-Age druidic robe bottom
+Third-Age druidic cloak
+Third-Age druidic staff
+Guthix bow
+Saradomin bow
+Zamorak bow
+Clue casket (hard)
+Crystal key
+Dragon arrowheads
+Hydrix bolt tips
+Palm tree seed
+Golden dragonfruit seed
+Carambola seed
+Wine of Saradomin
+Wine of Zamorak
+Prayer renewal
+Weapon poison++
+Uncut onyx
+Prismatic star (Huge)
+Box of clue scrolls
+Flaming sword enchantment
+Golden thread
+Elemental impetus
+Hobby unicorn (white)
+Hobby unicorn (black)
+Pyjama top
+Pyjama bottoms
+Pyjama slippers
+Heavy chest
+Bag of clues
+Ring of coins
+Ring of trees
+Round glasses (black)
+Round glasses (blue)
+Round glasses (green)
+Stylish glasses (black)
+Stylish glasses (blue)
+Stylish glasses (green)
+Half-moon spectacles (black)
+Half-moon spectacles (blue)
+Half-moon spectacles (green)
+Adamant dragon mask
+Rune dragon mask
+Dragonstone dragon mask
+Onyx dragon mask
+Hydrix dragon mask
+Gilded boater
+Gilded cavalier
+Samurai kasa
+Reaper ornament kit
+Soul ornament kit
+Tuxedo jacket
+Tuxedo trousers
+Tuxedo shoes
+Tuxedo gloves
+Tuxedo cravat
+Evening bolero
+Evening dipped skirt
+Evening shoes
+Evening gloves
+Evening masquerade mask
+Heated tea flask
+Pack yak mask
+Orlando Smith's hat
+Elemental battlestaff
+Re-roll token (master)
+Second-Age full helm
+Second-Age platebody
+Second-Age platelegs
+Second-Age sword
+Second-Age mage mask
+Second-Age robe top
+Second-Age robe bottom
+Second-Age staff
+Second-Age range coif
+Second-Age range top
+Second-Age range legs
+Second-Age bow
+Clue casket (elite)
