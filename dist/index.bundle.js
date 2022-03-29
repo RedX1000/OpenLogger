@@ -3639,32 +3639,31 @@ async function findtrailComplete(img) {
     }
     console.log("Checking items...");
     console.log(listOfItemsArray.length);
-    var results = [];
+    var itemresults = [];
     let promises = [];
     for (let i = 0; i < 9; i++) {
         try {
-            results.push(promises.push(await compareItems(crops[i])));
+            promises.push(itemresults.push(await compareItems(crops[i])));
         }
         catch (e) {
-            alt1.overLayTextEx("    Error occured. Please try again\nAvoid obstructions over the window", _alt1_base__WEBPACK_IMPORTED_MODULE_0__.mixColor(100, 255, 100), 20, Math.round(alt1.rsWidth / 2), 200, 4000, "", true, true);
+            alt1.overLayTextEx("    Error occured. Please try again\nAvoid obstructions over the window", _alt1_base__WEBPACK_IMPORTED_MODULE_0__.mixColor(255, 100, 100), 20, Math.round(alt1.rsWidth / 2), 200, 4000, "", true, true);
         }
         // a1lib.mixColor(100, 255, 100) The Green of Success!
     }
     await Promise.all(promises);
+    console.log(itemresults);
     console.log("Items checked.");
+    var quantresults = [];
+    promises = [];
+    for (let i = 0; i < 9; i++) {
+        if (itemresults[i] == "Blank")
+            continue;
+        promises.push(quantresults.push(await readQuantites(crops[i])));
+    }
+    await Promise.all(promises);
+    console.log(quantresults);
 }
 async function compareItems(item) {
-    /* Some notes for myself
-    What you should do:
-    - Get the image
-    - Get the array of test images
-    - Run a for loop, compare the image to ALLL of the test images, and record the similarity
-    - check if item equals blank, if so, break and return nothing
-    - if not Then in another loop, check if one type of item exists in the new list
-    - if not, slice off elements that have too low of a comparison
-    - repeat until one item exists
-    - if one item exists, record it and break loop
-    - Alrighty team, 1, 2, 3! BREAK!... oh wait it's just me... :( */
     // Take copy of the original array
     let matches = listOfItemsArray.slice();
     // Can't use all at once. Can only do one color at a time.
@@ -3708,28 +3707,29 @@ async function compareItems(item) {
             matches[i][2] = data.misMatchPercentage;
         }));
     await Promise.all(promises);
-    let precision = 30.00;
+    let precision = 30.00; // The lower the closer the match
     let totalDiscovered = 0;
     let found = "";
-    while (found == "" || precision > 0) {
+    while (found == "" || precision > 0) { // If item isnt found and precision falls below 0
         for (let i = matches.length - 1; i >= 0; i--) {
-            if (matches[0][0] == matches[i][0])
+            if (matches[0][0] == matches[i][0]) // First item equivalent to the other items?
                 totalDiscovered += 1;
-            else
+            else // If not, leave this loop
                 break;
         }
-        if (found != "") {
+        if (found != "") { // If item found, leave
             break;
         }
-        else if (totalDiscovered == matches.length) {
+        else if (totalDiscovered == matches.length) { // If all items are the same in the array, leave
             found = matches[0][0];
             break;
         }
-        else
+        else // If not found, remove items from the array that are above precision
             var i = matches.length;
         while (i--)
             if (matches[i][2] > precision)
                 matches.splice(i, 1);
+        // Various tweakable precision values at different thresholds
         if (precision > 10)
             precision -= 1;
         else if (precision > 5)
@@ -3742,18 +3742,16 @@ async function compareItems(item) {
             precision -= 0.01;
         else
             break;
-        //console.log("DEBUG","Precision is: "+precision)
-        //console.log("")
-        //console.log("")
-        //console.log("")
         totalDiscovered = 0;
     }
-    console.log(found);
-    if (found != "")
+    if (found != "") // If found return item
         return found;
-    else
+    else // If not, return blank
         return "Blank";
     //console.log("Out of while loop")
+}
+async function readQuantites(item) {
+    // Now to figure out how to read the quantities...
 }
 //print text world
 //also the worst possible example of how to use global exposed exports as described in webpack.config.json
