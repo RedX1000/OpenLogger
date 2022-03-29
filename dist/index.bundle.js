@@ -3680,14 +3680,36 @@ function compareItems(item) {
     // I HAVE NO IDEA. THE SCRIPT HAS A MIND OF ITS OWN!
     // MAYBE I SHOULD LEARN ASYNCHRONICITY BETTER...
     console.log("Getting difference from all items...");
-    matches = compareGetter(item, matches, colors);
+    for (let i = 0; i < matches.length; i++) {
+        // Comparing item to all applicable candidates...
+        // console.log("Within loop, length is "+matches.length)
+        var diff = resemblejs__WEBPACK_IMPORTED_MODULE_1__(item)
+            .compareTo(matches[i][1])
+            .outputSettings({
+            ignoreAreasColoredWith: { colors }
+        })
+            .onComplete(function (data) {
+            // console.log("item name: "+matches[i][0]+"  item value: "+i)
+            try {
+                // console.log(matches)
+                // console.log("Within try, length is: "+matches.length)
+                //if(i == matches.length-2 || i == matches.length-1)
+                //	  console.log("i: "+i)
+                matches[i][2] = data.misMatchPercentage;
+            }
+            catch (e) {
+                throw e;
+                //matches[i][2] = data.misMatchPercentage;
+            }
+            if (matches[0][2] == 0.00) {
+                console.log("it is blank");
+                return;
+            }
+        });
+    }
     console.log("Getting difference from all items...");
     console.log("Values of Matches 2");
     console.log(matches);
-    if (matches[0][2] == 0.00) {
-        console.log("it is blank");
-        return;
-    }
     // So odd, this command happens after the loop
     // matches = matches.slice(1)
     // but the script breaks because of this
@@ -3754,29 +3776,6 @@ function compareItems(item) {
     console.log("Out of while loop");
 }
 function compareGetter(item, arr, colors) {
-    for (let i = 0; i < arr.length; i++) {
-        // Comparing item to all applicable candidates...
-        // console.log("Within loop, length is "+matches.length)
-        var diff = resemblejs__WEBPACK_IMPORTED_MODULE_1__(item)
-            .compareTo(arr[i][1])
-            .outputSettings({
-            ignoreAreasColoredWith: { colors }
-        })
-            .onComplete(function (data) {
-            // console.log("item name: "+matches[i][0]+"  item value: "+i)
-            try {
-                // console.log(matches)
-                // console.log("Within try, length is: "+matches.length)
-                //if(i == matches.length-2 || i == matches.length-1)
-                //	  console.log("i: "+i)
-                arr[i][2] = data.misMatchPercentage;
-            }
-            catch (e) {
-                throw e;
-                //matches[i][2] = data.misMatchPercentage;
-            }
-        });
-    }
     return arr;
 }
 function imagedata_to_image(imagedata) {
