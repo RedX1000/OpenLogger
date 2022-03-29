@@ -3,6 +3,7 @@
 import * as a1lib from "@alt1/base";
 import { ImgRef } from "@alt1/base";
 import * as resemble from "resemblejs";
+import compareImages from "resemblejs/compareImages"
 import * as lsdb from './JSONs/LocalStorageInit.json';
 import * as items from './JSONs/ItemsAndImages.json';
 
@@ -71,7 +72,7 @@ export function init(){
 		//console.log(temp);
 		listOfItemsArray.push(temp);
 	}
-	console.log(listOfItemsArray);
+	//console.log(listOfItemsArray);
 		
 }
 
@@ -137,7 +138,7 @@ export function capture() {
 	findtrailComplete(img);
 }
 
-function findtrailComplete(img: ImgRef) {
+async function findtrailComplete(img: ImgRef) {
 	var loc = img.findSubimage(imgs.trailComplete);
 
 	//overlay the result on screen if running in alt1
@@ -171,27 +172,25 @@ function findtrailComplete(img: ImgRef) {
 		var imgvar = document.createElement("img");
 		canvas.width = crops[i].width;
 		canvas.height = crops[i].height;
-		ctx.putImageData(crops[i], 0, 0)
+		ctx.putImageData(crops[i], 0, 0);
 		imgvar.src = canvas.toDataURL();
 		document.getElementById(rewardSlots[i]).appendChild(imgvar);
 		
 	}
 	
 	console.log("Checking items...");
+	console.log(listOfItemsArray.length);
+	let promises = []
 	for(let i = 0; i < 9; i++){
-		// console.log(crops[i])
-		compareItems(crops[i]);
+		promises.push(await compareItems(crops[i]));
 	}
+	await Promise.all(promises)
 	console.log("Items checked.");
 }
 	
-function compareItems(item:ImageData){
+async function compareItems(item:ImageData){
 	let matches = listOfItemsArray.slice();
 	
-	// console.log("")
-	// console.log("")
-	// console.log("")
-	// console.log("")
 	/* Some notes for myself
 	What you should do:
 	- Get the image
@@ -230,11 +229,11 @@ function compareItems(item:ImageData){
 	};
 	let colors = {yellow, black1, black2, black3}
 	// Check blank first
-	console.log("Values of ListOfItemsArray")
-	console.log(listOfItemsArray)
-	console.log("Values of Matches 1")
-	console.log(matches)
-	console.log(matches.length)
+	// console.log("Values of ListOfItemsArray")
+	// console.log(listOfItemsArray)
+	// console.log("Values of Matches 1")
+	// console.log(matches)
+	// console.log(matches.length)
 	
 	// WHY
 	// ON FIRST RUN, OCCASIONALLY IT WILL FLAG ALL THE IMAGES
@@ -242,37 +241,27 @@ function compareItems(item:ImageData){
 	// I HAVE NO IDEA. THE SCRIPT HAS A MIND OF ITS OWN!
 	// MAYBE I SHOULD LEARN ASYNCHRONICITY BETTER...
 	console.log("Getting difference from all items...");
-	for(let i = 0; i < matches.length; i++){
-		// Comparing item to all applicable candidates...
-		// console.log("Within loop, length is "+matches.length)
-		var diff = resemble(item)
-			.compareTo(matches[i][1])
-			.outputSettings({
-				ignoreAreasColoredWith: {colors}
-			})
-			.onComplete(function (data) {
-				// console.log("item name: "+matches[i][0]+"  item value: "+i)
-				try{
-					// console.log(matches)
-					// console.log("Within try, length is: "+matches.length)
-					//if(i == matches.length-2 || i == matches.length-1)
-					//	  console.log("i: "+i)
-					matches[i][2] = data.misMatchPercentage;
-				} catch(e){
-					throw e
-					//matches[i][2] = data.misMatchPercentage;
-				}
-				if(matches[0][2] == 0.00){
-					console.log("it is blank")
-					return;
-				}
-			});
+	console.log("DEBUG",matches.length);
+	var imgdata = await compareImages(item, matches[0][1] , {output: {}} )
+	matches[0][2] = imgdata.misMatchPercentage;
+	if(matches[0][2] == 0.00){
+		console.log("DEBUG","it is blank");
+		return;
 	}
-
+	matches.shift()
+	console.log("DEBUG",matches.length);
+	const promises = []
+	for(let i = 0; i < matches.length; i++){
+		promises.push(await compareImages(item, matches[i][1] , {output: {}} ).then(data => {
+			matches[i][2] = data.misMatchPercentage;
+		}));
+	}
+	await Promise.all(promises)
+	
 	console.log("Getting difference from all items...");
 
-	console.log("Values of Matches 2")
-	console.log(matches)
+	// console.log("Values of Matches 2")
+	// console.log(matches)
 	
 	// So odd, this command happens after the loop
 	// matches = matches.slice(1)
@@ -282,9 +271,8 @@ function compareItems(item:ImageData){
 	// I'M CONFUSION
 	
 	
-	/*
 	console.log("Looking for match...")
-	let precision = 20.00
+	let precision = 50.00
 	let totalDiscovered = 0 
 	let found = ""
 	while(found == "" || precision > 0){
@@ -338,7 +326,7 @@ function compareItems(item:ImageData){
 		console.log("Precision is: "+precision)
 		console.log("")
 		totalDiscovered = 0
-	}*/
+	}
 	console.log("Out of while loop")
 }
 
