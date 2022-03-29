@@ -1,0 +1,6 @@
+
+#This file redirects requests to the virtual folder "alt1-currentskin" to the default skin folder
+#This redirect will also happen inside alt1, to the selected skin
+
+RewriteEngine on
+RewriteRule ^alt1-currentskin/(.*)$ default/$1
