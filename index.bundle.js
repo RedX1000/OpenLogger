@@ -2099,6 +2099,29 @@ module.exports = {"Coins":{"tab":"general","tier":["easy","medium","hard","elite
 
 /***/ }),
 
+/***/ "../node_modules/resemblejs/compareImages.js":
+/*!***************************************************!*\
+  !*** ../node_modules/resemblejs/compareImages.js ***!
+  \***************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+const resemble = __webpack_require__(/*! ./resemble */ "../node_modules/resemblejs/resemble.js");
+
+module.exports = function compareImages(image1, image2, options) {
+    return new Promise((resolve, reject) => {
+        resemble.compare(image1, image2, options, (err, data) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(data);
+            }
+        });
+    });
+};
+
+
+/***/ }),
+
 /***/ "../node_modules/resemblejs/node_modules/canvas/browser.js":
 /*!*****************************************************************!*\
   !*** ../node_modules/resemblejs/node_modules/canvas/browser.js ***!
@@ -3456,8 +3479,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "refresh": () => (/* binding */ refresh)
 /* harmony export */ });
 /* harmony import */ var _alt1_base__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @alt1/base */ "../node_modules/@alt1/base/dist/index.js");
-/* harmony import */ var resemblejs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! resemblejs */ "../node_modules/resemblejs/resemble.js");
-/* harmony import */ var resemblejs__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(resemblejs__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var resemblejs_compareImages__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! resemblejs/compareImages */ "../node_modules/resemblejs/compareImages.js");
+/* harmony import */ var resemblejs_compareImages__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(resemblejs_compareImages__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _JSONs_LocalStorageInit_json__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./JSONs/LocalStorageInit.json */ "./JSONs/LocalStorageInit.json");
 /* harmony import */ var _JSONs_LocalStorageInit_json__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_JSONs_LocalStorageInit_json__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _JSONs_ItemsAndImages_json__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./JSONs/ItemsAndImages.json */ "./JSONs/ItemsAndImages.json");
@@ -3527,7 +3550,7 @@ function init() {
         //console.log(temp);
         listOfItemsArray.push(temp);
     }
-    console.log(listOfItemsArray);
+    //console.log(listOfItemsArray);
 }
 function changeClueTierSpan(id) {
     // Set the clue_tier span for the checked box
@@ -3584,7 +3607,7 @@ function capture() {
     var img = _alt1_base__WEBPACK_IMPORTED_MODULE_0__.captureHoldFullRs();
     findtrailComplete(img);
 }
-function findtrailComplete(img) {
+async function findtrailComplete(img) {
     var loc = img.findSubimage(imgs.trailComplete);
     //overlay the result on screen if running in alt1
     if (window.alt1) {
@@ -3620,18 +3643,16 @@ function findtrailComplete(img) {
         document.getElementById(rewardSlots[i]).appendChild(imgvar);
     }
     console.log("Checking items...");
+    console.log(listOfItemsArray.length);
+    let promises = [];
     for (let i = 0; i < 9; i++) {
-        // console.log(crops[i])
-        compareItems(crops[i]);
+        promises.push(await compareItems(crops[i]));
     }
+    await Promise.all(promises);
     console.log("Items checked.");
 }
-function compareItems(item) {
+async function compareItems(item) {
     let matches = listOfItemsArray.slice();
-    // console.log("")
-    // console.log("")
-    // console.log("")
-    // console.log("")
     /* Some notes for myself
     What you should do:
     - Get the image
@@ -3669,110 +3690,97 @@ function compareItems(item) {
     };
     let colors = { yellow, black1, black2, black3 };
     // Check blank first
-    console.log("Values of ListOfItemsArray");
-    console.log(listOfItemsArray);
-    console.log("Values of Matches 1");
-    console.log(matches);
-    console.log(matches.length);
+    // console.log("Values of ListOfItemsArray")
+    // console.log(listOfItemsArray)
+    // console.log("Values of Matches 1")
+    // console.log(matches)
+    // console.log(matches.length)
     // WHY
     // ON FIRST RUN, OCCASIONALLY IT WILL FLAG ALL THE IMAGES
     // AS ALL BLANK WHEN IT ISNT. WHY DOES THIS HAPPEN???
     // I HAVE NO IDEA. THE SCRIPT HAS A MIND OF ITS OWN!
     // MAYBE I SHOULD LEARN ASYNCHRONICITY BETTER...
     console.log("Getting difference from all items...");
-    for (let i = 0; i < matches.length; i++) {
-        // Comparing item to all applicable candidates...
-        // console.log("Within loop, length is "+matches.length)
-        var diff = resemblejs__WEBPACK_IMPORTED_MODULE_1__(item)
-            .compareTo(matches[i][1])
-            .outputSettings({
-            ignoreAreasColoredWith: { colors }
-        })
-            .onComplete(function (data) {
-            // console.log("item name: "+matches[i][0]+"  item value: "+i)
-            try {
-                // console.log(matches)
-                // console.log("Within try, length is: "+matches.length)
-                //if(i == matches.length-2 || i == matches.length-1)
-                //	  console.log("i: "+i)
-                matches[i][2] = data.misMatchPercentage;
-            }
-            catch (e) {
-                throw e;
-                //matches[i][2] = data.misMatchPercentage;
-            }
-            if (matches[0][2] == 0.00) {
-                console.log("it is blank");
-                return;
-            }
-        });
+    console.log("DEBUG", matches.length);
+    var imgdata = await resemblejs_compareImages__WEBPACK_IMPORTED_MODULE_1___default()(item, matches[0][1], { output: {} });
+    matches[0][2] = imgdata.misMatchPercentage;
+    if (matches[0][2] == 0.00) {
+        console.log("DEBUG", "it is blank");
+        return;
     }
+    matches.shift();
+    console.log("DEBUG", matches.length);
+    const promises = [];
+    for (let i = 0; i < matches.length; i++) {
+        promises.push(await resemblejs_compareImages__WEBPACK_IMPORTED_MODULE_1___default()(item, matches[i][1], { output: {} }).then(data => {
+            matches[i][2] = data.misMatchPercentage;
+        }));
+    }
+    await Promise.all(promises);
     console.log("Getting difference from all items...");
-    console.log("Values of Matches 2");
-    console.log(matches);
+    // console.log("Values of Matches 2")
+    // console.log(matches)
     // So odd, this command happens after the loop
     // matches = matches.slice(1)
     // but the script breaks because of this
     // it affects the length of the array in the 
     // above loop even though this happens after...
     // I'M CONFUSION
-    /*
-    console.log("Looking for match...")
-    let precision = 20.00
-    let totalDiscovered = 0
-    let found = ""
-    while(found == "" || precision > 0){
-        for(let i = matches.length-1; i >= 0; i --){
-            console.log("Comparing "+matches[0][0]+" with "+matches[i][0]+" and i:"+i)
-            if(matches.length == 1){
-                console.log("Matches length is 1")
-                found = matches[0][0]
+    console.log("Looking for match...");
+    let precision = 50.00;
+    let totalDiscovered = 0;
+    let found = "";
+    while (found == "" || precision > 0) {
+        for (let i = matches.length - 1; i >= 0; i--) {
+            console.log("Comparing " + matches[0][0] + " with " + matches[i][0] + " and i:" + i);
+            if (matches.length == 1) {
+                console.log("Matches length is 1");
+                found = matches[0][0];
                 break;
             }
-            else if(matches[0][0] == matches[i][0]){
-                totalDiscovered += 1
-                console.log("totalDiscovered: "+totalDiscovered)
+            else if (matches[0][0] == matches[i][0]) {
+                totalDiscovered += 1;
+                console.log("totalDiscovered: " + totalDiscovered);
             }
-            else{
-                console.log("Non-dupe found. Leaving first loop")
+            else {
+                console.log("Non-dupe found. Leaving first loop");
                 break;
             }
         }
-
-        console.log("is "+totalDiscovered+" equal to "+matches.length+"?");
-        if(found != ""){
-            console.log("Found is "+found+". Leaving while loop")
+        console.log("is " + totalDiscovered + " equal to " + matches.length + "?");
+        if (found != "") {
+            console.log("Found is " + found + ". Leaving while loop");
             continue;
         }
-        else if(totalDiscovered == matches.length){
-            console.log("Match found. Match is "+matches[0][0])
-            found = matches[0][0]
+        else if (totalDiscovered == matches.length) {
+            console.log("Match found. Match is " + matches[0][0]);
+            found = matches[0][0];
             continue;
         }
         else
-            for(let i = matches.length-1; i >= 0; i--){
-                    console.log("is "+ matches[i][2] +" greater than "+precision+"?")
-                    if(matches[i][2] > precision){
-                        console.log("Removing "+matches[i][0]+" from matches")
-                        matches = matches.splice(i-1, 1)
-                    }
+            for (let i = matches.length - 1; i >= 0; i--) {
+                console.log("is " + matches[i][2] + " greater than " + precision + "?");
+                if (matches[i][2] > precision) {
+                    console.log("Removing " + matches[i][0] + " from matches");
+                    matches = matches.splice(i - 1, 1);
+                }
             }
-        if(precision > 10)
+        if (precision > 10)
             precision -= 1;
-        else if(precision > 5)
+        else if (precision > 5)
             precision -= 0.5;
-        else if(precision > 2.5)
+        else if (precision > 2.5)
             precision -= 0.25;
-        else if(precision > 1)
+        else if (precision > 1)
             precision -= 0.1;
-        else if(precision > 0)
+        else if (precision > 0)
             precision -= 0.01;
-        else if(precision < 0)
+        else if (precision < 0)
             break;
-        console.log("Precision is: "+precision)
-        console.log("")
-        totalDiscovered = 0
-    }*/
+        console.log("Precision is: " + precision);
+        console.log("");
+        totalDiscovered = 0;
+    }
     console.log("Out of while loop");
 }
 function compareGetter(item, arr, colors) {
