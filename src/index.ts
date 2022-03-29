@@ -62,17 +62,14 @@ export function init(){
 	else if((document.getElementById("master") as HTMLInputElement).checked)
 		otherItems = items.master;
 	listOfItems = listOfItems.concat(otherItems)
-	//console.log(listOfItems)
 	console.log("Image list initialized.")
 
 	// Turning image collection into array
 	listOfItemsArray = []
 	for(let i = 0; i < listOfItems.length; i++){
 		let temp = [listOfItems[i].name, listOfItems[i].base64, 0.0];
-		//console.log(temp);
 		listOfItemsArray.push(temp);
 	}
-	//console.log(listOfItemsArray);
 		
 }
 
@@ -103,10 +100,8 @@ export function changeClueTierSpan(id){
 	listOfItemsArray = []
 	for(let i = 0; i < listOfItems.length; i++){
 		let temp = [listOfItems[i].name, listOfItems[i].base64, 0.0];
-		console.log(temp);
 		listOfItemsArray.push(temp);
 	}
-	console.log(listOfItemsArray);
 }
 
 //loads all images as raw pixel data async, images have to be saved as *.data.png
@@ -180,17 +175,22 @@ async function findtrailComplete(img: ImgRef) {
 	
 	console.log("Checking items...");
 	console.log(listOfItemsArray.length);
+	var results = []
 	let promises = []
+	
 	for(let i = 0; i < 9; i++){
-		promises.push(await compareItems(crops[i]));
+		try{
+			results.push(promises.push(await compareItems(crops[i])));
+		} catch(e){
+			alt1.overLayTextEx("    Error occured. Please try again\nAvoid obstructions over the window", a1lib.mixColor(100, 255, 100), 20, Math.round(alt1.rsWidth / 2), 200, 4000, "", true, true);
+		}
+		// a1lib.mixColor(100, 255, 100) The Green of Success!
 	}
 	await Promise.all(promises)
 	console.log("Items checked.");
 }
 	
 async function compareItems(item:ImageData){
-	let matches = listOfItemsArray.slice();
-	
 	/* Some notes for myself
 	What you should do:
 	- Get the image
@@ -203,6 +203,10 @@ async function compareItems(item:ImageData){
 	- if one item exists, record it and break loop
 	- Alrighty team, 1, 2, 3! BREAK!... oh wait it's just me... :( */
 
+	// Take copy of the original array
+	let matches = listOfItemsArray.slice();
+
+	// Can't use all at once. Can only do one color at a time.
 	const yellow = {
 		r: 255,
 		g: 0,
@@ -227,90 +231,48 @@ async function compareItems(item:ImageData){
 		b: 2,
 		a: 255
 	};
-	let colors = {yellow, black1, black2, black3}
-	// Check blank first
-	// console.log("Values of ListOfItemsArray")
-	// console.log(listOfItemsArray)
-	// console.log("Values of Matches 1")
-	// console.log(matches)
-	// console.log(matches.length)
-	
-	// WHY
-	// ON FIRST RUN, OCCASIONALLY IT WILL FLAG ALL THE IMAGES
-	// AS ALL BLANK WHEN IT ISNT. WHY DOES THIS HAPPEN???
-	// I HAVE NO IDEA. THE SCRIPT HAS A MIND OF ITS OWN!
-	// MAYBE I SHOULD LEARN ASYNCHRONICITY BETTER...
-	console.log("Getting difference from all items...");
-	console.log("DEBUG",matches.length);
-	var imgdata = await compareImages(item, matches[0][1] , {output: {}} )
+	let colors = [yellow, black1, black2, black3]
+	// Just hold this for now just in case...
+
+	var imgdata = await compareImages(item, matches[0][1] , {output: {}, ignore: "less"})
 	matches[0][2] = imgdata.misMatchPercentage;
-	if(matches[0][2] == 0.00){
-		console.log("DEBUG","it is blank");
-		return;
+	if(matches[0][2] == 0.00){ // If it is blank
+		return "Blank";
 	}
-	matches.shift()
-	console.log("DEBUG",matches.length);
+
+	matches.shift() // Remove blank if not blank
 	const promises = []
-	for(let i = 0; i < matches.length; i++){
-		promises.push(await compareImages(item, matches[i][1] , {output: {}} ).then(data => {
+	for(let i = 0; i < matches.length; i++)
+		//	{output: {ignoreAreasColoredWith: colors}}
+		// 	Choices are: yellow, black1, black2, black3
+		promises.push(await compareImages(item, matches[i][1] , {output: {}, ignore: "less"} ).then(data => {
 			matches[i][2] = data.misMatchPercentage;
 		}));
-	}
 	await Promise.all(promises)
 	
-	console.log("Getting difference from all items...");
-
-	// console.log("Values of Matches 2")
-	// console.log(matches)
-	
-	// So odd, this command happens after the loop
-	// matches = matches.slice(1)
-	// but the script breaks because of this
-	// it affects the length of the array in the 
-	// above loop even though this happens after...
-	// I'M CONFUSION
-	
-	
-	console.log("Looking for match...")
-	let precision = 50.00
+	let precision = 30.00
 	let totalDiscovered = 0 
 	let found = ""
 	while(found == "" || precision > 0){
 		for(let i = matches.length-1; i >= 0; i --){
-			console.log("Comparing "+matches[0][0]+" with "+matches[i][0]+" and i:"+i)
-			if(matches.length == 1){
-				console.log("Matches length is 1")
-				found = matches[0][0]
-				break;
-			}
-			else if(matches[0][0] == matches[i][0]){
+			if(matches[0][0] == matches[i][0])
 				totalDiscovered += 1
-				console.log("totalDiscovered: "+totalDiscovered)
-			}	
-			else{
-				console.log("Non-dupe found. Leaving first loop")
+			else
 				break;
-			}
 		}
-
-		console.log("is "+totalDiscovered+" equal to "+matches.length+"?");
 		if(found != ""){
-			console.log("Found is "+found+". Leaving while loop")
-			continue;
+			break;
 		}
 		else if(totalDiscovered == matches.length){
-			console.log("Match found. Match is "+matches[0][0])
 			found = matches[0][0]
-			continue;
+			break;
 		}
 		else
-			for(let i = matches.length-1; i >= 0; i--){
-					console.log("is "+ matches[i][2] +" greater than "+precision+"?")
-					if(matches[i][2] > precision){
-						console.log("Removing "+matches[i][0]+" from matches")
-						matches = matches.splice(i-1, 1)
-					}
-			}
+			var i = matches.length
+			while(i--)
+				if(matches[i][2] > precision)
+					matches.splice(i, 1)
+				
 		if(precision > 10)
 			precision -= 1;
 		else if(precision > 5)
@@ -321,30 +283,20 @@ async function compareItems(item:ImageData){
 			precision -= 0.1;
 		else if(precision > 0)
 			precision -= 0.01;
-		else if(precision < 0)
+		else
 			break;
-		console.log("Precision is: "+precision)
-		console.log("")
+		//console.log("DEBUG","Precision is: "+precision)
+		//console.log("")
+		//console.log("")
+		//console.log("")
 		totalDiscovered = 0
 	}
-	console.log("Out of while loop")
-}
-
-function compareGetter(item: ImageData, arr: any[], colors:any){
-	
-	return arr
-}
-
-function imagedata_to_image(imagedata: ImageData) {
-    var canvas = document.createElement('canvas');
-    var ctx = canvas.getContext('2d');
-    canvas.width = imagedata.width;
-    canvas.height = imagedata.height;
-    ctx.putImageData(imagedata, 0, 0);
-
-    var image = new Image();
-    image.src = canvas.toDataURL();
-    return image;
+	console.log(found)
+	if(found != "")
+		return found
+	else
+		return "Blank"
+	//console.log("Out of while loop")
 }
 
 //print text world
