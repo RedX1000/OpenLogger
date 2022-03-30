@@ -2039,6 +2039,26 @@ function captureStream(x, y, width, height, fps, framecb, errorcb) {
 
 /***/ }),
 
+/***/ "./images/RewardValue.data.png":
+/*!*************************************!*\
+  !*** ./images/RewardValue.data.png ***!
+  \*************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+module.exports=(__webpack_require__(/*! @alt1/base */ "../node_modules/@alt1/base/dist/index.js").ImageDetect.imageDataFromBase64)("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")
+
+/***/ }),
+
+/***/ "./images/RewardValueLegacy.data.png":
+/*!*******************************************!*\
+  !*** ./images/RewardValueLegacy.data.png ***!
+  \*******************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+module.exports=(__webpack_require__(/*! @alt1/base */ "../node_modules/@alt1/base/dist/index.js").ImageDetect.imageDataFromBase64)("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")
+
+/***/ }),
+
 /***/ "./images/TrailComplete.data.png":
 /*!***************************************!*\
   !*** ./images/TrailComplete.data.png ***!
@@ -2046,6 +2066,16 @@ function captureStream(x, y, width, height, fps, framecb, errorcb) {
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 module.exports=(__webpack_require__(/*! @alt1/base */ "../node_modules/@alt1/base/dist/index.js").ImageDetect.imageDataFromBase64)("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")
+
+/***/ }),
+
+/***/ "./images/TrailCompleteLegacy.data.png":
+/*!*********************************************!*\
+  !*** ./images/TrailCompleteLegacy.data.png ***!
+  \*********************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+module.exports=(__webpack_require__(/*! @alt1/base */ "../node_modules/@alt1/base/dist/index.js").ImageDetect.imageDataFromBase64)("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")
 
 /***/ }),
 
@@ -3498,7 +3528,8 @@ var rewardSlots = ["first_item", "second_item", "third_item", "fourth_item", "fi
 var tierlist = ["easy", "medium", "hard", "elite", "master"];
 var listOfItems;
 var listOfItemsArray = [];
-var firstiter = false;
+var legacy = false;
+var displaybox = true;
 function refresh() {
     location.reload();
 }
@@ -3583,7 +3614,10 @@ function changeClueTierSpan(id) {
 //this function is async, so you cant acccess the images instantly but generally takes <20ms
 //use `await imgs.promise` if you want to use the images as soon as they are loaded
 var imgs = _alt1_base__WEBPACK_IMPORTED_MODULE_0__.ImageDetect.webpackImages({
-    trailComplete: __webpack_require__(/*! ./images/TrailComplete.data.png */ "./images/TrailComplete.data.png")
+    trailComplete: __webpack_require__(/*! ./images/TrailComplete.data.png */ "./images/TrailComplete.data.png"),
+    trailCompleteLegacy: __webpack_require__(/*! ./images/TrailCompleteLegacy.data.png */ "./images/TrailCompleteLegacy.data.png"),
+    rewardValue: __webpack_require__(/*! ./images/RewardValue.data.png */ "./images/RewardValue.data.png"),
+    rewardValueLegacy: __webpack_require__(/*! ./images/RewardValueLegacy.data.png */ "./images/RewardValueLegacy.data.png")
 });
 //listen for pasted (ctrl-v) images, usually used in the browser version of an app
 _alt1_base__WEBPACK_IMPORTED_MODULE_0__.PasteInput.listen(img => {
@@ -3603,28 +3637,60 @@ function capture() {
     findtrailComplete(img);
 }
 async function findtrailComplete(img) {
-    var loc = img.findSubimage(imgs.trailComplete);
+    try {
+        var loc = img.findSubimage(await imgs.trailCompleteLegacy);
+        console.log(loc[0].x);
+        console.log("Legacy window");
+        legacy = true;
+    }
+    catch (e) {
+        var loc = img.findSubimage(await imgs.trailComplete);
+        console.log(loc[0].x);
+        console.log("Non-legacy window");
+        legacy = false;
+    }
     //overlay the result on screen if running in alt1
     if (window.alt1) {
         if (loc.length != 0) {
-            alt1.overLayRect(_alt1_base__WEBPACK_IMPORTED_MODULE_0__.mixColor(255, 0, 0), loc[0].x - 27, loc[0].y - 13, imgs.trailComplete.width + 278, imgs.trailComplete.height + 213, 2000, 3);
-        }
-        else {
-            alt1.overLayTextEx("Couldn't find Rewards window. Remove\n    any obstructions or open a casket.", _alt1_base__WEBPACK_IMPORTED_MODULE_0__.mixColor(255, 255, 255), 20, Math.round(alt1.rsWidth / 2), 200, 4000, "", true, true);
+            if (displaybox) {
+                if (!legacy) {
+                    alt1.overLayRect(_alt1_base__WEBPACK_IMPORTED_MODULE_0__.mixColor(255, 0, 0), loc[0].x - 27, loc[0].y - 13, await imgs.trailComplete.width + 278, await imgs.trailComplete.height + 213, 2000, 3);
+                    //alt1.overLayRect(a1lib.mixColor(255,0,50), roc[0].x, roc[0].y, await imgs.rewardValue.width, await imgs.rewardValue.height, 2000, 3);
+                }
+                else { // Offset for x is 111
+                    alt1.overLayRect(_alt1_base__WEBPACK_IMPORTED_MODULE_0__.mixColor(0, 255, 0), loc[0].x - 138, loc[0].y - 13, await imgs.trailCompleteLegacy.width + 278, await imgs.trailCompleteLegacy.height + 213, 2000, 3);
+                    //alt1.overLayRect(a1lib.mixColor(255,0,50), roc[0].x, roc[0].y, await imgs.rewardValueLegacy.width, await imgs.rewardValueLegacy.height, 2000, 3);
+                }
+            }
+            else {
+                alt1.overLayTextEx("Couldn't find Rewards window. Remove\n    any obstructions or open a casket.", _alt1_base__WEBPACK_IMPORTED_MODULE_0__.mixColor(255, 255, 255), 20, Math.round(alt1.rsWidth / 2), 200, 4000, "", true, true);
+            }
         }
     }
     //get raw pixels of image and show on screen (used mostly for debug)  
-    var buf = img.toData(loc[0].x - 27, loc[0].y - 13, imgs.trailComplete.width + 278, imgs.trailComplete.height + 213);
+    var buf = img.toData(loc[0].x - 27, loc[0].y - 13, await imgs.trailComplete.width + 278, await imgs.trailComplete.height + 213);
+    //var ruf = img.toData(roc[0].x, roc[0].y, await imgs.rewardValue.width, await imgs.rewardValue.height);
     //buf.show();
     console.log("About to run array...");
     let crops = new Array(9);
+    let topCrops = new Array(9);
     // Tweak these two values below if jagex adjusts the pixel placement of the items
-    var x1 = loc[0].x - 1;
-    var y1 = loc[0].y + 39;
+    if (!legacy) {
+        var x1 = loc[0].x - 1;
+        var y1 = loc[0].y + 39;
+    }
+    else {
+        var x1 = loc[0].x - 112;
+        var y1 = loc[0].y + 39;
+    }
     for (let i = 0; i < crops.length; i++) {
         //console.log("In array check...");
         crops[i] = img.toData(x1, y1, 32, 32);
-        alt1.overLayRect(_alt1_base__WEBPACK_IMPORTED_MODULE_0__.mixColor(255, 144, 0), x1, loc[0].y + 39, 32, 32, 2000, 1);
+        topCrops[i] = img.toData(x1, loc[0].y + 41, 32, 8);
+        if (displaybox) {
+            alt1.overLayRect(_alt1_base__WEBPACK_IMPORTED_MODULE_0__.mixColor(255, 144, 0), x1, loc[0].y + 39, 32, 32, 2000, 1);
+            alt1.overLayRect(_alt1_base__WEBPACK_IMPORTED_MODULE_0__.mixColor(255, 144, 20), x1, loc[0].y + 41, 32, 8, 2000, 1);
+        }
         x1 += 40;
         // Displaying in Rewards Capture
         document.getElementById(rewardSlots[i]).textContent = "";
@@ -3638,7 +3704,6 @@ async function findtrailComplete(img) {
         document.getElementById(rewardSlots[i]).appendChild(imgvar);
     }
     console.log("Checking items...");
-    console.log(listOfItemsArray.length);
     var itemresults = [];
     let promises = [];
     for (let i = 0; i < 9; i++) {
@@ -3658,100 +3723,205 @@ async function findtrailComplete(img) {
     for (let i = 0; i < 9; i++) {
         if (itemresults[i] == "Blank")
             continue;
-        promises.push(quantresults.push(await readQuantites(crops[i])));
+        promises.push(quantresults.push(await readQuantites(topCrops[i])));
     }
     await Promise.all(promises);
     console.log(quantresults);
 }
 async function compareItems(item) {
+    //TODO: Try to get Legacy to work properly
+    //Legacy is a bit janky right now, it can't identify blank
+    //spaces and it can't identify some items...
     // Take copy of the original array
     let matches = listOfItemsArray.slice();
     // Can't use all at once. Can only do one color at a time.
-    const yellow = {
-        r: 255,
-        g: 0,
-        b: 0,
-        a: 255
-    };
-    const black1 = {
-        r: 0,
-        g: 0,
-        b: 0,
-        a: 255
-    };
-    const black2 = {
-        r: 0,
-        g: 0,
-        b: 1,
-        a: 255
-    };
-    const black3 = {
-        r: 0,
-        g: 0,
-        b: 2,
-        a: 255
-    };
-    let colors = [yellow, black1, black2, black3];
+    // const yellow = { r: 255, g: 0, b: 0, a: 255};
+    // const black1 = { r: 0, g: 0, b: 0, a: 255};
+    // const black2 = { r: 0, g: 0, b: 1, a: 255};
+    // const black3 = { r: 0, g: 0, b: 2, a: 255};
+    // const legacytan = { r: 62, g: 53, b: 40, a: 255};
+    // const rs3blue = { r: 10, g: 31, b: 41, a: 255};
+    // let colors = [yellow, black1, black2, black3]
     // Just hold this for now just in case...
-    var imgdata = await resemblejs_compareImages__WEBPACK_IMPORTED_MODULE_1___default()(item, matches[0][1], { output: {}, ignore: "less" });
-    matches[0][2] = imgdata.misMatchPercentage;
-    if (matches[0][2] == 0.00) { // If it is blank
-        return "Blank";
+    if (!legacy) { //Legacy interface?
+        var imgdata = await resemblejs_compareImages__WEBPACK_IMPORTED_MODULE_1___default()(item, matches[0][1], { output: {}, ignore: "less" });
+        matches[0][2] = imgdata.rawMisMatchPercentage;
+        if (matches[0][2] == 0.00)
+            return "Blank";
+    }
+    else { //Legacy interface.
+        var imgdata = await resemblejs_compareImages__WEBPACK_IMPORTED_MODULE_1___default()(item, matches[1][1], { output: {}, ignore: ["less", "colors"] });
+        matches[1][2] = imgdata.rawMisMatchPercentage;
+        if (matches[1][2] == 0.00) // If it is blank
+            return "Blank";
     }
     matches.shift(); // Remove blank if not blank
-    const promises = [];
-    for (let i = 0; i < matches.length; i++)
-        //	{output: {ignoreAreasColoredWith: colors}}
-        // 	Choices are: yellow, black1, black2, black3
-        promises.push(await resemblejs_compareImages__WEBPACK_IMPORTED_MODULE_1___default()(item, matches[i][1], { output: {}, ignore: "less" }).then(data => {
-            matches[i][2] = data.misMatchPercentage;
-        }));
-    await Promise.all(promises);
-    let precision = 30.00; // The lower the closer the match
-    let totalDiscovered = 0;
-    let found = "";
-    while (found == "" || precision > 0) { // If item isnt found and precision falls below 0
-        for (let i = matches.length - 1; i >= 0; i--) {
-            if (matches[0][0] == matches[i][0]) // First item equivalent to the other items?
-                totalDiscovered += 1;
-            else // If not, leave this loop
-                break;
-        }
-        if (found != "") { // If item found, leave
-            break;
-        }
-        else if (totalDiscovered == matches.length) { // If all items are the same in the array, leave
-            found = matches[0][0];
-            break;
-        }
-        else // If not found, remove items from the array that are above precision
-            var i = matches.length;
-        while (i--)
-            if (matches[i][2] > precision)
-                matches.splice(i, 1);
-        // Various tweakable precision values at different thresholds
-        if (precision > 10)
-            precision -= 1;
-        else if (precision > 5)
-            precision -= 0.5;
-        else if (precision > 2.5)
-            precision -= 0.25;
-        else if (precision > 1)
-            precision -= 0.1;
-        else if (precision > 0)
-            precision -= 0.01;
-        else
-            break;
-        totalDiscovered = 0;
+    matches.shift(); // Remove blank if not blank
+    //	{output: {ignoreAreasColoredWith: colors}}
+    // 	Choices are: yellow, black1, black2, black3, legacytan, rs3blue	
+    if (!legacy) {
+        var found = matches[0];
+        const promises = [];
+        for (let i = 0; i < matches.length; i++)
+            promises.push(await resemblejs_compareImages__WEBPACK_IMPORTED_MODULE_1___default()(item, matches[i][1], { output: {}, ignore: "less" }).then(data => {
+                matches[i][2] = data.rawMisMatchPercentage;
+                if (found[2] > matches[i][2])
+                    found = matches[i];
+            }));
+        await Promise.all(promises);
     }
-    if (found != "") // If found return item
-        return found;
-    else // If not, return blank
-        return "Blank";
-    //console.log("Out of while loop")
+    else {
+        var found = matches[0];
+        const promises = [];
+        for (let i = 0; i < matches.length; i++)
+            promises.push(await resemblejs_compareImages__WEBPACK_IMPORTED_MODULE_1___default()(item, matches[i][1], { output: {}, ignore: "less" }).then(data => {
+                matches[i][2] = data.rawMisMatchPercentage;
+                if (found[2] > matches[i][2])
+                    found = matches[i];
+            }));
+        await Promise.all(promises);
+    }
+    return found[0];
+    //	I have a smart friend. Below this is my solution and
+    // 	this one here is his.
+    // let found = matches[0]
+    // for(let i = 0; i < matches.length; i++) // Get the closest match.
+    //console.log(matches)
+    //let precision = 30.00 // The lower the closer the match
+    //let totalDiscovered = 0 
+    //let found = ""
+    //while(found == "" || precision > 0){ // If item isnt found and precision falls below 0
+    //	for(let i = matches.length-1; i >= 0; i --){
+    //		if(matches[0][0] == matches[i][0]) // First item equivalent to the other items?
+    //			totalDiscovered += 1
+    //		else // If not, leave this loop
+    //			break;
+    //	}
+    //	if(found != ""){ // If item found, leave
+    //		break;
+    //	}
+    //	else if(totalDiscovered == matches.length){ // If all items are the same in the array, leave
+    //		found = matches[0][0]
+    //		break;
+    //	}
+    //	else // If not found, remove items from the array that are above precision
+    //		var i = matches.length
+    //		while(i--)
+    //			if(matches[i][2] > precision)
+    //				matches.splice(i, 1)
+    //	
+    //	// Various tweakable precision values at different thresholds
+    //	if(precision > 10)
+    //		precision -= 1;
+    //	else if(precision > 5)
+    //		precision -= 0.5;
+    //	else if(precision > 2.5)
+    //		precision -= 0.25;
+    //	else if(precision > 1)
+    //		precision -= 0.1;
+    //	else if(precision > 0)
+    //		precision -= 0.01;
+    //	else
+    //		break;
+    //	totalDiscovered = 0
+    //}
+    //if(found != "") // If found return item
+    // return found
+    //else // If not, return blank
+    //	return "Blank"
 }
 async function readQuantites(item) {
     // Now to figure out how to read the quantities...
+    let itemCan = document.createElement("canvas");
+    let itemCon = itemCan.getContext('2d');
+    itemCan.width = item.width;
+    itemCan.height = item.height;
+    itemCon.putImageData(item, 0, 0);
+    var itemImg = new Image();
+    itemImg.src = itemCan.toDataURL("image/png");
+    itemCon.drawImage(itemImg, 0, 0);
+    let pixels = itemCon.getImageData(0, 0, item.width, item.height);
+    console.log(pixels);
+    let pixarr = [];
+    let pixeldata = 0;
+    for (let i = 0; i < 8; i++) {
+        let arr2 = [];
+        for (let j = 0; j < 32; j++) {
+            let vals = { r: pixels.data[pixeldata], g: pixels.data[pixeldata + 1], b: pixels.data[pixeldata + 2], a: pixels.data[pixeldata + 3] };
+            pixeldata += 4;
+            arr2.push(vals);
+        }
+        pixarr.push(arr2);
+    }
+    console.log("Pixel 2D array: ", pixarr);
+    console.log(pixarr[0][0].b);
+    let pixelCount = 0;
+    let streak = 0;
+    let longestStreak = 0;
+    let yellowInCol = false;
+    let noYellowStreak = 0;
+    let numbers = "";
+    console.log(pixarr.length, pixarr[0].length);
+    for (let i = 0; i < pixarr[0].length; i++) {
+        if (noYellowStreak == 3)
+            break;
+        for (let j = 0; j < pixarr.length; j++) {
+            if (pixarr[j][i].r == 255 && pixarr[j][i].g == 255 && pixarr[j][i].b == 0 || pixarr[j][i].r == 255 && pixarr[j][i].g == 255 && pixarr[j][i].b == 255) {
+                pixelCount++;
+                streak++;
+                noYellowStreak = 0;
+                yellowInCol = true;
+                if (streak > longestStreak)
+                    longestStreak = streak;
+            }
+            else
+                streak = 0;
+        }
+        if (pixelCount == 0)
+            noYellowStreak++;
+        else if (yellowInCol == false) {
+            if (pixelCount == 11) {
+                if (longestStreak == 3)
+                    numbers += "7";
+                else // 9
+                    numbers += "1";
+            }
+            else if (pixelCount == 13) {
+                if (longestStreak == 3)
+                    numbers += "3";
+                else //if 6
+                    numbers += "4";
+            }
+            else if (pixelCount == 14)
+                numbers += "0";
+            else if (pixelCount == 15)
+                if (longestStreak == 3)
+                    numbers += "2";
+                else if (longestStreak == 4)
+                    numbers += "5";
+                else if (longestStreak == 7)
+                    numbers += "9";
+                else { //if 8
+                    numbers += "K";
+                    break;
+                }
+            else if (pixelCount == 18)
+                numbers += "6";
+            else // if pixelCount == 19
+                numbers += "8";
+            longestStreak = 0;
+            pixelCount = 0;
+            noYellowStreak++;
+            console.log("DEBUG", "numbers is", numbers);
+        }
+        yellowInCol = false;
+    }
+    if (numbers.includes("K"))
+        return parseInt(numbers.slice(0, -1)) * 1000;
+    else if (numbers != "")
+        return parseInt(numbers);
+    else
+        return 1;
 }
 //print text world
 //also the worst possible example of how to use global exposed exports as described in webpack.config.json
