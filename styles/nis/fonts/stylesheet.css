@@ -1,0 +1,26 @@
+@font-face {
+    font-family: 'RuneScape UF';
+    src: url('RuneScape-UF.eot');
+    src: url('RuneScape-UF.eot?#iefix') format('embedded-opentype'),
+        url('RuneScape-UF.woff2') format('woff2'),
+        url('RuneScape-UF.woff') format('woff'),
+        url('RuneScape-UF.ttf') format('truetype'),
+        url('RuneScape-UF.svg#RuneScape-UF') format('svg');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Runescape Chat Font';
+    src: url('Runescape-Chat-Font.eot');
+    src: url('Runescape-Chat-Font.eot?#iefix') format('embedded-opentype'),
+        url('Runescape-Chat-Font.woff2') format('woff2'),
+        url('Runescape-Chat-Font.woff') format('woff'),
+        url('Runescape-Chat-Font.ttf') format('truetype'),
+        url('Runescape-Chat-Font.svg#Runescape-Chat-Font') format('svg');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
