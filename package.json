@@ -6,7 +6,8 @@
 	"dependencies": {
 		"@alt1/base": "^1.0.0-alpha.2",
 		"@types/resemblejs": "^4.1.0",
-		"resemblejs": "^4.1.0"
+		"resemblejs": "^4.1.0",
+		"@alt1/ocr": "1.0.0-alpha.2"
 	},
 	"devDependencies": {
 		"@alt1/imagedata-loader": "^1.0.0-alpha.2",
