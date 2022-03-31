@@ -6,7 +6,7 @@ import * as resemble from "resemblejs";
 import compareImages from "resemblejs/compareImages"
 import * as lsdb from './JSONs/LocalStorageInit.json';
 import * as items from './JSONs/ItemsAndImages.json';
-import { IgnorePlugin } from "webpack";
+import { IgnorePlugin, node } from "webpack";
 import { imageDataFromBase64 } from "@alt1/base/dist/imagedetect";
 
 //tell webpack to add index.html and appconfig.json to output
@@ -126,6 +126,8 @@ a1lib.PasteInput.listen(img => {
 
 });
 
+
+a1lib.on("alt1pressed", capture)
 //You can reach exports on window.TEST because of
 //config.makeUmd("testpackage", "TEST"); in webpack.config.ts
 export function capture() {
@@ -158,11 +160,9 @@ async function findtrailComplete(img: ImgRef) {
 			if (displaybox){
 				if(!legacy){
 					alt1.overLayRect(a1lib.mixColor(255,0,0), loc[0].x - 27, loc[0].y - 13, await imgs.trailComplete.width + 278, await imgs.trailComplete.height + 213, 2000, 3);
-					//alt1.overLayRect(a1lib.mixColor(255,0,50), roc[0].x, roc[0].y, await imgs.rewardValue.width, await imgs.rewardValue.height, 2000, 3);
 				}
 				else{	// Offset for x is 111
 					alt1.overLayRect(a1lib.mixColor(0,255,0), loc[0].x - 138, loc[0].y - 13, await imgs.trailCompleteLegacy.width + 278, await imgs.trailCompleteLegacy.height + 213, 2000, 3);
-					//alt1.overLayRect(a1lib.mixColor(255,0,50), roc[0].x, roc[0].y, await imgs.rewardValueLegacy.width, await imgs.rewardValueLegacy.height, 2000, 3);
 				} 
 			}
 			else {
@@ -173,12 +173,10 @@ async function findtrailComplete(img: ImgRef) {
 
 	//get raw pixels of image and show on screen (used mostly for debug)  
 	var buf = img.toData(loc[0].x - 27, loc[0].y - 13, await imgs.trailComplete.width + 278, await imgs.trailComplete.height + 213);
-	//var ruf = img.toData(roc[0].x, roc[0].y, await imgs.rewardValue.width, await imgs.rewardValue.height);
-	//buf.show();
 
-	console.log("About to run array...");
 	let crops = new Array<ImageData>(9);
 	let topCrops = new Array<ImageData>(9);
+	
 	// Tweak these two values below if jagex adjusts the pixel placement of the items
 	if(!legacy){
 		var x1 = loc[0].x - 1;
@@ -189,7 +187,6 @@ async function findtrailComplete(img: ImgRef) {
 		var y1 = loc[0].y + 39;
 	}
 	for(let i = 0; i < crops.length; i++) {
-		//console.log("In array check...");
 		crops[i] = img.toData(x1, y1, 32, 32);
 		topCrops[i] = img.toData(x1, loc[0].y + 41, 32, 8);
 		if(displaybox){
@@ -197,46 +194,77 @@ async function findtrailComplete(img: ImgRef) {
 			alt1.overLayRect(a1lib.mixColor(255,144,20), x1, loc[0].y + 41, 32, 8, 2000, 1);
 		}
 		x1 += 40;
-
-		// Displaying in Rewards Capture
-		document.getElementById(rewardSlots[i]).textContent = "";
-		var canvas = document.createElement("canvas");
-		var ctx = canvas.getContext("2d");
-		var imgvar = document.createElement("img");
-		canvas.width = crops[i].width;
-		canvas.height = crops[i].height;
-		ctx.putImageData(crops[i], 0, 0);
-		imgvar.src = canvas.toDataURL();
-		document.getElementById(rewardSlots[i]).appendChild(imgvar);
-		
 	}
 	
-	console.log("Checking items...");
-	var itemresults = []
+	// Give me the items!
+	var itemResults = []
 	let promises = []
 	for(let i = 0; i < 9; i++){
 		try{
-			promises.push(itemresults.push(await compareItems(crops[i])));
+			promises.push(itemResults.push(await compareItems(crops[i])));
 		} catch(e){
 			alt1.overLayTextEx("    Error occured. Please try again\nAvoid obstructions over the window", a1lib.mixColor(255, 100, 100), 20, Math.round(alt1.rsWidth / 2), 200, 4000, "", true, true);
 		}
 		// a1lib.mixColor(100, 255, 100) The Green of Success!
 	}
 	await Promise.all(promises)
-	console.log(itemresults)
-	console.log("Items checked.");
+	console.log(itemResults)
 
-	var quantresults = []
+	// Give me the quantity of the items!
+	var quantResults = []
 	promises = []
 	for(let i = 0; i < 9; i++){
-		if(itemresults[i] == "Blank")
+		if(itemResults[i] == "Blank")
 			continue;
-		promises.push(quantresults.push(await readQuantites(topCrops[i])));
+		promises.push(quantResults.push(await readQuantites(topCrops[i])));
 	}
 	await Promise.all(promises)
-	console.log(quantresults)
+	console.log(quantResults)
 
+	// Give me the total value!
+	//alt1.clearBinds()
+	if(!legacy){
+		//var loc = img.findSubimage(await imgs.rewardValue);
+		var valueCap = img.toData(loc[0].x - 10, loc[0].y + 97, await imgs.rewardValue.width + 175, await imgs.rewardValue.height);
+		alt1.overLayRect(a1lib.mixColor(255,144,20), loc[0].x - 10, loc[0].y + 97, await imgs.rewardValue.width + 175, await imgs.rewardValue.height, 2000, 1)
+	}
+	else{
+		//var loc = img.findSubimage(await imgs.rewardValueLegacy);
+		var valueCap = img.toData(loc[0].x - 110, loc[0].y + 97, await imgs.rewardValueLegacy.width + 175, await imgs.rewardValueLegacy.height);
+		alt1.overLayRect(a1lib.mixColor(255,144,20), loc[0].x - 122, loc[0].y + 97, await imgs.rewardValueLegacy.width + 175, await imgs.rewardValueLegacy.height, 2000, 1);
+	}
 
+	// Put the items and quantites on the display!
+	for(let i = 0; i < 9; i++)
+		document.getElementById(rewardSlots[i]).textContent = "";
+	for(let i = 0; i < quantResults.length; i++){
+		// Displaying in Rewards Capture
+		let nodevar = document.createElement("itembox");
+		let imgvar = document.createElement("img");
+		imgvar.src = encodeURI("./images/items/"+itemResults[i]+".png");
+		let quantvar = document.createElement("span");
+		quantvar.textContent = quantResults[i];
+		nodevar.setAttribute('style', 'position:relative; margin:auto; margin-top: 3px; width:35px; height:35px; display:flex; align-items:center; text-align:center;');
+        imgvar.setAttribute('style', 'margin:0 auto;');
+		if(!quantResults[i].includes("k"))
+			quantvar.setAttribute('style','position:absolute; left:0; top:0; font-family:Runescape Chat Font; font-size:16px; color:rgb(255,255,0); text-shadow:1px 1px #000000;');
+		else
+			quantvar.setAttribute('style','position:absolute; left:0; top:0; font-family:Runescape Chat Font; font-size:16px; color:rgb(255,255,255); text-shadow:1px 1px #000000;');
+		nodevar.append(quantvar);
+		nodevar.append(imgvar);
+		document.getElementById(rewardSlots[i]).appendChild(nodevar);
+	}
+	let totalValue
+	promises = []
+	promises.push(totalValue = await captureValue(valueCap));
+	await Promise.all(promises)
+
+	// Send it to the LS!!!!
+	promises = []
+	for(let i = 0; i < quantResults.length; i++){
+		promises.push(await submitToLS(itemResults[i], quantResults[i], 1));
+	}
+	await Promise.all(promises)
 }
 	
 async function compareItems(item:ImageData){
@@ -352,7 +380,12 @@ async function compareItems(item:ImageData){
 }
 
 async function readQuantites(item: ImageData){
-	// Now to figure out how to read the quantities...
+	// Instead oif reading top to bottom individulally, 
+	// Read from left to right Read left to right with all columns together
+	// And since the height is always the same I dont have ot worry about changing
+	// the value of the width of the number.
+
+	// Maybe consider this for optimizations :^?
 	let itemCan = document.createElement("canvas");
 	let itemCon = itemCan.getContext('2d');
 	itemCan.width = item.width
@@ -374,9 +407,7 @@ async function readQuantites(item: ImageData){
 		}
 		pixarr.push(arr2)
 	}
-	console.log("Pixel 2D array: ",pixarr)
-	console.log(pixarr[0][0].b)
-	
+
 	let pixelCount = 0
 	let streak = 0
 	let longestStreak = 0
@@ -424,7 +455,7 @@ async function readQuantites(item: ImageData){
 				else if(longestStreak == 7)
 					numbers += "9"
 				else{ //if 8
-					numbers += "K"
+					numbers += "k"
 					break;
 				}
 			else if(pixelCount == 18)
@@ -435,16 +466,51 @@ async function readQuantites(item: ImageData){
 			longestStreak  = 0;
 			pixelCount = 0;
 			noYellowStreak ++;
-			console.log("DEBUG","numbers is",numbers);
 		}
 		yellowInCol = false;
 	}
-	if(numbers.includes("K"))
-		return parseInt(numbers.slice(0, -1)) * 1000;
-	else if(numbers != "")
-		return parseInt(numbers);
+	if(pixelCount == 10)
+		numbers += "0"
+	if(numbers != "")
+		return numbers;
 	else
-		return 1;
+		return "1";
+}
+
+async function captureValue(value: ImageData){
+	//Implement readquantites in here
+	// Current Reward Value is 194
+	// Pixels to record
+	/*
+	RGB()
+	RGB()
+	RGB()
+	RGB()
+	RGB()
+	RGB()
+	RGB()
+	RGB()
+	*/
+	// 0 = 
+	// 1 = 
+	// 2 = 
+	// 3 = 
+	// 4 = 
+	// 5 = 
+	// 6 = 
+	// 7 = 
+	// 8 = 
+	// 9 = 
+}
+
+async function submitToLS(item: String, quantity: String, value: any){
+	let deposit = ""	
+	for(let i = 0; i < tierlist.length; i++)
+		if((document.getElementById(tierlist[i]) as HTMLInputElement).checked)
+			deposit = tierlist[i]
+	
+	let lsItem = JSON.parse(localStorage.getItem(item.valueOf())).tier.includes(deposit)
+	
 }
 //print text world
 //also the worst possible example of how to use global exposed exports as described in webpack.config.json
