@@ -10,6 +10,7 @@ import ClueRewardReader from "./scripts/rewardreader";
 import { ModalUIReader } from "./scripts/modeluireader";
 import { IgnorePlugin, javascript, node } from "webpack";
 import { imageDataFromBase64 } from "@alt1/base/dist/imagedetect";
+import { listeners } from "process";
 
 //tell webpack to add index.html and appconfig.json to output
 require("!file-loader?name=[name].[ext]!./index.html");
@@ -574,9 +575,8 @@ async function submitToLS(item: any[], quant: any[], value: any){
 		// To access a value
 		//localStorage.getItem(item[i]).quantity.master
 		console.log("checking if in array")
-		console.log(localStorage.getItem(item[i]))
 		console.log(JSON.parse(localStorage.getItem(item[i])).tier)
-		if(JSON.stringify(JSON.parse(localStorage.getItem(item[i])).tier).includes(currButton))
+		if(JSON.parse(localStorage.getItem(item[i])).tier.includes(currButton))
 			if(currButton == 'easy'){
 				let temp = JSON.parse(localStorage.getItem(item[i]))
 				temp.quantity[currButton] = (parseInt(temp.quantity[currButton]) + parseInt(quant[i])).toString()

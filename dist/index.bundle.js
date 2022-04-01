@@ -5030,9 +5030,8 @@ async function submitToLS(item, quant, value) {
         // To access a value
         //localStorage.getItem(item[i]).quantity.master
         console.log("checking if in array");
-        console.log(localStorage.getItem(item[i]));
         console.log(JSON.parse(localStorage.getItem(item[i])).tier);
-        if (JSON.stringify(JSON.parse(localStorage.getItem(item[i])).tier).includes(currButton))
+        if (JSON.parse(localStorage.getItem(item[i])).tier.includes(currButton))
             if (currButton == 'easy') {
                 let temp = JSON.parse(localStorage.getItem(item[i]));
                 temp.quantity[currButton] = (parseInt(temp.quantity[currButton]) + parseInt(quant[i])).toString();
