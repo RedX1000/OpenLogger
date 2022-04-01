@@ -522,7 +522,7 @@
         "order": 29
     },
     "Golden compass": {
-        "tab": "broadcast",
+        "tab": "broadcasts",
         "tier": [
             "easy",
             "medium",
@@ -5229,7 +5229,7 @@
         "order": 363
     },
     "Barrows dye": {
-        "tab": "broadcast",
+        "tab": "broadcasts",
         "tier": [
             "hard",
             "elite",
@@ -5245,7 +5245,7 @@
         "order": 364
     },
     "Shadow dye": {
-        "tab": "broadcast",
+        "tab": "broadcasts",
         "tier": [
             "hard",
             "elite",
@@ -5261,7 +5261,7 @@
         "order": 365
     },
     "Backstab cape": {
-        "tab": "broadcast",
+        "tab": "broadcasts",
         "tier": [
             "hard",
             "elite",
@@ -5277,7 +5277,7 @@
         "order": 366
     },
     "Sack of effigies": {
-        "tab": "broadcast",
+        "tab": "broadcasts",
         "tier": [
             "hard",
             "elite",
@@ -5293,7 +5293,7 @@
         "order": 367
     },
     "Explosive barrel": {
-        "tab": "broadcast",
+        "tab": "broadcasts",
         "tier": [
             "hard"
         ],
@@ -5479,7 +5479,7 @@
         "order": 380
     },
     "Third age full helmet": {
-        "tab": "broadcast",
+        "tab": "broadcasts",
         "tier": [
             "hard"
         ],
@@ -5493,7 +5493,7 @@
         "order": 381
     },
     "Third age platebody": {
-        "tab": "broadcast",
+        "tab": "broadcasts",
         "tier": [
             "hard"
         ],
@@ -5507,7 +5507,7 @@
         "order": 382
     },
     "Third age platelegs": {
-        "tab": "broadcast",
+        "tab": "broadcasts",
         "tier": [
             "hard"
         ],
@@ -5521,7 +5521,7 @@
         "order": 383
     },
     "Third age kiteshield": {
-        "tab": "broadcast",
+        "tab": "broadcasts",
         "tier": [
             "hard"
         ],
@@ -5535,7 +5535,7 @@
         "order": 384
     },
     "Third age mage hat": {
-        "tab": "broadcast",
+        "tab": "broadcasts",
         "tier": [
             "hard"
         ],
@@ -5549,7 +5549,7 @@
         "order": 385
     },
     "Third age robe top": {
-        "tab": "broadcast",
+        "tab": "broadcasts",
         "tier": [
             "hard"
         ],
@@ -5563,7 +5563,7 @@
         "order": 386
     },
     "Third age robe": {
-        "tab": "broadcast",
+        "tab": "broadcasts",
         "tier": [
             "hard"
         ],
@@ -5577,7 +5577,7 @@
         "order": 387
     },
     "Third age amulet": {
-        "tab": "broadcast",
+        "tab": "broadcasts",
         "tier": [
             "hard"
         ],
@@ -5591,7 +5591,7 @@
         "order": 388
     },
     "Third age ranger coif": {
-        "tab": "broadcast",
+        "tab": "broadcasts",
         "tier": [
             "hard"
         ],
@@ -5605,7 +5605,7 @@
         "order": 389
     },
     "Third age ranger body": {
-        "tab": "broadcast",
+        "tab": "broadcasts",
         "tier": [
             "hard"
         ],
@@ -5619,7 +5619,7 @@
         "order": 390
     },
     "Third age vambraces": {
-        "tab": "broadcast",
+        "tab": "broadcasts",
         "tier": [
             "hard"
         ],
@@ -5633,7 +5633,7 @@
         "order": 391
     },
     "Third age ranger chaps": {
-        "tab": "broadcast",
+        "tab": "broadcasts",
         "tier": [
             "hard"
         ],
@@ -6688,7 +6688,7 @@
         "order": 466
     },
     "Third Age dye": {
-        "tab": "broadcast",
+        "tab": "broadcasts",
         "tier": [
             "elite",
             "master"
@@ -6703,7 +6703,7 @@
         "order": 467
     },
     "Blood dye": {
-        "tab": "broadcast",
+        "tab": "broadcasts",
         "tier": [
             "elite",
             "master"
@@ -6718,7 +6718,7 @@
         "order": 468
     },
     "Ice dye": {
-        "tab": "broadcast",
+        "tab": "broadcasts",
         "tier": [
             "elite",
             "master"
@@ -6792,7 +6792,7 @@
         "order": 473
     },
     "Third age druidic wreath": {
-        "tab": "broadcast",
+        "tab": "broadcasts",
         "tier": [
             "elite"
         ],
@@ -6806,7 +6806,7 @@
         "order": 474
     },
     "Third age druidic robe top": {
-        "tab": "broadcast",
+        "tab": "broadcasts",
         "tier": [
             "elite"
         ],
@@ -6820,7 +6820,7 @@
         "order": 475
     },
     "Third age druidic robe bottom": {
-        "tab": "broadcast",
+        "tab": "broadcasts",
         "tier": [
             "elite"
         ],
@@ -6834,7 +6834,7 @@
         "order": 476
     },
     "Third age druidic cloak": {
-        "tab": "broadcast",
+        "tab": "broadcasts",
         "tier": [
             "elite"
         ],
@@ -6848,7 +6848,7 @@
         "order": 477
     },
     "Third age druidic staff": {
-        "tab": "broadcast",
+        "tab": "broadcasts",
         "tier": [
             "elite"
         ],
@@ -7702,7 +7702,7 @@
         "order": 538
     },
     "Orlando Smith's hat": {
-        "tab": "broadcast",
+        "tab": "broadcasts",
         "tier": [
             "master"
         ],
@@ -7744,7 +7744,7 @@
         "order": 541
     },
     "Second-Age full helm": {
-        "tab": "broadcast",
+        "tab": "broadcasts",
         "tier": [
             "master"
         ],
@@ -7758,7 +7758,7 @@
         "order": 542
     },
     "Second-Age platebody": {
-        "tab": "broadcast",
+        "tab": "broadcasts",
         "tier": [
             "master"
         ],
@@ -7772,7 +7772,7 @@
         "order": 543
     },
     "Second-Age platelegs": {
-        "tab": "broadcast",
+        "tab": "broadcasts",
         "tier": [
             "master"
         ],
@@ -7786,7 +7786,7 @@
         "order": 544
     },
     "Second-Age sword": {
-        "tab": "broadcast",
+        "tab": "broadcasts",
         "tier": [
             "master"
         ],
@@ -7800,7 +7800,7 @@
         "order": 545
     },
     "Second-Age mage mask": {
-        "tab": "broadcast",
+        "tab": "broadcasts",
         "tier": [
             "master"
         ],
@@ -7814,7 +7814,7 @@
         "order": 546
     },
     "Second-Age robe top": {
-        "tab": "broadcast",
+        "tab": "broadcasts",
         "tier": [
             "master"
         ],
@@ -7828,7 +7828,7 @@
         "order": 547
     },
     "Second-Age robe bottom": {
-        "tab": "broadcast",
+        "tab": "broadcasts",
         "tier": [
             "master"
         ],
@@ -7842,7 +7842,7 @@
         "order": 548
     },
     "Second-Age staff": {
-        "tab": "broadcast",
+        "tab": "broadcasts",
         "tier": [
             "master"
         ],
@@ -7856,7 +7856,7 @@
         "order": 549
     },
     "Second-Age range coif": {
-        "tab": "broadcast",
+        "tab": "broadcasts",
         "tier": [
             "master"
         ],
@@ -7870,7 +7870,7 @@
         "order": 550
     },
     "Second-Age range top": {
-        "tab": "broadcast",
+        "tab": "broadcasts",
         "tier": [
             "master"
         ],
@@ -7884,7 +7884,7 @@
         "order": 551
     },
     "Second-Age range legs": {
-        "tab": "broadcast",
+        "tab": "broadcasts",
         "tier": [
             "master"
         ],
@@ -7898,7 +7898,7 @@
         "order": 552
     },
     "Second-Age bow": {
-        "tab": "broadcast",
+        "tab": "broadcasts",
         "tier": [
             "master"
         ],
