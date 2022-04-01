@@ -6,8 +6,11 @@ import * as resemble from "resemblejs";
 import compareImages from "resemblejs/compareImages"
 import * as lsdb from './JSONs/LocalStorageInit.json';
 import * as items from './JSONs/ItemsAndImages.json';
-import { IgnorePlugin, node } from "webpack";
+import { IgnorePlugin, javascript, node } from "webpack";
 import { imageDataFromBase64 } from "@alt1/base/dist/imagedetect";
+import ClueRewardReader from "./scripts/rewardreader";
+import { ModalUIReader } from "./scripts/modeluireader";
+import { clear, time } from "console";
 
 //tell webpack to add index.html and appconfig.json to output
 require("!file-loader?name=[name].[ext]!./index.html");
@@ -73,7 +76,48 @@ export function init(){
 		let temp = [listOfItems[i].name, listOfItems[i].base64, 0.0];
 		listOfItemsArray.push(temp);
 	}
-		
+	
+	//Set Number of clues and Current and Average values
+	if((document.getElementById("easy") as HTMLInputElement).checked){
+		document.getElementById("number_of_clues").textContent = JSON.parse(localStorage.getItem('ECount')).toLocaleString("en-US")
+		document.getElementById("value_of_clues").textContent = JSON.parse(localStorage.getItem('EValue')).toLocaleString("en-US")
+		if(parseInt(JSON.parse(localStorage.getItem('ECount'))) != 0)
+			document.getElementById("average_of_clues").textContent = Math.round(parseInt(JSON.parse(localStorage.getItem('EValue'))) / parseInt(JSON.parse(localStorage.getItem('ECount')))).toString()
+		else
+			document.getElementById("average_of_clues").textContent = "0"
+	}
+	else if((document.getElementById("medium") as HTMLInputElement).checked){
+		document.getElementById("number_of_clues").textContent = JSON.parse(localStorage.getItem('MCount')).toLocaleString("en-US")
+		document.getElementById("value_of_clues").textContent = JSON.parse(localStorage.getItem('MValue')).toLocaleString("en-US")
+		if(parseInt(JSON.parse(localStorage.getItem('MCount'))) != 0)
+			document.getElementById("average_of_clues").textContent = Math.round(parseInt(JSON.parse(localStorage.getItem('MValue'))) / parseInt(JSON.parse(localStorage.getItem('MCount')))).toLocaleString("en-US")
+		else
+			document.getElementById("average_of_clues").textContent = "0"
+	}
+	else if((document.getElementById("hard") as HTMLInputElement).checked){
+		document.getElementById("number_of_clues").textContent = JSON.parse(localStorage.getItem('HCount')).toLocaleString("en-US")
+		document.getElementById("value_of_clues").textContent = JSON.parse(localStorage.getItem('HValue')).toLocaleString("en-US")
+		if(parseInt(JSON.parse(localStorage.getItem('HCount'))) != 0)
+			document.getElementById("average_of_clues").textContent = Math.round(parseInt(JSON.parse(localStorage.getItem('HValue'))) / parseInt(JSON.parse(localStorage.getItem('HCount')))).toLocaleString("en-US")
+		else
+			document.getElementById("average_of_clues").textContent = "0"
+	}
+	else if((document.getElementById("elite") as HTMLInputElement).checked){
+		document.getElementById("number_of_clues").textContent = JSON.parse(localStorage.getItem('ElCount')).toLocaleString("en-US")
+		document.getElementById("value_of_clues").textContent = JSON.parse(localStorage.getItem('ElValue')).toLocaleString("en-US")
+		if(parseInt(JSON.parse(localStorage.getItem('ElCount'))) != 0)
+			document.getElementById("average_of_clues").textContent = Math.round(parseInt(JSON.parse(localStorage.getItem('ElValue'))) / parseInt(JSON.parse(localStorage.getItem('ElCount')))).toLocaleString("en-US")
+		else
+			document.getElementById("average_of_clues").textContent = "0"
+	}
+	else if((document.getElementById("master") as HTMLInputElement).checked){
+		document.getElementById("number_of_clues").textContent = JSON.parse(localStorage.getItem('MaCount')).toLocaleString("en-US")
+		document.getElementById("value_of_clues").textContent = JSON.parse(localStorage.getItem('MaValue')).toLocaleString("en-US")
+		if(parseInt(JSON.parse(localStorage.getItem('MaCount'))) != 0)
+			document.getElementById("average_of_clues").textContent = Math.round(parseInt(JSON.parse(localStorage.getItem('MaValue'))) / parseInt(JSON.parse(localStorage.getItem('MaCount')))).toLocaleString("en-US")
+		else
+			document.getElementById("average_of_clues").textContent = "0"
+	}
 }
 
 export function changeClueTierSpan(id){
@@ -105,8 +149,59 @@ export function changeClueTierSpan(id){
 		let temp = [listOfItems[i].name, listOfItems[i].base64, 0.0];
 		listOfItemsArray.push(temp);
 	}
+
+	//Set Number of clues and Current and Average values
+	if((document.getElementById("easy") as HTMLInputElement).checked){
+		document.getElementById("number_of_clues").textContent = JSON.parse(localStorage.getItem('ECount')).toLocaleString("en-US")
+		document.getElementById("value_of_clues").textContent = JSON.parse(localStorage.getItem('EValue')).toLocaleString("en-US")
+		if(parseInt(JSON.parse(localStorage.getItem('ECount'))) != 0)
+			document.getElementById("average_of_clues").textContent = Math.round(parseInt(JSON.parse(localStorage.getItem('EValue'))) / parseInt(JSON.parse(localStorage.getItem('ECount')))).toString()
+		else
+			document.getElementById("average_of_clues").textContent = "0"
+	}
+	else if((document.getElementById("medium") as HTMLInputElement).checked){
+		document.getElementById("number_of_clues").textContent = JSON.parse(localStorage.getItem('MCount')).toLocaleString("en-US")
+		document.getElementById("value_of_clues").textContent = JSON.parse(localStorage.getItem('MValue')).toLocaleString("en-US")
+		if(parseInt(JSON.parse(localStorage.getItem('MCount'))) != 0)
+			document.getElementById("average_of_clues").textContent = Math.round(parseInt(JSON.parse(localStorage.getItem('MValue'))) / parseInt(JSON.parse(localStorage.getItem('MCount')))).toLocaleString("en-US")
+		else
+			document.getElementById("average_of_clues").textContent = "0"
+	}
+	else if((document.getElementById("hard") as HTMLInputElement).checked){
+		document.getElementById("number_of_clues").textContent = JSON.parse(localStorage.getItem('HCount')).toLocaleString("en-US")
+		document.getElementById("value_of_clues").textContent = JSON.parse(localStorage.getItem('HValue')).toLocaleString("en-US")
+		if(parseInt(JSON.parse(localStorage.getItem('HCount'))) != 0)
+			document.getElementById("average_of_clues").textContent = Math.round(parseInt(JSON.parse(localStorage.getItem('HValue'))) / parseInt(JSON.parse(localStorage.getItem('HCount')))).toLocaleString("en-US")
+		else
+			document.getElementById("average_of_clues").textContent = "0"
+	}
+	else if((document.getElementById("elite") as HTMLInputElement).checked){
+		document.getElementById("number_of_clues").textContent = JSON.parse(localStorage.getItem('ElCount')).toLocaleString("en-US")
+		document.getElementById("value_of_clues").textContent = JSON.parse(localStorage.getItem('ElValue')).toLocaleString("en-US")
+		if(parseInt(JSON.parse(localStorage.getItem('ElCount'))) != 0)
+			document.getElementById("average_of_clues").textContent = Math.round(parseInt(JSON.parse(localStorage.getItem('ElValue'))) / parseInt(JSON.parse(localStorage.getItem('ElCount')))).toLocaleString("en-US")
+		else
+			document.getElementById("average_of_clues").textContent = "0"
+	}
+	else if((document.getElementById("master") as HTMLInputElement).checked){
+		document.getElementById("number_of_clues").textContent = JSON.parse(localStorage.getItem('MaCount')).toLocaleString("en-US")
+		document.getElementById("value_of_clues").textContent = JSON.parse(localStorage.getItem('MaValue')).toLocaleString("en-US")
+		if(parseInt(JSON.parse(localStorage.getItem('MaCount'))) != 0)
+			document.getElementById("average_of_clues").textContent = Math.round(parseInt(JSON.parse(localStorage.getItem('MaValue'))) / parseInt(JSON.parse(localStorage.getItem('MaCount')))).toLocaleString("en-US")
+		else
+			document.getElementById("average_of_clues").textContent = "0"
+	}
 }
 
+export function cleardb(){
+	if(confirm("Are you sure you want to clear the clue database?")){
+		localStorage.clear()
+		init()
+	}
+	else{
+		console.log("Nah")
+	}
+}
 //loads all images as raw pixel data async, images have to be saved as *.data.png
 //this also takes care of metadata headers in the image that make browser load the image
 //with slightly wrong colors
@@ -222,19 +317,13 @@ async function findtrailComplete(img: ImgRef) {
 	console.log(quantResults)
 
 	// Give me the total value!
-	//alt1.clearBinds()
-	if(!legacy){
-		//var loc = img.findSubimage(await imgs.rewardValue);
-		var valueCap = img.toData(loc[0].x - 10, loc[0].y + 97, await imgs.rewardValue.width + 175, await imgs.rewardValue.height);
-		alt1.overLayRect(a1lib.mixColor(255,144,20), loc[0].x - 10, loc[0].y + 97, await imgs.rewardValue.width + 175, await imgs.rewardValue.height, 2000, 1)
-	}
-	else{
-		//var loc = img.findSubimage(await imgs.rewardValueLegacy);
-		var valueCap = img.toData(loc[0].x - 110, loc[0].y + 97, await imgs.rewardValueLegacy.width + 175, await imgs.rewardValueLegacy.height);
-		alt1.overLayRect(a1lib.mixColor(255,144,20), loc[0].x - 122, loc[0].y + 97, await imgs.rewardValueLegacy.width + 175, await imgs.rewardValueLegacy.height, 2000, 1);
-	}
+	let rewardreader = new ClueRewardReader();
+	rewardreader.pos=ModalUIReader.find()[0];
+	let value = rewardreader.read(img).value;
+	let strValue = value.toLocaleString("en-US")
 
 	// Put the items and quantites on the display!
+	document.getElementById("rewards_value").textContent = strValue;
 	for(let i = 0; i < 9; i++)
 		document.getElementById(rewardSlots[i]).textContent = "";
 	for(let i = 0; i < quantResults.length; i++){
@@ -245,7 +334,8 @@ async function findtrailComplete(img: ImgRef) {
 		let quantvar = document.createElement("span");
 		quantvar.textContent = quantResults[i];
 		nodevar.setAttribute('style', 'position:relative; margin:auto; margin-top: 3px; width:35px; height:35px; display:flex; align-items:center; text-align:center;');
-        imgvar.setAttribute('style', 'margin:0 auto;');
+        nodevar.setAttribute('title',quantResults[i]+" x "+itemResults[i])
+		imgvar.setAttribute('style', 'margin:0 auto;');
 		if(!quantResults[i].includes("k"))
 			quantvar.setAttribute('style','position:absolute; left:0; top:0; font-family:Runescape Chat Font; font-size:16px; color:rgb(255,255,0); text-shadow:1px 1px #000000;');
 		else
@@ -254,16 +344,10 @@ async function findtrailComplete(img: ImgRef) {
 		nodevar.append(imgvar);
 		document.getElementById(rewardSlots[i]).appendChild(nodevar);
 	}
-	let totalValue
-	promises = []
-	promises.push(totalValue = await captureValue(valueCap));
-	await Promise.all(promises)
 
 	// Send it to the LS!!!!
 	promises = []
-	for(let i = 0; i < quantResults.length; i++){
-		promises.push(await submitToLS(itemResults[i], quantResults[i], 1));
-	}
+	promises.push(await submitToLS(itemResults, quantResults, value));
 	await Promise.all(promises)
 }
 	
@@ -477,40 +561,40 @@ async function readQuantites(item: ImageData){
 		return "1";
 }
 
-async function captureValue(value: ImageData){
-	//Implement readquantites in here
-	// Current Reward Value is 194
-	// Pixels to record
-	/*
-	RGB()
-	RGB()
-	RGB()
-	RGB()
-	RGB()
-	RGB()
-	RGB()
-	RGB()
-	*/
-	// 0 = 
-	// 1 = 
-	// 2 = 
-	// 3 = 
-	// 4 = 
-	// 5 = 
-	// 6 = 
-	// 7 = 
-	// 8 = 
-	// 9 = 
-}
-
-async function submitToLS(item: String, quantity: String, value: any){
+async function submitToLS(item: any[], quantity: any[], value: any){
 	let deposit = ""	
 	for(let i = 0; i < tierlist.length; i++)
 		if((document.getElementById(tierlist[i]) as HTMLInputElement).checked)
 			deposit = tierlist[i]
 	
-	let lsItem = JSON.parse(localStorage.getItem(item.valueOf())).tier.includes(deposit)
 	
+	console.log(deposit)
+	if(deposit == 'easy'){
+		let curr = JSON.parse(localStorage.getItem('EValue'))
+		localStorage.setItem('EValue', JSON.stringify((curr + value)))
+	}
+	else if(deposit == 'medium'){
+		let curr = JSON.parse(localStorage.getItem('MValue'))
+		localStorage.setItem('MValue', JSON.stringify((curr + value)))
+	}
+	else if(deposit == 'hard'){
+		let curr = JSON.parse(localStorage.getItem('HValue'))
+		localStorage.setItem('HValue', JSON.stringify((curr + value)))
+	}
+	else if(deposit == 'elite'){
+		let curr = JSON.parse(localStorage.getItem('ElValue'))
+		localStorage.setItem('ElValue', JSON.stringify((curr + value)))
+	}
+	else if(deposit == 'master'){
+		let curr = JSON.parse(localStorage.getItem('MaValue'))
+		localStorage.setItem('MaValue', JSON.stringify((curr + value)))
+	}
+	
+	for(let i = 0; i > quantity.length; i++){
+		console.log(deposit)
+		let lsItem = JSON.parse(localStorage.getItem(item[i].valueOf()))
+		console.log(lsItem)
+	}
 }
 //print text world
 //also the worst possible example of how to use global exposed exports as described in webpack.config.json
