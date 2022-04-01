@@ -5001,9 +5001,6 @@ async function submitToLS(item, quant, value) {
     let val = "";
     let count = "";
     // Add items
-    // - Addy crossbow
-    // - Amulet of power
-    // - Check god bows...
     for (let i = 0; i < tierlist.length; i++)
         if (document.getElementById(tierlist[i]).checked) {
             currButton = tierlist[i];
@@ -5033,6 +5030,7 @@ async function submitToLS(item, quant, value) {
     for (let i = 0; i < quant.length; i++) {
         // To access a value
         //localStorage.getItem(item[i]).quantity.master
+        // If you get null or undefined here, check if one of your rewards doesn't exist in LocalStorage or LocalStorageInit
         console.log("checking if in array");
         console.log(JSON.parse(localStorage.getItem(item[i])).tier);
         if (JSON.parse(localStorage.getItem(item[i])).tier.includes(currButton))
