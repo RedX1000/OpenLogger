@@ -5029,36 +5029,31 @@ async function submitToLS(item, quant, value) {
     for (let i = 0; i < quant.length; i++) {
         // To access a value
         //localStorage.getItem(item[i]).quantity.master
-        console.log("checking if in array");
-        console.log(JSON.parse(localStorage.getItem(item[i])).tier);
-        if (JSON.parse(localStorage.getItem(item[i])).tier.includes(currButton))
-            if (currButton == 'easy') {
-                let temp = JSON.parse(localStorage.getItem(item[i]));
-                temp.quantity[currButton] = (parseInt(temp.quantity[currButton]) + parseInt(quant[i])).toString();
-                localStorage.setItem(item[i], JSON.stringify(temp));
-            }
-            else if (currButton == 'medium') {
-                let temp = JSON.parse(localStorage.getItem(item[i]));
-                temp.quantity.medium = (parseInt(temp.quantity.medium) + parseInt(quant[i])).toString();
-                localStorage.setItem(item[i], JSON.stringify(temp));
-            }
-            else if (currButton == 'hard') {
-                let temp = JSON.parse(localStorage.getItem(item[i]));
-                temp.quantity.hard = (parseInt(temp.quantity.hard) + parseInt(quant[i])).toString();
-                localStorage.setItem(item[i], JSON.stringify(temp));
-            }
-            else if (currButton == 'elite') {
-                let temp = JSON.parse(localStorage.getItem(item[i]));
-                temp.quantity.elite = (parseInt(temp.quantity.elite) + parseInt(quant[i])).toString();
-                localStorage.setItem(item[i], JSON.stringify(temp));
-            }
-            else if (currButton == 'master') {
-                let temp = JSON.parse(localStorage.getItem(item[i]));
-                temp.quantity.master = (parseInt(temp.quantity.master) + parseInt(quant[i])).toString();
-                localStorage.setItem(item[i], JSON.stringify(temp));
-            }
-            else
-                return false;
+        if (currButton == 'easy') {
+            let temp = JSON.parse(localStorage.getItem(item[i]));
+            temp.quantity[currButton] = (parseInt(temp.quantity[currButton]) + parseInt(quant[i])).toString();
+            localStorage.setItem(item[i], JSON.stringify(temp));
+        }
+        else if (currButton == 'medium') {
+            let temp = JSON.parse(localStorage.getItem(item[i]));
+            temp.quantity.medium = (parseInt(temp.quantity.medium) + parseInt(quant[i])).toString();
+            localStorage.setItem(item[i], JSON.stringify(temp));
+        }
+        else if (currButton == 'hard') {
+            let temp = JSON.parse(localStorage.getItem(item[i]));
+            temp.quantity.hard = (parseInt(temp.quantity.hard) + parseInt(quant[i])).toString();
+            localStorage.setItem(item[i], JSON.stringify(temp));
+        }
+        else if (currButton == 'elite') {
+            let temp = JSON.parse(localStorage.getItem(item[i]));
+            temp.quantity.elite = (parseInt(temp.quantity.elite) + parseInt(quant[i])).toString();
+            localStorage.setItem(item[i], JSON.stringify(temp));
+        }
+        else if (currButton == 'master') {
+            let temp = JSON.parse(localStorage.getItem(item[i]));
+            temp.quantity.master = (parseInt(temp.quantity.master) + parseInt(quant[i])).toString();
+            localStorage.setItem(item[i], JSON.stringify(temp));
+        }
     }
     // Increase value and count
     console.log("VALUE AND COUNT", val, count);
