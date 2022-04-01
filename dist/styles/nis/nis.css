@@ -568,6 +568,10 @@ header {
   text-align: center;
 }
 
+#number_of_clues{
+  font-size: 19px;
+}
+
 .captured_rewards {
   display: grid;
   position: center;
