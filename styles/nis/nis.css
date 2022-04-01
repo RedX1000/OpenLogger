@@ -545,6 +545,10 @@ header {
   user-select: none;
   -webkit-user-select: none;
 }
+
+#self_button{
+  font-size: 16px;
+}
 /*
 #clear_button {
   margin: 8px 0px;
@@ -566,6 +570,10 @@ header {
   margin: 2px;
   padding: auto;
   text-align: center;
+}
+
+#number_of_clues{
+  font-size: 19px;
 }
 
 .captured_rewards {
