@@ -543,6 +543,10 @@ async function submitToLS(item: any[], quant: any[], value: any){
 	let currButton = ""	
 	let val = ""
 	let count = ""
+	// Add items
+		// - Addy crossbow
+		// - Amulet of power
+		// - Check god bows...
 	for(let i = 0; i < tierlist.length; i++)
 		if((document.getElementById(tierlist[i]) as HTMLInputElement).checked){
 			currButton = tierlist[i]
@@ -574,31 +578,36 @@ async function submitToLS(item: any[], quant: any[], value: any){
 	for(let i = 0; i < quant.length; i++){
 		// To access a value
 		//localStorage.getItem(item[i]).quantity.master
-		if(currButton == 'easy'){
-			let temp = JSON.parse(localStorage.getItem(item[i]))
-			temp.quantity[currButton] = (parseInt(temp.quantity[currButton]) + parseInt(quant[i])).toString()
-			localStorage.setItem(item[i], JSON.stringify(temp))
-		}
-		else if(currButton == 'medium'){
-			let temp = JSON.parse(localStorage.getItem(item[i]))
-			temp.quantity.medium = (parseInt(temp.quantity.medium) + parseInt(quant[i])).toString()
-			localStorage.setItem(item[i], JSON.stringify(temp))
-		}
-		else if(currButton == 'hard'){
-			let temp = JSON.parse(localStorage.getItem(item[i]))
-			temp.quantity.hard = (parseInt(temp.quantity.hard) + parseInt(quant[i])).toString()
-			localStorage.setItem(item[i], JSON.stringify(temp))
-		}
-		else if(currButton == 'elite'){
-			let temp = JSON.parse(localStorage.getItem(item[i]))
-			temp.quantity.elite = (parseInt(temp.quantity.elite) + parseInt(quant[i])).toString()
-			localStorage.setItem(item[i], JSON.stringify(temp))
-		}
-		else if(currButton == 'master'){
-			let temp = JSON.parse(localStorage.getItem(item[i]))
-			temp.quantity.master = (parseInt(temp.quantity.master) + parseInt(quant[i])).toString()
-			localStorage.setItem(item[i], JSON.stringify(temp))
-		}
+		console.log("checking if in array")
+		console.log(JSON.parse(localStorage.getItem(item[i])).tier)
+		if(JSON.parse(localStorage.getItem(item[i])).tier.includes(currButton))
+			if(currButton == 'easy'){
+				let temp = JSON.parse(localStorage.getItem(item[i]))
+				temp.quantity[currButton] = (parseInt(temp.quantity[currButton]) + parseInt(quant[i])).toString()
+				localStorage.setItem(item[i], JSON.stringify(temp))
+			}
+			else if(currButton == 'medium'){
+				let temp = JSON.parse(localStorage.getItem(item[i]))
+				temp.quantity.medium = (parseInt(temp.quantity.medium) + parseInt(quant[i])).toString()
+				localStorage.setItem(item[i], JSON.stringify(temp))
+			}
+			else if(currButton == 'hard'){
+				let temp = JSON.parse(localStorage.getItem(item[i]))
+				temp.quantity.hard = (parseInt(temp.quantity.hard) + parseInt(quant[i])).toString()
+				localStorage.setItem(item[i], JSON.stringify(temp))
+			}
+			else if(currButton == 'elite'){
+				let temp = JSON.parse(localStorage.getItem(item[i]))
+				temp.quantity.elite = (parseInt(temp.quantity.elite) + parseInt(quant[i])).toString()
+				localStorage.setItem(item[i], JSON.stringify(temp))
+			}
+			else if(currButton == 'master'){
+				let temp = JSON.parse(localStorage.getItem(item[i]))
+				temp.quantity.master = (parseInt(temp.quantity.master) + parseInt(quant[i])).toString()
+				localStorage.setItem(item[i], JSON.stringify(temp))
+			}
+		else
+			return false;
 	}
 	
 	// Increase value and count
