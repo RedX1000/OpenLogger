@@ -5,12 +5,11 @@ import { ImgRef } from "@alt1/base";
 import * as resemble from "resemblejs";
 import compareImages from "resemblejs/compareImages"
 import * as lsdb from './JSONs/LocalStorageInit.json';
-import * as items from './JSONs/ItemsAndImages.json';
-import { IgnorePlugin, javascript, node } from "webpack";
-import { imageDataFromBase64 } from "@alt1/base/dist/imagedetect";
+import * as items from './JSONs/ItemsAndImagesReorganized.json';
 import ClueRewardReader from "./scripts/rewardreader";
 import { ModalUIReader } from "./scripts/modeluireader";
-import { clear, time } from "console";
+import { IgnorePlugin, javascript, node } from "webpack";
+import { imageDataFromBase64 } from "@alt1/base/dist/imagedetect";
 
 //tell webpack to add index.html and appconfig.json to output
 require("!file-loader?name=[name].[ext]!./index.html");
@@ -18,6 +17,7 @@ require("!file-loader?name=[name].[ext]!./appconfig.json");
 
 var rewardSlots = ["first_item", "second_item", "third_item", "fourth_item", "fifth_item", "sixth_item", "seventh_item", "eigth_item", "ninth_item"]
 var tierlist = ["easy", "medium", "hard", "elite", "master"]
+var ignorelist = ["EValue", "ECount", "MValue", "MCount", "HValue", "HCount", "ElValue", "ElCount", "MaValue", "MaCount", "Checked button"]
 var listOfItems
 var listOfItemsArray = []
 var legacy = false
@@ -77,47 +77,8 @@ export function init(){
 		listOfItemsArray.push(temp);
 	}
 	
-	//Set Number of clues and Current and Average values
-	if((document.getElementById("easy") as HTMLInputElement).checked){
-		document.getElementById("number_of_clues").textContent = JSON.parse(localStorage.getItem('ECount')).toLocaleString("en-US")
-		document.getElementById("value_of_clues").textContent = JSON.parse(localStorage.getItem('EValue')).toLocaleString("en-US")
-		if(parseInt(JSON.parse(localStorage.getItem('ECount'))) != 0)
-			document.getElementById("average_of_clues").textContent = Math.round(parseInt(JSON.parse(localStorage.getItem('EValue'))) / parseInt(JSON.parse(localStorage.getItem('ECount')))).toString()
-		else
-			document.getElementById("average_of_clues").textContent = "0"
-	}
-	else if((document.getElementById("medium") as HTMLInputElement).checked){
-		document.getElementById("number_of_clues").textContent = JSON.parse(localStorage.getItem('MCount')).toLocaleString("en-US")
-		document.getElementById("value_of_clues").textContent = JSON.parse(localStorage.getItem('MValue')).toLocaleString("en-US")
-		if(parseInt(JSON.parse(localStorage.getItem('MCount'))) != 0)
-			document.getElementById("average_of_clues").textContent = Math.round(parseInt(JSON.parse(localStorage.getItem('MValue'))) / parseInt(JSON.parse(localStorage.getItem('MCount')))).toLocaleString("en-US")
-		else
-			document.getElementById("average_of_clues").textContent = "0"
-	}
-	else if((document.getElementById("hard") as HTMLInputElement).checked){
-		document.getElementById("number_of_clues").textContent = JSON.parse(localStorage.getItem('HCount')).toLocaleString("en-US")
-		document.getElementById("value_of_clues").textContent = JSON.parse(localStorage.getItem('HValue')).toLocaleString("en-US")
-		if(parseInt(JSON.parse(localStorage.getItem('HCount'))) != 0)
-			document.getElementById("average_of_clues").textContent = Math.round(parseInt(JSON.parse(localStorage.getItem('HValue'))) / parseInt(JSON.parse(localStorage.getItem('HCount')))).toLocaleString("en-US")
-		else
-			document.getElementById("average_of_clues").textContent = "0"
-	}
-	else if((document.getElementById("elite") as HTMLInputElement).checked){
-		document.getElementById("number_of_clues").textContent = JSON.parse(localStorage.getItem('ElCount')).toLocaleString("en-US")
-		document.getElementById("value_of_clues").textContent = JSON.parse(localStorage.getItem('ElValue')).toLocaleString("en-US")
-		if(parseInt(JSON.parse(localStorage.getItem('ElCount'))) != 0)
-			document.getElementById("average_of_clues").textContent = Math.round(parseInt(JSON.parse(localStorage.getItem('ElValue'))) / parseInt(JSON.parse(localStorage.getItem('ElCount')))).toLocaleString("en-US")
-		else
-			document.getElementById("average_of_clues").textContent = "0"
-	}
-	else if((document.getElementById("master") as HTMLInputElement).checked){
-		document.getElementById("number_of_clues").textContent = JSON.parse(localStorage.getItem('MaCount')).toLocaleString("en-US")
-		document.getElementById("value_of_clues").textContent = JSON.parse(localStorage.getItem('MaValue')).toLocaleString("en-US")
-		if(parseInt(JSON.parse(localStorage.getItem('MaCount'))) != 0)
-			document.getElementById("average_of_clues").textContent = Math.round(parseInt(JSON.parse(localStorage.getItem('MaValue'))) / parseInt(JSON.parse(localStorage.getItem('MaCount')))).toLocaleString("en-US")
-		else
-			document.getElementById("average_of_clues").textContent = "0"
-	}
+	//Set display
+	lootDisplay()
 }
 
 export function changeClueTierSpan(id){
@@ -125,6 +86,8 @@ export function changeClueTierSpan(id){
 	let tier = (id[0].toUpperCase() + id.slice(1).toLowerCase());
 	console.log("Setting button to "+tier+"...");
 	document.getElementById('clue_tier').textContent = tier;
+	const ele = document.getElementById(id) as HTMLInputElement
+	ele.checked = true
 	localStorage.setItem("Checked button", id);
 
 	// Set the new image list
@@ -141,7 +104,6 @@ export function changeClueTierSpan(id){
 	else if(tier == "Master")
 		otherItems = items.master;
 	listOfItems = listOfItems.concat(otherItems);
-	console.log(listOfItems);
 
 	// Set new array
 	listOfItemsArray = []
@@ -149,58 +111,95 @@ export function changeClueTierSpan(id){
 		let temp = [listOfItems[i].name, listOfItems[i].base64, 0.0];
 		listOfItemsArray.push(temp);
 	}
+	console.log(listOfItemsArray)
 
-	//Set Number of clues and Current and Average values
-	if((document.getElementById("easy") as HTMLInputElement).checked){
-		document.getElementById("number_of_clues").textContent = JSON.parse(localStorage.getItem('ECount')).toLocaleString("en-US")
-		document.getElementById("value_of_clues").textContent = JSON.parse(localStorage.getItem('EValue')).toLocaleString("en-US")
-		if(parseInt(JSON.parse(localStorage.getItem('ECount'))) != 0)
-			document.getElementById("average_of_clues").textContent = Math.round(parseInt(JSON.parse(localStorage.getItem('EValue'))) / parseInt(JSON.parse(localStorage.getItem('ECount')))).toString()
-		else
-			document.getElementById("average_of_clues").textContent = "0"
-	}
-	else if((document.getElementById("medium") as HTMLInputElement).checked){
-		document.getElementById("number_of_clues").textContent = JSON.parse(localStorage.getItem('MCount')).toLocaleString("en-US")
-		document.getElementById("value_of_clues").textContent = JSON.parse(localStorage.getItem('MValue')).toLocaleString("en-US")
-		if(parseInt(JSON.parse(localStorage.getItem('MCount'))) != 0)
-			document.getElementById("average_of_clues").textContent = Math.round(parseInt(JSON.parse(localStorage.getItem('MValue'))) / parseInt(JSON.parse(localStorage.getItem('MCount')))).toLocaleString("en-US")
-		else
-			document.getElementById("average_of_clues").textContent = "0"
-	}
-	else if((document.getElementById("hard") as HTMLInputElement).checked){
-		document.getElementById("number_of_clues").textContent = JSON.parse(localStorage.getItem('HCount')).toLocaleString("en-US")
-		document.getElementById("value_of_clues").textContent = JSON.parse(localStorage.getItem('HValue')).toLocaleString("en-US")
-		if(parseInt(JSON.parse(localStorage.getItem('HCount'))) != 0)
-			document.getElementById("average_of_clues").textContent = Math.round(parseInt(JSON.parse(localStorage.getItem('HValue'))) / parseInt(JSON.parse(localStorage.getItem('HCount')))).toLocaleString("en-US")
-		else
-			document.getElementById("average_of_clues").textContent = "0"
-	}
-	else if((document.getElementById("elite") as HTMLInputElement).checked){
-		document.getElementById("number_of_clues").textContent = JSON.parse(localStorage.getItem('ElCount')).toLocaleString("en-US")
-		document.getElementById("value_of_clues").textContent = JSON.parse(localStorage.getItem('ElValue')).toLocaleString("en-US")
-		if(parseInt(JSON.parse(localStorage.getItem('ElCount'))) != 0)
-			document.getElementById("average_of_clues").textContent = Math.round(parseInt(JSON.parse(localStorage.getItem('ElValue'))) / parseInt(JSON.parse(localStorage.getItem('ElCount')))).toLocaleString("en-US")
-		else
-			document.getElementById("average_of_clues").textContent = "0"
-	}
-	else if((document.getElementById("master") as HTMLInputElement).checked){
-		document.getElementById("number_of_clues").textContent = JSON.parse(localStorage.getItem('MaCount')).toLocaleString("en-US")
-		document.getElementById("value_of_clues").textContent = JSON.parse(localStorage.getItem('MaValue')).toLocaleString("en-US")
-		if(parseInt(JSON.parse(localStorage.getItem('MaCount'))) != 0)
-			document.getElementById("average_of_clues").textContent = Math.round(parseInt(JSON.parse(localStorage.getItem('MaValue'))) / parseInt(JSON.parse(localStorage.getItem('MaCount')))).toLocaleString("en-US")
-		else
-			document.getElementById("average_of_clues").textContent = "0"
-	}
+	//Set display
+	lootDisplay()
 }
 
 export function cleardb(){
-	if(confirm("Are you sure you want to clear the clue database?")){
-		localStorage.clear()
-		init()
+	// Consider prompting the user for this...
+	// Confirm doesn't work :(
+	let keys = Object.keys(localStorage)
+	document.getElementById("rewards_value").textContent = "0";
+	let currButton = ""	
+	for(let i = 0; i < tierlist.length; i++)
+		if((document.getElementById(tierlist[i]) as HTMLInputElement).checked)
+			currButton = tierlist[i]
+
+	for(let i = 0; i < 9; i++)
+		document.getElementById(rewardSlots[i]).textContent = "";
+	if(!confirm("Are you sure you want to clear the clue database?")){
+		if(confirm("Deleting the entire database or just current selected tier?")){
+			localStorage.clear()
+			init()
+		}
+		else{
+			document.getElementById("number_of_clues").textContent = "0"
+			document.getElementById("value_of_clues").textContent = "0"
+			document.getElementById("average_of_clues").textContent = "0"
+			let divs = document.getElementsByClassName("loot_display")
+			for(let i = 0; i < divs.length; i++)
+				divs[i].textContent = "";
+			if(currButton == 'easy'){
+				localStorage.setItem("EValue", "0")
+				localStorage.setItem("ECount", "0")
+				for(let i = 0; i < keys.length; i++){
+					if(ignorelist.includes(keys[i])) continue;
+						
+					let temp = JSON.parse(localStorage.getItem(keys[i]))
+					temp.quantity.easy = (0).toString()
+					localStorage.setItem(keys[i], JSON.stringify(temp))
+				}
+			}
+			else if(currButton == 'medium'){
+				localStorage.setItem("MValue", "0")
+				localStorage.setItem("MCount", "0")
+				for(let i = 0; i < keys.length; i++){
+					if(ignorelist.includes(keys[i])) continue;
+						
+					let temp = JSON.parse(localStorage.getItem(keys[i]))
+					temp.quantity.medium = (0).toString()
+					localStorage.setItem(keys[i], JSON.stringify(temp))
+				}
+			}
+			else if(currButton == 'hard'){
+				localStorage.setItem("HValue", "0")
+				localStorage.setItem("HCount", "0")
+				for(let i = 0; i < keys.length; i++){
+					if(ignorelist.includes(keys[i])) continue;
+						
+					let temp = JSON.parse(localStorage.getItem(keys[i]))
+					temp.quantity.hard = (0).toString()
+					localStorage.setItem(keys[i], JSON.stringify(temp))
+				}
+			}
+			else if(currButton == 'elite'){
+				localStorage.setItem("ElValue", "0")
+				localStorage.setItem("ElCount", "0")
+				for(let i = 0; i < keys.length; i++){
+					if(ignorelist.includes(keys[i])) continue;
+						
+					let temp = JSON.parse(localStorage.getItem(keys[i]))
+					temp.quantity.elite = (0).toString()
+					localStorage.setItem(keys[i], JSON.stringify(temp))
+				}
+			}
+			else if(currButton == 'master'){
+				localStorage.setItem("MaValue", "0")
+				localStorage.setItem("MaCount", "0")
+				for(let i = 0; i < keys.length; i++){
+					if(ignorelist.includes(keys[i])) continue;
+						
+					let temp = JSON.parse(localStorage.getItem(keys[i]))
+					temp.quantity.master = (0).toString()
+					localStorage.setItem(keys[i], JSON.stringify(temp))
+				}
+			}
+		}
 	}
-	else{
+	else
 		console.log("Nah")
-	}
 }
 //loads all images as raw pixel data async, images have to be saved as *.data.png
 //this also takes care of metadata headers in the image that make browser load the image
@@ -238,117 +237,141 @@ export function capture() {
 
 async function findtrailComplete(img: ImgRef) {
 	try{
-		var loc = img.findSubimage(await imgs.trailCompleteLegacy);
-		console.log(loc[0].x);
-		console.log("Legacy window");
-		legacy = true;
-	} catch(e){
-		var loc = img.findSubimage(await imgs.trailComplete);
-		console.log(loc[0].x);
-		console.log("Non-legacy window");
-		legacy = false;
-	}
-	
-	//overlay the result on screen if running in alt1
-	if (window.alt1) {
-		if (loc.length != 0) {
-			if (displaybox){
-				if(!legacy){
-					alt1.overLayRect(a1lib.mixColor(255,0,0), loc[0].x - 27, loc[0].y - 13, await imgs.trailComplete.width + 278, await imgs.trailComplete.height + 213, 2000, 3);
-				}
-				else{	// Offset for x is 111
-					alt1.overLayRect(a1lib.mixColor(0,255,0), loc[0].x - 138, loc[0].y - 13, await imgs.trailCompleteLegacy.width + 278, await imgs.trailCompleteLegacy.height + 213, 2000, 3);
-				} 
-			}
-			else {
-				alt1.overLayTextEx("Couldn't find Rewards window. Remove\n    any obstructions or open a casket.", a1lib.mixColor(255, 255, 255), 20, Math.round(alt1.rsWidth / 2), 200, 4000, "", true, true);
-			}
-		}
-	}   
-
-	//get raw pixels of image and show on screen (used mostly for debug)  
-	var buf = img.toData(loc[0].x - 27, loc[0].y - 13, await imgs.trailComplete.width + 278, await imgs.trailComplete.height + 213);
-
-	let crops = new Array<ImageData>(9);
-	let topCrops = new Array<ImageData>(9);
-	
-	// Tweak these two values below if jagex adjusts the pixel placement of the items
-	if(!legacy){
-		var x1 = loc[0].x - 1;
-		var y1 = loc[0].y + 39;
-	}
-	else{
-		var x1 = loc[0].x - 112;
-		var y1 = loc[0].y + 39;
-	}
-	for(let i = 0; i < crops.length; i++) {
-		crops[i] = img.toData(x1, y1, 32, 32);
-		topCrops[i] = img.toData(x1, loc[0].y + 41, 32, 8);
-		if(displaybox){
-			alt1.overLayRect(a1lib.mixColor(255,144,0), x1, loc[0].y + 39, 32, 32, 2000, 1);
-			alt1.overLayRect(a1lib.mixColor(255,144,20), x1, loc[0].y + 41, 32, 8, 2000, 1);
-		}
-		x1 += 40;
-	}
-	
-	// Give me the items!
-	var itemResults = []
-	let promises = []
-	for(let i = 0; i < 9; i++){
+		alt1.overLayClearGroup("overlays")
+		alt1.overLaySetGroup("overlays")
+		alt1.overLayTextEx("Capturing rewards...", a1lib.mixColor(255,144,0), 20, Math.round(alt1.rsWidth / 2), 200, 60000, "", true, true);
 		try{
-			promises.push(itemResults.push(await compareItems(crops[i])));
+			var loc = img.findSubimage(await imgs.trailCompleteLegacy);
+			console.log(loc[0].x);
+			console.log("Legacy window");
+			legacy = true;
 		} catch(e){
-			alt1.overLayTextEx("    Error occured. Please try again\nAvoid obstructions over the window", a1lib.mixColor(255, 100, 100), 20, Math.round(alt1.rsWidth / 2), 200, 4000, "", true, true);
+			var loc = img.findSubimage(await imgs.trailComplete);
+			console.log("Non-legacy window");
+			legacy = false;
 		}
-		// a1lib.mixColor(100, 255, 100) The Green of Success!
+
+		//alt1.overLayRect(a1lib.mixColor(255,0,0), loc[0].x - 27, loc[0].y - 13, await imgs.trailComplete.width + 278, await imgs.trailComplete.height + 213, 2000, 3);
+		//alt1.overLayRect(a1lib.mixColor(0,255,0), loc[0].x - 138, loc[0].y - 13, await imgs.trailCompleteLegacy.width + 278, await imgs.trailCompleteLegacy.height + 213, 2000, 3);
+	
+		//get raw pixels of image and show on screen (used mostly for debug)  
+		//var buf = img.toData(loc[0].x - 27, loc[0].y - 13, await imgs.trailComplete.width + 278, await imgs.trailComplete.height + 213);
+	
+		let crops = new Array<ImageData>(9);
+		let topCrops = new Array<ImageData>(9);
+		
+		// Tweak these two values below if jagex adjusts the pixel placement of the items
+		if(!legacy){
+			var x1 = loc[0].x - 1;
+			var y1 = loc[0].y + 39;
+		}
+		else{
+			var x1 = loc[0].x - 112;
+			var y1 = loc[0].y + 39;
+		}
+		for(let i = 0; i < crops.length; i++) {
+			crops[i] = img.toData(x1, y1, 32, 32);
+			topCrops[i] = img.toData(x1, loc[0].y + 41, 32, 8);
+			x1 += 40;
+		}
+	
+		// Give me the total value!
+		let rewardreader = new ClueRewardReader();
+		rewardreader.pos = ModalUIReader.find()[0];
+		let value = rewardreader.read(img).value;
+		let strValue = value.toLocaleString("en-US")
+		
+		// Give me the items!
+		var itemResults = []
+		let promises = []
+		if(!legacy){
+			var x1 = loc[0].x - 1;
+			var y1 = loc[0].y + 39;
+		}
+		else{
+			var x1 = loc[0].x - 112;
+			var y1 = loc[0].y + 39;
+		}
+		for(let i = 0; i < 9; i++){
+			alt1.overLayClearGroup("icon")
+			alt1.overLaySetGroup("icon")
+			if(displaybox){
+				// Keep an eye on this in case it incorrectly gives numbers...
+				alt1.overLayRect(a1lib.mixColor(255,144,0), x1, loc[0].y + 39, 32, 32, 2000, 1);
+				alt1.overLayText((i + 1).toString(), a1lib.mixColor(255,144,0,255), 18, x1+5, loc[0].y + 40, 2000)
+			}
+			x1 += 40
+			promises.push(itemResults.push(await compareItems(crops[i])));
+		}	
+		await Promise.all(promises)
+		alt1.overLayClearGroup("icon")
+		console.log(itemResults)
+	
+		// Give me the quantity of the items!
+		var quantResults = []
+		promises = []
+		for(let i = 0; i < 9; i++){
+			if(itemResults[i] == "Blank")
+				break;
+			promises.push(quantResults.push(await readQuantites(topCrops[i])));
+		}
+		await Promise.all(promises)
+		console.log(quantResults)
+
+		// Send it to the LS!
+		promises = []
+		let success = true
+		promises.push(success = await submitToLS(itemResults, quantResults, value));
+		await Promise.all(promises)
+		if(!success)
+			var notSuccess = 1 / 0
+		
+		// Put the items and quantites on the display!
+		document.getElementById("rewards_value").textContent = strValue;
+		for(let i = 0; i < 9; i++)
+			document.getElementById(rewardSlots[i]).textContent = "";
+		for(let i = 0; i < quantResults.length; i++){
+			// Displaying in Rewards Capture
+			let nodevar = document.createElement("itembox");
+			let imgvar = document.createElement("img");
+			let quantvar = document.createElement("span");
+			nodevar.setAttribute('style', 'position:relative; margin:auto; margin-top: 3px; width:35px; height:35px; display:flex; align-items:center; text-align:center;');
+			nodevar.setAttribute('title',quantResults[i]+" x "+itemResults[i])
+			imgvar.src = encodeURI("./images/items/"+itemResults[i]+".png");
+			imgvar.setAttribute('style', 'margin:0 auto;');
+			quantvar.textContent = quantResults[i];
+			if(!quantResults[i].includes("k"))
+				quantvar.setAttribute('style','position:absolute; left:0; top:0; font-family:Runescape Chat Font; font-size:16px; color:rgb(255,255,0); text-shadow:1px 1px #000000;');
+			else
+				quantvar.setAttribute('style','position:absolute; left:0; top:0; font-family:Runescape Chat Font; font-size:16px; color:rgb(255,255,255); text-shadow:1px 1px #000000;');
+			nodevar.append(quantvar);
+			nodevar.append(imgvar);
+			document.getElementById(rewardSlots[i]).appendChild(nodevar);
+		}
+
+		//Show it on the screen!
+		lootDisplay()
+		
+		//Display the victory screen!!!
+		if((document.getElementById("easy") as HTMLInputElement).checked)
+			var tier = "Easy"
+		else if((document.getElementById("medium") as HTMLInputElement).checked)
+			var tier = "Medium"
+		else if((document.getElementById("hard") as HTMLInputElement).checked)
+			var tier = "Hard"
+		else if((document.getElementById("elite") as HTMLInputElement).checked)
+			var tier = "Elite"
+		else if((document.getElementById("master") as HTMLInputElement).checked)
+			var tier = "Master"
+
+		alt1.overLayClearGroup("overlays")
+		alt1.overLaySetGroup("overlays")
+		alt1.overLayTextEx(tier+" rewards captured successfully!", a1lib.mixColor(100, 255, 100), 20, Math.round(alt1.rsWidth / 2), 200, 4000, "", true, true)
+	} catch(e){
+		alt1.overLayClearGroup("overlays")
+		alt1.overLayTextEx("      Failed to capture rewards.\nRemove any obstructions, check\n    tier, or open a reward casket.", a1lib.mixColor(255, 80, 80), 20, Math.round(alt1.rsWidth / 2), 200, 4000, "", true, true);
+		throw e
 	}
-	await Promise.all(promises)
-	console.log(itemResults)
-
-	// Give me the quantity of the items!
-	var quantResults = []
-	promises = []
-	for(let i = 0; i < 9; i++){
-		if(itemResults[i] == "Blank")
-			continue;
-		promises.push(quantResults.push(await readQuantites(topCrops[i])));
-	}
-	await Promise.all(promises)
-	console.log(quantResults)
-
-	// Give me the total value!
-	let rewardreader = new ClueRewardReader();
-	rewardreader.pos=ModalUIReader.find()[0];
-	let value = rewardreader.read(img).value;
-	let strValue = value.toLocaleString("en-US")
-
-	// Put the items and quantites on the display!
-	document.getElementById("rewards_value").textContent = strValue;
-	for(let i = 0; i < 9; i++)
-		document.getElementById(rewardSlots[i]).textContent = "";
-	for(let i = 0; i < quantResults.length; i++){
-		// Displaying in Rewards Capture
-		let nodevar = document.createElement("itembox");
-		let imgvar = document.createElement("img");
-		imgvar.src = encodeURI("./images/items/"+itemResults[i]+".png");
-		let quantvar = document.createElement("span");
-		quantvar.textContent = quantResults[i];
-		nodevar.setAttribute('style', 'position:relative; margin:auto; margin-top: 3px; width:35px; height:35px; display:flex; align-items:center; text-align:center;');
-        nodevar.setAttribute('title',quantResults[i]+" x "+itemResults[i])
-		imgvar.setAttribute('style', 'margin:0 auto;');
-		if(!quantResults[i].includes("k"))
-			quantvar.setAttribute('style','position:absolute; left:0; top:0; font-family:Runescape Chat Font; font-size:16px; color:rgb(255,255,0); text-shadow:1px 1px #000000;');
-		else
-			quantvar.setAttribute('style','position:absolute; left:0; top:0; font-family:Runescape Chat Font; font-size:16px; color:rgb(255,255,255); text-shadow:1px 1px #000000;');
-		nodevar.append(quantvar);
-		nodevar.append(imgvar);
-		document.getElementById(rewardSlots[i]).appendChild(nodevar);
-	}
-
-	// Send it to the LS!!!!
-	promises = []
-	promises.push(await submitToLS(itemResults, quantResults, value));
-	await Promise.all(promises)
 }
 	
 async function compareItems(item:ImageData){
@@ -409,58 +432,8 @@ async function compareItems(item:ImageData){
 			}));
 		await Promise.all(promises)
 	}
+	console.log(found[0])
 	return found[0]
-	
-	//	I have a smart friend. Below this is my solution and
-	// 	this one here is his.
-	// let found = matches[0]
-	// for(let i = 0; i < matches.length; i++) // Get the closest match.
-		
-	
-	
-	//console.log(matches)
-	//let precision = 30.00 // The lower the closer the match
-	//let totalDiscovered = 0 
-	//let found = ""
-	//while(found == "" || precision > 0){ // If item isnt found and precision falls below 0
-	//	for(let i = matches.length-1; i >= 0; i --){
-	//		if(matches[0][0] == matches[i][0]) // First item equivalent to the other items?
-	//			totalDiscovered += 1
-	//		else // If not, leave this loop
-	//			break;
-	//	}
-	//	if(found != ""){ // If item found, leave
-	//		break;
-	//	}
-	//	else if(totalDiscovered == matches.length){ // If all items are the same in the array, leave
-	//		found = matches[0][0]
-	//		break;
-	//	}
-	//	else // If not found, remove items from the array that are above precision
-	//		var i = matches.length
-	//		while(i--)
-	//			if(matches[i][2] > precision)
-	//				matches.splice(i, 1)
-	//	
-	//	// Various tweakable precision values at different thresholds
-	//	if(precision > 10)
-	//		precision -= 1;
-	//	else if(precision > 5)
-	//		precision -= 0.5;
-	//	else if(precision > 2.5)
-	//		precision -= 0.25;
-	//	else if(precision > 1)
-	//		precision -= 0.1;
-	//	else if(precision > 0)
-	//		precision -= 0.01;
-	//	else
-	//		break;
-	//	totalDiscovered = 0
-	//}
-	//if(found != "") // If found return item
-	// return found
-	//else // If not, return blank
-	//	return "Blank"
 }
 
 async function readQuantites(item: ImageData){
@@ -479,7 +452,7 @@ async function readQuantites(item: ImageData){
 	itemImg.src = itemCan.toDataURL("image/png")
 	itemCon.drawImage(itemImg, 0, 0)
 	let pixels = itemCon.getImageData(0, 0, item.width, item.height)
-	console.log(pixels)
+	//console.log(pixels)
 	let pixarr = []
 	let pixeldata = 0
 	for(let i = 0; i < 8; i++){
@@ -498,12 +471,15 @@ async function readQuantites(item: ImageData){
 	let yellowInCol = false
 	let noYellowStreak = 0
 	let numbers = ""
-	console.log(pixarr.length, pixarr[0].length)
+	//console.log(pixarr.length, pixarr[0].length)
 	for(let i = 0; i < pixarr[0].length; i++){
 		if(noYellowStreak == 3)
 			break;
 		for(let j = 0; j < pixarr.length; j++){
-			if(pixarr[j][i].r == 255 && pixarr[j][i].g == 255 && pixarr[j][i].b == 0 || pixarr[j][i].r == 255 && pixarr[j][i].g == 255 && pixarr[j][i].b == 255){
+			if(pixarr[j][i].r == 255 && pixarr[j][i].g == 255 && pixarr[j][i].b == 0 	 // Yellow, Every screen has this
+			|| pixarr[j][i].r == 254 && pixarr[j][i].g == 254 && pixarr[j][i].b == 0 	 // Very slightly darker yellow, a screenie had this...
+			|| pixarr[j][i].r == 253 && pixarr[j][i].g == 253 && pixarr[j][i].b == 0 	 // Slightly darker yellow, for safety
+			|| pixarr[j][i].r == 255 && pixarr[j][i].g == 255 && pixarr[j][i].b == 255){ // White, elites and masters only
 				pixelCount++
 				streak++
 				noYellowStreak = 0
@@ -540,6 +516,7 @@ async function readQuantites(item: ImageData){
 					numbers += "9"
 				else{ //if 8
 					numbers += "k"
+					pixelCount = 0;
 					break;
 				}
 			else if(pixelCount == 18)
@@ -553,7 +530,7 @@ async function readQuantites(item: ImageData){
 		}
 		yellowInCol = false;
 	}
-	if(pixelCount == 10)
+	if(pixelCount > 5)
 		numbers += "0"
 	if(numbers != "")
 		return numbers;
@@ -561,41 +538,158 @@ async function readQuantites(item: ImageData){
 		return "1";
 }
 
-async function submitToLS(item: any[], quantity: any[], value: any){
-	let deposit = ""	
+async function submitToLS(item: any[], quant: any[], value: any){
+	let currButton = ""	
+	let val = ""
+	let count = ""
 	for(let i = 0; i < tierlist.length; i++)
-		if((document.getElementById(tierlist[i]) as HTMLInputElement).checked)
-			deposit = tierlist[i]
+		if((document.getElementById(tierlist[i]) as HTMLInputElement).checked){
+			currButton = tierlist[i]
+			if(currButton == 'easy'){
+				val = "EValue" 
+				count = "ECount"
+			}
+			else if(currButton == 'medium'){
+				val = "MValue" 
+				count = "MCount"
+			}
+			else if(currButton == 'hard'){
+				val = "HValue" 
+				count = "HCount"
+			}
+			else if(currButton == 'elite'){
+				val = "ElValue" 
+				count = "ElCount"
+			}
+			else if(currButton == 'master'){
+				val = "MaValue" 
+				count = "MaCount"
+			}
+		}
+			
 	
+	//Add items to database
+	console.log("Adding to database...")
+	for(let i = 0; i < quant.length; i++){
+		// To access a value
+		//localStorage.getItem(item[i]).quantity.master
+		console.log("checking if in array")
+		console.log(localStorage.getItem(item[i]))
+		console.log(JSON.parse(localStorage.getItem(item[i])).tier)
+		if(JSON.stringify(JSON.parse(localStorage.getItem(item[i])).tier).includes(currButton))
+			if(currButton == 'easy'){
+				let temp = JSON.parse(localStorage.getItem(item[i]))
+				temp.quantity[currButton] = (parseInt(temp.quantity[currButton]) + parseInt(quant[i])).toString()
+				localStorage.setItem(item[i], JSON.stringify(temp))
+			}
+			else if(currButton == 'medium'){
+				let temp = JSON.parse(localStorage.getItem(item[i]))
+				temp.quantity.medium = (parseInt(temp.quantity.medium) + parseInt(quant[i])).toString()
+				localStorage.setItem(item[i], JSON.stringify(temp))
+			}
+			else if(currButton == 'hard'){
+				let temp = JSON.parse(localStorage.getItem(item[i]))
+				temp.quantity.hard = (parseInt(temp.quantity.hard) + parseInt(quant[i])).toString()
+				localStorage.setItem(item[i], JSON.stringify(temp))
+			}
+			else if(currButton == 'elite'){
+				let temp = JSON.parse(localStorage.getItem(item[i]))
+				temp.quantity.elite = (parseInt(temp.quantity.elite) + parseInt(quant[i])).toString()
+				localStorage.setItem(item[i], JSON.stringify(temp))
+			}
+			else if(currButton == 'master'){
+				let temp = JSON.parse(localStorage.getItem(item[i]))
+				temp.quantity.master = (parseInt(temp.quantity.master) + parseInt(quant[i])).toString()
+				localStorage.setItem(item[i], JSON.stringify(temp))
+			}
+				else
+			return false;
+	}
 	
-	console.log(deposit)
-	if(deposit == 'easy'){
-		let curr = JSON.parse(localStorage.getItem('EValue'))
-		localStorage.setItem('EValue', JSON.stringify((curr + value)))
-	}
-	else if(deposit == 'medium'){
-		let curr = JSON.parse(localStorage.getItem('MValue'))
-		localStorage.setItem('MValue', JSON.stringify((curr + value)))
-	}
-	else if(deposit == 'hard'){
-		let curr = JSON.parse(localStorage.getItem('HValue'))
-		localStorage.setItem('HValue', JSON.stringify((curr + value)))
-	}
-	else if(deposit == 'elite'){
-		let curr = JSON.parse(localStorage.getItem('ElValue'))
-		localStorage.setItem('ElValue', JSON.stringify((curr + value)))
-	}
-	else if(deposit == 'master'){
-		let curr = JSON.parse(localStorage.getItem('MaValue'))
-		localStorage.setItem('MaValue', JSON.stringify((curr + value)))
-	}
+	// Increase value and count
+	console.log("VALUE AND COUNT",val,count)
+	let curr = JSON.parse(localStorage.getItem(val))
+	console.log(val, JSON.stringify((curr + value)))
+	localStorage.setItem(val, JSON.stringify((curr + value)))
+	curr = JSON.parse(localStorage.getItem(count))
+	console.log(count, JSON.stringify(curr + 1))
+	localStorage.setItem(count, JSON.stringify(curr + 1))
 	
-	for(let i = 0; i > quantity.length; i++){
-		console.log(deposit)
-		let lsItem = JSON.parse(localStorage.getItem(item[i].valueOf()))
-		console.log(lsItem)
+	return true;
+}
+
+function lootDisplay(){
+	let currButton = ""	
+	let val = ""
+	let count = ""
+	for(let i = 0; i < tierlist.length; i++)
+		if((document.getElementById(tierlist[i]) as HTMLInputElement).checked){
+			currButton = tierlist[i]
+			if(currButton == 'easy'){
+				val = "EValue" 
+				count = "ECount"
+			}
+			else if(currButton == 'medium'){
+				val = "MValue" 
+				count = "MCount"
+			}
+			else if(currButton == 'hard'){
+				val = "HValue" 
+				count = "HCount"
+			}
+			else if(currButton == 'elite'){
+				val = "ElValue" 
+				count = "ElCount"
+			}
+			else if(currButton == 'master'){
+				val = "MaValue" 
+				count = "MaCount"
+			}
+		}
+	
+	//Set Number of clues and Current and Average values
+	document.getElementById("number_of_clues").textContent = JSON.parse(localStorage.getItem(count)).toLocaleString("en-US")
+	document.getElementById("value_of_clues").textContent = JSON.parse(localStorage.getItem(val)).toLocaleString("en-US")
+	if(parseInt(JSON.parse(localStorage.getItem(count))) != 0)
+		document.getElementById("average_of_clues").textContent = Math.round(parseInt(JSON.parse(localStorage.getItem(val))) / parseInt(JSON.parse(localStorage.getItem(count)))).toLocaleString("en-US")
+	else
+		document.getElementById("average_of_clues").textContent = "0"
+	
+	//Set the icons in the tabs
+	tabDisplay(currButton)
+}
+
+function tabDisplay(current: string){
+	let keys = Object.keys(localStorage)
+	let divs = document.getElementsByClassName("loot_display")
+	for(let i = 0; i < divs.length; i++)
+		divs[i].textContent = "";
+	for(let i = 0; i < keys.length; i++){
+		if(ignorelist.includes(keys[i]) || JSON.parse(localStorage.getItem(keys[i])).quantity[current] == 0)
+			continue;
+		console.log(JSON.parse(localStorage.getItem(keys[i])).tab+"_loot")
+		let ele = document.getElementById(JSON.parse(localStorage.getItem(keys[i])).tab+"_loot")
+		let nodevar = document.createElement("itembox");
+		let imgvar = document.createElement("img");
+		let quantvar = document.createElement("span");
+		nodevar.setAttribute('style', 'position:relative; margin: 3 5 0 1; padding:0 5px 0 2px; width:35px; height:35px; display:flex; align-items:center; text-align:center; order: '+parseInt(JSON.parse(localStorage.getItem(keys[i])).order)+';');
+		nodevar.setAttribute('title',JSON.parse(localStorage.getItem(keys[i])).quantity[current] +" x "+keys[i])
+		imgvar.src = encodeURI("./images/items/"+keys[i]+".png");
+		imgvar.setAttribute('style', 'margin:0 auto;');
+		if(parseInt(JSON.parse(localStorage.getItem(keys[i])).quantity[current]) > 99999){
+			quantvar.setAttribute('style','position:absolute; left:0; top:0; font-family:Runescape Chat Font; font-size:16px; color:rgb(255,255,255); text-shadow:1px 1px #000000;');
+			quantvar.textContent = (parseInt(JSON.parse(localStorage.getItem(keys[i])).quantity[current]) / 1000).toString() + "k";
+		}
+		else{
+			quantvar.setAttribute('style','position:absolute; left:0; top:0; font-family:Runescape Chat Font; font-size:16px; color:rgb(255,255,0); text-shadow:1px 1px #000000;');
+			quantvar.textContent = JSON.parse(localStorage.getItem(keys[i])).quantity[current];
+		}
+		nodevar.append(quantvar);
+		nodevar.append(imgvar);
+		ele.append(nodevar)
 	}
 }
+
 //print text world
 //also the worst possible example of how to use global exposed exports as described in webpack.config.json
 
