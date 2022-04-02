@@ -41,14 +41,14 @@
 					</div>
 					<div class="main_buttons" id="top">
 						<div id="csv_button" class="nisbutton" onclick="TEST.refresh();"><!--exporttocsv()--><strike>&nbsp;&nbsp;Export to CSV&nbsp;&nbsp;</strike></div>
-						<div id="clear_button" class="nisbutton" onclick="TEST.cleardb();">Clear Database</div>
+						<div id="clear_button" class="nisbutton" onclick="TEST.cleardb();">Clear <span id="current_tier_buttom"></span> tier</div>
 						<div id="docapturebutton" class="nisbutton" onclick="TEST.capture();">Capture Rewards</div>
 					</div>
 				</div>
 				<div class="value_box">
 					<div class="capture_info" id="top">
 						<div class="capture_box_elements" id="math_box_count">
-							<span id="clue_tier">Easy</span> clues logged: <span id="number_of_clues">10000</span>
+							<span id="clue_tier"></span> clues logged: <span id="number_of_clues">10000</span>
 						</div>
 						<div class="capture_box_elements" id="math_box_total">
 							<u>Total value of logged clues</u>

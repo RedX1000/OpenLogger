@@ -607,7 +607,7 @@ mainsection {
   border: solid;
   border-bottom-width: 0px;
   border-image: url(alt1-currentskin/borderB.png) 5 0 20 0 repeat;
-  margin: 5px 0px 30px 0px;
+  margin: 5px 0px 0px 0px;
   height: 1px;
   display: inline-block;
   flex-flow: column;
@@ -666,13 +666,10 @@ mainsection {
 }
 
 footer {
-  position: fixed;
+  position: relative;
   height: 15x;
   font-size: 16px;
   font-weight: 600;
-  bottom: 0px;
-  left: 0px;
-  right: 0px;
   padding: 0px 0px 5px 0px;
   background: url("alt1-currentskin/background.png");
 }
