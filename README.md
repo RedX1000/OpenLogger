@@ -8,7 +8,8 @@
 This application was created to provide players with a way to easily record their clue scrolls in bulk, or over the course of their clue runs.
 
 ## How to install
- ### [Click here to install OpenLogger](alt1://addapp/https://redx1000.github.io/OpenLogger/appconfig.json)
+### Copy and paste this into your browser to install automatically
+#### alt1://addapp/https://redx1000.github.io/OpenLogger/appconfig.json
 #### Direct link: https://redx1000.github.io/OpenLogger
 #### To install with a direct link
 1. Copy the link
