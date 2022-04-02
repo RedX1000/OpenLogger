@@ -5,7 +5,7 @@ import { ImgRef } from "@alt1/base";
 import * as resemble from "resemblejs";
 import compareImages from "resemblejs/compareImages"
 import * as lsdb from './JSONs/LocalStorageInit.json';
-import * as items from './JSONs/ItemsAndImagesReorganized.json';
+import * as items from './JSONs/ItemsAndImagesReorganizedTwo.json';
 import ClueRewardReader from "./scripts/rewardreader";
 import { ModalUIReader } from "./scripts/modeluireader";
 import { IgnorePlugin, javascript, node } from "webpack";
