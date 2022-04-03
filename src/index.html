@@ -40,7 +40,7 @@
 						<h3 class="clue_scrolls_button_footer">Press Alt+1 to capture!</h3>
 					</div>
 					<div class="main_buttons" id="top">
-						<div id="csv_button" class="nisbutton" onclick="TEST.exporttocsv();"><strike>&nbsp;&nbsp;Export to CSV&nbsp;&nbsp;</strike></div>
+						<div id="csv_button" class="nisbutton" onclick="TEST.exporttocsv();">Export to CSV</div>
 						<div id="clear_button" class="nisbutton" onclick="TEST.cleardb();">Clear <span id="current_tier_buttom"></span> tier</div>
 						<div id="docapturebutton" class="nisbutton" onclick="TEST.capture();">Capture Rewards</div>
 					</div>
@@ -74,7 +74,10 @@
 							<div id="eigth_item" class="rewards"></div>
 							<div id="ninth_item" class="rewards"></div>
 						</div>
-						<div id="self_button" class="nisbutton" onclick="TEST.refresh();"><strike>&nbsp;&nbsp;Rollback/Insert to DB&nbsp;&nbsp;</strike></div>	
+						<div id="bottom_buttons">
+							<div id="rollback_button" class="nisbutton" onclick="TEST.rollback();"><strike>&nbsp;Rollback&nbsp;</strike></div>	
+							<div id="insert_button" class="nisbutton" onclick="TEST.insert();"><strike>&nbsp;Insert&nbsp;</strike></div>
+						</div>
 					</div>
 				</div>
 			</div>
