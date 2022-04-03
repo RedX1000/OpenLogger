@@ -532,8 +532,7 @@ header {
 
 #csv_button,
 #clear_button,
-#docapturebutton,
-#self_button {
+#docapturebutton {
   width: 90%;
   cursor: pointer;
   margin: auto;
@@ -546,8 +545,24 @@ header {
   -webkit-user-select: none;
 }
 
-#self_button{
-  font-size: 16px;
+#bottom_buttons{
+  width: 100%;
+  cursor: pointer;
+  color: #000;
+  font-family: "trajan-pro-3";
+  font-size: 18px;
+  line-height: 32px;
+  user-select: none;
+  margin: auto;
+  -webkit-user-select: none;
+  display:grid;
+  grid-template-columns: repeat(2, auto);
+}
+
+#rollback_button,
+#insert_button{
+  width: 75%;
+  font-size: 18px;
 }
 /*
 #clear_button {
