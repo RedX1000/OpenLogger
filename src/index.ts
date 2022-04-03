@@ -633,7 +633,7 @@ export function exporttocsv(){
 	link.setAttribute("href", encodedUri);
 	link.setAttribute("download", filename);
 	document.body.appendChild(link); // Required for FF
-	//link.click()
+	link.click()
 
 	alt1.overLayClearGroup("overlays")
 	alt1.overLaySetGroup("overlays")
