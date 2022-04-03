@@ -1,6 +1,6 @@
 # OpenLogger
 ## An open-source Alt1 Plugin designed for tracking clue rewards
-#### Report bugs or questions -> Discord: RedX1000#3655
+#### Report bugs or questions message me 🙂 -> Discord: RedX1000#3655
 
 *NOTE: Legacy Interface is currently not working, as it does not read correctly* 
 
