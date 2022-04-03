@@ -35,11 +35,12 @@ This application was created to provide players with a way to easily record thei
 * Export to CSV will create a CSV value of the LocalStorage and allow the user to download the file
 * This will be useful for storing data long term or for crowdsourcing data
 
+### Rollback
+* Rollback will rewind to the last rewards logged by one clue.
+* Maybe support for further rollbacks will be added later, but for now you only get one.
+
 ### Insert
 * Not working yet, but it is supposed to open an interface that allows the user to deposit a reward or value into LocalStorage directly in case of a misread.
-
-### Rollback
-* Not working yet, but it is supposed to allow the user to roll back at least one step
 
 ## Additional info
 This plugin stores data using `localStorage` within Alt1. To completely refresh it:
