@@ -12,6 +12,7 @@ import { ModalUIReader } from "./scripts/modeluireader";
 import { IgnorePlugin, javascript, node } from "webpack";
 import { imageDataFromBase64 } from "@alt1/base/dist/imagedetect";
 import { listeners } from "process";
+import { AsyncLocalStorage } from "async_hooks";
 
 //tell webpack to add index.html and appconfig.json to output
 require("!file-loader?name=[name].[ext]!./index.html");
@@ -90,6 +91,12 @@ export function changeClueTierSpan(id){
 	localStorage.setItem("Checked button", id);
 	document.getElementById("current_tier_buttom").textContent = currentTier()[0]
 
+	// Clear reward slots and value
+	document.getElementById("rewards_value").textContent = "0"
+	for(let i = 0; i < 9; i++)
+		document.getElementById(rewardSlots[i]).textContent = "";
+
+
 	// Set the new image list
 	listOfItems = items.any.concat(items[currentTier()[0]]);
 
@@ -111,6 +118,9 @@ export function changeClueTierSpan(id){
 
 	//Set display
 	lootDisplay()
+	alt1.overLayClearGroup("overlays")
+	alt1.overLaySetGroup("overlays")
+	alt1.overLayTextEx((id[0].toUpperCase() + id.slice(1).toLowerCase())+" tier rewards & images loaded!", a1lib.mixColor(100, 255, 100), 20, Math.round(alt1.rsWidth / 2), 200, 2000, "", true, true)
 }
 
 export function cleardb(){
@@ -218,7 +228,6 @@ async function findtrailComplete(img: ImgRef) {
 		let rewardreader = new ClueRewardReader();
 		rewardreader.pos = ModalUIReader.find()[0];
 		let value = rewardreader.read(img).value;
-		let strValue = value.toLocaleString("en-US")
 		
 		// Give me the items!
 		var itemResults = []
@@ -267,7 +276,7 @@ async function findtrailComplete(img: ImgRef) {
 			var notSuccess = 1 / 0
 		
 		// Put the items and quantites on the display!
-		document.getElementById("rewards_value").textContent = strValue;
+		document.getElementById("rewards_value").textContent = value.toLocaleString("en-US")
 		for(let i = 0; i < 9; i++)
 			document.getElementById(rewardSlots[i]).textContent = "";
 		for(let i = 0; i < quantResults.length; i++){
@@ -558,6 +567,76 @@ function currentTier(){
 		}
 }
 
+export function exporttocsv(){
+	alt1.overLayClearGroup("overlays")
+	alt1.overLaySetGroup("overlays")
+	alt1.overLayTextEx("Generating CSV...", a1lib.mixColor(255,144,0), 20, Math.round(alt1.rsWidth / 2), 200, 2000, "", true, true)
+
+	let csvinfo = []
+	csvinfo.push(["Item","Easy","Medium","Hard","Elite","Master"])
+	let keys = Object.keys(lsdb)
+	let currOrder = 1
+	for(let i = 0; i < keys.length; i++){
+		if(!ignorelist.includes(keys[i]))
+			continue;
+		let val = JSON.parse(localStorage.getItem(keys[i]))
+		if(keys[i] == "ECount")
+			csvinfo.push(["Easy Total Count",val,"","","",""])
+		else if(keys[i] == "EValue")
+			csvinfo.push(["Easy Total Value",val,"","","",""])
+		else if(keys[i] == "MCount")
+			csvinfo.push(["Medium Total Count","",val,"","",""])
+		else if(keys[i] == "MValue")
+			csvinfo.push(["Medium Total Value","",val,"","",""])
+		else if(keys[i] == "HCount")
+			csvinfo.push(["Hard Total Count","","",val,"",""])
+		else if(keys[i] == "HValue")
+			csvinfo.push(["Hard Total Value","","",val,"",""])
+		else if(keys[i] == "ElCount")
+			csvinfo.push(["Elite Total Count","","","",val,""])
+		else if(keys[i] == "ElValue")
+			csvinfo.push(["Elite Total Value","","","",val,""])
+		else if(keys[i] == "MaCount")
+			csvinfo.push(["Master Total Count","","","","",val])
+		else if(keys[i] == "MaValue")
+			csvinfo.push(["Master Total Value","","","","",val])
+	}
+	for(let i = 0; i < keys.length; i++){
+		if(ignorelist.includes(keys[i]))
+			continue;
+		for(let j = 0; j < keys.length; j++){
+			if(ignorelist.includes(keys[j]))
+				continue;
+			if(JSON.stringify(JSON.parse(localStorage.getItem(keys[j])).order) == currOrder.toString()){
+				let val = JSON.parse(localStorage.getItem(keys[j]))
+				csvinfo.push([keys[j],
+							 val.quantity.easy.toString(),
+							 val.quantity.medium.toString(),
+							 val.quantity.hard.toString(),
+							 val.quantity.elite.toString(),
+							 val.quantity.master.toString()])
+				currOrder++
+				break;
+			}
+		}
+	}
+	const d = new Date()
+	let csvContent = "";
+	csvinfo.forEach(function(i) {
+	    let row = i.join(",");
+	    csvContent += row + "\r\n";
+	});
+	var link = document.createElement("a")
+	var event = document.createEvent("HTMLEvents")
+	event.initEvent("click")
+	link.download = "OpenLogger CSV "+d.getFullYear+"-"+d.getMonth+"-"+d.getDate()
+	link.href = csvContent
+	link.dispatchEvent(event)
+
+	alt1.overLayClearGroup("overlays")
+	alt1.overLaySetGroup("overlays")
+	alt1.overLayTextEx("CSV Generated!", a1lib.mixColor(100, 255, 100), 20, Math.round(alt1.rsWidth / 2), 200, 2000, "", true, true)
+}
 //print text world
 //also the worst possible example of how to use global exposed exports as described in webpack.config.json
 
