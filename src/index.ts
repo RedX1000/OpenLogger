@@ -626,11 +626,12 @@ export function exporttocsv(){
 	    let row = i.join(",");
 	    csvContent += row + "\r\n";
 	});
-
+	
+	let filename = "OpenLogger CSV "+d.getFullYear+"-"+d.getMonth+"-"+d.getDate()+".csv"
 	var encodedUri = encodeURI(csvContent);
 	var link = document.createElement("a");
 	link.setAttribute("href", encodedUri);
-	link.setAttribute("download", "OpenLogger CSV "+d.getFullYear+"-"+d.getMonth+"-"+d.getDate());
+	link.setAttribute("download", filename);
 	document.body.appendChild(link); // Required for FF
 	link.click()
 
