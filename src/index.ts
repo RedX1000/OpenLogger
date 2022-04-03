@@ -118,8 +118,8 @@ export function changeClueTierSpan(id){
 		temp = [listOfItemsLegacy[i].name, listOfItemsLegacy[i].base64, 0.0];
 		listOfItemsLegacyArray.push(temp);
 	}
-	console.log("Item array list count:", listOfItemsArray.length, listOfItemsArray)
-	console.log("Item array list count:", listOfItemsLegacyArray.length, listOfItemsLegacyArray)
+	//console.log("Item array list count:", listOfItemsArray.length, listOfItemsArray)
+	//console.log("Item array list count:", listOfItemsLegacyArray.length, listOfItemsLegacyArray)
 
 	//Set display
 	lootDisplay()
@@ -314,7 +314,7 @@ async function findtrailComplete(img: ImgRef) {
 		lastQuants = quantResults.slice()
 		lastTier = currentTier()
 		lastValue = value
-		console.log(lastItems, lastQuants, lastTier, lastValue)
+		//console.log(lastItems, lastQuants, lastTier, lastValue)
 
 
 		//Display the victory screen!!!
@@ -505,7 +505,7 @@ async function submitToLS(item: any[], quant: any[], value: any){
 		// If you get null or undefined here, check if one of your rewards doesn't exist in LocalStorage or LocalStorageInit
 		// Or maybe the name might be incorrectly written in, idk
 		console.log("checking if in array")
-		console.log(JSON.parse(localStorage.getItem(item[i])).tier)
+		//console.log(JSON.parse(localStorage.getItem(item[i])).tier)
 		if(JSON.parse(localStorage.getItem(item[i])).tier.includes(current[0])){
 			let temp = JSON.parse(localStorage.getItem(item[i]))
 			temp.quantity[current[0]] = (parseInt(temp.quantity[current[0]]) + parseInt(quant[i])).toString()
@@ -545,7 +545,7 @@ function tabDisplay(current: string){
 	for(let i = 0; i < keys.length; i++){
 		if(ignorelist.includes(keys[i]) || JSON.parse(localStorage.getItem(keys[i])).quantity[current] == 0)
 			continue;
-		console.log(JSON.parse(localStorage.getItem(keys[i])).tab+"_loot")
+		//console.log(JSON.parse(localStorage.getItem(keys[i])).tab+"_loot")
 		let ele = document.getElementById(JSON.parse(localStorage.getItem(keys[i])).tab+"_loot")
 		let nodevar = document.createElement("itembox");
 		let imgvar = document.createElement("img");
@@ -673,7 +673,7 @@ export function exporttocsv(){
 }
 
 export function rollback(){
-	console.log(lastItems, lastQuants, lastTier, lastValue)
+	console.log("Rolling back:",lastItems, lastQuants, lastTier, lastValue)
 	if(lastItems.length == 0){
 		if (window.alt1) {
 			alt1.overLayClearGroup("overlays"); alt1.overLaySetGroup("overlays")
@@ -694,7 +694,7 @@ export function rollback(){
 
 	for(let i = 0; i < lastQuants.length; i++){
 		console.log("checking if in array")
-		console.log(JSON.parse(localStorage.getItem(lastItems[i])).tier)
+		//console.log(JSON.parse(localStorage.getItem(lastItems[i])).tier)
 		if(JSON.parse(localStorage.getItem(lastItems[i])).tier.includes(lastTier[0])){
 			let temp = JSON.parse(localStorage.getItem(lastItems[i]))
 			temp.quantity[lastTier[0]] = (parseInt(temp.quantity[lastTier[0]]) - parseInt(lastQuants[i])).toString()
