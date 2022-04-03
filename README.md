@@ -14,14 +14,14 @@ This application was created to provide players with a way to easily record thei
 #### https://redx1000.github.io/OpenLogger
 #### To install with the direct link
 1. Copy the direct link
-2. Open the browser in Alt1
-3. Paste link in the browser and go to page
-4. Click Add App
-5. Accept permissions and add it
+2. Open Alt1 applications and open the browser
+3. Paste link in URL bar and press enter
+4. Click Add App on the top of the page
+5. Accept permissions and click confirm
 
  ## How to use
  ### Capture Rewards
-1. Open a clue scroll
+1. Open a reward casket (Easy, Medium, Hard, Elite, Master)
     * Make sure clue reward window is not obfuscated in order to get a correct reading.
 2. Press the Capture button or press Alt+1 to record the clue interface.
 3. Wait a bit, recording take between 2 - 5 second depending on the tier of clue and the amount of rewards in the window.
