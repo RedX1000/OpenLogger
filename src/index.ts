@@ -626,14 +626,14 @@ export function exporttocsv(){
 	    let row = i.join(",");
 	    csvContent += row + "\r\n";
 	});
-	
-	let filename = "OpenLogger CSV "+d.getFullYear+"-"+d.getMonth+"-"+d.getDate()+".csv"
+	let filename = "OpenLogger CSV "+d.getFullYear()+"-"+d.getMonth()+"-"+d.getDate()+".csv"
+	console.log(filename)
 	var encodedUri = encodeURI(csvContent);
 	var link = document.createElement("a");
 	link.setAttribute("href", encodedUri);
 	link.setAttribute("download", filename);
 	document.body.appendChild(link); // Required for FF
-	link.click()
+	//link.click()
 
 	alt1.overLayClearGroup("overlays")
 	alt1.overLaySetGroup("overlays")
