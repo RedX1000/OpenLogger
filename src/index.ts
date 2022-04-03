@@ -28,6 +28,11 @@ var listOfItemsLegacyArray = []
 var legacy = false
 var displaybox = true
 
+var lastItems = []
+var lastQuants = []
+var lastTier;// = []
+var lastValue;// = []
+
 export function refresh(){
 	location.reload();
 }
@@ -118,8 +123,7 @@ export function changeClueTierSpan(id){
 
 	//Set display
 	lootDisplay()
-	alt1.overLayClearGroup("overlays")
-	alt1.overLaySetGroup("overlays")
+	alt1.overLayClearGroup("overlays"); alt1.overLaySetGroup("overlays")
 	alt1.overLayTextEx((id[0].toUpperCase() + id.slice(1).toLowerCase())+" tier rewards & images loaded!", a1lib.mixColor(100, 255, 100), 20, Math.round(alt1.rsWidth / 2), 200, 2000, "", true, true)
 }
 
@@ -188,9 +192,10 @@ export function capture() {
 
 async function findtrailComplete(img: ImgRef) {
 	try{
-		alt1.overLayClearGroup("overlays")
-		alt1.overLaySetGroup("overlays")
-		alt1.overLayTextEx("Capturing rewards...", a1lib.mixColor(255,144,0), 20, Math.round(alt1.rsWidth / 2), 200, 60000, "", true, true);
+		if (window.alt1) {
+			alt1.overLayClearGroup("overlays"); alt1.overLaySetGroup("overlays")
+			alt1.overLayTextEx("Capturing rewards...", a1lib.mixColor(255,144,0), 20, Math.round(alt1.rsWidth / 2), 200, 60000, "", true, true);
+		}
 		try{
 			var loc = img.findSubimage(await imgs.trailCompleteLegacy);
 			console.log(loc[0].x);
@@ -241,19 +246,22 @@ async function findtrailComplete(img: ImgRef) {
 			var y1 = loc[0].y + 39;
 		}
 		for(let i = 0; i < 9; i++){
-			alt1.overLayClearGroup("icon")
-			alt1.overLaySetGroup("icon")
+			if (window.alt1) {
+				alt1.overLayClearGroup("icon"); alt1.overLaySetGroup("icon")
+			}
 			if(displaybox){
 				// Keep an eye on this in case it incorrectly gives numbers...
-				// 
-				alt1.overLayRect(a1lib.mixColor(255,144,0), x1, loc[0].y + 39, 32, 32, 2000, 1);
-				alt1.overLayText((i + 1).toString(), a1lib.mixColor(255,144,0,255), 18, x1+5, loc[0].y + 40, 2000)
+				if (window.alt1) {
+					alt1.overLayRect(a1lib.mixColor(255,144,0), x1, loc[0].y + 39, 32, 32, 2000, 1);
+					alt1.overLayText((i + 1).toString(), a1lib.mixColor(255,144,0,255), 18, x1+5, loc[0].y + 40, 2000)
+				}
 			}
 			x1 += 40
 			promises.push(itemResults.push(await compareItems(crops[i])));
 		}	
 		await Promise.all(promises)
-		alt1.overLayClearGroup("icon")
+		if (window.alt1)
+			alt1.overLayClearGroup("icon")
 		console.log(itemResults)
 	
 		// Give me the quantity of the items!
@@ -297,18 +305,29 @@ async function findtrailComplete(img: ImgRef) {
 			nodevar.append(imgvar);
 			document.getElementById(rewardSlots[i]).appendChild(nodevar);
 		}
-		tabDisplay(currentTier()[0])
 
 		//Show it on the screen!
 		lootDisplay()
 		
+		// Record data for last casket
+		lastItems = itemResults.slice()
+		lastQuants = quantResults.slice()
+		lastTier = currentTier()
+		lastValue = value
+		console.log(lastItems, lastQuants, lastTier, lastValue)
+
+
 		//Display the victory screen!!!
-		alt1.overLayClearGroup("overlays")
-		alt1.overLaySetGroup("overlays")
-		alt1.overLayTextEx((currentTier()[0][0].toUpperCase() + (currentTier()[0].slice(1)).toLowerCase())+" rewards captured successfully!", a1lib.mixColor(100, 255, 100), 20, Math.round(alt1.rsWidth / 2), 200, 4000, "", true, true)
+		if (window.alt1) {
+			alt1.overLayClearGroup("overlays"); alt1.overLaySetGroup("overlays")
+			alt1.overLayTextEx((currentTier()[0][0].toUpperCase() + (currentTier()[0].slice(1)).toLowerCase())+" rewards captured successfully!", 
+								a1lib.mixColor(100, 255, 100), 20, Math.round(alt1.rsWidth / 2), 200, 4000, "", true, true)
+		}
 	} catch(e){
-		alt1.overLayClearGroup("overlays")
-		alt1.overLayTextEx("      Failed to capture rewards.\nRemove any obstructions, check\n    tier, or open a reward casket.", a1lib.mixColor(255, 80, 80), 20, Math.round(alt1.rsWidth / 2), 200, 4000, "", true, true);
+		if (window.alt1) {
+			alt1.overLayClearGroup("overlays")
+			alt1.overLayTextEx("      Failed to capture rewards.\nRemove any obstructions, check\n    tier, or open a reward casket.", a1lib.mixColor(255, 80, 80), 20, Math.round(alt1.rsWidth / 2), 200, 4000, "", true, true);
+		}
 		throw e
 	}
 }
@@ -630,8 +649,7 @@ export function exporttocsv(){
 	    csvContent += row + "\r\n";
 	});
 	let filename = "OpenLogger CSV "+d.getFullYear()+"-"+d.getMonth()+"-"+d.getDate()+".csv"
-	console.log(filename)
-	var encodedUri = encodeURI(csvContent);
+	var encodedUri = "data:text/csv;charset=utf-8,%EF%BB%BF" + encodeURI(csvContent);
 	var link = document.createElement("a");
 	link.setAttribute("href", encodedUri);
 	link.setAttribute("download", filename);
@@ -642,6 +660,61 @@ export function exporttocsv(){
 		alt1.overLaySetGroup("overlays")
 		alt1.overLayTextEx("CSV Generated!", a1lib.mixColor(100, 255, 100), 20, Math.round(alt1.rsWidth / 2), 200, 2000, "", true, true)
 	}
+}
+
+export function rollback(){
+	console.log(lastItems, lastQuants, lastTier, lastValue)
+	if(lastItems.length == 0){
+		if (window.alt1) {
+			alt1.overLayClearGroup("overlays"); alt1.overLaySetGroup("overlays")
+			alt1.overLayTextEx("Nothing to roll back", a1lib.mixColor(255, 80, 80), 20, Math.round(alt1.rsWidth / 2), 200, 2000, "", true, true)
+		}
+		return;
+	}
+		
+	if (window.alt1) {
+		alt1.overLayClearGroup("overlays"); alt1.overLaySetGroup("overlays")
+		alt1.overLayTextEx("Rolling back last reward...", a1lib.mixColor(255,144,0), 20, Math.round(alt1.rsWidth / 2), 200, 2000, "", true, true)
+	}
+	
+	// let lil = lastItems.length - 1
+	// let lql = lastQuants.length - 1
+	// let ltl = lastTier.length - 1
+	// let lvl = lastValue.length - 1
+
+	for(let i = 0; i < lastQuants.length; i++){
+		console.log("checking if in array")
+		console.log(JSON.parse(localStorage.getItem(lastItems[i])).tier)
+		if(JSON.parse(localStorage.getItem(lastItems[i])).tier.includes(lastTier[0])){
+			let temp = JSON.parse(localStorage.getItem(lastItems[i]))
+			temp.quantity[lastTier[0]] = (parseInt(temp.quantity[lastTier[0]]) - parseInt(lastQuants[i])).toString()
+			localStorage.setItem(lastItems[i], JSON.stringify(temp))
+		}
+		else
+			return false;
+	}
+	
+	// Decrease value and count
+	localStorage.setItem(lastTier[1], JSON.stringify((JSON.parse(localStorage.getItem(lastTier[1])) - lastValue)))
+	localStorage.setItem(lastTier[2], JSON.stringify(JSON.parse(localStorage.getItem(lastTier[2])) - 1))
+	
+	lastItems = [] //= //lastItems.pop()
+	lastQuants = []//= //lastQuants.pop()
+	lastTier; //= //lastTier.pop()
+	lastValue; //= lastValue.pop()
+	document.getElementById("rewards_value").textContent = "0"
+	for(let i = 0; i < 9; i++)
+		document.getElementById(rewardSlots[i]).textContent = "";
+	lootDisplay()
+
+	if (window.alt1) {
+		alt1.overLayClearGroup("overlays"); alt1.overLaySetGroup("overlays")
+		alt1.overLayTextEx("Previous rewards rolled back successfully!", a1lib.mixColor(100, 255, 100), 20, Math.round(alt1.rsWidth / 2), 200, 2000, "", true, true)
+	}
+}
+
+export function insert(){
+
 }
 //print text world
 //also the worst possible example of how to use global exposed exports as described in webpack.config.json
