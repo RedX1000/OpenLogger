@@ -34,8 +34,10 @@ This application was created to provide players with a way to easily record thei
 ### Export to CSV
 * Not working yet, but it is supposed to return a string value of all of the rewards in LocalStorage for data management purposes for the user.
 
-### Self Insert Into DB
-* Not working yet, but it is supposed to allow the user to deposit a reward or value into LocalStorage directly in case of a misread.
+### Rollback/Insert Into DB
+* Not working yet, but it is supposed to open an interface that:
+1. Allow the user to deposit a reward or value into LocalStorage directly in case of a misread.
+2. Allow the rollback of one clue reward capture
 
 ## Additional info
 This plugin stores data using `localStorage` within Alt1. To completely refresh it:
