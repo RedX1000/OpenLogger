@@ -630,12 +630,22 @@ export function exporttocsv(){
 				continue;
 			if(JSON.stringify(JSON.parse(localStorage.getItem(keys[j])).order) == currOrder.toString()){
 				let val = JSON.parse(localStorage.getItem(keys[j]))
-				csvinfo.push([keys[j],
-							 val.quantity.easy.toString(),
-							 val.quantity.medium.toString(),
-							 val.quantity.hard.toString(),
-							 val.quantity.elite.toString(),
-							 val.quantity.master.toString()])
+				let one = val.quantity.easy.toString()
+				let two = val.quantity.medium.toString()
+				let three = val.quantity.hard.toString()
+				let four = val.quantity.elite.toString()
+				let five = val.quantity.master.toString()
+				if(one == "0")
+					one = ""
+				if(two == "0")
+					two = ""
+				if(three == "0")
+					three = ""
+				if(four == "0")
+					four = ""
+				if(five == "0")
+					five = ""
+				csvinfo.push([keys[j], one, two, three, four, five])
 				currOrder++
 				break;
 			}
