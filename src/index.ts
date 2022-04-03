@@ -568,9 +568,11 @@ function currentTier(){
 }
 
 export function exporttocsv(){
-	alt1.overLayClearGroup("overlays")
-	alt1.overLaySetGroup("overlays")
-	alt1.overLayTextEx("Generating CSV...", a1lib.mixColor(255,144,0), 20, Math.round(alt1.rsWidth / 2), 200, 2000, "", true, true)
+	if (window.alt1) {
+		alt1.overLayClearGroup("overlays")
+		alt1.overLaySetGroup("overlays")
+		alt1.overLayTextEx("Generating CSV...", a1lib.mixColor(255,144,0), 20, Math.round(alt1.rsWidth / 2), 200, 2000, "", true, true)
+	}
 
 	let csvinfo = []
 	csvinfo.push(["Item","Easy","Medium","Hard","Elite","Master"])
@@ -620,6 +622,7 @@ export function exporttocsv(){
 			}
 		}
 	}
+
 	const d = new Date()
 	let csvContent = "";
 	csvinfo.forEach(function(i) {
@@ -634,10 +637,11 @@ export function exporttocsv(){
 	link.setAttribute("download", filename);
 	document.body.appendChild(link); // Required for FF
 	link.click()
-
-	alt1.overLayClearGroup("overlays")
-	alt1.overLaySetGroup("overlays")
-	alt1.overLayTextEx("CSV Generated!", a1lib.mixColor(100, 255, 100), 20, Math.round(alt1.rsWidth / 2), 200, 2000, "", true, true)
+	if (window.alt1) {
+		alt1.overLayClearGroup("overlays")
+		alt1.overLaySetGroup("overlays")
+		alt1.overLayTextEx("CSV Generated!", a1lib.mixColor(100, 255, 100), 20, Math.round(alt1.rsWidth / 2), 200, 2000, "", true, true)
+	}
 }
 //print text world
 //also the worst possible example of how to use global exposed exports as described in webpack.config.json
