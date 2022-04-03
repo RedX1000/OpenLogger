@@ -13,7 +13,7 @@ This application was created to provide players with a way to easily record thei
 ### Or use direct link
 #### https://redx1000.github.io/OpenLogger
 #### To install with the direct link
-1. Copy the link
+1. Copy the direct link
 2. Open the browser in Alt1
 3. Paste link in the browser and go to page
 4. Click Add App
