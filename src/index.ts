@@ -756,9 +756,9 @@ function arraySetup(){
 	listOfItemsLegacyRawArray = []
 	for(let i = 0; i < listOfItemsRaw.length; i++){
 		listOfItemsRawArray.push([listOfItemsRaw[i].name, listOfItemsRaw[i].base64, 0.0])
-		listOfItemsLegacyRaw.push([listOfItemsLegacyRaw[i].name, listOfItemsLegacyRaw[i].base64, 0.0])
+		listOfItemsLegacyRawArray.push([listOfItemsLegacyRaw[i].name, listOfItemsLegacyRaw[i].base64, 0.0])
 	}
-	console.log("DEBUG:",listOfItemsFullArray, listOfItemsReorgArray, listOfItemsReorgTwoArray, listOfItemsLegacyFullArray, listOfItemsLegacyReorgArray, listOfItemsLegacyReorgTwoArray, listOfItemsRawArray, listOfItemsLegacyRaw)
+	console.log("DEBUG:",listOfItemsFullArray, listOfItemsReorgArray, listOfItemsReorgTwoArray, listOfItemsLegacyFullArray, listOfItemsLegacyReorgArray, listOfItemsLegacyReorgTwoArray, listOfItemsRawArray, listOfItemsLegacyRawArray)
 }
 //print text world
 //also the worst possible example of how to use global exposed exports as described in webpack.config.json
