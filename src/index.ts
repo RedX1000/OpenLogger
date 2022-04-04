@@ -749,16 +749,16 @@ function arraySetup(){
 		if(i < listOfItemsLegacyReorgTwo.length)
 			listOfItemsLegacyReorgTwoArray.push([listOfItemsLegacyReorgTwo[i].name, listOfItemsLegacyReorgTwo[i].base64, 0.0])
 	}
-	console.log("DEBUG:",listOfItemsFullArray, listOfItemsReorgArray, listOfItemsReorgTwoArray, listOfItemsLegacyFullArray, listOfItemsLegacyReorgArray, listOfItemsLegacyReorgTwoArray)
 
 	listOfItemsRaw = itemsRaw.any.concat(itemsRaw.easy).concat(itemsRaw.medium).concat(itemsRaw.hard).concat(itemsRaw.elite).concat(itemsRaw.master)
-	listOfItemsLegacyRaw = itemsRaw.any.concat(itemsRaw.easy).concat(itemsRaw.medium).concat(itemsRaw.hard).concat(itemsRaw.elite).concat(itemsRaw.master)
+	listOfItemsLegacyRaw = itemsLegacyRaw.any.concat(itemsLegacyRaw.easy).concat(itemsLegacyRaw.medium).concat(itemsLegacyRaw.hard).concat(itemsLegacyRaw.elite).concat(itemsLegacyRaw.master)
 	listOfItemsRawArray = []
 	listOfItemsLegacyRawArray = []
 	for(let i = 0; i < listOfItemsRaw.length; i++){
 		listOfItemsRawArray.push([listOfItemsRaw[i].name, listOfItemsRaw[i].base64, 0.0])
 		listOfItemsLegacyRaw.push([listOfItemsLegacyRaw[i].name, listOfItemsLegacyRaw[i].base64, 0.0])
 	}
+	console.log("DEBUG:",listOfItemsFullArray, listOfItemsReorgArray, listOfItemsReorgTwoArray, listOfItemsLegacyFullArray, listOfItemsLegacyReorgArray, listOfItemsLegacyReorgTwoArray, listOfItemsRawArray, listOfItemsLegacyRaw)
 }
 //print text world
 //also the worst possible example of how to use global exposed exports as described in webpack.config.json
