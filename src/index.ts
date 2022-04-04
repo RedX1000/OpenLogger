@@ -5,8 +5,14 @@ import { ImgRef } from "@alt1/base";
 import * as resemble from "resemblejs";
 import compareImages from "resemblejs/compareImages"
 import * as lsdb from './JSONs/LocalStorageInit.json';
-import * as items from './JSONs/ItemsAndImagesReorganizedTwo.json';
-import * as itemsLegacy from './JSONs/ItemsAndImagesLegacyReorganizedTwo.json';
+import * as itemsFull from './JSONs/ItemsAndImages.json'
+import * as itemsReorg from './JSONs/ItemsAndImagesReorganized.json'
+import * as itemsReorgTwo from './JSONs/ItemsAndImagesReorganizedTwo.json';
+import * as itemsLegacyFull from './JSONs/ItemsAndImagesLegacy.json'
+import * as itemsLegacyReorg from './JSONs/ItemsAndImagesLegacyReorganized.json'
+import * as itemsLegacyReorgTwo from './JSONs/ItemsAndImagesLegacyReorganizedTwo.json';
+import * as itemsRaw from './JSONs/ItemsAndImagesRaw.json'
+import * as itemsLegacyRaw from './JSONs/ItemsAndImagesLegacyRaw.json';
 import ClueRewardReader from "./scripts/rewardreader";
 import { ModalUIReader } from "./scripts/modeluireader";
 import { IgnorePlugin, javascript, node } from "webpack";
@@ -21,10 +27,22 @@ require("!file-loader?name=[name].[ext]!./appconfig.json");
 var rewardSlots = ["first_item", "second_item", "third_item", "fourth_item", "fifth_item", "sixth_item", "seventh_item", "eigth_item", "ninth_item"]
 var tierlist = ["easy", "medium", "hard", "elite", "master"]
 var ignorelist = ["EValue", "ECount", "MValue", "MCount", "HValue", "HCount", "ElValue", "ElCount", "MaValue", "MaCount", "Checked button"]
-var listOfItems
-var listOfItemsArray = []
-var listOfItemsLegacy
-var listOfItemsLegacyArray = []
+var listOfItemsRaw
+var listOfItemsRawArray = []
+var listOfItemsFull
+var listOfItemsFullArray = []
+var listOfItemsReorg
+var listOfItemsReorgArray = []
+var listOfItemsReorgTwo
+var listOfItemsReorgTwoArray = []
+var listOfItemsLegacyRaw
+var listOfItemsLegacyRawArray = []
+var listOfItemsLegacyFull
+var listOfItemsLegacyFullArray = []
+var listOfItemsLegacyReorg
+var listOfItemsLegacyReorgArray = []
+var listOfItemsLegacyReorgTwo
+var listOfItemsLegacyReorgTwoArray = []
 var legacy = false
 var displaybox = true
 
@@ -66,22 +84,13 @@ export function init(){
 			localStorage.setItem(keys[i], JSON.stringify(lsdb[keys[i]]));
 	console.log("LocalStorage initialized.\n ");
 
-	// Initializing the image collection
-	listOfItems = items.any.concat(items[currentTier()[0]]);
-	listOfItemsLegacy = itemsLegacy.any.concat(items[currentTier()[0]]);
+	arraySetup()
 
-	// Turning image collection into array
-	listOfItemsArray = []
-	for(let i = 0; i < listOfItems.length; i++){
-		let temp = [listOfItems[i].name, listOfItems[i].base64, 0.0];
-		listOfItemsArray.push(temp);
-	}
-
-	listOfItemsLegacyArray = []
-	for(let i = 0; i < listOfItemsLegacy.length; i++){
-		let temp = [listOfItemsLegacy[i].name, listOfItemsLegacy[i].base64, 0.0];
-		listOfItemsLegacyArray.push(temp);
-	}
+	//listOfItemsLegacyArray = []
+	//for(let i = 0; i < listOfItemsLegacy.length; i++){
+	//	let temp = [listOfItemsLegacy[i].name, listOfItemsLegacy[i].base64, 0.0];
+	//	listOfItemsLegacyArray.push(temp);
+	//}
 	
 	//Set display
 	lootDisplay()
@@ -101,25 +110,8 @@ export function changeClueTierSpan(id){
 	for(let i = 0; i < 9; i++)
 		document.getElementById(rewardSlots[i]).textContent = "";
 
-
-	// Set the new image list
-	listOfItems = items.any.concat(items[currentTier()[0]]);
-
-	// Set new array
-	listOfItems = items.any.concat(items[currentTier()[0]]);
-	listOfItemsLegacy = itemsLegacy.any.concat(items[currentTier()[0]]);
-
-	// Turning image collection into array
-	listOfItemsArray = []
-	listOfItemsLegacyArray = []
-	for(let i = 0; i < listOfItems.length; i++){
-		let temp = [listOfItems[i].name, listOfItems[i].base64, 0.0];
-		listOfItemsArray.push(temp);
-		temp = [listOfItemsLegacy[i].name, listOfItemsLegacy[i].base64, 0.0];
-		listOfItemsLegacyArray.push(temp);
-	}
-	//console.log("Item array list count:", listOfItemsArray.length, listOfItemsArray)
-	//console.log("Item array list count:", listOfItemsLegacyArray.length, listOfItemsLegacyArray)
+	// Set up arrays
+	arraySetup()
 
 	//Set display
 	lootDisplay()
@@ -351,9 +343,10 @@ async function compareItems(item:ImageData){
 
 	 // Remove blank if not blank
 	//	{output: {ignoreAreasColoredWith: colors}}
-	// 	Choices are: yellow, black1, black2, black3, legacytan, rs3blue	
+	// 	Choices are: yellow, black1, black2, black3, legacytan, rs3blue
+
+	var matches = listOfItemsReorgTwoArray.slice();
 	if(!legacy){
-		var matches = listOfItemsArray.slice();
 		var imgdata = await compareImages(item, matches[0][1] , {output: {}, ignore: "less"})
 		matches[0][2] = imgdata.rawMisMatchPercentage;
 		if(matches[0][2] == 0.00)
@@ -372,7 +365,6 @@ async function compareItems(item:ImageData){
 	}
 	else{
 		// Legacy kinda janky. Need to figure it out
-		var matches = listOfItemsLegacyArray.slice();
 		var imgdata = await compareImages(item, matches[0][1] , {output: {}, ignore: ["less"]})
 		matches[0][2] = imgdata.rawMisMatchPercentage;
 		if(matches[0][2] == 0.00) // If it is blank
@@ -725,6 +717,48 @@ export function rollback(){
 
 export function insert(){
 
+}
+
+function arraySetup(){
+	// Set new array
+	listOfItemsFull = itemsFull.any.concat(itemsFull[currentTier()[0]]);
+	listOfItemsReorg = itemsReorg.any.concat(itemsReorg[currentTier()[0]]);
+	listOfItemsReorgTwo = itemsReorgTwo.any.concat(itemsReorgTwo[currentTier()[0]]);
+	listOfItemsLegacyFull = itemsLegacyFull.any.concat(itemsLegacyFull[currentTier()[0]]);
+	listOfItemsLegacyReorg = itemsLegacyReorg.any.concat(itemsLegacyReorg[currentTier()[0]]);
+	listOfItemsLegacyReorgTwo = itemsLegacyReorgTwo.any.concat(itemsLegacyReorgTwo[currentTier()[0]]);
+
+	// Turning image collection into array
+	listOfItemsFullArray = []
+	listOfItemsReorgArray = []
+	listOfItemsReorgTwoArray = []
+	listOfItemsLegacyFullArray = []
+	listOfItemsLegacyReorgArray = []
+	listOfItemsLegacyReorgTwoArray = []
+	for(let i = 0; i < listOfItemsFull.length; i++){
+		if(i < listOfItemsFull.length)
+			listOfItemsFullArray.push([listOfItemsFull[i].name, listOfItemsFull[i].base64, 0.0])
+		if(i < listOfItemsReorg.length)
+			listOfItemsReorgArray.push([listOfItemsReorg[i].name, listOfItemsReorg[i].base64, 0.0])
+		if(i < listOfItemsReorgTwo.length)
+			listOfItemsReorgTwoArray.push([listOfItemsReorgTwo[i].name, listOfItemsReorgTwo[i].base64, 0.0])
+		if(i < listOfItemsLegacyFull.length)
+			listOfItemsLegacyFullArray.push([listOfItemsLegacyFull[i].name, listOfItemsLegacyFull[i].base64, 0.0])
+		if(i < listOfItemsLegacyReorg.length)
+			listOfItemsLegacyReorgArray.push([listOfItemsLegacyReorg[i].name, listOfItemsLegacyReorg[i].base64, 0.0])
+		if(i < listOfItemsLegacyReorgTwo.length)
+			listOfItemsLegacyReorgTwoArray.push([listOfItemsLegacyReorgTwo[i].name, listOfItemsLegacyReorgTwo[i].base64, 0.0])
+	}
+	console.log("DEBUG:",listOfItemsFullArray, listOfItemsReorgArray, listOfItemsReorgTwoArray, listOfItemsLegacyFullArray, listOfItemsLegacyReorgArray, listOfItemsLegacyReorgTwoArray)
+
+	listOfItemsRaw = itemsRaw.any.concat(itemsRaw.easy).concat(itemsRaw.medium).concat(itemsRaw.hard).concat(itemsRaw.elite).concat(itemsRaw.master)
+	listOfItemsLegacyRaw = itemsRaw.any.concat(itemsRaw.easy).concat(itemsRaw.medium).concat(itemsRaw.hard).concat(itemsRaw.elite).concat(itemsRaw.master)
+	listOfItemsRawArray = []
+	listOfItemsLegacyRawArray = []
+	for(let i = 0; i < listOfItemsRaw.length; i++){
+		listOfItemsRawArray.push([listOfItemsRaw[i].name, listOfItemsRaw[i].base64, 0.0])
+		listOfItemsLegacyRaw.push([listOfItemsLegacyRaw[i].name, listOfItemsLegacyRaw[i].base64, 0.0])
+	}
 }
 //print text world
 //also the worst possible example of how to use global exposed exports as described in webpack.config.json
