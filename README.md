@@ -41,8 +41,12 @@ This application was created to provide players with a way to easily record thei
 * Rollback will rewind to the last rewards logged by one clue.
 * Maybe support for further rollbacks will be added later, but for now you only get one.
 
-### Insert
-* Not working yet, but it is supposed to open an interface that allows the user to deposit a reward or value into LocalStorage directly in case of a misread.
+## Planned updates & Releases
+* Clear database confirmation (`confirm()` does not work in Alt1)
+* Allowing the user to deposit or withdraw a reward or value into or out of LocalStorage directly in case of a misread.
+* Image collection choice for icon recognition
+* Algorithm choice for icon recognition
+
 
 ## Additional info
 This plugin stores data using `localStorage` within Alt1. To completely refresh it:
