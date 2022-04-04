@@ -26,7 +26,7 @@ This application was created to provide players with a way to easily record thei
 1. Open a reward casket (Easy, Medium, Hard, Elite, Master)
     * Make sure clue reward window is not obfuscated in order to get a correct reading.
 2. Press the Capture button or press Alt+1 to record the clue interface.
-3. Wait a bit, recording take between 2 - 5 second depending on the tier of clue and the amount of rewards in the window.
+3. Wait a bit, recording takes between 1 - 5 second depending on the tier of clue and the amount of rewards in the window.
 4. Rewards appear in the OpenLogger Interface along with the value, and a dynamic display that updates when new rewards come in, along with the total and average value for the number of completed clues.
 
 ### Clear Database
@@ -46,6 +46,7 @@ This application was created to provide players with a way to easily record thei
 * Allowing the user to deposit or withdraw a reward or value into or out of LocalStorage directly in case of a misread.
 * Image collection choice for icon recognition
 * Algorithm choice for icon recognition
+* Rollback further than one
 
 
 ## Additional info
