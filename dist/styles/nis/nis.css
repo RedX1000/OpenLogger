@@ -174,7 +174,8 @@
   font-family: "trajan-pro-3";
   text-shadow: 1px 1px 2px #ecc622;
   font-size: 18px;
-  margin: 10px 5%;
+  /* margin: 10px 5%; */
+  margin: 4px 0%;
   padding: 0px 12px 0px 12px;
   line-height: 32px;
   user-select: none;
@@ -397,6 +398,39 @@ header {
   white-space: nowrap;
 }
 
+#top_buttons{
+  width: 100%;
+  cursor: pointer;
+  color: #000;
+  font-family: "trajan-pro-3";
+  font-size: 18px;
+  line-height: 32px;
+  user-select: none;
+  -webkit-user-select: none;
+  display:inline;
+  grid-template-columns: repeat(2, auto);
+}
+
+#csv_button,
+#settings_button{
+  position:relative;
+  font-size: 18px;
+}
+
+#csv_button{
+  width: 85%;
+  float: left;
+}
+
+#settings_button{
+  width: 30px;
+  margin-left: auto;
+}
+
+#settings_cog{
+  width:100%;
+}
+
 .header_box {
   display: flex;
   flex-wrap: wrap;
@@ -530,7 +564,6 @@ header {
   font-weight: 600;
 }
 
-#csv_button,
 #clear_button,
 #docapturebutton {
   width: 90%;
@@ -582,7 +615,7 @@ header {
 #average_of_clues {
   font-size: 17px;
   font-weight: 600;
-  margin: 2px;
+  margin: 5px;
   padding: auto;
   text-align: center;
 }

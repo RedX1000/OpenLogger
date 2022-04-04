@@ -345,8 +345,9 @@ async function compareItems(item:ImageData){
 	//	{output: {ignoreAreasColoredWith: colors}}
 	// 	Choices are: yellow, black1, black2, black3, legacytan, rs3blue
 
-	var matches = listOfItemsReorgTwoArray.slice();
+	
 	if(!legacy){
+		var matches = listOfItemsReorgTwoArray.slice();
 		var imgdata = await compareImages(item, matches[0][1] , {output: {}, ignore: "less"})
 		matches[0][2] = imgdata.rawMisMatchPercentage;
 		if(matches[0][2] == 0.00)
@@ -365,6 +366,7 @@ async function compareItems(item:ImageData){
 	}
 	else{
 		// Legacy kinda janky. Need to figure it out
+		var matches = listOfItemsLegacyReorgTwoArray.slice();
 		var imgdata = await compareImages(item, matches[0][1] , {output: {}, ignore: ["less"]})
 		matches[0][2] = imgdata.rawMisMatchPercentage;
 		if(matches[0][2] == 0.00) // If it is blank
@@ -715,10 +717,6 @@ export function rollback(){
 	}
 }
 
-export function insert(){
-
-}
-
 function arraySetup(){
 	// Set new array
 	listOfItemsFull = itemsFull.any.concat(itemsFull[currentTier()[0]]);
@@ -759,6 +757,26 @@ function arraySetup(){
 		listOfItemsLegacyRawArray.push([listOfItemsLegacyRaw[i].name, listOfItemsLegacyRaw[i].base64, 0.0])
 	}
 	console.log("DEBUG:",listOfItemsFullArray, listOfItemsReorgArray, listOfItemsReorgTwoArray, listOfItemsLegacyFullArray, listOfItemsLegacyReorgArray, listOfItemsLegacyReorgTwoArray, listOfItemsRawArray, listOfItemsLegacyRawArray)
+}
+
+export function insert(){
+	if (window.alt1) {
+		alt1.overLayClearGroup("overlays"); alt1.overLaySetGroup("overlays")
+		alt1.overLayTextEx("Doesn't work yet...", a1lib.mixColor(255, 80, 80), 20, Math.round(alt1.rsWidth / 2), 200, 4000, "", true, true);
+	}
+}
+
+export function settings(){
+	if (window.alt1) {
+		alt1.overLayClearGroup("overlays"); alt1.overLaySetGroup("overlays")
+		alt1.overLayTextEx("Doesn't work yet...", a1lib.mixColor(255, 80, 80), 20, Math.round(alt1.rsWidth / 2), 200, 4000, "", true, true);
+	}
+	var childWin = window.open("childWin.html", "_blank", "height=400, width=550, status=yes, toolbar=no, menubar=no, location=no,addressbar=no"); 
+
+	if (window.alt1) {
+		alt1.overLayClearGroup("overlays"); alt1.overLaySetGroup("overlays")
+		alt1.overLayTextEx(".", a1lib.mixColor(255, 80, 80), 20, Math.round(alt1.rsWidth / 2), 200, 4000, "", true, true);
+	}
 }
 //print text world
 //also the worst possible example of how to use global exposed exports as described in webpack.config.json
