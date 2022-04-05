@@ -11,8 +11,6 @@ import * as itemsReorgTwo from './JSONs/ItemsAndImagesReorganizedTwo.json';
 import * as itemsLegacyFull from './JSONs/ItemsAndImagesLegacy.json'
 import * as itemsLegacyReorg from './JSONs/ItemsAndImagesLegacyReorganized.json'
 import * as itemsLegacyReorgTwo from './JSONs/ItemsAndImagesLegacyReorganizedTwo.json';
-import * as itemsRaw from './JSONs/ItemsAndImagesRaw.json'
-import * as itemsLegacyRaw from './JSONs/ItemsAndImagesLegacyRaw.json';
 import ClueRewardReader from "./scripts/rewardreader";
 import { ModalUIReader } from "./scripts/modeluireader";
 import { IgnorePlugin, javascript, node } from "webpack";
@@ -26,23 +24,26 @@ require("!file-loader?name=[name].[ext]!./appconfig.json");
 
 var rewardSlots = ["first_item", "second_item", "third_item", "fourth_item", "fifth_item", "sixth_item", "seventh_item", "eigth_item", "ninth_item"]
 var tierlist = ["easy", "medium", "hard", "elite", "master"]
-var ignorelist = ["EValue", "ECount", "MValue", "MCount", "HValue", "HCount", "ElValue", "ElCount", "MaValue", "MaCount", "Checked button"]
-var listOfItemsRaw
-var listOfItemsRawArray = []
+var ignorelist = ["EValue", "ECount", "MValue", "MCount", "HValue", "HCount", "ElValue", "ElCount", "MaValue", "MaCount", "Checked button","Algorithm","ItemList"]
+
+var listOfItemsAll
 var listOfItemsFull
-var listOfItemsFullArray = []
 var listOfItemsReorg
-var listOfItemsReorgArray = []
 var listOfItemsReorgTwo
-var listOfItemsReorgTwoArray = []
-var listOfItemsLegacyRaw
-var listOfItemsLegacyRawArray = []
+var listOfItemsLegacyAll
 var listOfItemsLegacyFull
-var listOfItemsLegacyFullArray = []
 var listOfItemsLegacyReorg
-var listOfItemsLegacyReorgArray = []
 var listOfItemsLegacyReorgTwo
+
+var listOfItemsAllArray = []
+var listOfItemsFullArray = []
+var listOfItemsReorgArray = []
+var listOfItemsReorgTwoArray = []
+var listOfItemsLegacyAllArray = []
+var listOfItemsLegacyFullArray = []
+var listOfItemsLegacyReorgArray = []
 var listOfItemsLegacyReorgTwoArray = []
+
 var legacy = false
 var displaybox = true
 
@@ -59,9 +60,9 @@ export function init(){
 	// Set the checked button
 	console.log("Initializing plugin...");
 	let keys = Object.keys(lsdb);
-	if(localStorage.getItem("Checked button") == null){ // If doesn't exist yet
+	if(localStorage.getItem("Checked button") == null){ // Checked button init check
 		console.log("Defaulting button to easy...");
-		const ele = document.getElementById("easy") as HTMLInputElement;
+		let ele = document.getElementById("easy") as HTMLInputElement;
 		ele.checked = true;
 		document.getElementById('clue_tier').textContent = "Easy";
 		localStorage.setItem("Checked button", "easy");
@@ -70,10 +71,20 @@ export function init(){
 	else{ // If it does, set the button and span
 		console.log("Setting previously set radio button: " + localStorage.getItem("Checked button") + "...");
 		let temp = localStorage.getItem("Checked button");
-		const ele = document.getElementById(temp) as HTMLInputElement;
+		let ele = document.getElementById(temp) as HTMLInputElement;
 		ele.checked = true;
 		document.getElementById('clue_tier').textContent = temp[0].toUpperCase() + temp.slice(1).toLowerCase();
 		document.getElementById("current_tier_buttom").textContent = currentTier()[0]
+	}
+
+	if(localStorage.getItem("Algorithm") == null){ // Algorithim init check
+		console.log("Defaulting button to ResembleJS...");
+		localStorage.setItem("Algorithm", "resemblejs");
+	}
+
+	if(localStorage.getItem("ItemList") == null){ // Item Referense list init check
+		console.log("Defaulting list to Organized List...");
+		localStorage.setItem("ItemList", "orglist");
 	}
 	console.log("Radio buttons initialized.\n ");
 
@@ -262,7 +273,7 @@ async function findtrailComplete(img: ImgRef) {
 		for(let i = 0; i < 9; i++){
 			if(itemResults[i] == "Blank")
 				break;
-			promises.push(quantResults.push(await readQuantites(topCrops[i])));
+			promises.push(quantResults.push(await readQuantities(topCrops[i])));
 		}
 		await Promise.all(promises)
 		console.log(quantResults)
@@ -344,10 +355,25 @@ async function compareItems(item:ImageData){
 	 // Remove blank if not blank
 	//	{output: {ignoreAreasColoredWith: colors}}
 	// 	Choices are: yellow, black1, black2, black3, legacytan, rs3blue
+	// all, twoplus, orglist, orgminus
 
-	
 	if(!legacy){
-		var matches = listOfItemsReorgTwoArray.slice();
+	}
+	else{
+	}
+	
+
+
+	if(!legacy){
+		if(localStorage.getItem("ItemList") == "all")
+			var matches = listOfItemsAllArray.slice();
+		else if(localStorage.getItem("ItemList") == "twoplus")
+			var matches = listOfItemsFullArray.slice();
+		else if(localStorage.getItem("ItemList") == "orglist")
+			var matches = listOfItemsReorgArray.slice();
+		else if(localStorage.getItem("ItemList") == "orgminus")
+			var matches = listOfItemsReorgTwoArray.slice();
+
 		var imgdata = await compareImages(item, matches[0][1] , {output: {}, ignore: "less"})
 		matches[0][2] = imgdata.rawMisMatchPercentage;
 		if(matches[0][2] == 0.00)
@@ -363,9 +389,17 @@ async function compareItems(item:ImageData){
 					found = matches[i]
 			}));
 		await Promise.all(promises)
-	}
-	else{
-		// Legacy kinda janky. Need to figure it out
+	}	
+	else{ // Legacy kinda janky. Need to figure it out
+		if(localStorage.getItem("ItemList") == "all")
+			var matches = listOfItemsLegacyAllArray.slice();
+		else if(localStorage.getItem("ItemList") == "twoplus")
+			var matches = listOfItemsLegacyFullArray.slice();
+		else if(localStorage.getItem("ItemList") == "orglist")
+			var matches = listOfItemsLegacyReorgArray.slice();
+		else if(localStorage.getItem("ItemList") == "orgminus")
+			var matches = listOfItemsLegacyReorgTwoArray.slice();
+			
 		var matches = listOfItemsLegacyReorgTwoArray.slice();
 		var imgdata = await compareImages(item, matches[0][1] , {output: {}, ignore: ["less"]})
 		matches[0][2] = imgdata.rawMisMatchPercentage;
@@ -388,7 +422,7 @@ async function compareItems(item:ImageData){
 	return found[0]
 }
 
-async function readQuantites(item: ImageData){
+async function readQuantities(item: ImageData){
 	// Instead oif reading top to bottom individulally, 
 	// Read from left to right Read left to right with all columns together
 	// And since the height is always the same I dont have ot worry about changing
@@ -544,17 +578,21 @@ function tabDisplay(current: string){
 		let nodevar = document.createElement("itembox");
 		let imgvar = document.createElement("img");
 		let quantvar = document.createElement("span");
-		nodevar.setAttribute('style', 'position:relative; margin: 3 5 0 1; padding:0 5px 0 2px; width:35px; height:35px; display:flex; align-items:center; text-align:center; order: '+parseInt(JSON.parse(localStorage.getItem(keys[i])).order)+';');
+		nodevar.setAttribute('style', 'position:relative; margin: 3 5 0 1; padding:0 7px 0 2px; width:35px; height:35px; display:flex; align-items:center; text-align:center; order: '+parseInt(JSON.parse(localStorage.getItem(keys[i])).order)+';');
 		nodevar.setAttribute('title',JSON.parse(localStorage.getItem(keys[i])).quantity[current] +" x "+keys[i])
 		imgvar.src = encodeURI("./images/items/"+keys[i]+".png");
 		imgvar.setAttribute('style', 'margin:0 auto;');
-		if(parseInt(JSON.parse(localStorage.getItem(keys[i])).quantity[current]) > 99999){
+		if(parseInt(JSON.parse(localStorage.getItem(keys[i])).quantity[current]) > 9999999){
+			quantvar.setAttribute('style','position:absolute; left:0; top:0; font-family:Runescape Chat Font; font-size:16px; color:rgb(0,255,128); text-shadow:1px 1px #000000;');
+			quantvar.textContent = Math.trunc(parseInt(JSON.parse(localStorage.getItem(keys[i])).quantity[current]) / 1000000).toString() + "M";
+		}
+		else if(parseInt(JSON.parse(localStorage.getItem(keys[i])).quantity[current]) > 99999){
 			quantvar.setAttribute('style','position:absolute; left:0; top:0; font-family:Runescape Chat Font; font-size:16px; color:rgb(255,255,255); text-shadow:1px 1px #000000;');
-			quantvar.textContent = (parseInt(JSON.parse(localStorage.getItem(keys[i])).quantity[current]) / 1000).toString() + "k";
+			quantvar.textContent = Math.trunc(parseInt(JSON.parse(localStorage.getItem(keys[i])).quantity[current]) / 1000).toString() + "k";
 		}
 		else{
 			quantvar.setAttribute('style','position:absolute; left:0; top:0; font-family:Runescape Chat Font; font-size:16px; color:rgb(255,255,0); text-shadow:1px 1px #000000;');
-			quantvar.textContent = JSON.parse(localStorage.getItem(keys[i])).quantity[current];
+			quantvar.textContent = Math.trunc(JSON.parse(localStorage.getItem(keys[i])).quantity[current]) + "";
 		}
 		nodevar.append(quantvar);
 		nodevar.append(imgvar);
@@ -748,15 +786,15 @@ function arraySetup(){
 			listOfItemsLegacyReorgTwoArray.push([listOfItemsLegacyReorgTwo[i].name, listOfItemsLegacyReorgTwo[i].base64, 0.0])
 	}
 
-	listOfItemsRaw = itemsRaw.any.concat(itemsRaw.easy).concat(itemsRaw.medium).concat(itemsRaw.hard).concat(itemsRaw.elite).concat(itemsRaw.master)
-	listOfItemsLegacyRaw = itemsLegacyRaw.any.concat(itemsLegacyRaw.easy).concat(itemsLegacyRaw.medium).concat(itemsLegacyRaw.hard).concat(itemsLegacyRaw.elite).concat(itemsLegacyRaw.master)
-	listOfItemsRawArray = []
-	listOfItemsLegacyRawArray = []
-	for(let i = 0; i < listOfItemsRaw.length; i++){
-		listOfItemsRawArray.push([listOfItemsRaw[i].name, listOfItemsRaw[i].base64, 0.0])
-		listOfItemsLegacyRawArray.push([listOfItemsLegacyRaw[i].name, listOfItemsLegacyRaw[i].base64, 0.0])
+	listOfItemsAll = itemsFull.any.concat(itemsFull.easy).concat(itemsFull.medium).concat(itemsFull.hard).concat(itemsFull.elite).concat(itemsFull.master)
+	listOfItemsLegacyAll = itemsLegacyFull.any.concat(itemsLegacyFull.easy).concat(itemsLegacyFull.medium).concat(itemsLegacyFull.hard).concat(itemsLegacyFull.elite).concat(itemsLegacyFull.master)
+	listOfItemsAllArray = []
+	listOfItemsLegacyAllArray = []
+	for(let i = 0; i < listOfItemsAll.length; i++){
+		listOfItemsAllArray.push([listOfItemsAll[i].name, listOfItemsAll[i].base64, 0.0])
+		listOfItemsLegacyAllArray.push([listOfItemsLegacyAll[i].name, listOfItemsLegacyAll[i].base64, 0.0])
 	}
-	console.log("DEBUG:",listOfItemsFullArray, listOfItemsReorgArray, listOfItemsReorgTwoArray, listOfItemsLegacyFullArray, listOfItemsLegacyReorgArray, listOfItemsLegacyReorgTwoArray, listOfItemsRawArray, listOfItemsLegacyRawArray)
+	// console.log("DEBUG:",listOfItemsFullArray, listOfItemsReorgArray, listOfItemsReorgTwoArray, listOfItemsLegacyFullArray, listOfItemsLegacyReorgArray, listOfItemsLegacyReorgTwoArray, listOfItemsFullArray, listOfItemsLegacyFullArray)
 }
 
 export function insert(){
@@ -769,13 +807,53 @@ export function insert(){
 export function settings(){
 	if (window.alt1) {
 		alt1.overLayClearGroup("overlays"); alt1.overLaySetGroup("overlays")
-		alt1.overLayTextEx("Doesn't work yet...", a1lib.mixColor(255, 80, 80), 20, Math.round(alt1.rsWidth / 2), 200, 4000, "", true, true);
+		alt1.overLayTextEx("Algorithms does not work yet...", a1lib.mixColor(255, 80, 80), 20, Math.round(alt1.rsWidth / 2), 200, 4000, "", true, true);
 	}
-	var childWin = window.open("childWin.html", "_blank", "height=400, width=550, status=yes, toolbar=no, menubar=no, location=no,addressbar=no"); 
+	
+	var settingsWindow = window.open("./settings.html", "_blank", "height=550, width=360, status=yes, toolbar=no, menubar=no, location=no,addressbar=no");
 
+	//var childWin = window.open("./settings.html", "Settings", "height=400, width=200, status=yes, toolbar=no, menubar=no, location=no,addressbar=no"); 
+
+	//if (window.alt1) {
+	//	alt1.overLayClearGroup("overlays"); alt1.overLaySetGroup("overlays")
+	//	alt1.overLayTextEx(".", a1lib.mixColor(255, 80, 80), 20, Math.round(alt1.rsWidth / 2), 200, 4000, "", true, true);
+	//}
+}
+
+export function settingsInit(){
+	if(localStorage.getItem("Algorithm") == null){ // Algorithim init check
+		console.log("Defaulting button to ResembleJS...");
+		var ele = document.getElementById("resemblejs") as HTMLInputElement;
+		ele.checked = true;
+		localStorage.setItem("Algorithm", "resemblejs");
+	}
+	else{ // If it does, set the button and span
+		console.log("Setting previously set radio button: " + localStorage.getItem("Algorithm") + "...");
+		let temp = localStorage.getItem("Algorithm");
+		let ele = document.getElementById(temp) as HTMLInputElement;
+		ele.checked = true;
+	}
+
+	if(localStorage.getItem("ItemList") == null){ // Item Referense list init check
+		console.log("Defaulting list to Organized List...");
+		var ele = document.getElementById("orglist") as HTMLInputElement;
+		ele.checked = true;
+		localStorage.setItem("ItemList", "orglist");
+	}
+	else{ // If it does, set the button and span
+		console.log("Setting previously set radio button: " + localStorage.getItem("ItemList") + "...");
+		let temp = localStorage.getItem("ItemList");
+		let ele = document.getElementById(temp) as HTMLInputElement;
+		ele.checked = true;
+	}
+}
+
+export function saveSettings(alg: string, list: string){
+	localStorage.setItem("Algorithm", alg)
+	localStorage.setItem("ItemList", list)
 	if (window.alt1) {
 		alt1.overLayClearGroup("overlays"); alt1.overLaySetGroup("overlays")
-		alt1.overLayTextEx(".", a1lib.mixColor(255, 80, 80), 20, Math.round(alt1.rsWidth / 2), 200, 4000, "", true, true);
+		alt1.overLayTextEx("Settings saved!", a1lib.mixColor(100, 255, 100), 20, Math.round(alt1.rsWidth / 2), 200, 2000, "", true, true);
 	}
 }
 //print text world

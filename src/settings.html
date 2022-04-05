@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+		<script src="./index.bundle.js"></script>
+
+		<link rel="stylesheet" type="text/css" href="./styles/nis/settings.css"/>
+		<link rel="stylesheet" type="text/css" href="./styles/nis/alt1-currentskin/skinstyle.css"/><!--stylesheet with all nis styles (Will be part of public resources so feel free to copy/paste)-->
+		<link rel="stylesheet" type="text/css" href="./styles/nis/fonts/stylesheet.css">
+    <script>
+      function getSaveDetails(){
+          let alg;
+          let list;
+          if(document.getElementById("pixel").checked){
+              alg = "pixel"
+          }else if(document.getElementById("hybrid").checked){
+              alg = "hybrid"
+          }else if(document.getElementById("resemblejs").checked){
+              alg = "resemblejs"
+          }
+
+          if(document.getElementById("all").checked){
+              list = "all"
+          }else if(document.getElementById("twoplus").checked){
+              list = "twoplus"
+          }else if(document.getElementById("orglist").checked){
+              list = "orglist"
+          }else if(document.getElementById("orgminus").checked){
+              list = "orgminus"
+          }
+          TEST.saveSettings(alg, list)
+          window.close()
+      }
+    </script>
+  </head>
+  <body onload=TEST.settingsInit()>
+    <header><h1>Settings Menu</h1></header>
+    <h2><u>Image searching algorithm</u></h2>
+    <mainalgs>
+        <label class="title_labels" title="Faster but less accurate algorithm, finding the image pixel by pixel">Pixel Autocompletion Algorithm:<br></label>
+        <div class="main_divs">
+          <label for="pixel" id="algorithm_label">Pixel</label>
+          <input type="radio" id="pixel" name="algorithm" class="mainsection_buttons" value="pixel">
+        </div>
+        <label class="title_labels" title="A mix between both ResembleJS and Pixel Autocompletion algorithms">Hybrid Algorithm:<br></label>
+        <div class="main_divs">
+          <label for="hybrid" id="algorithm_label">Hybrid</label>
+          <input type="radio" id="hybrid" name="algorithm" class="mainsection_buttons" value="hybrid">
+        </div>
+        <label class="title_labels" title="Slower but more accurate algorithm utilizing ResembleJS library">ResembleJS Algorithm:<br></label>
+        <div class="main_divs">
+          <label for="resemblejs" id="algorithm_label">ResembleJS</label>
+          <input type="radio" id="resemblejs" name="algorithm" class="mainsection_buttons" value="resemblejs">
+        </div>
+    </mainalgs>
+    <h2><u>Reference Image Collection</u></h2>
+    <mainimgs>
+        <label class="title_labels" title="Complete, full list of reference images. Takes the longest to compare">All Items List:<br></label>
+        <div class="main_divs">
+          <label for="all" id="img_label">All Images</label>
+          <input type="radio" id="all" name="refimgs" class="mainimgs_buttons" value="all">
+        </div>
+        <label class="title_labels" title="List of items, where items that appear in two or more tiers are compared with the clue tiers items. Takes the second longest">Two or more List:<br></label>
+        <div class="main_divs">
+          <label for="twoplus" id="img_label">TwoPlus</label>
+          <input type="radio" id="twoplus" name="refimgs" class="mainimgs_buttons" value="twoplus">
+        </div>
+        <label class="title_labels" title="List of items where items are located in their respective tier. Best for a balance of speed and accuracy">Organized List:<br></label>
+        <div class="main_divs">
+          <label for="orglist" id="img_label">Org List</label>
+          <input type="radio" id="orglist" name="refimgs" class="mainimgs_buttons" value="orglist">
+        </div>
+        <label class="title_labels" title="Slower but more accurate algorithm utilizing ResembleJS library. Best for speed, but worst for accuracy">Organized Minus:<br></label>
+        <div class="main_divs">
+          <label for="orgminus" id="img_label">Org Minus</label>
+          <input type="radio" id="orgminus" name="refimgs" class="mainimgs_buttons" value="orgminus">
+        </div>
+    </mainimgs>
+    <footer>
+      <div id="choice_buttons">
+        <div id="confirm_button" class="nisbutton" onclick="getSaveDetails();">Confirm</div>
+        <div id="cancel_button" class="nisbutton" onclick="window.close();" title="Settings">Cancel</div>
+      </div>
+    </footer>  
+  </body>
+</html>
