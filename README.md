@@ -41,13 +41,22 @@ This application was created to provide players with a way to easily record thei
 * Rollback will rewind to the last rewards logged by one clue.
 * Maybe support for further rollbacks will be added later, but for now you only get one.
 
+### Settings
+* Settings allow for user choice of Algorithm for icon recognition and List of reference images used for icon recognition.
+* Hover over the corresponding buttons title to learn more about what it does.
+
+### Reference Image Collection
+1. All Items List: Complete, full list of reference images. Takes the longest to compare
+2. Two or more List: List of items, where items that appear in two or more tiers are compared with the clue tiers items. Takes the second longest to run
+3. Organized List: List of items where items are located in their respective tier. Best for a balance of speed and accuracy
+4. Organized Minus: Smallest list of items. OrgList but with less duplicates. Best for speed, but worst for accuracy due to lower variance.
+
 ## Planned updates & Releases
-* Legacy interface support
-* Clear database confirmation (`confirm()` does not work in Alt1)
+* Legacy interface support. It can read values, but not icons at this time.
+* Clear database confirmation (`confirm()` does not work in Alt1).
 * Allowing the user to deposit or withdraw a reward or value into or out of LocalStorage directly in case of a misread.
-* Image collection choice for icon recognition
-* Algorithm choice for icon recognition
-* Rollback further than one
+* Algorithm choice for icon recognition.
+* Rollback further than one.
 
 
 ## Additional info
