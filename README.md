@@ -42,6 +42,7 @@ This application was created to provide players with a way to easily record thei
 * Maybe support for further rollbacks will be added later, but for now you only get one.
 
 ## Planned updates & Releases
+* Legacy interface support
 * Clear database confirmation (`confirm()` does not work in Alt1)
 * Allowing the user to deposit or withdraw a reward or value into or out of LocalStorage directly in case of a misread.
 * Image collection choice for icon recognition
