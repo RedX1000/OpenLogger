@@ -412,10 +412,17 @@ mainimgs{
 label{
   color:white
 }
+
 .title_labels{ 
   font-family:"trajan-pro-3";
   color:#f9c037;
   padding:10px 0px;
+}
+
+#algorithm_label,
+#img_label{
+    color:#f9c037;
+    margin: 0 0 0 7px;
 }
 
 #choice_buttons{

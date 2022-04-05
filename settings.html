@@ -38,41 +38,41 @@
     <mainalgs>
         <label class="title_labels" title="Much faster but less accurate algorithm, finding the image pixel by pixel. Best used with All or TwoPlus">Pixel Autocompletion Algorithm:<br></label>
         <div class="main_divs">
-          <label for="pixel" id="algorithm_label">Pixel</label>
-          <input type="radio" id="pixel" name="algorithm" class="mainsection_buttons" value="pixel">
+          <label for="pixel" id="algorithm_label" title="Much faster but less accurate algorithm, finding the image pixel by pixel. Best used with All or TwoPlus">Pixel</label>
+          <input type="radio" id="pixel" name="algorithm" class="mainsection_buttons" value="pixel" title="Much faster but less accurate algorithm, finding the image pixel by pixel. Best used with All or TwoPlus">
         </div>
         <label class="title_labels" title="A mix between both ResembleJS and Pixel Autocompletion algorithms.">Hybrid Algorithm:<br></label>
         <div class="main_divs">
-          <label for="hybrid" id="algorithm_label">Hybrid</label>
-          <input type="radio" id="hybrid" name="algorithm" class="mainsection_buttons" value="hybrid">
+          <label for="hybrid" id="algorithm_label" title="A mix between both ResembleJS and Pixel Autocompletion algorithms.">Hybrid</label>
+          <input type="radio" id="hybrid" name="algorithm" class="mainsection_buttons" value="hybrid" title="A mix between both ResembleJS and Pixel Autocompletion algorithms.">
         </div>
         <label class="title_labels" title="Slower but more accurate algorithm utilizing ResembleJS library. Best used with OrgList or OrgMinus.">ResembleJS Algorithm:<br></label>
         <div class="main_divs">
-          <label for="resemblejs" id="algorithm_label">ResembleJS</label>
-          <input type="radio" id="resemblejs" name="algorithm" class="mainsection_buttons" value="resemblejs">
+          <label for="resemblejs" id="algorithm_label" title="Slower but more accurate algorithm utilizing ResembleJS library. Best used with OrgList or OrgMinus.">ResembleJS</label>
+          <input type="radio" id="resemblejs" name="algorithm" class="mainsection_buttons" value="resemblejs" title="Slower but more accurate algorithm utilizing ResembleJS library. Best used with OrgList or OrgMinus.">
         </div>
     </mainalgs>
     <h2><u>Reference Image Collection</u></h2>
     <mainimgs>
         <label class="title_labels" title="Complete, full list of reference images. Takes the longest to compare">All Items List:<br></label>
         <div class="main_divs">
-          <label for="all" id="img_label">All Images</label>
-          <input type="radio" id="all" name="refimgs" class="mainimgs_buttons" value="all">
+          <label for="all" id="img_label" title="Complete, full list of reference images. Takes the longest to compare">All Images</label>
+          <input type="radio" id="all" name="refimgs" class="mainimgs_buttons" value="all" title="Complete, full list of reference images. Takes the longest to compare">
         </div>
         <label class="title_labels" title="List of items, where items that appear in two or more tiers are compared with the clue tiers items. Takes the second longest">Two or more List:<br></label>
         <div class="main_divs">
-          <label for="twoplus" id="img_label">TwoPlus</label>
-          <input type="radio" id="twoplus" name="refimgs" class="mainimgs_buttons" value="twoplus">
+          <label for="twoplus" id="img_label" title="List of items, where items that appear in two or more tiers are compared with the clue tiers items. Takes the second longest to run">TwoPlus</label>
+          <input type="radio" id="twoplus" name="refimgs" class="mainimgs_buttons" value="twoplus" title="List of items, where items that appear in two or more tiers are compared with the clue tiers items. Takes the second longest">
         </div>
         <label class="title_labels" title="List of items where items are located in their respective tier. Best for a balance of speed and accuracy">Organized List:<br></label>
         <div class="main_divs">
-          <label for="orglist" id="img_label">Org List</label>
-          <input type="radio" id="orglist" name="refimgs" class="mainimgs_buttons" value="orglist">
+          <label for="orglist" id="img_label" title="List of items where items are located in their respective tier. Best for a balance of speed and accuracy">Org List</label>
+          <input type="radio" id="orglist" name="refimgs" class="mainimgs_buttons" value="orglist" title="List of items where items are located in their respective tier. Best for a balance of speed and accuracy">
         </div>
-        <label class="title_labels" title="Slower but more accurate algorithm utilizing ResembleJS library. Best for speed, but worst for accuracy">Organized Minus:<br></label>
+        <label class="title_labels" title="Smallest list of items. OrgList but with less duplicates. Best for speed, but worst for accuracy due to lower variance.">Organized Minus:<br></label>
         <div class="main_divs">
-          <label for="orgminus" id="img_label">Org Minus</label>
-          <input type="radio" id="orgminus" name="refimgs" class="mainimgs_buttons" value="orgminus">
+          <label for="orgminus" id="img_label" title="Smaller list of items. OrgList but with less duplicates. Best for speed, but worst for accuracy due to lower variance.">Org Minus</label>
+          <input type="radio" id="orgminus" name="refimgs" class="mainimgs_buttons" value="orgminus" title="Smaller list of items. OrgList but with less duplicates. Best for speed, but worst for accuracy due to lower variance.">
         </div>
     </mainimgs>
     <footer>
