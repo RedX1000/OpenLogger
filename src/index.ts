@@ -3,7 +3,10 @@
 import * as a1lib from "@alt1/base";
 import { ImgRef } from "@alt1/base";
 import * as resemble from "resemblejs";
+import * as PNG from "pngjs"
+import * as jsqr from "jsqr"
 import compareImages from "resemblejs/compareImages"
+import * as pixelmatch from "pixelmatch"
 import * as lsdb from './JSONs/LocalStorageInit.json';
 import * as itemsFull from './JSONs/ItemsAndImages.json'
 import * as itemsReorg from './JSONs/ItemsAndImagesReorganized.json'
@@ -378,17 +381,39 @@ async function compareItems(item:ImageData){
 		matches[0][2] = imgdata.rawMisMatchPercentage;
 		if(matches[0][2] == 0.00)
 			return "Blank"
-
 		matches.shift()
-		var found = matches[0]
-		const promises = []
-		for(let i = 0; i < matches.length; i++)
-			promises.push(await compareImages(item, matches[i][1] , {output: {}, ignore: "less"} ).then(data => {
-				matches[i][2] = data.rawMisMatchPercentage;
-				if(found[2] > matches[i][2])
+		
+		if(localStorage.getItem("Algorithm") == "resemblejs"){
+			var found = matches[0]
+			const promises = []
+			for(let i = 0; i < matches.length; i++)
+				promises.push(await compareImages(item, matches[i][1] , {output: {}, ignore: "less"} ).then(data => {
+					matches[i][2] = data.rawMisMatchPercentage;
+					if(found[2] > matches[i][2])
+						found = matches[i]
+				}));
+			await Promise.all(promises)
+		}
+		else if(localStorage.getItem("Algorithm") == "pixelmatch"){	
+			var found = matches[0]
+			const promises = []
+			for(let i = 0; i < matches.length; i++){
+				const byteCharacters = atob(matches[i][1].replace("data:image/png;base64,",''))
+				const byteNumbers = new Array(byteCharacters.length)
+				for (let i = 0; i < byteCharacters.length; i++) {
+					byteNumbers[i] = byteCharacters.charCodeAt(i);
+				}
+				const byteArray = new Uint8Array(byteNumbers)
+				console.log("Original Image",item.data)
+				console.log("Reference Image",byteArray)
+				matches[i][2] = pixelmatch(item.data, byteArray, null, item.width, item.height, {threshold: 0})
+				console.log(matches[i][2])
+				if(found[2] < found[i][2]){
 					found = matches[i]
-			}));
-		await Promise.all(promises)
+				}
+			}
+			await Promise.all(promises)
+		}
 	}	
 	else{ // Legacy kinda janky. Need to figure it out
 		if(localStorage.getItem("ItemList") == "all")
@@ -405,18 +430,23 @@ async function compareItems(item:ImageData){
 		matches[0][2] = imgdata.rawMisMatchPercentage;
 		if(matches[0][2] == 0.00) // If it is blank
 			return "Blank";
-
 		matches.shift()
-		var found = matches[0]
-		const promises = []
-		for(let i = 0; i < matches.length; i++)
-			promises.push(await compareImages(item, matches[i][1] , {output: {}, ignore: "less"} ).then(data => {
-				matches[i][2] = data.rawMisMatchPercentage;
-				if(found[2] > matches[i][2])
-					found = matches[i]
-					
-			}));
-		await Promise.all(promises)
+
+		if(localStorage.getItem("Algorithm") == "resemblejs"){
+			var found = matches[0]
+			const promises = []
+			for(let i = 0; i < matches.length; i++)
+				promises.push(await compareImages(item, matches[i][1] , {output: {}, ignore: "less"} ).then(data => {
+					matches[i][2] = data.rawMisMatchPercentage;
+					if(found[2] > matches[i][2])
+						found = matches[i]
+
+				}));
+			await Promise.all(promises)
+		}
+		else if(localStorage.getItem("Algorithm") == "pixelmatch"){
+
+		}
 	}
 	console.log(found[0])
 	return found[0]
@@ -690,7 +720,7 @@ export function exporttocsv(){
 	    let row = i.join(",");
 	    csvContent += row + "\r\n";
 	});
-	let filename = "OpenLogger CSV "+d.getFullYear()+"-"+d.getMonth()+"-"+d.getDate()+".csv"
+	let filename = "OpenLogger CSV "+d.getFullYear()+"-"+d.getMonth()+1+"-"+d.getDate()+".csv"
 	var encodedUri = "data:text/csv;charset=utf-8,%EF%BB%BF" + encodeURI(csvContent);
 	var link = document.createElement("a");
 	link.setAttribute("href", encodedUri);

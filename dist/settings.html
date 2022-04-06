@@ -10,23 +10,25 @@
       function getSaveDetails(){
           let alg;
           let list;
-          if(document.getElementById("pixel").checked){
+          if(document.getElementById("pixel").checked)
               alg = "pixel"
-          }else if(document.getElementById("hybrid").checked){
+          else if(document.getElementById("hybrid").checked)
               alg = "hybrid"
-          }else if(document.getElementById("resemblejs").checked){
+          else if(document.getElementById("resemblejs").checked)
               alg = "resemblejs"
-          }
+          else if(document.getElementById("pixelmatch").checked)
+              alg = "pixelmatch"
+          
 
-          if(document.getElementById("all").checked){
+          if(document.getElementById("all").checked)
               list = "all"
-          }else if(document.getElementById("twoplus").checked){
+          else if(document.getElementById("twoplus").checked)
               list = "twoplus"
-          }else if(document.getElementById("orglist").checked){
+          else if(document.getElementById("orglist").checked)
               list = "orglist"
-          }else if(document.getElementById("orgminus").checked){
+          else if(document.getElementById("orgminus").checked)
               list = "orgminus"
-          }
+          
           TEST.saveSettings(alg, list)
           window.close()
       }
@@ -50,6 +52,11 @@
         <div class="main_divs">
           <label for="resemblejs" id="algorithm_label" title="Slower but more accurate algorithm utilizing ResembleJS library. Best used with OrgList or OrgMinus.">ResembleJS</label>
           <input type="radio" id="resemblejs" name="algorithm" class="mainsection_buttons" value="resemblejs" title="Slower but more accurate algorithm utilizing ResembleJS library. Best used with OrgList or OrgMinus.">
+        </div>
+        <label class="title_labels" title="Slower but more accurate algorithm utilizing ResembleJS library. Best used with OrgList or OrgMinus.">Pixelmatch Algorithm:<br></label>
+        <div class="main_divs">
+          <label for="pixelmatch" id="algorithm_label" title="Slower but more accurate algorithm utilizing ResembleJS library. Best used with OrgList or OrgMinus.">Pixelmatch</label>
+          <input type="radio" id="pixelmatch" name="algorithm" class="mainsection_buttons" value="pixelmatch" title="Slower but more accurate algorithm utilizing ResembleJS library. Best used with OrgList or OrgMinus.">
         </div>
     </mainalgs>
     <h2><u>Reference Image Collection</u></h2>

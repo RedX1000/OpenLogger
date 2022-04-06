@@ -6,7 +6,11 @@
 	"dependencies": {
 		"@alt1/base": "^1.0.0-alpha.2",
 		"@alt1/ocr": "1.0.0-alpha.2",
+		"@types/pngjs": "^6.0.1",
 		"@types/resemblejs": "^4.1.0",
+		"jsqr": "^1.4.0",
+		"pixelmatch": "^5.2.1",
+		"pngjs": "^6.0.0",
 		"resemblejs": "^4.1.0"
 	},
 	"devDependencies": {
@@ -14,6 +18,7 @@
 		"@alt1/webpack": "^1.0.0-alpha.2",
 		"@types/jquery": "^3.5.14",
 		"@types/node": "^12.12.54",
+		"@types/pixelmatch": "^5.2.4",
 		"@types/webpack": "^5.28.0",
 		"file-loader": "^5.1.0",
 		"json-loader": "^0.5.7",
