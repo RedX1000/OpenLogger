@@ -5,6 +5,7 @@ import { ImgRef } from "@alt1/base";
 import * as resemble from "resemblejs";
 import * as PNG from "pngjs"
 import * as jsqr from "jsqr"
+// import * as Buffer from "buffer";
 import compareImages from "resemblejs/compareImages"
 import * as pixelmatch from "pixelmatch"
 import * as lsdb from './JSONs/LocalStorageInit.json';
@@ -365,7 +366,15 @@ async function compareItems(item:ImageData){
 	else{
 	}
 	
-
+	document.getElementById("common_loot").textContent = ""
+	var canvas = document.createElement("canvas");
+	var ctx = canvas.getContext("2d");
+	var imgvar = document.createElement("img");
+	canvas.width = item.width;
+	canvas.height = item.height;
+	ctx.putImageData(item, 0, 0);
+	imgvar.src = canvas.toDataURL();
+	document.getElementById("common_loot").appendChild(imgvar);
 
 	if(!legacy){
 		if(localStorage.getItem("ItemList") == "all")
@@ -398,15 +407,18 @@ async function compareItems(item:ImageData){
 			var found = matches[0]
 			const promises = []
 			for(let i = 0; i < matches.length; i++){
-				const byteCharacters = atob(matches[i][1].replace("data:image/png;base64,",''))
-				const byteNumbers = new Array(byteCharacters.length)
-				for (let i = 0; i < byteCharacters.length; i++) {
-					byteNumbers[i] = byteCharacters.charCodeAt(i);
-				}
-				const byteArray = new Uint8Array(byteNumbers)
-				console.log("Original Image",item.data)
-				console.log("Reference Image",byteArray)
-				matches[i][2] = pixelmatch(item.data, item.data, null, item.width, item.height, {threshold: 0})
+				//const byteCharacters = atob(matches[i][1].replace("data:image/png;base64,",''))
+				//const byteNumbers = new Array(byteCharacters.length)
+				//for (let i = 0; i < byteCharacters.length; i++) {
+				//	byteNumbers[i] = byteCharacters.charCodeAt(i);
+				//}
+				//const byteArray = new Uint8Array(byteNumbers)
+
+				var buffer = Buffer.from(matches[i][1], "base64")
+
+				//console.log("Original Image",item.data)
+				//console.log("Reference Image",byteArray)
+				matches[i][2] = pixelmatch(item.data, buffer, null, item.width, item.height, {threshold: 0})
 				console.log(matches[i][2])
 				if(found[2] < found[i][2]){
 					found = matches[i]
@@ -720,7 +732,7 @@ export function exporttocsv(){
 	    let row = i.join(",");
 	    csvContent += row + "\r\n";
 	});
-	let filename = "OpenLogger CSV "+d.getFullYear()+"-"+d.getMonth()+1+"-"+d.getDate()+".csv"
+	let filename = "OpenLogger CSV "+d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate()+".csv"
 	var encodedUri = "data:text/csv;charset=utf-8,%EF%BB%BF" + encodeURI(csvContent);
 	var link = document.createElement("a");
 	link.setAttribute("href", encodedUri);

@@ -8,6 +8,7 @@
 		"@alt1/ocr": "1.0.0-alpha.2",
 		"@types/pngjs": "^6.0.1",
 		"@types/resemblejs": "^4.1.0",
+		"buffer": "^6.0.3",
 		"jsqr": "^1.4.0",
 		"pixelmatch": "^5.2.1",
 		"pngjs": "^6.0.0",
