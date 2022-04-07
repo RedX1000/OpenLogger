@@ -418,7 +418,7 @@ async function compareItems(item:ImageData){
 
 				//console.log("Original Image",item.data)
 				//console.log("Reference Image",byteArray)
-				matches[i][2] = pixelmatch(item.data, buffer, null, item.width, item.height, {threshold: 0})
+				//matches[i][2] = pixelmatch(item.data, buffer, null, item.width, item.height, {threshold: 0})
 				console.log(matches[i][2])
 				if(found[2] < found[i][2]){
 					found = matches[i]
