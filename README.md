@@ -51,16 +51,17 @@ This application was created to provide players with a way to easily record thei
 3. Organized List: List of items where items are located in their respective tier. Best for a balance of speed and accuracy
 4. Organized Minus: Smallest list of items. OrgList but with less duplicates. Best for speed, but worst for accuracy due to lower variance.
 
-## Planned updates & Releases
+## Potential and planned updates & Releases
 * Legacy interface support. It can read values, but not icons at this time.
 * Clear database confirmation (`confirm()` does not work in Alt1).
 * Allowing the user to deposit or withdraw a reward or value into or out of LocalStorage directly in case of a misread.
 * Algorithm choice for icon recognition.
 * Rollback further than one.
-
+* Allowing download of last clue reward captured
+* Autocapture when new casket is opened
 
 ## Additional info
-This plugin stores data using `localStorage` within Alt1. To completely refresh it:
+This plugin stores data using `localStorage` within Alt1, therefore it can remember all of the loot you have gotten between sessions unless it is deleted. To completely refresh it:
 1. Right click 
 2. Inspect element
 3. Application tab

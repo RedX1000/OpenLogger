@@ -3,11 +3,15 @@
 import * as a1lib from "@alt1/base";
 import { ImgRef } from "@alt1/base";
 import * as resemble from "resemblejs";
-import * as PNG from "pngjs"
 import * as jsqr from "jsqr"
+import { Buffer } from "buffer"
+import { toBuffer } from "sharp"
+import * as fs from "fs"
+import * as PNG from "png-js"
+//import { encode, decode } from "base64-arraybuffer"
 // import * as Buffer from "buffer";
 import compareImages from "resemblejs/compareImages"
-import * as pixelmatch from "pixelmatch"
+import pixelmatch from "pixelmatch"
 import * as lsdb from './JSONs/LocalStorageInit.json';
 import * as itemsFull from './JSONs/ItemsAndImages.json'
 import * as itemsReorg from './JSONs/ItemsAndImagesReorganized.json'
@@ -15,6 +19,7 @@ import * as itemsReorgTwo from './JSONs/ItemsAndImagesReorganizedTwo.json';
 import * as itemsLegacyFull from './JSONs/ItemsAndImagesLegacy.json'
 import * as itemsLegacyReorg from './JSONs/ItemsAndImagesLegacyReorganized.json'
 import * as itemsLegacyReorgTwo from './JSONs/ItemsAndImagesLegacyReorganizedTwo.json';
+import * as itemsB64 from './JSONs/ItemsAndImagesAlt64.json'
 import ClueRewardReader from "./scripts/rewardreader";
 import { ModalUIReader } from "./scripts/modeluireader";
 import { IgnorePlugin, javascript, node } from "webpack";
@@ -47,6 +52,9 @@ var listOfItemsLegacyAllArray = []
 var listOfItemsLegacyFullArray = []
 var listOfItemsLegacyReorgArray = []
 var listOfItemsLegacyReorgTwoArray = []
+
+var listOfItemsB64
+var listOfItemsB64Array = []
 
 var legacy = false
 var displaybox = true
@@ -90,6 +98,12 @@ export function init(){
 		console.log("Defaulting list to Organized List...");
 		localStorage.setItem("ItemList", "orglist");
 	}
+
+	if(localStorage.getItem("autoCapture") == null){
+		console.log("Defaulting autocapture to off...");
+		localStorage.setItem("autoCapture", "false");
+	}
+
 	console.log("Radio buttons initialized.\n ");
 
 	// Initializing the rest of the LocalStorage
@@ -132,6 +146,13 @@ export function changeClueTierSpan(id){
 	lootDisplay()
 	alt1.overLayClearGroup("overlays"); alt1.overLaySetGroup("overlays")
 	alt1.overLayTextEx((id[0].toUpperCase() + id.slice(1).toLowerCase())+" tier rewards & images loaded!", a1lib.mixColor(100, 255, 100), 20, Math.round(alt1.rsWidth / 2), 200, 2000, "", true, true)
+}
+
+export function changeAuto(){
+	if(localStorage.getItem("autoCapture") == null){
+		console.log("Defaulting autocapture to off...");
+		localStorage.setItem("autoCapture", "false");
+	}
 }
 
 export function cleardb(){
@@ -361,11 +382,12 @@ async function compareItems(item:ImageData){
 	// 	Choices are: yellow, black1, black2, black3, legacytan, rs3blue
 	// all, twoplus, orglist, orgminus
 
+	
 	if(!legacy){
 	}
 	else{
 	}
-	
+	/*
 	document.getElementById("common_loot").textContent = ""
 	var canvas = document.createElement("canvas");
 	var ctx = canvas.getContext("2d");
@@ -374,18 +396,32 @@ async function compareItems(item:ImageData){
 	canvas.height = item.height;
 	ctx.putImageData(item, 0, 0);
 	imgvar.src = canvas.toDataURL();
-	document.getElementById("common_loot").appendChild(imgvar);
+	document.getElementById("common_loot").appendChild(imgvar);*/
 
 	if(!legacy){
-		if(localStorage.getItem("ItemList") == "all")
+		if(localStorage.getItem("ItemList") == "all"){
 			var matches = listOfItemsAllArray.slice();
-		else if(localStorage.getItem("ItemList") == "twoplus")
+			var imgset = listOfItemsAll
+		}
+		else if(localStorage.getItem("ItemList") == "twoplus"){
 			var matches = listOfItemsFullArray.slice();
-		else if(localStorage.getItem("ItemList") == "orglist")
+			var imgset = listOfItemsFull
+		}
+		else if(localStorage.getItem("ItemList") == "orglist"){
 			var matches = listOfItemsReorgArray.slice();
-		else if(localStorage.getItem("ItemList") == "orgminus")
+			var imgset = listOfItemsReorg
+		}
+		else if(localStorage.getItem("ItemList") == "orgminus"){
 			var matches = listOfItemsReorgTwoArray.slice();
-
+			var imgset = listOfItemsReorgTwo
+		}
+		else if(localStorage.getItem("ItemList") == "alt164"){
+			var matches = listOfItemsB64Array.slice();
+			var imgset = listOfItemsB64
+		}
+		
+		console.log("DEBUG",matches)
+		
 		var imgdata = await compareImages(item, matches[0][1] , {output: {}, ignore: "less"})
 		matches[0][2] = imgdata.rawMisMatchPercentage;
 		if(matches[0][2] == 0.00)
@@ -406,21 +442,39 @@ async function compareItems(item:ImageData){
 		else if(localStorage.getItem("Algorithm") == "pixelmatch"){	
 			var found = matches[0]
 			const promises = []
-			for(let i = 0; i < matches.length; i++){
-				//const byteCharacters = atob(matches[i][1].replace("data:image/png;base64,",''))
-				//const byteNumbers = new Array(byteCharacters.length)
-				//for (let i = 0; i < byteCharacters.length; i++) {
-				//	byteNumbers[i] = byteCharacters.charCodeAt(i);
-				//}
-				//const byteArray = new Uint8Array(byteNumbers)
+			for(let i = 49; i < matches.length; i++){
+				
+				const byteCharacters = atob(matches[i][1].replace("data:image/png;base64,",''))
+				const byteNumbers = new Array(byteCharacters.length)
+				for (let i = 0; i < byteCharacters.length+1; i++)
+					byteNumbers[i] = byteCharacters.charCodeAt(i);
+				const byteArray = new Uint8Array(byteNumbers)
 
-				var buffer = Buffer.from(matches[i][1], "base64")
+				var bufimg = Buffer.from(matches[i][1],"base64")
+				var newByteArray = Uint8Array.from(atob(matches[i][1].replace("data:image/png;base64,",'')), c => c.charCodeAt(0))
+				
 
-				//console.log("Original Image",item.data)
-				//console.log("Reference Image",byteArray)
-				//matches[i][2] = pixelmatch(item.data, buffer, null, item.width, item.height, {threshold: 0})
+				//var newNewByteArray = decode(matches[i][1])
+				//var newArray = new Uint8ClampedArray(newNewByteArray)
+
+				// Try a python approach...
+				// Don't return until you can. 
+				// 4 days later...
+				// Fuck it, I got some help from the dev
+				// Lets try their approach...
+				// Maybe tomorrow...
+
+				// Play with the new set of images... I see no difference.
+				
+				console.log(i)
+				console.log("Original Image",item.data)
+				console.log("Reference Buffer Image",bufimg)
+				console.log("Reference Array Image",byteArray)
+				console.log("Reference New Array Image",newByteArray)
+				//console.log("Reference New New Array Image",newArray)
+				matches[i][2] = pixelmatch(item.data, byteArray, null, item.width, item.height, {threshold: 0})
 				console.log(matches[i][2])
-				if(found[2] < found[i][2]){
+				if(found[2] < matches[i][2]){
 					found = matches[i]
 				}
 			}
@@ -836,6 +890,12 @@ function arraySetup(){
 		listOfItemsAllArray.push([listOfItemsAll[i].name, listOfItemsAll[i].base64, 0.0])
 		listOfItemsLegacyAllArray.push([listOfItemsLegacyAll[i].name, listOfItemsLegacyAll[i].base64, 0.0])
 	}
+
+	//TODO: Play with this, its directly from the DB
+	listOfItemsB64 = itemsB64.any.concat(itemsB64[currentTier()[0]]);
+	listOfItemsB64Array = []
+	for(let i = 0; i < listOfItemsB64.length; i++)
+		listOfItemsB64Array.push([listOfItemsB64[i].name, listOfItemsB64[i].base64, 0.0])
 	// console.log("DEBUG:",listOfItemsFullArray, listOfItemsReorgArray, listOfItemsReorgTwoArray, listOfItemsLegacyFullArray, listOfItemsLegacyReorgArray, listOfItemsLegacyReorgTwoArray, listOfItemsFullArray, listOfItemsLegacyFullArray)
 }
 
