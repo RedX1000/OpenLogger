@@ -27,6 +27,8 @@
               list = "orglist"
           else if(document.getElementById("orgminus").checked)
               list = "orgminus"
+          else if(document.getElementById("alt164").checked)
+              list = "alt164"
           
           TEST.saveSettings(alg, list)
           window.close()
@@ -79,6 +81,11 @@
         <div class="main_divs">
           <label for="orgminus" id="img_label" title="Smaller list of items. OrgList but with less duplicates. Best for speed, but worst for accuracy due to lower variance.">Org Minus</label>
           <input type="radio" id="orgminus" name="refimgs" class="mainimgs_buttons" value="orgminus" title="Smaller list of items. OrgList but with less duplicates. Best for speed, but worst for accuracy due to lower variance.">
+        </div>
+        <label class="title_labels" title="Smallest list of items. OrgList but with less duplicates. Best for speed, but worst for accuracy due to lower variance.">Organized Minus:<br></label>
+        <div class="main_divs">
+          <label for="alt164" id="img_label" title="">Alt1 64</label>
+          <input type="radio" id="alt164" name="refimgs" class="mainimgs_buttons" value="alt164" title="">
         </div>
     </mainimgs>
     <footer>
