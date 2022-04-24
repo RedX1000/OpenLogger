@@ -33,7 +33,7 @@ require("!file-loader?name=[name].[ext]!./appconfig.json");
 
 var rewardSlots = ["first_item", "second_item", "third_item", "fourth_item", "fifth_item", "sixth_item", "seventh_item", "eigth_item", "ninth_item"]
 var tierlist = ["easy", "medium", "hard", "elite", "master"]
-var ignorelist = ["EValue", "ECount", "MValue", "MCount", "HValue", "HCount", "ElValue", "ElCount", "MaValue", "MaCount", "Checked button","Algorithm","ItemList"]
+var ignorelist = ["EValue", "ECount", "MValue", "MCount", "HValue", "HCount", "ElValue", "ElCount", "MaValue", "MaCount", "Checked button","Algorithm","ItemList","autoCapture"]
 
 var listOfItemsAll
 var listOfItemsFull
@@ -163,6 +163,11 @@ export function cleardb(){
 	// else{}	
 	// localStorage.clear()
 	// init()
+	
+	alt1.overLayClearGroup("overlays"); alt1.overLaySetGroup("overlays")
+	alt1.overLayTextEx("Clearing "+(currentTier()[0][0].toUpperCase() + (currentTier()[0].slice(1)).toLowerCase())+" reward database...", 
+	a1lib.mixColor(255,144,0), 20, Math.round(alt1.rsWidth / 2), 200, 4000, "", true, true)
+
 	let keys = Object.keys(localStorage)
 	let current = currentTier()
 
@@ -183,6 +188,10 @@ export function cleardb(){
 	for(let i = 0; i < 9; i++)
 		document.getElementById(rewardSlots[i]).textContent = "";
 	document.getElementById("rewards_value").textContent = "0";
+
+	alt1.overLayClearGroup("overlays"); alt1.overLaySetGroup("overlays")
+	alt1.overLayTextEx((currentTier()[0][0].toUpperCase() + (currentTier()[0].slice(1)).toLowerCase())+" cleared successfully!", 
+						a1lib.mixColor(100, 255, 100), 20, Math.round(alt1.rsWidth / 2), 200, 4000, "", true, true)
 }
 //loads all images as raw pixel data async, images have to be saved as *.data.png
 //this also takes care of metadata headers in the image that make browser load the image
@@ -353,7 +362,7 @@ async function findtrailComplete(img: ImgRef) {
 		}
 	} catch(e){
 		if (window.alt1) {
-			alt1.overLayClearGroup("overlays")
+			alt1.overLayClearGroup("overlays"); alt1.overLaySetGroup("overlays")
 			alt1.overLayTextEx("      Failed to capture rewards.\nRemove any obstructions, check\n    tier, or open a reward casket.", a1lib.mixColor(255, 80, 80), 20, Math.round(alt1.rsWidth / 2), 200, 4000, "", true, true);
 		}
 		throw e
@@ -667,6 +676,7 @@ function tabDisplay(current: string){
 	for(let i = 0; i < divs.length; i++)
 		divs[i].textContent = "";
 	for(let i = 0; i < keys.length; i++){
+		console.log('DEBUG:',keys[i],current)
 		if(ignorelist.includes(keys[i]) || JSON.parse(localStorage.getItem(keys[i])).quantity[current] == 0)
 			continue;
 		//console.log(JSON.parse(localStorage.getItem(keys[i])).tab+"_loot")
