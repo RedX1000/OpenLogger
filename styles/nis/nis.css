@@ -578,6 +578,19 @@ header {
   -webkit-user-select: none;
 }
 
+#toggleunlocktrack.enabled {
+  background-position: right;
+}
+
+#toggleunlocktrack {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background-image: url(../../images/lockicon.png);
+  background-size: 40px 20px;
+  top: 5px;
+}
+
 #bottom_buttons{
   width: 100%;
   cursor: pointer;
