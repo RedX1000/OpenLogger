@@ -6,7 +6,7 @@
 		
 		<link rel="stylesheet" type="text/css" href="./styles/nis/nis.css"/>
 		<link rel="stylesheet" type="text/css" href="./styles/nis/alt1-currentskin/skinstyle.css"/><!--stylesheet with all nis styles (Will be part of public resources so feel free to copy/paste)-->
-		<link rel="stylesheet" type="text/css" href="./styles/nis/fonts/stylesheet.css">
+		<link rel="stylesheet" type="text/css" href="./styles/nis/fonts/stylesheet.css"/>
 	</head>
 	<body class="nis" onload="TEST.init()"></body>
 		<header>
@@ -45,8 +45,8 @@
 							<div id="settings_button" class="nisbutton" onclick="TEST.settings();" title="Settings"><img id="settings_cog" src="images/SettingsCog.png"></div>
 						</div>
 						<div id="clear_button" class="nisbutton" onclick="TEST.cleardb();">Clear <span id="current_tier_buttom"></span> tier</div>
-						<div id="docapturebutton" class="nisbutton" onclick="TEST.capture();">
-							<div id="toggleunlocktrack" title="Track RS Continuously" class></div>
+						<div id="docapturebutton" class="nisbutton" onclick="TEST.capture()">
+							<div id="toggleunlocktrack" title="Track RS Continuously" class onclick="TEST.toggleCapture(event)"></div>
 							Capture Rewards
 						</div>
 					</div>

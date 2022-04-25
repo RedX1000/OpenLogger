@@ -33,7 +33,9 @@ require("!file-loader?name=[name].[ext]!./appconfig.json");
 
 var rewardSlots = ["first_item", "second_item", "third_item", "fourth_item", "fifth_item", "sixth_item", "seventh_item", "eigth_item", "ninth_item"]
 var tierlist = ["easy", "medium", "hard", "elite", "master"]
-var ignorelist = ["EValue", "ECount", "MValue", "MCount", "HValue", "HCount", "ElValue", "ElCount", "MaValue", "MaCount", "Checked button","Algorithm","ItemList","autoCapture"]
+var ignorelist = ["EValue", "ECount", "MValue", "MCount", "HValue", 
+				  "HCount", "ElValue", "ElCount", "MaValue", "MaCount", 
+				  "Checked button","Algorithm","ItemList","autoCapture", "removeRerolls"]
 
 var listOfItemsAll
 var listOfItemsFull
@@ -61,8 +63,10 @@ var displaybox = true
 
 var lastItems = []
 var lastQuants = []
-var lastTier;// = []
-var lastValue;// = []
+var lastTier;
+var lastValue = 0;
+
+var currentReroll = [0, 0];
 
 export function refresh(){
 	location.reload();
@@ -101,7 +105,20 @@ export function init(){
 
 	if(localStorage.getItem("autoCapture") == null){
 		console.log("Defaulting autocapture to off...");
-		localStorage.setItem("autoCapture", "false");
+		localStorage.setItem("autoCapture", "true");
+	}
+	else{
+		if(localStorage.getItem("autoCapture") == "true")
+			document.getElementById("toggleunlocktrack").classList.add("enabled")
+		else{
+			document.getElementById("toggleunlocktrack").classList.remove("enabled")
+		}
+	}
+
+	//TODO: Give this a spot in the settings to enable and disable
+	if(localStorage.getItem("removeRerolls") == null){
+		console.log("Defaulting reemove rerolls to on...");
+		localStorage.setItem("removeRerolls", "true");
 	}
 
 	console.log("Radio buttons initialized.\n ");
@@ -144,15 +161,11 @@ export function changeClueTierSpan(id){
 
 	//Set display
 	lootDisplay()
+
+	currentReroll = [0, 0]
+
 	alt1.overLayClearGroup("overlays"); alt1.overLaySetGroup("overlays")
 	alt1.overLayTextEx((id[0].toUpperCase() + id.slice(1).toLowerCase())+" tier rewards & images loaded!", a1lib.mixColor(100, 255, 100), 20, Math.round(alt1.rsWidth / 2), 200, 2000, "", true, true)
-}
-
-export function changeAuto(){
-	if(localStorage.getItem("autoCapture") == null){
-		console.log("Defaulting autocapture to off...");
-		localStorage.setItem("autoCapture", "false");
-	}
 }
 
 export function cleardb(){
@@ -193,6 +206,7 @@ export function cleardb(){
 	alt1.overLayTextEx((currentTier()[0][0].toUpperCase() + (currentTier()[0].slice(1)).toLowerCase())+" cleared successfully!", 
 						a1lib.mixColor(100, 255, 100), 20, Math.round(alt1.rsWidth / 2), 200, 4000, "", true, true)
 }
+
 //loads all images as raw pixel data async, images have to be saved as *.data.png
 //this also takes care of metadata headers in the image that make browser load the image
 //with slightly wrong colors
@@ -211,7 +225,6 @@ a1lib.PasteInput.listen(img => {
 }, (err, errid) => {
 
 });
-
 
 a1lib.on("alt1pressed", capture)
 //You can reach exports on window.TEST because of
@@ -238,10 +251,12 @@ async function findtrailComplete(img: ImgRef) {
 			console.log(loc[0].x);
 			console.log("Legacy window");
 			legacy = true;
+			alt1.overLayRect(a1lib.mixColor(255,144,0), loc[0].x - 138, loc[0].y - 13, await imgs.trailCompleteLegacy.width + 278, await imgs.trailCompleteLegacy.height + 213, 2000, 2);
 		} catch(e){
 			var loc = img.findSubimage(await imgs.trailComplete);
 			console.log("Non-legacy window");
 			legacy = false;
+			alt1.overLayRect(a1lib.mixColor(255,144,0), loc[0].x - 27, loc[0].y - 13, await imgs.trailComplete.width + 278, await imgs.trailComplete.height + 213, 2000, 2);
 		}
 	
 		let crops = new Array<ImageData>(9);
@@ -250,7 +265,7 @@ async function findtrailComplete(img: ImgRef) {
 		// Tweak these two values below if jagex adjusts the pixel placement of the items
 		// Values to tweak in case jagex borks the item placement on the screen
 		// x1, +1 = right, -1 = left
-		// y1, +1 = up, =1 = down
+		// y1, +1 = up, -1 = down
 		// Adjust top crops as well, for the x1 and y1 values for it
 		if(!legacy){
 			var x1 = loc[0].x - 1;
@@ -260,20 +275,42 @@ async function findtrailComplete(img: ImgRef) {
 			var x1 = loc[0].x - 112;
 			var y1 = loc[0].y + 39;
 		}
+
 		for(let i = 0; i < crops.length; i++) {
 			crops[i] = img.toData(x1, y1, 32, 32);
 			topCrops[i] = img.toData(x1, loc[0].y + 41, 32, 8);
 			x1 += 40;
 		}
-	
+		
+
 		// Give me the total value!
+		// If this breaks, value is obfuscated. Second way to scan it for validity.
 		let rewardreader = new ClueRewardReader();
 		rewardreader.pos = ModalUIReader.find()[0];
 		let value = rewardreader.read(img).value;
+
+		// Check if this is a reroll
+		let rerollVal;
+		if(!legacy)
+			rerollVal = img.toData(loc[0].x + 231, loc[0].y + 175, 8, 9)
+			// alt1.overLayRect(a1lib.mixColor(2,255,232), loc[0].x + 231, loc[0].y + 175, 8, 9, 2000, 1);
+		else
+			rerollVal = img.toData(loc[0].x + 231, loc[0].y + 175, 8, 9)
+			// alt1.overLayRect(a1lib.mixColor(0,255,0), loc[0].x - 400, loc[0].y - 400, 8, 9, 2000, 2);
 		
+		let promises = []
+		if(localStorage.getItem("removeRerolls") == "true"){
+			console.log("Removing rerolls is true")
+			promises = []
+			promises.push(await rerollCheck(rerollVal));
+			await Promise.all(promises)
+		}
+		else
+			console.log("Removing rerolls is false")
+
 		// Give me the items!
 		var itemResults = []
-		let promises = []
+		promises = []
 		if(!legacy){
 			var x1 = loc[0].x - 1;
 			var y1 = loc[0].y + 39;
@@ -359,6 +396,10 @@ async function findtrailComplete(img: ImgRef) {
 			alt1.overLayClearGroup("overlays"); alt1.overLaySetGroup("overlays")
 			alt1.overLayTextEx((currentTier()[0][0].toUpperCase() + (currentTier()[0].slice(1)).toLowerCase())+" rewards captured successfully!", 
 								a1lib.mixColor(100, 255, 100), 20, Math.round(alt1.rsWidth / 2), 200, 4000, "", true, true)
+			if(!legacy)
+				alt1.overLayRect(a1lib.mixColor(0,255,0), loc[0].x - 27, loc[0].y - 13, await imgs.trailComplete.width + 278, await imgs.trailComplete.height + 213, 2000, 2);
+			else
+				alt1.overLayRect(a1lib.mixColor(0,255,0), loc[0].x - 138, loc[0].y - 13, await imgs.trailCompleteLegacy.width + 278, await imgs.trailCompleteLegacy.height + 213, 2000, 2);
 		}
 	} catch(e){
 		if (window.alt1) {
@@ -429,7 +470,7 @@ async function compareItems(item:ImageData){
 			var imgset = listOfItemsB64
 		}
 		
-		console.log("DEBUG",matches)
+		//console.log("DEBUG",matches)
 		
 		var imgdata = await compareImages(item, matches[0][1] , {output: {}, ignore: "less"})
 		matches[0][2] = imgdata.rawMisMatchPercentage;
@@ -676,7 +717,7 @@ function tabDisplay(current: string){
 	for(let i = 0; i < divs.length; i++)
 		divs[i].textContent = "";
 	for(let i = 0; i < keys.length; i++){
-		console.log('DEBUG:',keys[i],current)
+		//console.log('DEBUG:',keys[i],current)
 		if(ignorelist.includes(keys[i]) || JSON.parse(localStorage.getItem(keys[i])).quantity[current] == 0)
 			continue;
 		//console.log(JSON.parse(localStorage.getItem(keys[i])).tab+"_loot")
@@ -811,7 +852,6 @@ export function exporttocsv(){
 }
 
 export function rollback(){
-	console.log("Rolling back:",lastItems, lastQuants, lastTier, lastValue)
 	if(lastItems.length == 0){
 		if (window.alt1) {
 			alt1.overLayClearGroup("overlays"); alt1.overLaySetGroup("overlays")
@@ -819,17 +859,26 @@ export function rollback(){
 		}
 		return;
 	}
-		
 	if (window.alt1) {
 		alt1.overLayClearGroup("overlays"); alt1.overLaySetGroup("overlays")
 		alt1.overLayTextEx("Rolling back last reward...", a1lib.mixColor(255,144,0), 20, Math.round(alt1.rsWidth / 2), 200, 2000, "", true, true)
 	}
 	
-	// let lil = lastItems.length - 1
-	// let lql = lastQuants.length - 1
-	// let ltl = lastTier.length - 1
-	// let lvl = lastValue.length - 1
+	rollbackFunc()
+	document.getElementById("rewards_value").textContent = "0"
+	for(let i = 0; i < 9; i++)
+		document.getElementById(rewardSlots[i]).textContent = "";
+	lootDisplay()
 
+
+	if (window.alt1) {
+		alt1.overLayClearGroup("overlays"); alt1.overLaySetGroup("overlays")
+		alt1.overLayTextEx("Previous rewards rolled back successfully!", a1lib.mixColor(100, 255, 100), 20, Math.round(alt1.rsWidth / 2), 200, 2000, "", true, true)
+	}
+}
+
+async function rollbackFunc(){
+	console.log("Rolling back:",lastItems, lastQuants, lastTier, lastValue)
 	for(let i = 0; i < lastQuants.length; i++){
 		console.log("checking if in array")
 		//console.log(JSON.parse(localStorage.getItem(lastItems[i])).tier)
@@ -846,19 +895,10 @@ export function rollback(){
 	localStorage.setItem(lastTier[1], JSON.stringify((JSON.parse(localStorage.getItem(lastTier[1])) - lastValue)))
 	localStorage.setItem(lastTier[2], JSON.stringify(JSON.parse(localStorage.getItem(lastTier[2])) - 1))
 	
-	lastItems = [] //= //lastItems.pop()
-	lastQuants = []//= //lastQuants.pop()
-	lastTier; //= //lastTier.pop()
-	lastValue; //= lastValue.pop()
-	document.getElementById("rewards_value").textContent = "0"
-	for(let i = 0; i < 9; i++)
-		document.getElementById(rewardSlots[i]).textContent = "";
-	lootDisplay()
-
-	if (window.alt1) {
-		alt1.overLayClearGroup("overlays"); alt1.overLaySetGroup("overlays")
-		alt1.overLayTextEx("Previous rewards rolled back successfully!", a1lib.mixColor(100, 255, 100), 20, Math.round(alt1.rsWidth / 2), 200, 2000, "", true, true)
-	}
+	lastItems = []
+	lastQuants = []
+	lastTier;
+	lastValue = 0;
 }
 
 function arraySetup(){
@@ -968,6 +1008,101 @@ export function saveSettings(alg: string, list: string){
 		alt1.overLayTextEx("Settings saved!", a1lib.mixColor(100, 255, 100), 20, Math.round(alt1.rsWidth / 2), 200, 2000, "", true, true);
 	}
 }
+
+export function toggleCapture(event: Event){
+	if(document.getElementById("toggleunlocktrack").classList.contains("enabled")){
+		document.getElementById("toggleunlocktrack").classList.remove("enabled")
+		localStorage.setItem("autoCapture", "false")
+		alt1.overLayClearGroup("overlays"); alt1.overLaySetGroup("overlays")
+		alt1.overLayTextEx("Autocapture disabled! (doesn't work yet)", a1lib.mixColor(100, 255, 100), 20, Math.round(alt1.rsWidth / 2), 200, 2000, "", true, true)
+	}
+	else{
+		document.getElementById("toggleunlocktrack").classList.add("enabled")
+		localStorage.setItem("autoCapture", "true")
+		alt1.overLayClearGroup("overlays"); alt1.overLaySetGroup("overlays")
+		alt1.overLayTextEx("Autocapture enabled! (doesn't work yet)", a1lib.mixColor(100, 255, 100), 20, Math.round(alt1.rsWidth / 2), 200, 2000, "", true, true)
+	}
+	event.stopPropagation()
+}	
+
+async function rerollCheck(value: ImageData){
+
+	/*
+	I will check for these colors:		Total values match as follows
+		- 000000 (RGB: 0,0,0)				- 1 = 41
+		- fab630 (RGB: 250, 182, 48)		- 2 = 31
+		- fac33b (RGB: 250, 195, 59)		- 3 = 28
+		- e49b20 (RGB: 228, 155, 32)		- 4 = 33
+		- fabb34 (RGB: 250, 187, 52)		- 5 = 30
+	
+	These will determine how many rerolls exist.
+
+	var rerollList = [[0, 0], [1, 41], [2, 31], [3, 28], [4, 33], [5, 30]]
+	*/
+
+	let valueCan = document.createElement("canvas");
+	let valueCon = valueCan.getContext('2d');
+	valueCan.width = value.width
+	valueCan.height = value.height
+	valueCon.putImageData(value, 0, 0);
+	var valueImg = new Image();
+	valueImg.src = valueCan.toDataURL("image/png")
+	valueCon.drawImage(valueImg, 0, 0)
+	let pixels = valueCon.getImageData(0, 0, value.width, value.height)
+
+	let pixarr = []
+	let pixeldata = 0
+	for(let i = 0; i < 8; i++){
+		let arr2 = []
+		for(let j = 0; j < 32; j++){
+			let vals = {r: pixels.data[pixeldata], g: pixels.data[pixeldata+1], b: pixels.data[pixeldata+2], a: pixels.data[pixeldata+3]}
+			pixeldata += 4
+			arr2.push(vals)
+		}
+		pixarr.push(arr2)
+	}
+
+	let tempTier = [0, 0]
+	for(let i = 0; i < pixarr.length; i++)
+		for(let j = 0; j < pixarr[i].length; j++)
+			if(pixarr[i][j].r == 0 && pixarr[i][j].g == 0 && pixarr[i][j].b == 0 ||
+			   pixarr[i][j].r == 250 && pixarr[i][j].g == 182 && pixarr[i][j].b == 48 ||
+			   pixarr[i][j].r == 250 && pixarr[i][j].g == 195 && pixarr[i][j].b == 59 ||
+			   pixarr[i][j].r == 228 && pixarr[i][j].g == 155 && pixarr[i][j].b == 32 ||
+			   pixarr[i][j].r == 250 && pixarr[i][j].g == 187 && pixarr[i][j].b == 52)
+				tempTier[1] += 1
+
+	if(tempTier[1] == 0)
+		tempTier[0] = 0
+	else if(tempTier[1] == 41)
+		tempTier[0] = 1
+	else if(tempTier[1] == 31)
+		tempTier[0] = 2
+	else if(tempTier[1] == 28)
+		tempTier[0] = 3
+	else if(tempTier[1] == 33)
+		tempTier[0] = 4
+	else if(tempTier[1] == 30)
+		tempTier[0] = 5
+
+	console.log("TempTier:", tempTier)
+	console.log("CurrentReroll:", currentReroll)
+	
+	if(currentReroll[0] < tempTier[0]){
+		currentReroll[0] = tempTier[0]
+		currentReroll[1] = tempTier[1] 
+	}
+	else if(currentReroll[0] > tempTier[0]){
+		let promises = []
+		promises.push(await rollbackFunc());
+		await Promise.all(promises)
+		currentReroll[0] = tempTier[0]
+		currentReroll[1] = tempTier[1] 
+	}
+
+}
+
+
 //print text world
 //also the worst possible example of how to use global exposed exports as described in webpack.config.json
 
