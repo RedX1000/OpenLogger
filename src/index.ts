@@ -35,7 +35,7 @@ var rewardSlots = ["first_item", "second_item", "third_item", "fourth_item", "fi
 var tierlist = ["easy", "medium", "hard", "elite", "master"]
 var ignorelist = ["EValue", "ECount", "MValue", "MCount", "HValue", 
 				  "HCount", "ElValue", "ElCount", "MaValue", "MaCount", 
-				  "Checked button","Algorithm","ItemList","autoCapture", "removeRerolls"]
+				  "Checked button","Algorithm","ItemList","autoCapture", "rerollToggle"]
 
 var listOfItemsAll
 var listOfItemsFull
@@ -116,9 +116,9 @@ export function init(){
 	}
 
 	//TODO: Give this a spot in the settings to enable and disable
-	if(localStorage.getItem("removeRerolls") == null){
-		console.log("Defaulting reemove rerolls to on...");
-		localStorage.setItem("removeRerolls", "true");
+	if(localStorage.getItem("rerollToggle") == null){
+		console.log("Defaulting reroll toggle to true...");
+		localStorage.setItem("rerollToggle", "true");
 	}
 
 	console.log("Radio buttons initialized.\n ");
@@ -143,7 +143,7 @@ export function init(){
 	console.log("Initialization complete");
 }
 
-export function changeClueTierSpan(id){
+export function changeClueTierSpan(id: string, event: Event){
 	// Set the clue_tier span for the checked box
 	console.log("Setting button to "+(id[0].toUpperCase() + id.slice(1).toLowerCase())+"...");
 	document.getElementById('clue_tier').textContent = (id[0].toUpperCase() + id.slice(1).toLowerCase());
@@ -299,14 +299,14 @@ async function findtrailComplete(img: ImgRef) {
 			// alt1.overLayRect(a1lib.mixColor(0,255,0), loc[0].x - 400, loc[0].y - 400, 8, 9, 2000, 2);
 		
 		let promises = []
-		if(localStorage.getItem("removeRerolls") == "true"){
-			console.log("Removing rerolls is true")
+		if(localStorage.getItem("rerollToggle") == "true"){
+			console.log("Reroll toggle is true")
 			promises = []
 			promises.push(await rerollCheck(rerollVal));
 			await Promise.all(promises)
 		}
 		else
-			console.log("Removing rerolls is false")
+			console.log("Reroll toggle is false")
 
 		// Give me the items!
 		var itemResults = []
@@ -998,11 +998,31 @@ export function settingsInit(){
 		let ele = document.getElementById(temp) as HTMLInputElement;
 		ele.checked = true;
 	}
+
+	//Change this to rerollToggle
+	if(localStorage.getItem("rerollToggle") == null){ // Remove rerolls init check
+		console.log("Defaulting reroll toggle to on...");
+		var ele = document.getElementById("rerollon") as HTMLInputElement;
+		ele.checked = true;
+		localStorage.setItem("rerollon", "on");
+	}
+	else{ // If it does, set the button and span
+		console.log("Setting previously set radio button: " + localStorage.getItem("rerollToggle") + "...");
+		if(localStorage.getItem("rerollToggle") == "true"){
+			var ele = document.getElementById("rerollon") as HTMLInputElement
+			ele.checked = true;
+		}
+		else if(localStorage.getItem("rerollToggle") == "false"){
+			var ele = document.getElementById("rerolloff") as HTMLInputElement
+			ele.checked = true;
+		}
+	}
 }
 
-export function saveSettings(alg: string, list: string){
+export function saveSettings(alg: string, list: string, reroll: string){
 	localStorage.setItem("Algorithm", alg)
 	localStorage.setItem("ItemList", list)
+	localStorage.setItem("rerollToggle", reroll)
 	if (window.alt1) {
 		alt1.overLayClearGroup("overlays"); alt1.overLaySetGroup("overlays")
 		alt1.overLayTextEx("Settings saved!", a1lib.mixColor(100, 255, 100), 20, Math.round(alt1.rsWidth / 2), 200, 2000, "", true, true);

@@ -388,7 +388,8 @@ h2{
 }
 
 mainalgs,
-mainimgs{
+mainimgs,
+maintoggles{
   height:100%;
   padding:10px 10px;
   margin:0;
@@ -400,13 +401,24 @@ mainimgs{
 }
 
 .mainimgs_buttons,
-.mainalgs_buttons{
-    padding: 0 5px;
-    margin:auto;
+.mainalgs_buttons,
+.maintoggles_buttons{
+  padding: 0 5px;
+  margin:auto;
+}
+
+.maintoggles_buttons{
+  padding: 0 5px;
+  margin:auto;
+}
+
+#reroll_buttons{
+  display:grid;
+  grid-template-columns: repeat(2, auto);
 }
 
 .main_divs{
-  padding:5px 0px;
+  padding:5px 3px;
 }
 
 label{

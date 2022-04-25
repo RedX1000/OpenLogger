@@ -10,6 +10,7 @@
       function getSaveDetails(){
           let alg;
           let list;
+          let reroll;
           if(document.getElementById("pixel").checked)
               alg = "pixel"
           else if(document.getElementById("hybrid").checked)
@@ -18,7 +19,7 @@
               alg = "resemblejs"
           else if(document.getElementById("pixelmatch").checked)
               alg = "pixelmatch"
-
+          
           if(document.getElementById("all").checked)
               list = "all"
           else if(document.getElementById("twoplus").checked)
@@ -30,10 +31,15 @@
           else if(document.getElementById("alt164").checked)
               list = "alt164"
           
-          TEST.saveSettings(alg, list)
+          if(document.getElementById("rerollon").checked)
+              reroll = "true"
+          else if(document.getElementById("rerolloff").checked)
+              reroll = "false"
+            
+          TEST.saveSettings(alg, list, reroll)
           window.close()
       }
-    </script>
+  </script>
   </head>
   <body onload=TEST.settingsInit()>
     <header><h1>Settings Menu</h1><img src="images/QuestionMark.png" title="Hover over the button titles to learn more!"></header>
@@ -88,6 +94,20 @@
           <input type="radio" id="alt164" name="refimgs" class="mainimgs_buttons" value="alt164" title="">
         </div>
     </mainimgs>
+    <h2><u>Miscellaneous toggles</u></h2>
+    <maintoggles>
+      <label class="title_labels" title="Complete, full list of reference images. Takes the longest to compare">Reroll detection:<br></label>
+      <div>
+        <div class="main_divs">
+          <label for="rerollon" id="img_label">On</label>
+          <input type="radio" id="rerollon" name="reroll" class="maintoggles_buttons" value="rerollon">
+        </div>
+        <div class="main_divs">
+          <label for="rerollff" id="img_label">Off</label>
+          <input type="radio" id="rerollff" name="reroll" class="maintoggles_buttons" value="rerolloff">
+        </div>
+      </div>
+    </maintoggles>
     <footer>
       <div id="choice_buttons">
         <div id="confirm_button" class="nisbutton" onclick="getSaveDetails();">Confirm</div>

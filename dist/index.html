@@ -17,24 +17,24 @@
 						<h3 class="clue_scrolls_button_header">Select clue tier</h3>
 						<div class="clue_scrolls_button_box">
 							<div class="clue_button_label_holder" id="clue_easy">
-								<label for="easy" id="clue_scroll_level_label" onclick="TEST.changeClueTierSpan('easy');">Easy</label>
-								<input type="radio" id="easy" name="clue_scroll_level" class="clue_scroll_level" value="easy" onclick="TEST.changeClueTierSpan('easy');">
+								<label for="easy" id="clue_scroll_level_label" onclick="TEST.changeClueTierSpan('easy', event);">Easy</label>
+								<input type="radio" id="easy" name="clue_scroll_level" class="clue_scroll_level" value="easy" onclick="TEST.changeClueTierSpan('easy', event);">
 							</div>
 							<div class="clue_button_label_holder" id="clue_medium">
-								<label for="medium" id="clue_scroll_level_label" onclick="TEST.changeClueTierSpan('medium');">Medium</label>
-								<input type="radio" id="medium" name="clue_scroll_level" class="clue_scroll_level" value="medium" onclick="TEST.changeClueTierSpan('medium');">
+								<label for="medium" id="clue_scroll_level_label" onclick="TEST.changeClueTierSpan('medium', event);">Medium</label>
+								<input type="radio" id="medium" name="clue_scroll_level" class="clue_scroll_level" value="medium" onclick="TEST.changeClueTierSpan('medium', event);">
 							</div>
 							<div class="clue_button_label_holder" id="clue_hard">
-								<label for="hard" id="clue_scroll_level_label" onclick="TEST.changeClueTierSpan('hard');">Hard</label>
-								<input type="radio" id="hard" name="clue_scroll_level" class="clue_scroll_level" value="hard" onclick="TEST.changeClueTierSpan('hard');">
+								<label for="hard" id="clue_scroll_level_label" onclick="TEST.changeClueTierSpan('hard', event);">Hard</label>
+								<input type="radio" id="hard" name="clue_scroll_level" class="clue_scroll_level" value="hard" onclick="TEST.changeClueTierSpan('hard', event);">
 							</div>
 							<div class="clue_button_label_holder" id="clue_elite">
-								<label for="elite" id="clue_scroll_level_label" onclick="TEST.changeClueTierSpan('elite');">Elite</label>
-								<input type="radio" id="elite" name="clue_scroll_level" class="clue_scroll_level" value="elite" onclick="TEST.changeClueTierSpan('elite');">
+								<label for="elite" id="clue_scroll_level_label" onclick="TEST.changeClueTierSpan('elite', event);">Elite</label>
+								<input type="radio" id="elite" name="clue_scroll_level" class="clue_scroll_level" value="elite" onclick="TEST.changeClueTierSpan('elite', event);">
 							</div>
 							<div class="clue_button_label_holder" id="clue_master">
-								<label for="master" id="clue_scroll_level_label" onclick="TEST.changeClueTierSpan('master');">Master</label>
-								<input type="radio" id="master" name="clue_scroll_level" class="clue_scroll_level" value="master" onclick="TEST.changeClueTierSpan('master');">
+								<label for="master" id="clue_scroll_level_label" onclick="TEST.changeClueTierSpan('master', event);">Master</label>
+								<input type="radio" id="master" name="clue_scroll_level" class="clue_scroll_level" value="master" onclick="TEST.changeClueTierSpan('master', event);">
 							</div>
 						</div>
 						<h3 class="clue_scrolls_button_footer">Press Alt+1 to capture!</h3>
