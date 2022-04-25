@@ -50,6 +50,7 @@ This application was created to provide players with a way to easily record thei
 2. Two or more List: List of items, where items that appear in two or more tiers are compared with the clue tiers items. Takes the second longest to run
 3. Organized List: List of items where items are located in their respective tier. Best for a balance of speed and accuracy
 4. Organized Minus: Smallest list of items. OrgList but with less duplicates. Best for speed, but worst for accuracy due to lower variance.
+5. Experimental: Do not touch. I'm playing around with a different library of images, it WILL break.
 
 ## Potential and planned updates & Releases
 * Legacy interface support. It can read values, but not icons at this time.
