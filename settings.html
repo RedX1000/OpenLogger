@@ -11,6 +11,8 @@
           let alg;
           let list;
           let reroll;
+          let autocapture;
+          
           if(document.getElementById("pixel").checked)
               alg = "pixel"
           else if(document.getElementById("hybrid").checked)
@@ -35,8 +37,13 @@
               reroll = "true"
           else if(document.getElementById("rerolloff").checked)
               reroll = "false"
-            
-          TEST.saveSettings(alg, list, reroll)
+          
+          //if(document.getElementById("autocaptureon").checked)
+          //    reroll = "true"
+          //else if(document.getElementById("autocaptureoff").checked)
+          //    reroll = "false"
+
+          TEST.saveSettings(alg, list, reroll/*, autocapture*/)
           window.close()
       }
   </script>
@@ -107,6 +114,17 @@
           <input type="radio" id="rerolloff" name="reroll" class="maintoggles_buttons" value="rerolloff" title="Determine whether rerolling a reward is taken into account for logging purposes or not. Removes rerolled loot from log when on.">
         </div>
       </div>
+      <!-- <label class="title_labels" title="Determines whether clues are automatically captured or not. The lock on the capture button serves the same function as this toggle.">Autocapture:<br></label>
+      <div id="reroll_buttons">
+        <div class="main_divs">
+          <label for="autocaptureon" id="img_label" title="Determines whether clues are automatically captured or not. The lock on the capture button serves the same function as this toggle.">On</label>
+          <input type="radio" id="autocaptureon" name="autocapture" class="maintoggles_buttons" value="autocaptureon" title="Determine whether rerolling a reward is taken into account for logging purposes or not. Removes rerolled loot from log when on.">
+        </div>
+        <div class="main_divs">
+          <label for="autocaptureoff" id="img_label" title="Determines whether clues are automatically captured or not. The lock on the capture button serves the same function as this toggle.">Off</label>
+          <input type="radio" id="autocaptureoff" name="autocapture" class="maintoggles_buttons" value="autocaptureoff" title="Determine whether rerolling a reward is taken into account for logging purposes or not. Removes rerolled loot from log when on.">
+        </div>
+      </div> -->
     </maintoggles>
     <footer>
       <div id="choice_buttons">
