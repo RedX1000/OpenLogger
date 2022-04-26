@@ -29,6 +29,12 @@ This application was created to provide players with a way to easily record thei
 3. Wait a bit, recording takes between 1 - 5 second depending on the tier of clue and the amount of rewards in the window.
 4. Rewards appear in the OpenLogger Interface along with the value, and a dynamic display that updates when new rewards come in, along with the total and average value for the number of completed clues.
 
+### Autocapture
+* Clues can be autocaptured by clicking on the lock (Closed == On, Open == Off).
+* Be careful when obfuscating details in the clue window, more specifically "Current Reward Value: X" coins and "Reroll Reward ( X )".
+* Easy way to fix a misread is to disable autocapture and rolling back and recapturing it.
+* In the event of a double-read, pause Autocapture, rollback, and open the next casket, then re-enable autocapture.
+
 ### Clear Database
 * Clear Database will refresh the LocalStorage for that one tier.
 * It does **NOT** have a confirm window, so be careful not to click it on accident (Will try to add one later).
@@ -41,8 +47,8 @@ This application was created to provide players with a way to easily record thei
 * Rollback will rewind to the last rewards logged by one clue.
 * Maybe support for further rollbacks will be added later, but for now you only get one.
 
-### Settings
-* Settings allow for user choice of Algorithm for icon recognition and List of reference images used for icon recognition.
+## Settings
+* Settings allow for user choice of Algorithm for icon recognition, List of reference images used for icon recognition, and for miscellaneous settings toggles.
 * Hover over the corresponding buttons title to learn more about what it does.
 
 ### Reference Image Collection
@@ -52,6 +58,9 @@ This application was created to provide players with a way to easily record thei
 4. Organized Minus: Smallest list of items. OrgList but with less duplicates. Best for speed, but worst for accuracy due to lower variance.
 5. Experimental: Do not touch. I'm playing around with a different library of images, it WILL break.
 
+### Miscellaneous Toggles
+1. Reroll detection: Determines whether rerolls should be detected or not when capturing clues. When on, rerolls trigger a rollback of the previous reward and logs the new rewards. 
+
 ## Potential and planned updates & Releases
 * Legacy interface support. It can read values, but not icons at this time.
 * Clear database confirmation (`confirm()` does not work in Alt1).
@@ -59,7 +68,6 @@ This application was created to provide players with a way to easily record thei
 * Algorithm choice for icon recognition.
 * Rollback further than one.
 * Allowing download of last clue reward captured
-* Autocapture when new casket is opened
 
 ## Additional info
 This plugin stores data using `localStorage` within Alt1, therefore it can remember all of the loot you have gotten between sessions unless it is deleted. To completely refresh it:
