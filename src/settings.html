@@ -11,6 +11,8 @@
           let alg;
           let list;
           let reroll;
+          let autocapture;
+          
           if(document.getElementById("pixel").checked)
               alg = "pixel"
           else if(document.getElementById("hybrid").checked)
@@ -35,36 +37,41 @@
               reroll = "true"
           else if(document.getElementById("rerolloff").checked)
               reroll = "false"
-            
-          TEST.saveSettings(alg, list, reroll)
+          
+          //if(document.getElementById("autocaptureon").checked)
+          //    reroll = "true"
+          //else if(document.getElementById("autocaptureoff").checked)
+          //    reroll = "false"
+
+          TEST.saveSettings(alg, list, reroll/*, autocapture*/)
           window.close()
       }
   </script>
   </head>
   <body onload=TEST.settingsInit()>
-    <header><h1>Settings Menu</h1><img src="images/QuestionMark.png" title="Hover over the button titles to learn more!"></header>
-    <h2><u>Image searching algorithm</u></h2>
+    <header><h1>Settings Menu</h1></header>
+    <h2><u>Image searching algorithm (WORK IN PROGRESS)</u></h2>
     <mainalgs>
-      <label class="title_labels" title="Much faster but less accurate algorithm, finding the image pixel by pixel. Best used with All or TwoPlus">Pixel Autocompletion Algorithm:<br></label>
-      <div class="main_divs">
-        <label for="pixel" id="algorithm_label" title="Much faster but less accurate algorithm, finding the image pixel by pixel. Best used with All or TwoPlus">Pixel</label>
-        <input type="radio" id="pixel" name="algorithm" class="mainsection_buttons" value="pixel" title="Much faster but less accurate algorithm, finding the image pixel by pixel. Best used with All or TwoPlus">
-      </div>
-      <label class="title_labels" title="A mix between both ResembleJS and Pixel Autocompletion algorithms.">Hybrid Algorithm:<br></label>
-      <div class="main_divs">
-        <label for="hybrid" id="algorithm_label" title="A mix between both ResembleJS and Pixel Autocompletion algorithms.">Hybrid</label>
-        <input type="radio" id="hybrid" name="algorithm" class="mainsection_buttons" value="hybrid" title="A mix between both ResembleJS and Pixel Autocompletion algorithms.">
-      </div>
-      <label class="title_labels" title="Slower but more accurate algorithm utilizing ResembleJS library. Best used with OrgList or OrgMinus.">ResembleJS Algorithm:<br></label>
-      <div class="main_divs">
-        <label for="resemblejs" id="algorithm_label" title="Slower but more accurate algorithm utilizing ResembleJS library. Best used with OrgList or OrgMinus.">ResembleJS</label>
-        <input type="radio" id="resemblejs" name="algorithm" class="mainsection_buttons" value="resemblejs" title="Slower but more accurate algorithm utilizing ResembleJS library. Best used with OrgList or OrgMinus.">
-      </div>
-      <label class="title_labels" title="Slower but more accurate algorithm utilizing ResembleJS library. Best used with OrgList or OrgMinus.">Pixelmatch Algorithm:<br></label>
-      <div class="main_divs">
-        <label for="pixelmatch" id="algorithm_label" title="Slower but more accurate algorithm utilizing ResembleJS library. Best used with OrgList or OrgMinus.">Pixelmatch</label>
-        <input type="radio" id="pixelmatch" name="algorithm" class="mainsection_buttons" value="pixelmatch" title="Slower but more accurate algorithm utilizing ResembleJS library. Best used with OrgList or OrgMinus.">
-      </div>
+        <label class="title_labels" title="Much faster but less accurate algorithm, finding the image pixel by pixel. Best used with All or TwoPlus">Pixel Autocompletion Algorithm:<br></label>
+        <div class="main_divs">
+          <label for="pixel" id="algorithm_label" title="Much faster but less accurate algorithm, finding the image pixel by pixel. Best used with All or TwoPlus">Pixel</label>
+          <input type="radio" id="pixel" name="algorithm" class="mainsection_buttons" value="pixel" title="Much faster but less accurate algorithm, finding the image pixel by pixel. Best used with All or TwoPlus">
+        </div>
+        <label class="title_labels" title="A mix between both ResembleJS and Pixel Autocompletion algorithms.">Hybrid Algorithm:<br></label>
+        <div class="main_divs">
+          <label for="hybrid" id="algorithm_label" title="A mix between both ResembleJS and Pixel Autocompletion algorithms.">Hybrid</label>
+          <input type="radio" id="hybrid" name="algorithm" class="mainsection_buttons" value="hybrid" title="A mix between both ResembleJS and Pixel Autocompletion algorithms.">
+        </div>
+        <label class="title_labels" title="Slower but more accurate algorithm utilizing ResembleJS library. Best used with OrgList or OrgMinus.">ResembleJS Algorithm:<br></label>
+        <div class="main_divs">
+          <label for="resemblejs" id="algorithm_label" title="Slower but more accurate algorithm utilizing ResembleJS library. Best used with OrgList or OrgMinus.">ResembleJS</label>
+          <input type="radio" id="resemblejs" name="algorithm" class="mainsection_buttons" value="resemblejs" title="Slower but more accurate algorithm utilizing ResembleJS library. Best used with OrgList or OrgMinus.">
+        </div>
+        <label class="title_labels" title="Slower but more accurate algorithm utilizing ResembleJS library. Best used with OrgList or OrgMinus.">Pixelmatch Algorithm:<br></label>
+        <div class="main_divs">
+          <label for="pixelmatch" id="algorithm_label" title="Slower but more accurate algorithm utilizing ResembleJS library. Best used with OrgList or OrgMinus.">Pixelmatch</label>
+          <input type="radio" id="pixelmatch" name="algorithm" class="mainsection_buttons" value="pixelmatch" title="Slower but more accurate algorithm utilizing ResembleJS library. Best used with OrgList or OrgMinus.">
+        </div>
     </mainalgs>
     <h2><u>Reference Image Collection</u></h2>
     <mainimgs>
@@ -73,9 +80,9 @@
           <label for="all" id="img_label" title="Complete, full list of reference images. Takes the longest to compare">All Images</label>
           <input type="radio" id="all" name="refimgs" class="mainimgs_buttons" value="all" title="Complete, full list of reference images. Takes the longest to compare">
         </div>
-        <label class="title_labels" title="List of items, where items that appear in two or more tiers are compared with the clue tiers items. Takes the second longest to run">Two or more List:<br></label>
+        <label class="title_labels" title="List of items, where items that appear in two or more tiers are compared with the clue tiers items. Takes the second longest">Two or more List:<br></label>
         <div class="main_divs">
-          <label for="twoplus" id="img_label" title="List of items, where items that appear in two or more tiers are compared with the clue tiers items. Takes the second longest">TwoPlus</label>
+          <label for="twoplus" id="img_label" title="List of items, where items that appear in two or more tiers are compared with the clue tiers items. Takes the second longest to run">TwoPlus</label>
           <input type="radio" id="twoplus" name="refimgs" class="mainimgs_buttons" value="twoplus" title="List of items, where items that appear in two or more tiers are compared with the clue tiers items. Takes the second longest">
         </div>
         <label class="title_labels" title="List of items where items are located in their respective tier. Best for a balance of speed and accuracy">Organized List:<br></label>
@@ -96,17 +103,28 @@
     </mainimgs>
     <h2><u>Miscellaneous toggles</u></h2>
     <maintoggles>
-      <label class="title_labels" title="Complete, full list of reference images. Takes the longest to compare">Reroll detection:<br></label>
-      <div>
+      <label class="title_labels" title="Determine whether rerolling a reward is taken into account for logging purposes or not. Removes rerolled loot from log when on.">Reroll detection:<br></label>
+      <div id="reroll_buttons">
         <div class="main_divs">
-          <label for="rerollon" id="img_label">On</label>
-          <input type="radio" id="rerollon" name="reroll" class="maintoggles_buttons" value="rerollon">
+          <label for="rerollon" id="img_label" title="Determine whether rerolling a reward is taken into account for logging purposes or not. Removes rerolled loot from log when on.">On</label>
+          <input type="radio" id="rerollon" name="reroll" class="maintoggles_buttons" value="rerollon" title="Determine whether rerolling a reward is taken into account for logging purposes or not. Removes rerolled loot from log when on.">
         </div>
         <div class="main_divs">
-          <label for="rerollff" id="img_label">Off</label>
-          <input type="radio" id="rerollff" name="reroll" class="maintoggles_buttons" value="rerolloff">
+          <label for="rerolloff" id="img_label" title="Determine whether rerolling a reward is taken into account for logging purposes or not. Removes rerolled loot from log when on.">Off</label>
+          <input type="radio" id="rerolloff" name="reroll" class="maintoggles_buttons" value="rerolloff" title="Determine whether rerolling a reward is taken into account for logging purposes or not. Removes rerolled loot from log when on.">
         </div>
       </div>
+      <!-- <label class="title_labels" title="Determines whether clues are automatically captured or not. The lock on the capture button serves the same function as this toggle.">Autocapture:<br></label>
+      <div id="reroll_buttons">
+        <div class="main_divs">
+          <label for="autocaptureon" id="img_label" title="Determines whether clues are automatically captured or not. The lock on the capture button serves the same function as this toggle.">On</label>
+          <input type="radio" id="autocaptureon" name="autocapture" class="maintoggles_buttons" value="autocaptureon" title="Determine whether rerolling a reward is taken into account for logging purposes or not. Removes rerolled loot from log when on.">
+        </div>
+        <div class="main_divs">
+          <label for="autocaptureoff" id="img_label" title="Determines whether clues are automatically captured or not. The lock on the capture button serves the same function as this toggle.">Off</label>
+          <input type="radio" id="autocaptureoff" name="autocapture" class="maintoggles_buttons" value="autocaptureoff" title="Determine whether rerolling a reward is taken into account for logging purposes or not. Removes rerolled loot from log when on.">
+        </div>
+      </div> -->
     </maintoggles>
     <footer>
       <div id="choice_buttons">
