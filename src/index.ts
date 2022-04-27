@@ -368,7 +368,8 @@ async function findtrailComplete(img: ImgRef, autobool: boolean) {
 		lastValue = value
 
 		// Give me the items!
-		await new Promise(resolve => setTimeout(resolve, 300));
+		// TODO: Increase this, decrease setInterval 
+		await new Promise(resolve => setTimeout(resolve, 600));
 		var itemResults = []
 		promises = []
 		if(!legacy){
@@ -1160,7 +1161,7 @@ function autoCheck(){
 			let promises = []
 			promises.push(await autoCallCapture());
 			await Promise.all(promises)
-		}, 550);
+		}, 600);
 		autoCaptureTimeout = setTimeout(autoCallCapture, 750)
 		//autoCaptureInterval = window.setInterval(async function(){
 		//	let promises = []
