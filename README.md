@@ -33,6 +33,7 @@ This application was created to provide players with a way to easily record thei
 * Clues can be autocaptured by clicking on the lock (Closed == On, Open == Off).
 * Be careful when obfuscating details in the clue window, more specifically "Current Reward Value: X" coins and "Reroll Reward ( X )".
 * Easy way to fix a misread is to disable autocapture and rolling back and recapturing it.
+* If items are not read when capturing, it is most likely caused by icons loading in. Manually reroll and the clue should be automatically recaptured. Sorry slow internet peoples 😔. I'll add a manual sleep delay in settings later.
 * In the event of a double-read, pause Autocapture, rollback, and open the next casket, then re-enable autocapture.
 
 ### Clear Database
@@ -68,6 +69,7 @@ This application was created to provide players with a way to easily record thei
 * Algorithm choice for icon recognition.
 * Rollback further than one.
 * Allowing download of last clue reward captured
+* Manually adjustable sleep timer to mitigate for lag
 
 ## Additional info
 This plugin stores data using `localStorage` within Alt1, therefore it can remember all of the loot you have gotten between sessions unless it is deleted. To completely refresh it:
