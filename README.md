@@ -1,7 +1,7 @@
 # OpenLogger
 ## An open-source Alt1 Plugin designed for tracking clue rewards
 #### Report bugs or questions message me 🙂 -> Discord: RedX1000#3655
-#### RuneApps forum page: https://runeapps.org/forums/viewtopic.php?pid=4751#p4751
+#### RuneApps forum page: https://runeapps.org/forums/viewtopic.php?pid=4751
 
 *NOTE: Legacy Interface is currently not working, as it does not read correctly* 
 
