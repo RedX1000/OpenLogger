@@ -1140,13 +1140,13 @@ export function toggleCapture(event: Event){
 		document.getElementById("toggleunlocktrack").classList.remove("enabled")
 		localStorage.setItem("autoCapture", "false")
 		alt1.overLayClearGroup("overlays"); alt1.overLaySetGroup("overlays")
-		alt1.overLayTextEx("Autocapture disabled! (doesn't work yet)", a1lib.mixColor(100, 255, 100), 20, Math.round(alt1.rsWidth / 2), 200, 2000, "", true, true)
+		alt1.overLayTextEx("Autocapture disabled!", a1lib.mixColor(100, 255, 100), 20, Math.round(alt1.rsWidth / 2), 200, 2000, "", true, true)
 	}
 	else{
 		document.getElementById("toggleunlocktrack").classList.add("enabled")
 		localStorage.setItem("autoCapture", "true")
 		alt1.overLayClearGroup("overlays"); alt1.overLaySetGroup("overlays")
-		alt1.overLayTextEx("Autocapture enabled! (doesn't work yet)", a1lib.mixColor(100, 255, 100), 20, Math.round(alt1.rsWidth / 2), 200, 2000, "", true, true)
+		alt1.overLayTextEx("Autocapture enabled!", a1lib.mixColor(100, 255, 100), 20, Math.round(alt1.rsWidth / 2), 200, 2000, "", true, true)
 	}
 
 	autoCheck()
