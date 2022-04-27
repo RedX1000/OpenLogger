@@ -368,7 +368,7 @@ async function findtrailComplete(img: ImgRef, autobool: boolean) {
 		lastValue = value
 
 		// Give me the items!
-		await new Promise(resolve => setTimeout(resolve, 200));
+		await new Promise(resolve => setTimeout(resolve, 300));
 		var itemResults = []
 		promises = []
 		if(!legacy){
