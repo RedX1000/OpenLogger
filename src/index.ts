@@ -194,7 +194,7 @@ export function changeClueTierSpan(id: string, event: Event){
 }
 
 
-export function cleardb(choice: any){
+export async function cleardb(choice: any){
 	let keys = Object.keys(localStorage)
 	let current = currentTier()
 
@@ -213,6 +213,8 @@ export function cleardb(choice: any){
 			alt1.overLayClearGroup("overlays"); alt1.overLaySetGroup("overlays")
 			alt1.overLayTextEx("OpenLogger successfully reset!", a1lib.mixColor(100, 255, 100), 20, Math.round(alt1.rsWidth / 2), 200, 4000, "", true, true)
 		}
+		await new Promise(resolve => setTimeout(resolve, 750));
+		location.reload()
 	}
 	else if(choice == 2){ // Full item db clear
 		if (window.alt1) {
