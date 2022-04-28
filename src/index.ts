@@ -36,7 +36,7 @@ var rewardSlots = ["first_item", "second_item", "third_item", "fourth_item", "fi
 var tierlist = ["easy", "medium", "hard", "elite", "master"]
 var ignorelist = ["EValue", "ECount", "MValue", "MCount", "HValue", 
 				  "HCount", "ElValue", "ElCount", "MaValue", "MaCount", 
-				  "Checked button","Algorithm","ItemList","autoCapture", "rerollToggle"]
+				  "Checked button","Algorithm","ItemList","autoCapture", "rerollToggle", "lagDetect"]
 
 var listOfItemsAll
 var listOfItemsFull
@@ -72,12 +72,15 @@ var lastReroll = [0, 0];
 var autoCaptureInterval;
 var autoCaptureTimeout;
 
+var retry = 0;
+
 export function refresh(){
 	location.reload();
 }
 
 
 export function init(){
+	alt1.overLayClearGroup("overlays"); alt1.overLayClearGroup("icons");
 	// Set the checked button
 	console.log("Initializing plugin...");
 	let keys = Object.keys(lsdb);
@@ -87,16 +90,18 @@ export function init(){
 		ele.checked = true;
 		document.getElementById('clue_tier').textContent = "Easy";
 		localStorage.setItem("Checked button", "easy");
-		document.getElementById("current_tier_buttom").textContent = currentTier()[0]
 	}
 	else{ // If it does, set the button and span
 		console.log("Setting previously set radio button: " + localStorage.getItem("Checked button") + "...");
 		let temp = localStorage.getItem("Checked button");
 		let ele = document.getElementById(temp) as HTMLInputElement;
 		ele.checked = true;
-		document.getElementById('clue_tier').textContent = temp[0].toUpperCase() + temp.slice(1).toLowerCase();
-		document.getElementById("current_tier_buttom").textContent = currentTier()[0]
+		document.getElementById('clue_tier').textContent = temp[0].toUpperCase() + temp.slice(1).toLowerCase();		
 	}
+
+	let tierSpans = document.getElementsByClassName("current_tier_button");
+	for(let i = 0; i < tierSpans.length; i++)
+		tierSpans[i].textContent = currentTier()[0]
 
 	if(localStorage.getItem("Algorithm") == null){ // Algorithim init check
 		console.log("Defaulting button to ResembleJS...");
@@ -110,8 +115,7 @@ export function init(){
 
 	if(localStorage.getItem("autoCapture") == null){
 		console.log("Defaulting autocapture to off...");
-		localStorage.setItem("autoCapture", "true");
-		document.getElementById("toggleunlocktrack").classList.add("enabled")
+		localStorage.setItem("autoCapture", "false");
 	}
 	else{
 		if(localStorage.getItem("autoCapture") == "true")
@@ -121,10 +125,15 @@ export function init(){
 		}
 	}
 
-	//TODO: Give this a spot in the settings to enable and disable
 	if(localStorage.getItem("rerollToggle") == null){
 		console.log("Defaulting reroll toggle to true...");
 		localStorage.setItem("rerollToggle", "true");
+	}
+
+	//Initialize lag detection
+	if(localStorage.getItem("lagDetect") == null){
+		console.log("Defaulting lag detect to true...");
+		localStorage.setItem("lagDetect", "true");
 	}
 
 	console.log("Radio buttons initialized.\n ");
@@ -136,6 +145,7 @@ export function init(){
 			localStorage.setItem(keys[i], JSON.stringify(lsdb[keys[i]]));
 	console.log("LocalStorage initialized.\n ");
 
+	// Set up image libraries
 	arraySetup()
 
 	//listOfItemsLegacyArray = []
@@ -147,6 +157,10 @@ export function init(){
 	//Set display
 	lootDisplay()
 	autoCheck()
+
+	//Set up settings
+	settingsInit()
+
 	console.log("Initialization complete");
 }
 
@@ -157,7 +171,10 @@ export function changeClueTierSpan(id: string, event: Event){
 	document.getElementById('clue_tier').textContent = (id[0].toUpperCase() + id.slice(1).toLowerCase());
 	(document.getElementById(id) as HTMLInputElement).checked = true
 	localStorage.setItem("Checked button", id);
-	document.getElementById("current_tier_buttom").textContent = currentTier()[0]
+
+	let tierSpans = document.getElementsByClassName("current_tier_button");
+		for(let i = 0; i < tierSpans.length; i++)
+			tierSpans[i].textContent = currentTier()[0]
 
 	// Clear reward slots and value
 	document.getElementById("rewards_value").textContent = "0"
@@ -177,30 +194,74 @@ export function changeClueTierSpan(id: string, event: Event){
 }
 
 
-export function cleardb(){
-	// Consider prompting the user for this...
-	// Confirm is disabled. Find a workaround...
-	// if(confirm("Are you sure you want to clear the clue database?")){}
-	// if(confirm("Deleting the entire database or just current selected tier?")){}
-	// else{}	
-	// localStorage.clear()
-	// init()
-	
-	alt1.overLayClearGroup("overlays"); alt1.overLaySetGroup("overlays")
-	alt1.overLayTextEx("Clearing "+(currentTier()[0][0].toUpperCase() + (currentTier()[0].slice(1)).toLowerCase())+" reward database...", 
-	a1lib.mixColor(255,144,0), 20, Math.round(alt1.rsWidth / 2), 200, 4000, "", true, true)
-
+export function cleardb(choice: any){
 	let keys = Object.keys(localStorage)
 	let current = currentTier()
 
-	localStorage.setItem(current[1], "0")
-	localStorage.setItem(current[2], "0")
-	for(let i = 0; i < keys.length; i++){
-		if(ignorelist.includes(keys[i])) continue;
-		let temp = JSON.parse(localStorage.getItem(keys[i]))
-		temp.quantity[current[0]] = (0).toString()
-		localStorage.setItem(keys[i], JSON.stringify(temp))
+	if(choice == 1){ // Nuclear reset all
+		if (window.alt1) {
+			alt1.overLayClearGroup("overlays"); alt1.overLaySetGroup("overlays")
+			alt1.overLayTextEx("Resetting OpenLogger...", 
+							   a1lib.mixColor(255,144,0), 20, Math.round(alt1.rsWidth / 2), 200, 4000, "", true, true)
+		}
+
+		localStorage.clear()
+		document.getElementById("toggleunlocktrack").classList.remove("enabled")
+		init()
+		
+		if (window.alt1) {
+			alt1.overLayClearGroup("overlays"); alt1.overLaySetGroup("overlays")
+			alt1.overLayTextEx("OpenLogger successfully reset!", a1lib.mixColor(100, 255, 100), 20, Math.round(alt1.rsWidth / 2), 200, 4000, "", true, true)
+		}
 	}
+	else if(choice == 2){ // Full item db clear
+		if (window.alt1) {
+			alt1.overLayClearGroup("overlays"); alt1.overLaySetGroup("overlays")
+			alt1.overLayTextEx("Clearing all items from reward database...", 
+							   a1lib.mixColor(255,144,0), 20, Math.round(alt1.rsWidth / 2), 200, 4000, "", true, true)
+		}
+
+		localStorage.setItem(current[1], "0")
+		localStorage.setItem(current[2], "0")
+		for(let i = 0; i < keys.length; i++){
+			if(ignorelist.includes(keys[i])) continue;
+			localStorage.removeItem(keys[i])
+		}
+
+		let clearlist = ["EValue", "ECount", "MValue", "MCount", "HValue", "HCount", "ElValue", "ElCount", "MaValue", "MaCount"]
+		for(let i = 0; i < clearlist.length; i++)
+			localStorage.removeItem(clearlist[i])
+
+		init()
+		
+		if (window.alt1) {
+			alt1.overLayClearGroup("overlays"); alt1.overLaySetGroup("overlays")
+			alt1.overLayTextEx("All items cleared successfully!", a1lib.mixColor(100, 255, 100), 20, Math.round(alt1.rsWidth / 2), 200, 4000, "", true, true)
+		}
+	}
+	else if(choice == 3){ // Current tier clear
+		if (window.alt1) {
+			alt1.overLayClearGroup("overlays"); alt1.overLaySetGroup("overlays")
+			alt1.overLayTextEx("Clearing "+(currentTier()[0][0].toUpperCase() + (currentTier()[0].slice(1)).toLowerCase())+" reward database...", 
+							   a1lib.mixColor(255,144,0), 20, Math.round(alt1.rsWidth / 2), 200, 4000, "", true, true)
+		}
+
+		localStorage.setItem(current[1], "0")
+		localStorage.setItem(current[2], "0")
+		for(let i = 0; i < keys.length; i++){
+			if(ignorelist.includes(keys[i])) continue;
+			let temp = JSON.parse(localStorage.getItem(keys[i]))
+			temp.quantity[current[0]] = (0).toString()
+			localStorage.setItem(keys[i], JSON.stringify(temp))
+		}
+
+		if (window.alt1) {
+		alt1.overLayClearGroup("overlays"); alt1.overLaySetGroup("overlays")
+		alt1.overLayTextEx((currentTier()[0][0].toUpperCase() + (currentTier()[0].slice(1)).toLowerCase())+" cleared successfully!", 
+							a1lib.mixColor(100, 255, 100), 20, Math.round(alt1.rsWidth / 2), 200, 4000, "", true, true)
+		}
+	}
+	
 	document.getElementById("number_of_clues").textContent = "0"
 	document.getElementById("value_of_clues").textContent = "0"
 	document.getElementById("average_of_clues").textContent = "0"
@@ -215,10 +276,6 @@ export function cleardb(){
 	lastQuants = []
 	lastTier;
 	lastValue = 0;
-
-	alt1.overLayClearGroup("overlays"); alt1.overLaySetGroup("overlays")
-	alt1.overLayTextEx((currentTier()[0][0].toUpperCase() + (currentTier()[0].slice(1)).toLowerCase())+" cleared successfully!", 
-						a1lib.mixColor(100, 255, 100), 20, Math.round(alt1.rsWidth / 2), 200, 4000, "", true, true)
 }
 
 //loads all images as raw pixel data async, images have to be saved as *.data.png
@@ -249,13 +306,20 @@ function alt1pressedcapture(){
 
 //You can reach exports on window.TEST because of
 //config.makeUmd("testpackage", "TEST"); in webpack.config.ts
-export function capture(autobool: boolean) {
+export async function capture(autobool: boolean) {
 	if (!window.alt1) {
 		return;
 	}
 	if (!alt1.permissionPixel) {
 		return;
 	}
+
+	//TODO: Add lag mitigation.
+	//Try making findTrailComplete return a boolean variable where false means it couldn't find an item or it crashed
+	//True means it succeeded
+
+	//The logic works, but when running autocapture, it gets annoying fast.
+	//Figue out how to not have aautocapture spam so much
 	var img = a1lib.captureHoldFullRs();
 	findtrailComplete(img, autobool);
 }
@@ -264,11 +328,10 @@ export function capture(autobool: boolean) {
 async function findtrailComplete(img: ImgRef, autobool: boolean) {
 	let noWindow = false
 	let reroll = false
-	let testvalue = 0
 	try{
 		try{
 			var loc = img.findSubimage(await imgs.rerollWindow);
-			testvalue += loc[0].x;
+			let testvalue = 0 + loc[0].x;
 			//console.log("reroll window");
 			legacy = false;
 		} catch(e){
@@ -276,12 +339,12 @@ async function findtrailComplete(img: ImgRef, autobool: boolean) {
 				//TODO: add legacy support for reroll window checking
 				try{
 					var loc = img.findSubimage(await imgs.rerollWindow);
-					testvalue += loc[0].x;
+					let testvalue = 0 + loc[0].x;
 					//console.log("reroll window");
 					legacy = false;
 				} catch (e){
 					var loc = img.findSubimage(await imgs.trailComplete);
-					testvalue += loc[0].x;
+					let testvalue = 0 + loc[0].x;
 					//console.log("Non-legacy window");
 					reroll = false;
 				}
@@ -315,7 +378,6 @@ async function findtrailComplete(img: ImgRef, autobool: boolean) {
 			topCrops[i] = img.toData(x1, loc[0].y + 41, 32, 8);
 			x1 += 40;
 		}
-		
 
 		// Give me the total value!
 		// If this breaks, value is obfuscated. Second way to scan it for validity.
@@ -327,22 +389,18 @@ async function findtrailComplete(img: ImgRef, autobool: boolean) {
 		} catch(e){
 			return
 		}
-		
+		console.log(value, lastValue)
 		if(autobool == true){
 			if(lastValue == 0){console.log("value is zero")}
-			else if(value == lastValue)
+			else if(value == lastValue){
 				return
+			}
 		}
 		alt1.overLayClearGroup("overlays"); 
-		
-		if (window.alt1) {
-			alt1.overLaySetGroup("overlays")
-			alt1.overLayTextEx("Capturing rewards...", a1lib.mixColor(255,144,0), 20, Math.round(alt1.rsWidth / 2), 200, 60000, "", true, true);
-		}
 		if(!legacy)	
-			alt1.overLayRect(a1lib.mixColor(255,144,0), loc[0].x - 27, loc[0].y - 13, await imgs.trailComplete.width + 278, await imgs.trailComplete.height + 213, 2000, 2);
+			alt1.overLayRect(a1lib.mixColor(255,144,0), loc[0].x - 27, loc[0].y - 13, await imgs.trailComplete.width + 278, await imgs.trailComplete.height + 213, 60000, 2);
 		else
-			alt1.overLayRect(a1lib.mixColor(255,144,0), loc[0].x - 138, loc[0].y - 13, await imgs.trailCompleteLegacy.width + 278, await imgs.trailCompleteLegacy.height + 213, 2000, 2);
+			alt1.overLayRect(a1lib.mixColor(255,144,0), loc[0].x - 138, loc[0].y - 13, await imgs.trailCompleteLegacy.width + 278, await imgs.trailCompleteLegacy.height + 213, 60000, 2);
 		// Check if this is a reroll
 		let rerollVal;
 		if(!legacy)
@@ -369,7 +427,6 @@ async function findtrailComplete(img: ImgRef, autobool: boolean) {
 
 		// Give me the items!
 		// TODO: Increase this, decrease setInterval 
-		await new Promise(resolve => setTimeout(resolve, 600));
 		var itemResults = []
 		promises = []
 		if(!legacy){
@@ -380,6 +437,7 @@ async function findtrailComplete(img: ImgRef, autobool: boolean) {
 			var x1 = loc[0].x - 112;
 			var y1 = loc[0].y + 39;
 		}
+		let notBlank = false
 		for(let i = 0; i < 9; i++){
 			if (window.alt1) {
 				alt1.overLayClearGroup("icon"); alt1.overLaySetGroup("icon")
@@ -393,6 +451,16 @@ async function findtrailComplete(img: ImgRef, autobool: boolean) {
 			}
 			x1 += 40
 			promises.push(itemResults.push(await compareItems(crops[i])));
+			//TODO: Figure out lag mitigation
+			if(localStorage.getItem("lagDetect") == "true"){
+				if(itemResults[i] == "Blank") notBlank = true
+				else if(itemResults[i] !== "Blank" && notBlank){
+					//Do a thing. This detects whether there was a break or not.
+					lastValue = 0
+					capture(autobool)
+					return
+				}
+			}
 		}	
 		await Promise.all(promises)
 		if (window.alt1)
@@ -401,19 +469,21 @@ async function findtrailComplete(img: ImgRef, autobool: boolean) {
 
 		//Maybe comment this out later idk
 		let equalArrays = true
-		if(lastItems.length == 0){}
-		else{
-			for(let i = 0; i < itemResults.length; i++){
-				if(itemResults[i] !== lastItems[i])
-					equalArrays = false
-			}
-			if(prevValue == value && !equalArrays){	
-				if (window.alt1) {
-					alt1.overLayClearGroup("overlays"); alt1.overLaySetGroup("overlays")
-					alt1.overLayTextEx("                 Casket misread.\nPause Autocapture (if on) and restart\n  plugin or rollback, and try again.", a1lib.mixColor(255, 80, 80), 20, Math.round(alt1.rsWidth / 2), 200, 5000, "", true, true);
+		if(autobool){
+			if(lastItems.length == 0){}
+			else{
+				for(let i = 0; i < itemResults.length; i++){
+					if(itemResults[i] !== lastItems[i])
+						equalArrays = false
 				}
-				lastValue = prevValue
-				return
+				if(prevValue == value && !equalArrays){	
+					if (window.alt1) {
+						alt1.overLayClearGroup("overlays"); alt1.overLaySetGroup("overlays")
+						alt1.overLayTextEx("                 Casket misread.\nPause Autocapture (if on) and restart\n  plugin or rollback, and try again.", a1lib.mixColor(255, 80, 80), 20, Math.round(alt1.rsWidth / 2), 200, 5000, "", true, true);
+					}
+					lastValue = prevValue
+					return
+				}
 			}
 		}
 		
@@ -452,9 +522,9 @@ async function findtrailComplete(img: ImgRef, autobool: boolean) {
 			imgvar.setAttribute('style', 'margin:0 auto;');
 			quantvar.textContent = quantResults[i];
 			if(!quantResults[i].includes("k"))
-				quantvar.setAttribute('style','position:absolute; left:0; top:0; font-family:Runescape Chat Font; font-size:16px; color:rgb(255,255,0); text-shadow:1px 1px #000000;');
+				quantvar.setAttribute('style','position:absolute; left:0; top:-5; font-family:Runescape Chat Font; font-size:16px; color:rgb(255,255,0); text-shadow:1px 1px #000000;');
 			else
-				quantvar.setAttribute('style','position:absolute; left:0; top:0; font-family:Runescape Chat Font; font-size:16px; color:rgb(255,255,255); text-shadow:1px 1px #000000;');
+				quantvar.setAttribute('style','position:absolute; left:0; top:-5; font-family:Runescape Chat Font; font-size:16px; color:rgb(255,255,255); text-shadow:1px 1px #000000;');
 			nodevar.append(quantvar);
 			nodevar.append(imgvar);
 			document.getElementById(rewardSlots[i]).appendChild(nodevar);
@@ -814,20 +884,20 @@ function tabDisplay(current: string){
 		let nodevar = document.createElement("itembox");
 		let imgvar = document.createElement("img");
 		let quantvar = document.createElement("span");
-		nodevar.setAttribute('style', 'position:relative; margin: 3 5 0 1; padding:0 7px 0 2px; width:35px; height:35px; display:flex; align-items:center; text-align:center; order: '+parseInt(JSON.parse(localStorage.getItem(keys[i])).order)+';');
+		nodevar.setAttribute('style', 'position:relative; margin: 3 5 0 1; padding:0 42px 0px 2px; width:37px; height:37px; display:flex; align-items:center; text-align:center; order: '+parseInt(JSON.parse(localStorage.getItem(keys[i])).order)+';');
 		nodevar.setAttribute('title',JSON.parse(localStorage.getItem(keys[i])).quantity[current] +" x "+keys[i])
 		imgvar.src = encodeURI("./images/items/"+keys[i]+".png");
 		imgvar.setAttribute('style', 'margin:0 auto;');
 		if(parseInt(JSON.parse(localStorage.getItem(keys[i])).quantity[current]) > 9999999){
-			quantvar.setAttribute('style','position:absolute; left:0; top:0; font-family:Runescape Chat Font; font-size:16px; color:rgb(0,255,128); text-shadow:1px 1px #000000;');
+			quantvar.setAttribute('style','position:absolute; left:0; top:-5px; font-family:Runescape Chat Font; font-size:16px; color:rgb(0,255,128); text-shadow:1px 1px #000000;');
 			quantvar.textContent = Math.trunc(parseInt(JSON.parse(localStorage.getItem(keys[i])).quantity[current]) / 1000000).toString() + "M";
 		}
 		else if(parseInt(JSON.parse(localStorage.getItem(keys[i])).quantity[current]) > 99999){
-			quantvar.setAttribute('style','position:absolute; left:0; top:0; font-family:Runescape Chat Font; font-size:16px; color:rgb(255,255,255); text-shadow:1px 1px #000000;');
+			quantvar.setAttribute('style','position:absolute; left:0; top:-5px; font-family:Runescape Chat Font; font-size:16px; color:rgb(255,255,255); text-shadow:1px 1px #000000;');
 			quantvar.textContent = Math.trunc(parseInt(JSON.parse(localStorage.getItem(keys[i])).quantity[current]) / 1000).toString() + "k";
 		}
 		else{
-			quantvar.setAttribute('style','position:absolute; left:0; top:0; font-family:Runescape Chat Font; font-size:16px; color:rgb(255,255,0); text-shadow:1px 1px #000000;');
+			quantvar.setAttribute('style','position:absolute; left:0; top:-5px; font-family:Runescape Chat Font; font-size:16px; color:rgb(255,255,0); text-shadow:1px 1px #000000;');
 			quantvar.textContent = Math.trunc(JSON.parse(localStorage.getItem(keys[i])).quantity[current]) + "";
 		}
 		nodevar.append(quantvar);
@@ -1052,23 +1122,6 @@ export function insert(){
 }
 
 
-export function settings(){
-	if (window.alt1) {
-		alt1.overLayClearGroup("overlays"); alt1.overLaySetGroup("overlays")
-		alt1.overLayTextEx("Algorithms does not work yet...", a1lib.mixColor(255, 80, 80), 20, Math.round(alt1.rsWidth / 2), 200, 4000, "", true, true);
-	}
-	
-	var settingsWindow = window.open("./settings.html", "_blank", "height=550, width=360, status=yes, toolbar=no, menubar=no, location=no,addressbar=no");
-
-	//var childWin = window.open("./settings.html", "Settings", "height=400, width=200, status=yes, toolbar=no, menubar=no, location=no,addressbar=no"); 
-
-	//if (window.alt1) {
-	//	alt1.overLayClearGroup("overlays"); alt1.overLaySetGroup("overlays")
-	//	alt1.overLayTextEx(".", a1lib.mixColor(255, 80, 80), 20, Math.round(alt1.rsWidth / 2), 200, 4000, "", true, true);
-	//}
-}
-
-
 export function settingsInit(){
 	if(localStorage.getItem("Algorithm") == null){ // Algorithim init check
 		console.log("Defaulting button to ResembleJS...");
@@ -1114,40 +1167,56 @@ export function settingsInit(){
 			ele.checked = true;
 		}
 	}
+
+	if(localStorage.getItem("lagDetect") == null){ // Remove rerolls init check
+		console.log("Defaulting reroll toggle to on...");
+		var ele = document.getElementById("lagon") as HTMLInputElement;
+		ele.checked = true;
+		localStorage.setItem("lagon", "on");
+	}
+	else{ // If it does, set the button and span
+		console.log("Setting previously set radio button: " + localStorage.getItem("lagDetect") + "...");
+		if(localStorage.getItem("lagDetect") == "true"){
+			var ele = document.getElementById("lagon") as HTMLInputElement
+			ele.checked = true;
+		}
+		else if(localStorage.getItem("lagDetect") == "false"){
+			var ele = document.getElementById("lagoff") as HTMLInputElement
+			ele.checked = true;
+		}
+	}
 }
 
 
-export function saveSettings(alg: string, list: string, reroll: string/*, autocapture: string*/){
+export function saveSettings(alg: string, list: string, reroll: string, lag: string){
 	localStorage.setItem("Algorithm", alg)
 	localStorage.setItem("ItemList", list)
 	localStorage.setItem("rerollToggle", reroll)
-	
-	// document.getElementById("toggleunlocktrack").classList.remove("enabled")
-	// if(autocapture == "true"){
-	// 	document.getElementById("toggleunlocktrack").classList.add("enabled")
-	// 	localStorage.setItem("autoCapture", autocapture)
-	// }
-	// else
-	// 	localStorage.setItem("autoCapture", autocapture)
-	
+	localStorage.setItem("lagDetect", lag)
+
 	if (window.alt1) {
 		alt1.overLayClearGroup("overlays"); alt1.overLaySetGroup("overlays")
 		alt1.overLayTextEx("Settings saved!", a1lib.mixColor(100, 255, 100), 20, Math.round(alt1.rsWidth / 2), 200, 2000, "", true, true);
 	}
 }
 
+
 export function toggleCapture(event: Event){
 	if(document.getElementById("toggleunlocktrack").classList.contains("enabled")){
 		document.getElementById("toggleunlocktrack").classList.remove("enabled")
 		localStorage.setItem("autoCapture", "false")
-		alt1.overLayClearGroup("overlays"); alt1.overLaySetGroup("overlays")
-		alt1.overLayTextEx("Autocapture disabled!", a1lib.mixColor(100, 255, 100), 20, Math.round(alt1.rsWidth / 2), 200, 2000, "", true, true)
+		if (window.alt1) {
+			alt1.overLayClearGroup("overlays"); alt1.overLaySetGroup("overlays")
+			alt1.overLayTextEx("Autocapture disabled!", a1lib.mixColor(100, 255, 100), 20, Math.round(alt1.rsWidth / 2), 200, 2000, "", true, true)
+		}
 	}
 	else{
 		document.getElementById("toggleunlocktrack").classList.add("enabled")
 		localStorage.setItem("autoCapture", "true")
-		alt1.overLayClearGroup("overlays"); alt1.overLaySetGroup("overlays")
-		alt1.overLayTextEx("Autocapture enabled!", a1lib.mixColor(100, 255, 100), 20, Math.round(alt1.rsWidth / 2), 200, 2000, "", true, true)
+		if (window.alt1) {
+			alt1.overLayClearGroup("overlays"); alt1.overLaySetGroup("overlays")
+			alt1.overLayTextEx("Autocapture enabled!", a1lib.mixColor(100, 255, 100), 20, Math.round(alt1.rsWidth / 2), 200, 2000, "", true, true)
+		}
 	}
 
 	autoCheck()
@@ -1161,7 +1230,7 @@ function autoCheck(){
 			let promises = []
 			promises.push(await autoCallCapture());
 			await Promise.all(promises)
-		}, 600);
+		}, 1000);
 		autoCaptureTimeout = setTimeout(autoCallCapture, 750)
 		//autoCaptureInterval = window.setInterval(async function(){
 		//	let promises = []
