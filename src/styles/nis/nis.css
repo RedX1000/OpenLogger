@@ -418,12 +418,12 @@ header {
 }
 
 #csv_button{
-  width: 85%;
+  width: 100%;
   float: left;
 }
 
 #settings_button{
-  width: 30px;
+  width: 53px;
   margin-left: auto;
 }
 
@@ -566,7 +566,7 @@ header {
 
 #clear_button,
 #docapturebutton {
-  width: 90%;
+  width: 99%;
   cursor: pointer;
   margin: auto;
   text-align: center;
@@ -607,7 +607,7 @@ header {
 
 #rollback_button,
 #insert_button{
-  width: 75%;
+  width: 90%;
   font-size: 18px;
 }
 /*
@@ -681,7 +681,7 @@ mainsection {
 .rare,
 .broadcasts {
   display: block;
-  min-height:23%;
+  min-height:25%;
   padding: 5px 0px 0px 0px;
   background: url(alt1-currentskin/background.png)
 }
@@ -722,13 +722,12 @@ mainsection {
   display: flex;
   flex-flow: wrap;
   justify-content: left;
-  padding: 5px 10px;
+  padding: 5px 10px 0 10px;
   word-wrap: normal;
 }
 
 footer {
   position: relative;
-  height: 15x;
   font-size: 16px;
   font-weight: 600;
   padding: 0px 0px 5px 0px;
@@ -740,6 +739,161 @@ footer {
   border-bottom-width: 2px;
   margin-bottom: 2px;
   border-image: url(alt1-currentskin/borderB.png) 5 0 20 0 repeat;
+}
+
+/* #githublink a:link {
+  color: #f9c037;
+}
+
+#githublink a:hover {
+  color: #ecdb3a;
+} */
+
+#h2settings{
+    margin:0;
+    font-family:"trajan-pro-3";
+    color:#f9c037;
+    font-size:20px;
+    padding: 10px 5px 0px 5px;
+}
+
+#settings-body{
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+}
+
+mainalgs,
+mainimgs,
+maintoggles{
+  height:100%;
+  padding:20px 10px;
+  margin:0;
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+  text-align: center;
+  align-items: center;
+  justify-items: center;
+}
+
+.mainimgs_buttons,
+.mainalgs_buttons,
+.maintoggles_buttons{
+  padding: 0 5px;
+  margin:auto;
+}
+
+.maintoggles_buttons{
+  padding: 0 5px;
+  margin:auto;
+}
+
+#reroll_buttons{
+  display:grid;
+  grid-template-columns: repeat(2, auto);
+}
+
+.main_divs{
+  padding:5px 3px;
+}
+
+label{
+  color:white
+}
+
+.title_labels{ 
+  font-family:"trajan-pro-3";
+  color:#f9c037;
+  padding:10px 0px;
+  font-size: 15px;
+}
+
+#algorithm_label,
+#img_label,
+#misc_label{
+    color:#f9c037;
+    margin: 0 0 0 7px;
+    font-size: 15px;
+}
+
+#choice_buttons{
+  width: 100%;
+  cursor: pointer;
+  color: #000;
+  font-family: "trajan-pro-3";
+  font-size: 18px;
+  line-height: 32px;
+  user-select: none;
+  -webkit-user-select: none;
+  display:inline;
+  grid-template-columns: repeat(2, auto);
+  float:inline-end;
+}
+
+#cancel_button,
+#confirm_button{
+  position:relative;
+  font-size: 18px;
+  width: 47%;
+}
+
+#cancel_button{
+  float: right;
+  margin-right: 4px;
+}
+
+#confirm_button{
+  float: left;
+  margin-left: 4px;
+}
+
+.modal-header{
+  background: url("alt1-currentskin/background.png") #171e24;
+  border-bottom: 0 none;
+}
+
+#hovertip{
+  font-size: 22px;
+  color:rgb(236,182,48);
+  float: right;
+  margin-right: 20px;
+  border: solid;
+  border-width: 4px;
+  border-radius: 50%;
+  border-color:rgb(236,182,48);
+  background: rgb(10, 31, 41);
+  cursor: default;
+}
+
+.close_x{
+  font-size:40px;
+  color:#ffffff;
+}
+
+.modal-body{
+  position:relative;
+  border: solid;
+  border-bottom-width: 4px;
+  border-top-width: 4px;
+  border-image: url(alt1-currentskin/borderB.png) 20 0 20 0 repeat;
+  background: url("alt1-currentskin/background.png") #171e24;
+  width: auto;
+}
+
+.modal-footer{
+  border-top: 0 none;
+  background: url("alt1-currentskin/background.png") #171e24;
+}
+
+#db_confirm_button{
+  width: 80%;
+  cursor: pointer;
+  color: #000;
+  font-family: "trajan-pro-3";
+  font-size: 18px;
+  line-height: 32px;
+  user-select: none;
+  margin: 40px auto;
+  -webkit-user-select: none;
 }
 
 /*font stolen from jagex*/
