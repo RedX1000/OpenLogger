@@ -31,14 +31,11 @@ This application was created to provide players with a way to easily record thei
 
 ### Autocapture
 * Clues can be autocaptured by clicking on the lock (Closed == On, Open == Off).
+* This is turned off by default. Click the lock to enable it.
 * Be careful when obfuscating details in the clue window, more specifically "Current Reward Value: X" coins and "Reroll Reward ( X )".
 * Easy way to fix a misread is to disable autocapture and rolling back and recapturing it.
 * If items are not read when capturing, it is most likely caused by icons loading in. Manually reroll and the clue should be automatically recaptured. Sorry slow internet peoples 😔. I'll add a manual sleep delay in settings later.
 * In the event of a double-read, pause Autocapture, rollback, and open the next casket, then re-enable autocapture.
-
-### Clear Database
-* Clear Database will refresh the LocalStorage for that one tier.
-* It does **NOT** have a confirm window, so be careful not to click it on accident (Will try to add one later).
 
 ### Export to CSV
 * Export to CSV will create a CSV value of the LocalStorage and allow the user to download the file
@@ -47,6 +44,13 @@ This application was created to provide players with a way to easily record thei
 ### Rollback
 * Rollback will rewind to the last rewards logged by one clue.
 * Maybe support for further rollbacks will be added later, but for now you only get one.
+
+## Clear DB Options
+* Clear DB Options has multiple choices that determine the scope of how much you want to delete from the Database of items
+* There are confirm windows for each option.
+1. Clear currently selected tier: Clears the database of quantities, values, and clue counts from the currently selected tier.
+2. Clear all items from database: Clears the database of quantities, values, and clue counts from all tiers, Easy to Master.
+3. Completely reset OpenLogger: Nuclear option, **COMPLETELY** resets OpenLoggers settings and database. This is a recommended last option if there is a break in the code. A value within `localStorage` may or may not change between updates (I try not to), and if it turns out that it breaks it, give this a try.
 
 ## Settings
 * Settings allow for user choice of Algorithm for icon recognition, List of reference images used for icon recognition, and for miscellaneous settings toggles.
@@ -61,15 +65,14 @@ This application was created to provide players with a way to easily record thei
 
 ### Miscellaneous Toggles
 1. Reroll detection: Determines whether rerolls should be detected or not when capturing clues. When on, rerolls trigger a rollback of the previous reward and logs the new rewards. 
+2. Lag Detection: Determines whether lag should be detected when scanning clues. When on, it will try to rescan it again. It cannot detect if the last item was unscanned, so if it doesn't scan it, rollback and try again.
 
 ## Potential and planned updates & Releases
 * Legacy interface support. It can read values, but not icons at this time.
-* Clear database confirmation (`confirm()` does not work in Alt1).
 * Allowing the user to deposit or withdraw a reward or value into or out of LocalStorage directly in case of a misread.
 * Algorithm choice for icon recognition.
 * Rollback further than one.
 * Allowing download of last clue reward captured
-* Manually adjustable sleep timer to mitigate for lag
 
 ## Additional info
 This plugin stores data using `localStorage` within Alt1, therefore it can remember all of the loot you have gotten between sessions unless it is deleted. To completely refresh it:
