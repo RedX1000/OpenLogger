@@ -51,6 +51,7 @@ This application was created to provide players with a way to easily record thei
 1. Clear currently selected tier: Clears the database of quantities, values, and clue counts from the currently selected tier.
 2. Clear all items from database: Clears the database of quantities, values, and clue counts from all tiers, Easy to Master.
 3. Completely reset OpenLogger: Nuclear option, **COMPLETELY** resets OpenLoggers settings and database. This is a recommended last option for troubleshooting. A value within `localStorage` may or may not change between updates (I try not to), and if it turns out that it breaks it, give this a try, otherwise reach out to me and we'll chat about it 🙂.
+4. Refresh page: Refreshes the webpage. That is all. It may help with potential updates, but we'll see.
 
 ## Settings
 * Settings allow for user choice of Algorithm for icon recognition, list of reference images used for icon recognition, and for miscellaneous settings toggles.
