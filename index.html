@@ -241,6 +241,7 @@
 							<div id="db_confirm_button" class="nisbutton" data-toggle="modal" data-target="#resetOpenVerif" title="Nuclear option, completely resets plugin, but can be used to troubleshoot">Completely reset OpenLogger</div>
 							<div id="db_confirm_button" class="nisbutton" data-toggle="modal" data-target="#resetAllVerif" title="Clear all of the items in the database only.">Clear all items from database</div>
 							<div id="db_confirm_button" class="nisbutton" data-toggle="modal" data-target="#resetTierVerif" title="Clear the currently selected tier of items only.">Clear currently selected tier</div>
+							<div id="db_confirm_button" class="nisbutton" onclick="javascript:window.location.reload()" title="Refreshes the page. Does not clear the DB, but may help push an update.">Refresh page</div>
 							<div id="db_confirm_button" class="nisbutton" data-dismiss="modal" onclick="" title="Do nothing. Go. Get out of here. Leave.">Cancel</div>
 						</div>
 					</div>
@@ -350,7 +351,7 @@
     		    let list;
     		    let reroll;
     		    let lag;
-				
+
 				if(document.getElementById("resemblejs").checked)
 					alg = "resemblejs"
     		    else if(document.getElementById("pixelmatch").checked)
