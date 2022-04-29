@@ -138,25 +138,20 @@
 					<div class="modal-body" id="settings-body">
 						<h2 id="h2settings">Image searching algorithm <u>(WIP, ONLY RESEMBLEJS WORKS)</u></h2>
 						<mainalgs>
-							<label class="title_labels" title="Much faster but less accurate algorithm, finding the image pixel by pixel.&#013;Best used with All or TwoPlus">Pixel Autocompletion Algorithm:<br></label>
-							<div class="main_divs">
-							  <label for="pixel" id="algorithm_label" title="Much faster but less accurate algorithm, finding the image pixel by pixel.&#013;Best used with All or TwoPlus">Pixel</label>
-							  <input type="radio" id="pixel" name="algorithm" class="mainsection_buttons" value="pixel" title="Much faster but less accurate algorithm, finding the image pixel by pixel.&#013;Best used with All or TwoPlus">
-							</div>
-							<label class="title_labels" title="A mix between both ResembleJS and Pixel Autocompletion algorithms.&#013;Good balance of speed and accuracy">Hybrid Algorithm:<br></label>
-							<div class="main_divs">
-							  <label for="hybrid" id="algorithm_label" title="A mix between both ResembleJS and Pixel Autocompletion algorithms.">Hybrid</label>
-							  <input type="radio" id="hybrid" name="algorithm" class="mainsection_buttons" value="hybrid" title="A mix between both ResembleJS and Pixel Autocompletion algorithms.">
-							</div>
 							<label class="title_labels" title="Slower but more accurate algorithm utilizing ResembleJS library. Best used with OrgList or OrgMinus.">ResembleJS Algorithm:<br></label>
 							<div class="main_divs">
 							  <label for="resemblejs" id="algorithm_label" title="Slower but more accurate algorithm utilizing ResembleJS library. Best used with OrgList or OrgMinus.">ResembleJS</label>
 							  <input type="radio" id="resemblejs" name="algorithm" class="mainsection_buttons" value="resemblejs" title="Slower but more accurate algorithm utilizing ResembleJS library. Best used with OrgList or OrgMinus.">
 							</div>
-							<label class="title_labels" title="Slower but more accurate algorithm utilizing ResembleJS library. Best used with OrgList or OrgMinus.">Pixelmatch Algorithm:<br></label>
+							<label class="title_labels" title="Much faster but less accurate algorithm, finding the image pixel by pixel.&#013;Best used with All or TwoPlus">Pixelmatch Algorithm:<br></label>
 							<div class="main_divs">
-							  <label for="pixelmatch" id="algorithm_label" title="Slower but more accurate algorithm utilizing ResembleJS library. Best used with OrgList or OrgMinus.">Pixelmatch</label>
-							  <input type="radio" id="pixelmatch" name="algorithm" class="mainsection_buttons" value="pixelmatch" title="Slower but more accurate algorithm utilizing ResembleJS library. Best used with OrgList or OrgMinus.">
+							  <label for="pixelmatch" id="algorithm_label" title="Much faster but less accurate algorithm, finding the image pixel by pixel.&#013;Best used with All or TwoPlus">Pixelmatch</label>
+							  <input type="radio" id="pixelmatch" name="algorithm" class="mainsection_buttons" value="pixelmatch" title="Much faster but less accurate algorithm, finding the image pixel by pixel.&#013;Best used with All or TwoPlus">
+							</div>
+							<label class="title_labels" title="A mix between both ResembleJS and Pixel Autocompletion algorithms.&#013;Good balance of speed and accuracy">Hybrid Algorithm:<br></label>
+							<div class="main_divs">
+							  <label for="hybrid" id="algorithm_label" title="A mix between both ResembleJS and Pixel Autocompletion algorithms.">Hybrid</label>
+							  <input type="radio" id="hybrid" name="algorithm" class="mainsection_buttons" value="hybrid" title="A mix between both ResembleJS and Pixel Autocompletion algorithms.">
 							</div>
 						</mainalgs>
 						<h2 id="h2settings">Reference Image Collection</h2>
@@ -355,15 +350,13 @@
     		    let list;
     		    let reroll;
     		    let lag;
-			
-    		    if(document.getElementById("pixel").checked)
-    		        alg = "pixel"
-    		    else if(document.getElementById("hybrid").checked)
-    		        alg = "hybrid"
-    		    else if(document.getElementById("resemblejs").checked)
-    		        alg = "resemblejs"
+				
+				if(document.getElementById("resemblejs").checked)
+					alg = "resemblejs"
     		    else if(document.getElementById("pixelmatch").checked)
     		        alg = "pixelmatch"
+    		    else if(document.getElementById("hybrid").checked)
+    		        alg = "hybrid"
 			
     		    if(document.getElementById("all").checked)
     		        list = "all"
