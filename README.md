@@ -50,18 +50,26 @@ This application was created to provide players with a way to easily record thei
 * There are confirm windows for each option.
 1. Clear currently selected tier: Clears the database of quantities, values, and clue counts from the currently selected tier.
 2. Clear all items from database: Clears the database of quantities, values, and clue counts from all tiers, Easy to Master.
-3. Completely reset OpenLogger: Nuclear option, **COMPLETELY** resets OpenLoggers settings and database. This is a recommended last option if there is a break in the code. A value within `localStorage` may or may not change between updates (I try not to), and if it turns out that it breaks it, give this a try.
+3. Completely reset OpenLogger: Nuclear option, **COMPLETELY** resets OpenLoggers settings and database. This is a recommended last option for troubleshooting. A value within `localStorage` may or may not change between updates (I try not to), and if it turns out that it breaks it, give this a try, otherwise reach out to me and we'll chat about it 🙂.
 
 ## Settings
-* Settings allow for user choice of Algorithm for icon recognition, List of reference images used for icon recognition, and for miscellaneous settings toggles.
+* Settings allow for user choice of Algorithm for icon recognition, list of reference images used for icon recognition, and for miscellaneous settings toggles.
 * Hover over the corresponding buttons title to learn more about what it does.
+
+### Image Searching Algorithm
+* So far only ResembleJS works. Pixelmatch is in the works, and I want to hybridize the two in the future.
+1. ResembleJS: Image recognition library that compares entire images and returns a percentage value. It is slow, but it is very accurate. 
+    * Recommended image collections: OrgList or OrgMinus, due to its accuracy
+2. Pixelmatch (WORK IN PROGRESS): Image recognition library that compares images pixel by pixel for and returns a percentage value. It is very fast, but it loses in accuracy due to the variance in pixels
+    * Recommended image collections: All images or TwoPlus, due to its inaccuracy, it needs more reference materials
+3. Hybrid (WORK IN PROGRESS): A mix of the two. Pixelmatch runs first then ResembleJS.
 
 ### Reference Image Collection
 1. All Items List: Complete, full list of reference images. Takes the longest to compare
 2. Two or more List: List of items, where items that appear in two or more tiers are compared with the clue tiers items. Takes the second longest to run
 3. Organized List: List of items where items are located in their respective tier. Best for a balance of speed and accuracy
 4. Organized Minus: Smallest list of items. OrgList but with less duplicates. Best for speed, but worst for accuracy due to lower variance.
-5. Experimental: Do not touch. I'm playing around with a different library of images, it WILL break.
+5. Experimental (WORK IN PROGRESS): Do not touch. I'm playing around with a different library of images, it WILL break.
 
 ### Miscellaneous Toggles
 1. Reroll detection: Determines whether rerolls should be detected or not when capturing clues. When on, rerolls trigger a rollback of the previous reward and logs the new rewards. 
