@@ -36,7 +36,8 @@ var rewardSlots = ["first_item", "second_item", "third_item", "fourth_item", "fi
 var tierlist = ["easy", "medium", "hard", "elite", "master"]
 var ignorelist = ["EValue", "ECount", "MValue", "MCount", "HValue", 
 				  "HCount", "ElValue", "ElCount", "MaValue", "MaCount", 
-				  "Checked button","Algorithm","ItemList","autoCapture", "rerollToggle", "lagDetect"]
+				  "Checked button","Algorithm","ItemList","autoCapture", 
+				  "rerollToggle", "lagDetect", "multiButtonPressDetect"]
 
 var listOfItemsAll
 var listOfItemsFull
@@ -72,7 +73,7 @@ var lastReroll = [0, 0];
 var autoCaptureInterval;
 var autoCaptureTimeout;
 
-var retry = 0;
+var opentabs = [true, true, true, true]
 
 export function refresh(){
 	location.reload();
@@ -136,6 +137,12 @@ export function init(){
 		localStorage.setItem("lagDetect", "true");
 	}
 
+	//Initialize button double press detection
+	if(localStorage.getItem("multiButtonPressDetect") == null){
+		console.log("Defaulting multi button press detect to true...");
+		localStorage.setItem("multiButtonPressDetect", "true");
+	}
+
 	console.log("Radio buttons initialized.\n ");
 
 	// Initializing the rest of the LocalStorage
@@ -144,6 +151,11 @@ export function init(){
 		if(!(localStorage.getItem(keys[i]))) // If doesn't exist, add it
 			localStorage.setItem(keys[i], JSON.stringify(lsdb[keys[i]]));
 	console.log("LocalStorage initialized.\n ");
+
+	// Initialize loot display as flexy
+	let lootdisplay = Array.from(document.getElementsByClassName('loot_display') as HTMLCollectionOf<HTMLElement>)
+	for(let i = 0; i < lootdisplay.length; i++)
+		lootdisplay[i].style.display = 'flex'
 
 	// Set up image libraries
 	arraySetup()
@@ -303,7 +315,9 @@ var imgs = a1lib.ImageDetect.webpackImages({
 a1lib.on("alt1pressed", alt1pressedcapture)
 
 function alt1pressedcapture(){
-	capture(false)
+	if(document.getElementById("docapturebutton").getAttribute("title") === ("Disabled while scanning. Please wait...")){ return}
+	else if(document.getElementById("docapturebutton").getAttribute("title") === ("Disable autocapture to use this button")){ return}
+	else {capture(false)}
 }
 
 //You can reach exports on window.TEST because of
@@ -322,8 +336,26 @@ export async function capture(autobool: boolean) {
 
 	//The logic works, but when running autocapture, it gets annoying fast.
 	//Figue out how to not have aautocapture spam so much
+	if(localStorage.getItem("multiButtonPressDetect") === "true")
+		if(!autobool){
+			document.getElementById("docapturebutton").setAttribute("onclick","")
+			document.getElementById("docapturebutton").setAttribute("title","Disabled while scanning. Please wait...")
+			document.getElementById("docapturebuttonwords").style.setProperty("text-decoration","line-through")
+			await new Promise(resolve => setTimeout(resolve, 200));
+		}
+
 	var img = a1lib.captureHoldFullRs();
 	findtrailComplete(img, autobool);
+	
+	
+	if(localStorage.getItem("multiButtonPressDetect") === "true")
+		if(!autobool){
+			await new Promise(resolve => setTimeout(function(){
+				document.getElementById("docapturebutton").setAttribute("onclick","TEST.capture(false)")
+				document.getElementById("docapturebutton").setAttribute("title","")
+				document.getElementById("docapturebuttonwords").style.removeProperty("text-decoration")
+			}, 600));
+		}
 }
 
 
@@ -397,6 +429,7 @@ async function findtrailComplete(img: ImgRef, autobool: boolean) {
 			else if(value == lastValue){
 				return
 			}
+			
 		}
 		alt1.overLayClearGroup("overlays"); 
 		if(!legacy)	
@@ -453,11 +486,14 @@ async function findtrailComplete(img: ImgRef, autobool: boolean) {
 			}
 			x1 += 40
 			promises.push(itemResults.push(await compareItems(crops[i])));
-			//TODO: Figure out lag mitigation
 			if(localStorage.getItem("lagDetect") == "true"){
 				if(itemResults[i] == "Blank") notBlank = true
 				else if(itemResults[i] !== "Blank" && notBlank){
 					//Do a thing. This detects whether there was a break or not.
+					if (window.alt1) {
+						alt1.overLayClearGroup("overlays"); alt1.overLayClearGroup("lag"); alt1.overLaySetGroup("lag")
+						alt1.overLayTextEx("Lag detected, rescanning...", a1lib.mixColor(255,144,0), 20, Math.round(alt1.rsWidth / 2), 200, 1500, "", true, true);
+					}
 					lastValue = 0
 					capture(autobool)
 					return
@@ -545,7 +581,7 @@ async function findtrailComplete(img: ImgRef, autobool: boolean) {
 
 		//Display the victory screen!!!
 		if (window.alt1) {
-			alt1.overLayClearGroup("overlays"); alt1.overLaySetGroup("overlays")
+			alt1.overLayClearGroup("overlays"); alt1.overLayClearGroup("lag"); alt1.overLaySetGroup("overlays")
 			alt1.overLayTextEx((currentTier()[0][0].toUpperCase() + (currentTier()[0].slice(1)).toLowerCase())+" rewards captured successfully!", 
 								a1lib.mixColor(100, 255, 100), 20, Math.round(alt1.rsWidth / 2), 200, 4000, "", true, true)
 			if(!legacy)
@@ -557,7 +593,7 @@ async function findtrailComplete(img: ImgRef, autobool: boolean) {
 		
 	} catch(e){
 		if (window.alt1) {
-			alt1.overLayClearGroup("overlays"); alt1.overLaySetGroup("overlays")
+			alt1.overLayClearGroup("overlays"); alt1.overLayClearGroup("lag"); alt1.overLaySetGroup("overlays")
 			alt1.overLayTextEx("        A crash occured.\n\n     Remove any obstructions, \n check tier, open a reward casket, \nreload plugin or clear database and try again", a1lib.mixColor(255, 80, 80), 20, Math.round(alt1.rsWidth / 2), 200, 5000, "", true, true);
 		}
 		throw e
@@ -1156,7 +1192,7 @@ export function settingsInit(){
 		console.log("Defaulting reroll toggle to on...");
 		var ele = document.getElementById("rerollon") as HTMLInputElement;
 		ele.checked = true;
-		localStorage.setItem("rerollon", "on");
+		localStorage.setItem("rerollon", "true");
 	}
 	else{ // If it does, set the button and span
 		console.log("Setting previously set radio button: " + localStorage.getItem("rerollToggle") + "...");
@@ -1174,7 +1210,7 @@ export function settingsInit(){
 		console.log("Defaulting reroll toggle to on...");
 		var ele = document.getElementById("lagon") as HTMLInputElement;
 		ele.checked = true;
-		localStorage.setItem("lagon", "on");
+		localStorage.setItem("lagon", "true");
 	}
 	else{ // If it does, set the button and span
 		console.log("Setting previously set radio button: " + localStorage.getItem("lagDetect") + "...");
@@ -1187,14 +1223,55 @@ export function settingsInit(){
 			ele.checked = true;
 		}
 	}
+
+	if(localStorage.getItem("multiButtonPressDetect") == null){ // Remove rerolls init check
+		console.log("Defaulting reroll toggle to on...");
+		var ele = document.getElementById("multion") as HTMLInputElement;
+		ele.checked = true;
+		localStorage.setItem("multion", "on");
+	}
+	else{ // If it does, set the button and span
+		console.log("Setting previously set radio button: " + localStorage.getItem("multiButtonPressDetect") + "...");
+		if(localStorage.getItem("multiButtonPressDetect") == "true"){
+			var ele = document.getElementById("multion") as HTMLInputElement
+			ele.checked = true;
+		}
+		else if(localStorage.getItem("multiButtonPressDetect") == "false"){
+			var ele = document.getElementById("multioff") as HTMLInputElement
+			ele.checked = true;
+		}
+	}
 }
 
 
-export function saveSettings(alg: string, list: string, reroll: string, lag: string){
+export function saveSettings(alg: string, list: string, reroll: string, lag: string, multi: string){
 	localStorage.setItem("Algorithm", alg)
 	localStorage.setItem("ItemList", list)
 	localStorage.setItem("rerollToggle", reroll)
 	localStorage.setItem("lagDetect", lag)
+	if(localStorage.getItem("multiButtonPressDetect") !== multi){
+		localStorage.setItem("multiButtonPressDetect", multi)
+		console.log("Adjusting saved values")
+		if(multi === "true"){
+			if(localStorage.getItem("autoCapture") === "true"){
+				document.getElementById("docapturebutton").setAttribute("onclick","")
+				document.getElementById("docapturebutton").setAttribute("title","Disable autocapture to use this button")
+				document.getElementById("docapturebuttonwords").style.setProperty("text-decoration","line-through")
+			}
+		}
+		else if(multi === "false"){
+			if(localStorage.getItem("autoCapture") === "true"){
+				document.getElementById("docapturebutton").setAttribute("onclick","TEST.capture(false)")
+				document.getElementById("docapturebutton").setAttribute("title","")
+				document.getElementById("docapturebuttonwords").style.removeProperty("text-decoration")
+			}
+			else{
+				document.getElementById("docapturebutton").setAttribute("onclick","TEST.capture(false)")
+				document.getElementById("docapturebutton").setAttribute("title","")
+				document.getElementById("docapturebuttonwords").style.removeProperty("text-decoration")
+			}
+		}
+	}
 
 	if (window.alt1) {
 		alt1.overLayClearGroup("overlays"); alt1.overLaySetGroup("overlays")
@@ -1227,13 +1304,18 @@ export function toggleCapture(event: Event){
 
 
 function autoCheck(){
-	if(localStorage.getItem("autoCapture") == "true"){
+	if(localStorage.getItem("autoCapture") === "true"){
+		if(localStorage.getItem("multiButtonPressDetect") === "true"){
+			document.getElementById("docapturebutton").setAttribute("onclick","")
+			document.getElementById("docapturebutton").setAttribute("title","Disable autocapture to use this button")
+			document.getElementById("docapturebuttonwords").style.setProperty("text-decoration","line-through")
+		}
 		autoCaptureInterval = window.setInterval(async function(){
 			let promises = []
 			promises.push(await autoCallCapture());
 			await Promise.all(promises)
 		}, 1000);
-		autoCaptureTimeout = setTimeout(autoCallCapture, 750)
+		//autoCaptureTimeout = setTimeout(autoCallCapture, 750)
 		//autoCaptureInterval = window.setInterval(async function(){
 		//	let promises = []
 		//	promises.push(await autoCallCapture());
@@ -1241,6 +1323,11 @@ function autoCheck(){
 		//}, 750);
 	}
 	else{
+		if(localStorage.getItem("multiButtonPressDetect") === "true"){
+			document.getElementById("docapturebutton").setAttribute("onclick","TEST.capture(false)")
+			document.getElementById("docapturebutton").setAttribute("title","")
+			document.getElementById("docapturebuttonwords").style.removeProperty("text-decoration")
+		}
 		window.clearInterval(autoCaptureInterval)
 		clearTimeout(autoCaptureTimeout)
 		autoCaptureTimeout = null;
@@ -1329,6 +1416,62 @@ async function rerollCheck(value: ImageData, valueClear: boolean){
 
 }
 
+
+export function toggleLootDisplay(id: string){
+	let lootdisplay = Array.from(document.getElementsByClassName('loot_display') as HTMLCollectionOf<HTMLElement>)
+	let tab = document.getElementById(id) as HTMLInputElement;
+
+	if(id == "broadcasts_rewards"){
+		lootdisplay[0].style.display = (lootdisplay[0].style.display == 'flex') ? 'none' : 'flex';
+		tab.style.textDecoration = (lootdisplay[0].style.display == 'flex') ? 'none' : 'line-through';
+		tab.title = (lootdisplay[0].style.display == 'flex') ? 'Click here to hide broadcast rewards' : 'Click here to show broadcast rewards';
+		opentabs[0] = (lootdisplay[0].style.display == 'flex') ? true : false;
+	}
+	else if(id == "general_rewards"){
+		lootdisplay[1].style.display = (lootdisplay[1].style.display == 'flex') ? 'none' : 'flex';
+		tab.style.textDecoration = (lootdisplay[1].style.display == 'flex') ? 'none' : 'line-through';
+		tab.title = (lootdisplay[0].style.display == 'flex') ? 'Click here to hide general rewards' : 'Click here to show general rewards';
+		opentabs[1] = (lootdisplay[1].style.display == 'flex') ? true : false;
+	}
+	else if(id == "common_rewards"){
+		lootdisplay[2].style.display = (lootdisplay[2].style.display == 'flex') ? 'none' : 'flex';
+		tab.style.textDecoration = (lootdisplay[2].style.display == 'flex') ? 'none' : 'line-through';
+		tab.title = (lootdisplay[0].style.display == 'flex') ? 'Click here to hide common rewards' : 'Click here to show common rewards';
+		opentabs[2] = (lootdisplay[2].style.display == 'flex') ? true : false;
+	}
+	else if(id == "rare_rewards"){
+		lootdisplay[3].style.display = (lootdisplay[3].style.display == 'flex') ? 'none' : 'flex';
+		tab.style.textDecoration = (lootdisplay[3].style.display == 'flex') ? 'none' : 'line-through';
+		tab.title = (lootdisplay[0].style.display == 'flex') ? 'Click here to hide rare rewards' : 'Click here to show rare rewards';
+		opentabs[3] = (lootdisplay[3].style.display == 'flex') ? true : false;
+	}
+	console.log(opentabs)
+	let truecount = 0;
+	for(let i = 0; i < opentabs.length; i++)
+		if(opentabs[i] == true) truecount++;
+	console.log(truecount)
+	let minH = 0;
+	if(truecount == 4)
+		minH = 25;	
+	if(truecount == 3)
+		minH = 29;
+	if(truecount == 2)
+		minH = 35;
+	if(truecount == 1)
+		minH = 45; // hehe
+	
+	if(opentabs[0]) Array.from(document.getElementsByClassName('broadcasts') as HTMLCollectionOf<HTMLElement>)[0].style.minHeight = minH+"%"
+	else Array.from(document.getElementsByClassName('broadcasts') as HTMLCollectionOf<HTMLElement>)[0].style.minHeight = "8%"
+
+	if(opentabs[1]) Array.from(document.getElementsByClassName('general') as HTMLCollectionOf<HTMLElement>)[0].style.minHeight = minH+"%"
+	else Array.from(document.getElementsByClassName('general') as HTMLCollectionOf<HTMLElement>)[0].style.minHeight = "8%"
+
+	if(opentabs[2]) Array.from(document.getElementsByClassName('common') as HTMLCollectionOf<HTMLElement>)[0].style.minHeight = minH+"%"
+	else Array.from(document.getElementsByClassName('common') as HTMLCollectionOf<HTMLElement>)[0].style.minHeight = "8%"
+
+	if(opentabs[3]) Array.from(document.getElementsByClassName('rare') as HTMLCollectionOf<HTMLElement>)[0].style.minHeight = minH+"%"
+	else Array.from(document.getElementsByClassName('rare') as HTMLCollectionOf<HTMLElement>)[0].style.minHeight = "8%"
+}
 
 //print text world
 //also the worst possible example of how to use global exposed exports as described in webpack.config.json

@@ -49,8 +49,8 @@
 						</div>
 						<div id="clear_button" class="nisbutton" data-toggle="modal" data-target="#cleardb">Clear DB Options</div>
 						<div id="docapturebutton" class="nisbutton" onclick="TEST.capture(false)">
-							<div id="toggleunlocktrack" title="Autocapture toggle&#013;Locked = On; Unlocked = Off" class onclick="TEST.toggleCapture(event)"></div>
-							Capture Rewards
+							<div id="toggleunlocktrack" title="Autocapture toggle&#013;Locked = On; Unlocked = Off&#013;While on, capture button and Alt+1 is disabled&#013;This can be changed in the settings" class onclick="TEST.toggleCapture(event)"></div>
+							<span id="docapturebuttonwords">Capture Rewards</span>
 						</div>
 					</div>
 				</div>
@@ -97,23 +97,23 @@
 					- Create assets for the tabs for on hover and onclick
 					- Have is hide display for its respective child
 			-->
-			<div class="broadcasts" id="broadcasts_and_caskets">
-				<div class="broadcasts_title"><span id="broadcasts_rewards">Broadcast Rewards</span></div>
+			<div class="broadcasts">
+				<div class="broadcasts_title"><span id="broadcasts_rewards" onclick="TEST.toggleLootDisplay(this.id)" title="Click here to hide broadcast rewards">&nbsp;Broadcast Rewards&nbsp;</span></div>
 				<div class="bottom_border"></div>
 				<div class="loot_display" id="broadcasts_loot"></div>
 			</div>
 			<div class="general">
-				<div class="general_title"><span id="general_rewards">General Rewards</span></div>
+				<div class="general_title"><span id="general_rewards" onclick="TEST.toggleLootDisplay(this.id)" title="Click here to hide general rewards">&nbsp;General Rewards&nbsp;</span></div>
 				<div class="bottom_border"></div>
 				<div class="loot_display" id="general_loot"></div>
 			</div>
 			<div class="common">
-				<div class="common_title"><span id="common_rewards">Common Rewards</span></div>
+				<div class="common_title"><span id="common_rewards" onclick="TEST.toggleLootDisplay(this.id)" title="Click here to hide common rewards">&nbsp;Common Rewards&nbsp;</span></div>
 				<div class="bottom_border"></div>
 				<div class="loot_display" id="common_loot"></div>
 			</div>
 			<div class="rare">
-				<div class="rare_title"><span id="rare_rewards">Rare Rewards</span></div>
+				<div class="rare_title"><span id="rare_rewards" onclick="TEST.toggleLootDisplay(this.id)" title="Click here to hide rare rewards">&nbsp;Rare Rewards&nbsp;</span></div>
 				<div class="bottom_border"></div>
 				<div class="loot_display" id="rare_loot"></div>
 			</div>
@@ -184,26 +184,37 @@
 						</mainimgs>
 						<h2 id="h2settings">Miscellaneous toggles&nbsp;&nbsp;&nbsp;&nbsp;</h2>
 						<maintoggles>
-						  <label class="title_labels" title="Determine whether rerolling a reward is taken into account for logging purposes or not. Removes previously rolled loot from log when on.">Reroll detection:<br></label>
+						  <label class="title_labels" title="Determines whether rerolling a reward is taken into account for logging purposes or not. Removes previously rolled loot from log when on.">Reroll detection:<br></label>
 						  <div id="reroll_buttons">
 							<div class="main_divs">
-							  <label for="rerollon" id="img_label" title="Determine whether rerolling a reward is taken into account for logging purposes or not. Removes previously rolled loot from log when on.">On</label>
+							  <label for="rerollon" id="img_label" title="Determines whether rerolling a reward is taken into account for logging purposes or not. Removes previously rolled loot from log when on.">On</label>
 							  <input type="radio" id="rerollon" name="reroll" class="maintoggles_buttons" value="rerollon" title="Determine whether rerolling a reward is taken into account for logging purposes or not. Removes previously rolled loot from log when on.">
 							</div>
 							<div class="main_divs">
-							  <label for="rerolloff" id="img_label" title="Determine whether rerolling a reward is taken into account for logging purposes or not. Removes previously rolled loot from log when on.">Off</label>
+							  <label for="rerolloff" id="img_label" title="Determines whether rerolling a reward is taken into account for logging purposes or not. Removes previously rolled loot from log when on.">Off</label>
 							  <input type="radio" id="rerolloff" name="reroll" class="maintoggles_buttons" value="rerolloff" title="Determine whether rerolling a reward is taken into account for logging purposes or not. Removes previously rolled loot from log when on.">
 							</div>
 						  </div>
-						  <label class="title_labels" title="Determine whether lag is taken into account when caapturing. Clue will attempt to recapture&#013;If the last item fails to capture, attempt a rollback and try again.">Lag detection:<br></label>
+						  <label class="title_labels" title="Determines whether lag is taken into account when caapturing. Clue will attempt to recapture&#013;If the last item fails to capture, attempt a rollback and try again.">Lag detection:<br></label>
 						  <div id="reroll_buttons">
 							<div class="main_divs">
-							  <label for="lagon" id="img_label" title="Determine whether lag is taken into account when caapturing. Clue will attempt to recapture&#013;If the last item fails to capture, attempt a rollback and try again.">On</label>
-							  <input type="radio" id="lagon" name="lag" class="maintoggles_buttons" value="lagon" title="Determine whether lag is taken into account when caapturing. Clue will attempt to recapture&#013;If the last item fails to capture, attempt a rollback and try again.">
+							  <label for="lagon" id="img_label" title="Determines whether lag is taken into account when caapturing. Clue will attempt to recapture&#013;If the last item fails to capture, attempt a rollback and try again.">On</label>
+							  <input type="radio" id="lagon" name="lag" class="maintoggles_buttons" value="lagon" title="Determines whether lag is taken into account when caapturing. Clue will attempt to recapture&#013;If the last item fails to capture, attempt a rollback and try again.">
 							</div>
 							<div class="main_divs">
 							  <label for="lagoff" id="img_label" title="Determine whether lag is taken into account when caapturing. Clue will attempt to recapture&#013;If the last item fails to capture, attempt a rollback and try again.">Off</label>
 							  <input type="radio" id="lagoff" name="lag" class="maintoggles_buttons" value="lagoff" title="Determine whether lag is taken into account when caapturing. Clue will attempt to recapture&#013;If the last item fails to capture, attempt a rollback and try again.">
+							</div>
+						  </div>
+						  <label class="title_labels" title="Prevents the user from accidentally capturing a clue while its being logged to prevent double-logging.">Multi button prevention:<br></label>
+						  <div id="reroll_buttons">
+							<div class="main_divs">
+							  <label for="multion" id="img_label" title="">On</label>
+							  <input type="radio" id="multion" name="multi" class="maintoggles_buttons" value="multion" title="Prevents the user from accidentally capturing a clue while its being logged to prevent double-logging.">
+							</div>
+							<div class="main_divs">
+							  <label for="multioff" id="img_label" title="">Off</label>
+							  <input type="radio" id="multioff" name="multi" class="maintoggles_buttons" value="multioff" title="Prevents the user from accidentally capturing a clue while its being logged to prevent double-logging.">
 							</div>
 						  </div>
 
@@ -351,6 +362,7 @@
     		    let list;
     		    let reroll;
     		    let lag;
+    		    let multi;
 
 				if(document.getElementById("resemblejs").checked)
 					alg = "resemblejs"
@@ -379,8 +391,13 @@
     		        lag = "true"
     		    else if(document.getElementById("lagoff").checked)
     		        lag = "false"
+
+				if(document.getElementById("multion").checked)
+    		        multi = "true"
+    		    else if(document.getElementById("multioff").checked)
+    		        multi = "false"
 			
-    		    TEST.saveSettings(alg, list, reroll, lag)
+    		    TEST.saveSettings(alg, list, reroll, lag, multi)
     		}
   		</script>
 
