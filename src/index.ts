@@ -917,14 +917,20 @@ async function submitToLS(item: any[], quant: any[], value: any){
 	
 	//Add items to database
 	console.log("Adding to database...")
+	console.log(quant)
 	for(let i = 0; i < quant.length; i++){
 		// If you get null or undefined here, check if one of your rewards doesn't exist in LocalStorage or LocalStorageInit
 		// Or maybe the name might be incorrectly written in, idk
-		console.log("checking if in array")
+		//console.log("checking if in array")
 		//console.log(JSON.parse(localStorage.getItem(item[i])).tier)
 		if(JSON.parse(localStorage.getItem(item[i])).tier.includes(current[0])){
 			let temp = JSON.parse(localStorage.getItem(item[i]))
-			temp.quantity[current[0]] = (parseInt(temp.quantity[current[0]]) + parseInt(quant[i])).toString()
+			let tempQuant =  quant[i].slice()
+			if(quant[i].includes('k')){
+				tempQuant = tempQuant.slice(0, -1)
+				tempQuant += "000"
+			}
+			temp.quantity[current[0]] = (parseInt(temp.quantity[current[0]]) + parseInt(tempQuant)).toString()
 			localStorage.setItem(item[i], JSON.stringify(temp))
 		}
 		else
@@ -973,6 +979,7 @@ function tabDisplay(current: string){
 		nodevar.setAttribute('title',JSON.parse(localStorage.getItem(keys[i])).quantity[current] +" x "+keys[i])
 		imgvar.src = encodeURI("./images/items/"+keys[i]+".png");
 		imgvar.setAttribute('style', 'margin:0 auto;');
+		console.log(parseInt(JSON.parse(localStorage.getItem(keys[i])).quantity[current]))
 		if(parseInt(JSON.parse(localStorage.getItem(keys[i])).quantity[current]) > 9999999){
 			quantvar.setAttribute('style','position:absolute; left:0; top:-5px; font-family:Runescape Chat Font; font-size:16px; color:rgb(0,255,128); text-shadow:1px 1px #000000;');
 			quantvar.textContent = Math.trunc(parseInt(JSON.parse(localStorage.getItem(keys[i])).quantity[current]) / 1000000).toString() + "M";
