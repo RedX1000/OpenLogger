@@ -676,14 +676,18 @@ mainsection {
   flex-grow: 1;
 }
 
+.broadcasts,
 .general,
 .common,
-.rare,
-.broadcasts {
+.rare {
   display: block;
   min-height:25%;
   padding: 5px 0px 0px 0px;
   background: url(alt1-currentskin/background.png)
+}
+
+.rare{
+  padding-bottom: 10px;
 }
 
 .general_title,
@@ -696,26 +700,46 @@ mainsection {
   font-weight: 600;
 }
 
+.general_title :hover,
+.common_title :hover,
+.rare_title :hover,
+.broadcasts_title :hover {
+  color:rgb(240, 178, 22);
+  cursor: pointer;
+}
+
+.general_title :active,
+.common_title :active,
+.rare_title :active,
+.broadcasts_title :active {
+  color: rgb(238, 211, 142);
+  cursor: pointer;
+}
+
 .bottom_border {
   border: solid;
   border-bottom-width: 2px;
   border-image: url(alt1-currentskin/borderB.png) 5 0 20 0 repeat;
 }
 
-#general_rewards {
-  padding-left: 33px;
+#broadcasts_rewards {
+  user-select: none;
+  padding-left: 21px;
 }
 
-#common_rewards {
+#general_rewards {
+  user-select: none;
   padding-left: 29px;
 }
 
-#rare_rewards {
-  padding-left: 44px;
+#common_rewards {
+  user-select: none;
+  padding-left: 25px;
 }
 
-#broadcasts_rewards {
-  padding-left: 25px;
+#rare_rewards {
+  user-select: none;
+  padding-left: 40px;
 }
 
 .loot_display {
