@@ -496,6 +496,7 @@ async function findtrailComplete(img: ImgRef, autobool: boolean) {
 						alt1.overLayClearGroup("overlays"); alt1.overLayClearGroup("lag"); alt1.overLaySetGroup("lag")
 						alt1.overLayTextEx("Lag detected, rescanning...", a1lib.mixColor(255,144,0), 20, Math.round(alt1.rsWidth / 2), 200, 1500, "", true, true);
 					}
+					lagDetected = true
 					lastValue = 0
 					capture(autobool)
 					return
