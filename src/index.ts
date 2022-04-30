@@ -601,10 +601,10 @@ async function findtrailComplete(img: ImgRef, autobool: boolean) {
 			let nodevar = document.createElement("itembox");
 			let imgvar = document.createElement("img");
 			let quantvar = document.createElement("span");
-			nodevar.setAttribute('style', 'position:relative; margin: 3 5 0 1; padding:0 42px 0px 2px; width:37px; height:37px; display:flex; align-items:center; text-align:center;');
+			nodevar.setAttribute('style', 'position:relative; margin: auto; padding:auto 42px auto 2px; width:37px; height:37px; display:flex; align-items:center; text-align:center;');
 			nodevar.setAttribute('title',quantResults[i]+" x "+itemResults[i])
 			imgvar.src = encodeURI("./images/items/"+itemResults[i]+".png");
-			imgvar.setAttribute('style', 'margin:0 auto;');
+			imgvar.setAttribute('style', 'margin:auto;');
 			quantvar.textContent = quantResults[i];
 			if(!quantResults[i].includes("k"))
 				quantvar.setAttribute('style','position:absolute; left:0; top:-5px; font-family:Runescape Chat Font; font-size:16px; color:rgb(255,255,0); color:rgb(255,255,0); text-shadow:1px 1px #000000;');
