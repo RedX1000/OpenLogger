@@ -387,6 +387,7 @@ header {
   text-align: center;
   grid-template-columns: repeat(1 auto);
   width:auto;
+  user-select: none;
 }
 
 .title {
@@ -494,6 +495,7 @@ header {
 .clue_button_label_holder {
   position: center;
   width: 100%;
+  user-select: none;
 }
 
 .clue_scrolls_button_header {
@@ -674,6 +676,7 @@ mainsection {
   flex-flow: column;
   overflow-y: auto;
   flex-grow: 1;
+  user-select: none;
 }
 
 .broadcasts,
@@ -756,6 +759,7 @@ footer {
   font-weight: 600;
   padding: 0px 0px 5px 0px;
   background: url("alt1-currentskin/background.png");
+  user-select: none;
 }
 
 .footer_bar{
@@ -779,6 +783,7 @@ footer {
     color:#f9c037;
     font-size:20px;
     padding: 10px 5px 0px 5px;
+    user-select: none;
 }
 
 #settings-body{
@@ -847,7 +852,6 @@ label{
   font-size: 18px;
   line-height: 32px;
   user-select: none;
-  -webkit-user-select: none;
   display:inline;
   grid-template-columns: repeat(2, auto);
   float:inline-end;
@@ -873,6 +877,7 @@ label{
 .modal-header{
   background: url("alt1-currentskin/background.png") #171e24;
   border-bottom: 0 none;
+  user-select: none;
 }
 
 #hovertip{
@@ -901,11 +906,13 @@ label{
   border-image: url(alt1-currentskin/borderB.png) 20 0 20 0 repeat;
   background: url("alt1-currentskin/background.png") #171e24;
   width: auto;
+  user-select: none;
 }
 
 .modal-footer{
   border-top: 0 none;
   background: url("alt1-currentskin/background.png") #171e24;
+  user-select: none;
 }
 
 #db_confirm_button{
@@ -917,7 +924,6 @@ label{
   line-height: 32px;
   user-select: none;
   margin: 40px auto;
-  -webkit-user-select: none;
 }
 
 /*font stolen from jagex*/
