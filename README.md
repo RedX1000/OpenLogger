@@ -89,6 +89,7 @@ This application was created to provide players with a way to easily record thei
 * Algorithm choice for icon recognition.
 * Rollback further than one.
 * Allowing download of last clue reward captured
+* Figure out how to read the last clue for lag mitigation.
 
 ## Special thanks
 * Skillbert for creating Alt1 and providing the tools and libraries to create third-party applications.
