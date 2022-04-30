@@ -10,18 +10,18 @@
 This application was created to provide players with a way to easily record their clue scrolls in bulk, or over the course of their clue runs.
 
 ## How to install
-### Copy and paste this into your browser to install automatically
-#### alt1://addapp/https://redx1000.github.io/OpenLogger/appconfig.json
+### Click this link to install Openlogger to Alt1 automatically
+#### <alt1://addapp/https://redx1000.github.io/OpenLogger/appconfig.json>
 ### Or use direct link
-#### https://redx1000.github.io/OpenLogger
+#### https://redx1000.github.io/OpenLogger <br><br>
 #### To install with the direct link
 1. Copy the direct link
 2. Open Alt1 applications and open the browser
 3. Paste link in URL bar and press enter
 4. Click Add App on the top of the page
-5. Accept permissions and click confirm
+5. Accept permissions and click confirm<br><br>
 
- ## How to use
+ # Instructions on how to use
  ### Capture Rewards
 1. Open a reward casket (Easy, Medium, Hard, Elite, Master)
     * Make sure clue reward window is not obfuscated in order to get a correct reading.
@@ -32,7 +32,8 @@ This application was created to provide players with a way to easily record thei
 ### Autocapture
 * Clues can be autocaptured by clicking on the lock (Closed == On, Open == Off).
 * This is turned off by default. Click the lock to enable it.
-* Be careful when obfuscating details in the clue window, more specifically "Current Reward Value: X" coins and "Reroll Reward ( X )".
+* Be careful when obfuscating details in the clue window, more specifically "Current Reward Value: X" coins and "Reroll Reward ( X )". 
+* List of things to not hover over below at Additional Info.
 * Easy way to fix a misread is to disable autocapture and rolling back and recapturing it.
 * If items are not read when capturing, it is most likely caused by icons loading in. Manually reroll and the clue should be automatically recaptured. Sorry slow internet peoples 😔. I'll add a manual sleep delay in settings later.
 * In the event of a double-read, pause Autocapture, rollback, and open the next casket, then re-enable autocapture.
@@ -52,6 +53,11 @@ This application was created to provide players with a way to easily record thei
 2. Clear all items from database: Clears the database of quantities, values, and clue counts from all tiers, Easy to Master.
 3. Completely reset OpenLogger: Nuclear option, **COMPLETELY** resets OpenLoggers settings and database. This is a recommended last option for troubleshooting. A value within `localStorage` may or may not change between updates (I try not to), and if it turns out that it breaks it, give this a try, otherwise reach out to me and we'll chat about it 🙂.
 4. Refresh page: Refreshes the webpage. That is all. It may help with potential updates, but we'll see.
+
+## Toggleable loot tabs
+* Click on the loot tab title to hide the loot, and click it again to show the loot
+* Hidden tabs will be strikethroughed, and the space below it will be hidden.
+* Hovering over it will give a tooltip on whether you can hide or show the loot
 
 ## Settings
 * Settings allow for user choice of Algorithm for icon recognition, list of reference images used for icon recognition, and for miscellaneous settings toggles.
@@ -75,6 +81,7 @@ This application was created to provide players with a way to easily record thei
 ### Miscellaneous Toggles
 1. Reroll detection: Determines whether rerolls should be detected or not when capturing clues. When on, rerolls trigger a rollback of the previous reward and logs the new rewards. 
 2. Lag Detection: Determines whether lag should be detected when scanning clues. When on, it will try to rescan it again. It cannot detect if the last item was unscanned, so if it doesn't scan it, rollback and try again.
+3. Multi button prevention: Prevents the user from accidentally double-logging a clue by disabling the capture button when autocapture is on and when the plugin is trying to capture a clue.
 
 ## Potential and planned updates & Releases
 * Legacy interface support. It can read values, but not icons at this time.
@@ -83,12 +90,35 @@ This application was created to provide players with a way to easily record thei
 * Rollback further than one.
 * Allowing download of last clue reward captured
 
+## Special thanks
+* Skillbert for creating Alt1 and providing the tools and libraries to create third-party applications.
+* Daladen for not only prviding me with an insight into how the Summit Clue Logger worked to help write OpenLogger and for general web dev help, but also for providing all of the reference images for image comparison. Could not have done this project without those images.
+* Athabastyx for the technical help and Javascript insight. This is my first JS/TS project and Atha helped a lot with helping me understand new functions, libraries, and how to optimize things better.
+* All the people I've reached out to and have provided help regarding JS and Alt1 plugin questions through Runeapps Discord's #development channel and DMs. 
+
 ## Additional info
-This plugin stores data using `localStorage` within Alt1, therefore it can remember all of the loot you have gotten between sessions unless it is deleted. To completely refresh it:
-1. Right click 
-2. Inspect element
-3. Application tab
-4. Storage
-5. Local Storage
-6. right click the link
-7. Clear
+* When scanning clues, do not obfuscate these spots on a casket open screen.
+    * EOC rewards display: ![EOC rewards display](/dist/images/rewardsample.png "EOC Rewards")
+    * Legacy rewards display: ![EOC rewards display](/dist/images/rewardsamplelegacy.png "Legacy Rewards")
+    * EOC Trail Complete in the corner: ![EOC Trail Complete in the corner](/dist/images/TrailComplete.data.png "Trail Complete")
+    * Legacy Trail Complete on the top of the screen: ![Legacy Trail Complete on the top of the screen](/dist/images/TrailCompleteLegacy.data.png "Trail Complete Legacy")
+    * Top left corner of EOC loot window: ![Top left corner of EOC loot window](/dist/images/eoctopleft.data.png "EOC Top left")
+    * Bottom left corner of EOC loot window: ![Bottom left corner of EOC loot window](/dist/images/eocbotleft.data.png "EOC Bottom left")
+    * Exit button of EOC loot window: ![Exit button of EOC loot window](/dist/images/eocx.data.png "EOC Exit button")
+    * Top left corner of Legacy loot window: ![Top left corner of Legacy loot window](/dist/images/legacytopleft.data.png "Legacy Top left")
+    * Bottom left corner of Legacy loot window: ![Bottom left corner of Legacy loot window](/dist/images/legacybotleft.data.png "Legac Bottom left")
+    * Exit button of Legacy loot window: ![Exit button of Legacy loot window](/dist/images/legacyx.data.png "Legacy Exit button")
+    * EOC Current Reward Value INCLUDING NUMBERS: ![EOC Current Reward Value INCLUDING NUMBERS](/dist/images/RewardValue.data.png "EOC Current Reward Value")
+    * Legacy Current Reward Value INCLUDING NUMBERS: ![Legacy Current Reward Value INCLUDING NUMBERS](/dist/images/RewardValueLegacy.data.png "Legacy Current Reward Value")
+    * These words in the EOC reroll window: ![These words in the reroll window](/dist/images/rerollWindow.data.png "Reroll words")
+    * The current value of rerolls remaining: ![The current value of rerolls remaining](/dist/images/rerollnumbers.png "Reroll numbers")
+    * **Everything else is free game to hover over**<br><br>
+
+* This plugin stores data using `localStorage` within Alt1, therefore it can remember all of the loot you have gotten between sessions unless it is deleted. To completely refresh it:
+    1. Right click 
+    2. Inspect element
+    3. Application tab
+    4. Storage
+    5. Local Storage
+    6. right click the link
+    7. Clear
