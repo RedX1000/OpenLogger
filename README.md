@@ -35,7 +35,7 @@ This application was created to provide players with a way to easily record thei
 * Be careful when obfuscating details in the clue window, more specifically "Current Reward Value: X" coins and "Reroll Reward ( X )". 
 * List of things to not hover over below at Additional Info.
 * Easy way to fix a misread is to disable autocapture and rolling back and recapturing it.
-* If items are not read when capturing, it is most likely caused by icons loading in. Manually reroll and the clue should be automatically recaptured. Sorry slow internet peoples 😔. I'll add a manual sleep delay in settings later.
+* If items are not read when capturing, it is most likely caused by icons loading in. Check to see if Lag Detection settings are on in the OpenLogger settings and manually rollback and the clue should be automatically recaptured.
 * In the event of a double-read, pause Autocapture, rollback, and open the next casket, then re-enable autocapture.
 
 ### Export to CSV
@@ -52,7 +52,7 @@ This application was created to provide players with a way to easily record thei
 1. Clear currently selected tier: Clears the database of quantities, values, and clue counts from the currently selected tier.
 2. Clear all items from database: Clears the database of quantities, values, and clue counts from all tiers, Easy to Master.
 3. Completely reset OpenLogger: Nuclear option, **COMPLETELY** resets OpenLoggers settings and database. This is a recommended last option for troubleshooting. A value within `localStorage` may or may not change between updates (I try not to), and if it turns out that it breaks it, give this a try, otherwise reach out to me and we'll chat about it 🙂.
-4. Refresh page: Refreshes the webpage. That is all. It may help with potential updates, but we'll see.
+4. Refresh page: Refreshes the plugin, does not delete anything. That is all. It may help with potential updates, but we'll see.
 
 ## Toggleable loot tabs
 * Click on the loot tab title to hide the loot, and click it again to show the loot
@@ -80,7 +80,7 @@ This application was created to provide players with a way to easily record thei
 
 ### Miscellaneous Toggles
 1. Reroll detection: Determines whether rerolls should be detected or not when capturing clues. When on, rerolls trigger a rollback of the previous reward and logs the new rewards. 
-2. Lag Detection: Determines whether lag should be detected when scanning clues. When on, it will try to rescan it again. It cannot detect if the last item was unscanned, so if it doesn't scan it, rollback and try again.
+2. Lag Detection: Determines whether lag should be detected when scanning clues. When on, it will try to rescan it again. In the event that it does not capture everything due to lag, perform a manual rollback and try again.
 3. Multi button prevention: Prevents the user from accidentally double-logging a clue by disabling the capture button when autocapture is on and when the plugin is trying to capture a clue.
 
 ## Potential and planned updates & Releases
@@ -89,13 +89,13 @@ This application was created to provide players with a way to easily record thei
 * Algorithm choice for icon recognition.
 * Rollback further than one.
 * Allowing download of last clue reward captured
-* Figure out how to read the last clue for lag mitigation.
 
 ## Special thanks
 * Skillbert for creating Alt1 and providing the tools and libraries to create third-party applications.
 * Daladen for not only prviding me with an insight into how the Summit Clue Logger worked to help write OpenLogger and for general web dev help, but also for providing all of the reference images for image comparison. Could not have done this project without those images.
 * Athabastyx for the technical help and Javascript insight. This is my first JS/TS project and Atha helped a lot with helping me understand new functions, libraries, and how to optimize things better.
 * All the people I've reached out to and have provided help regarding JS and Alt1 plugin questions through Runeapps Discord's #development channel and DMs. 
+* Everyone reaching out to report bugs and make suggestions.
 
 ## Additional info
 * When scanning clues, do not obfuscate these spots on a casket open screen.
