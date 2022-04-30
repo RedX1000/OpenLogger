@@ -75,13 +75,15 @@ var autoCaptureTimeout;
 
 var opentabs = [true, true, true, true]
 
+var lagDetected = false
+
 export function refresh(){
 	location.reload();
 }
 
 
 export function init(){
-	alt1.overLayClearGroup("overlays"); alt1.overLayClearGroup("icons");
+	alt1.overLayClearGroup("overlays"); alt1.overLayClearGroup("icon");
 	// Set the checked button
 	console.log("Initializing plugin...");
 	let keys = Object.keys(lsdb);
@@ -347,7 +349,6 @@ export async function capture(autobool: boolean) {
 	var img = a1lib.captureHoldFullRs();
 	findtrailComplete(img, autobool);
 	
-	
 	if(localStorage.getItem("multiButtonPressDetect") === "true")
 		if(!autobool){
 			await new Promise(resolve => setTimeout(function(){
@@ -364,10 +365,10 @@ async function findtrailComplete(img: ImgRef, autobool: boolean) {
 	let reroll = false
 	try{
 		try{
-			var loc = img.findSubimage(await imgs.rerollWindow);
+			var loc = img.findSubimage(await imgs.trailCompleteLegacy);
 			let testvalue = 0 + loc[0].x;
 			//console.log("reroll window");
-			legacy = false;
+			legacy = true;
 		} catch(e){
 			try{
 				//TODO: add legacy support for reroll window checking
@@ -447,11 +448,8 @@ async function findtrailComplete(img: ImgRef, autobool: boolean) {
 		
 		let promises = []
 		if(localStorage.getItem("rerollToggle") == "true"){
-			//console.log("Reroll toggle is true")
 			promises = []
-			//console.log("Value before reroll check is",lastValue)
 			promises.push(await rerollCheck(rerollVal, false));
-			//console.log("Value after reroll check is",lastValue)
 			await Promise.all(promises)
 		}
 		else
@@ -462,6 +460,10 @@ async function findtrailComplete(img: ImgRef, autobool: boolean) {
 
 		// Give me the items!
 		// TODO: Increase this, decrease setInterval 
+		if(!lagDetected){
+			alt1.overLayClearGroup("overlays"); alt1.overLayClearGroup("lag"); alt1.overLaySetGroup("lag")
+			alt1.overLayTextEx("Capturing rewards...", a1lib.mixColor(255,144,0), 20, Math.round(alt1.rsWidth / 2), 200, 60000, "", true, true);
+		}
 		var itemResults = []
 		promises = []
 		if(!legacy){
@@ -499,7 +501,51 @@ async function findtrailComplete(img: ImgRef, autobool: boolean) {
 					return
 				}
 			}
-		}	
+		}
+		if(localStorage.getItem("lagDetect") == "true"){
+			for(let i = 0; i < itemResults.length; i++){
+				if(itemResults[itemResults.length-1] !== "Blank") break;
+				else if(itemResults[i] !== "Blank") continue;
+				else{
+					console.log(itemResults[i])
+					
+					let newImg = a1lib.captureHoldFullRs();
+					if(!legacy){
+						console.log("is not legacy")
+						var loc2 = newImg.findSubimage(await imgs.trailComplete);
+					}
+					else
+						var loc2 = newImg.findSubimage(await imgs.trailCompleteLegacy);
+					let x = loc2[0].x + (40 * (i))
+					if (window.alt1) {
+						alt1.overLayClearGroup("overlays"); alt1.overLaySetGroup("overlays")
+						alt1.overLayTextEx("Checking last item for lag...", a1lib.mixColor(255,144,0), 20, Math.round(alt1.rsWidth / 2), 170, 2000, "", true, true);
+						alt1.overLayClearGroup("icon"); alt1.overLaySetGroup("icon")
+						alt1.overLayRect(a1lib.mixColor(125,194,33), x-1, loc2[0].y + 39, 32, 32, 2000, 1);
+					}
+					
+					let lastcrop = newImg.toData(x-1, loc2[0].y + 39, 32, 32);
+					let lastresult;
+					let promises2 = []
+					promises2.push(lastresult = await compareItems(lastcrop));
+					await Promise.all(promises2)
+					console.log(itemResults, i)
+					console.log("Comparing",itemResults[i],"to",lastresult)
+					if(lastresult === itemResults[i]) break;
+					else{
+						if (window.alt1) {
+							alt1.overLayClearGroup("overlays"); alt1.overLayClearGroup("lag"); alt1.overLaySetGroup("lag")
+							alt1.overLayTextEx("Lag detected, rescanning...", a1lib.mixColor(255,144,0), 20, Math.round(alt1.rsWidth / 2), 200, 60000, "", true, true);
+						}
+						lagDetected = true
+						lastValue = 0
+						capture(autobool)
+						return
+					}
+				}
+			}
+		}
+
 		await Promise.all(promises)
 		if (window.alt1)
 			alt1.overLayClearGroup("icon")
@@ -589,7 +635,7 @@ async function findtrailComplete(img: ImgRef, autobool: boolean) {
 			else
 				alt1.overLayRect(a1lib.mixColor(0,255,0), loc[0].x - 138, loc[0].y - 13, await imgs.trailCompleteLegacy.width + 278, await imgs.trailCompleteLegacy.height + 213, 1000, 2);
 		}
-
+		lagDetected = false
 		
 	} catch(e){
 		if (window.alt1) {
