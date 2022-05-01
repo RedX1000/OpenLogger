@@ -3,7 +3,7 @@
 #### Report bugs or questions message me 🙂 -> Discord: RedX1000#3655
 #### RuneApps forum page: https://runeapps.org/forums/viewtopic.php?pid=4751
 
-*NOTE: Legacy Interface is currently not working, as it does not read correctly* 
+*NOTE: Legacy Interface mode works, but I don't test with it often, so use at your own risk* 
 
 
 ## Description
@@ -84,7 +84,7 @@ This application was created to provide players with a way to easily record thei
 3. Multi button prevention: Prevents the user from accidentally double-logging a clue by disabling the capture button when autocapture is on and when the plugin is trying to capture a clue.
 
 ## Potential and planned updates & Releases
-* Legacy interface support. It can read values, but not icons at this time.
+* Better legacy interface support. I don't test with it much. Legacy interface can log clues and perform lag detection checks, but I do not have a reroll window detection set for legacy mode, and I would need to iron out aany bugs or kinks that appear. Use at your own risk.
 * Allowing the user to deposit or withdraw a reward or value into or out of LocalStorage directly in case of a misread.
 * Algorithm choice for icon recognition.
 * Rollback further than one.

@@ -367,7 +367,7 @@ async function findtrailComplete(img: ImgRef, autobool: boolean) {
 		try{
 			var loc = img.findSubimage(await imgs.trailCompleteLegacy);
 			let testvalue = 0 + loc[0].x;
-			//console.log("reroll window");
+			console.log("legacy window");
 			legacy = true;
 		} catch(e){
 			try{
@@ -375,13 +375,13 @@ async function findtrailComplete(img: ImgRef, autobool: boolean) {
 				try{
 					var loc = img.findSubimage(await imgs.rerollWindow);
 					let testvalue = 0 + loc[0].x;
-					//console.log("reroll window");
-					legacy = false;
+					console.log("reroll window");
+					reroll = false;
 				} catch (e){
 					var loc = img.findSubimage(await imgs.trailComplete);
 					let testvalue = 0 + loc[0].x;
-					//console.log("Non-legacy window");
-					reroll = false;
+					console.log("Non-legacy window");
+					legacy = false;
 				}
 			} catch (e){
 				//console.log("noWindow")
@@ -511,18 +511,22 @@ async function findtrailComplete(img: ImgRef, autobool: boolean) {
 					console.log(itemResults[i])
 					
 					let newImg = a1lib.captureHoldFullRs();
+					let x;
 					if(!legacy){
 						console.log("is not legacy")
 						var loc2 = newImg.findSubimage(await imgs.trailComplete);
+						x = loc2[0].x + (40 * (i))
 					}
-					else
+					else{
 						var loc2 = newImg.findSubimage(await imgs.trailCompleteLegacy);
-					let x = loc2[0].x + (40 * (i))
+						x = loc[0].x - 112 + (40 * (i));
+					}
+					
 					if (window.alt1) {
 						alt1.overLayClearGroup("overlays"); alt1.overLaySetGroup("overlays")
 						alt1.overLayTextEx("Checking last item for lag...", a1lib.mixColor(255,144,0), 20, Math.round(alt1.rsWidth / 2), 170, 2000, "", true, true);
 						alt1.overLayClearGroup("icon"); alt1.overLaySetGroup("icon")
-						alt1.overLayRect(a1lib.mixColor(125,194,33), x-1, loc2[0].y + 39, 32, 32, 2000, 1);
+						alt1.overLayRect(a1lib.mixColor(125,194,33), x-1, loc2[0].y + 39, 32, 32, 2000, 19);
 					}
 					
 					let lastcrop = newImg.toData(x-1, loc2[0].y + 39, 32, 32);
@@ -549,7 +553,7 @@ async function findtrailComplete(img: ImgRef, autobool: boolean) {
 
 		await Promise.all(promises)
 		if (window.alt1)
-			alt1.overLayClearGroup("icon")
+			//alt1.overLayClearGroup("icon")
 		console.log(itemResults)
 
 		//Maybe comment this out later idk
@@ -747,14 +751,9 @@ async function compareItems(item:ImageData){
 				//var newNewByteArray = decode(matches[i][1])
 				//var newArray = new Uint8ClampedArray(newNewByteArray)
 				//TODO: Figure this out :/
-				// Try a python approach...
-				// Don't return until you can. 
-				// 4 days later...
-				// Fuck it, I got some help from the dev
-				// Lets try their approach...
-				// Maybe tomorrow...
-
-				// Play with the new set of images... I see no difference.
+				// AHHHHHHHHHHHHHHH'
+				// thIS WILL BE WORKED ON NEXT
+				// I JUST WANT IT TO BE A BIT FASTER
 				
 				console.log(i)
 				console.log("Original Image",item.data)
@@ -772,14 +771,22 @@ async function compareItems(item:ImageData){
 		}
 	}	
 	else{ // Legacy kinda janky. Need to figure it out
-		if(localStorage.getItem("ItemList") == "all")
+		if(localStorage.getItem("ItemList") == "all"){
 			var matches = listOfItemsLegacyAllArray.slice();
-		else if(localStorage.getItem("ItemList") == "twoplus")
+			var imgset = listOfItemsLegacyAll
+		}
+		else if(localStorage.getItem("ItemList") == "twoplus"){
 			var matches = listOfItemsLegacyFullArray.slice();
-		else if(localStorage.getItem("ItemList") == "orglist")
+			var imgset = listOfItemsLegacyFull
+		}
+		else if(localStorage.getItem("ItemList") == "orglist"){
 			var matches = listOfItemsLegacyReorgArray.slice();
-		else if(localStorage.getItem("ItemList") == "orgminus")
+			var imgset = listOfItemsLegacyReorg
+		}
+		else if(localStorage.getItem("ItemList") == "orgminus"){
 			var matches = listOfItemsLegacyReorgTwoArray.slice();
+			var imgset = listOfItemsLegacyReorgTwo
+		}
 			
 		var matches = listOfItemsLegacyReorgTwoArray.slice();
 		var imgdata = await compareImages(item, matches[0][1] , {output: {}, ignore: ["less"]})
