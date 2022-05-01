@@ -332,12 +332,6 @@ export async function capture(autobool: boolean) {
 		return;
 	}
 
-	//TODO: Add lag mitigation.
-	//Try making findTrailComplete return a boolean variable where false means it couldn't find an item or it crashed
-	//True means it succeeded
-
-	//The logic works, but when running autocapture, it gets annoying fast.
-	//Figue out how to not have aautocapture spam so much
 	if(localStorage.getItem("multiButtonPressDetect") === "true")
 		if(!autobool){
 			document.getElementById("docapturebutton").setAttribute("onclick","")
@@ -432,7 +426,9 @@ async function findtrailComplete(img: ImgRef, autobool: boolean) {
 			}
 			
 		}
+		//TODO: give the rectangle borders its own group name "rect"
 		alt1.overLayClearGroup("overlays"); 
+		alt1.overLaySetGroup("rect");
 		if(!legacy)	
 			alt1.overLayRect(a1lib.mixColor(255,144,0), loc[0].x - 27, loc[0].y - 13, await imgs.trailComplete.width + 278, await imgs.trailComplete.height + 213, 60000, 2);
 		else
@@ -457,9 +453,6 @@ async function findtrailComplete(img: ImgRef, autobool: boolean) {
 		
 		let prevValue = lastValue
 		lastValue = value
-
-		// Give me the items!
-		// TODO: Increase this, decrease setInterval 
 		if(!lagDetected){
 			alt1.overLayClearGroup("overlays"); alt1.overLayClearGroup("lag"); alt1.overLaySetGroup("lag")
 			alt1.overLayTextEx("Capturing rewards...", a1lib.mixColor(255,144,0), 20, Math.round(alt1.rsWidth / 2), 200, 60000, "", true, true);
@@ -524,9 +517,9 @@ async function findtrailComplete(img: ImgRef, autobool: boolean) {
 					
 					if (window.alt1) {
 						alt1.overLayClearGroup("overlays"); alt1.overLaySetGroup("overlays")
-						alt1.overLayTextEx("Checking last item for lag...", a1lib.mixColor(255,144,0), 20, Math.round(alt1.rsWidth / 2), 170, 2000, "", true, true);
+						alt1.overLayTextEx("Checking last item for lag...", a1lib.mixColor(255,144,0), 20, Math.round(alt1.rsWidth / 2), 170, 1000, "", true, true);
 						alt1.overLayClearGroup("icon"); alt1.overLaySetGroup("icon")
-						alt1.overLayRect(a1lib.mixColor(125,194,33), x-1, loc2[0].y + 39, 32, 32, 2000, 19);
+						alt1.overLayRect(a1lib.mixColor(125,194,33), x-1, loc2[0].y + 39, 32, 32, 2000, 1);
 					}
 					
 					let lastcrop = newImg.toData(x-1, loc2[0].y + 39, 32, 32);
@@ -632,7 +625,7 @@ async function findtrailComplete(img: ImgRef, autobool: boolean) {
 
 		//Display the victory screen!!!
 		if (window.alt1) {
-			alt1.overLayClearGroup("overlays"); alt1.overLayClearGroup("lag"); alt1.overLaySetGroup("overlays")
+			alt1.overLayClearGroup("overlays"); alt1.overLayClearGroup("rect"); alt1.overLayClearGroup("lag"); alt1.overLaySetGroup("overlays")
 			alt1.overLayTextEx((currentTier()[0][0].toUpperCase() + (currentTier()[0].slice(1)).toLowerCase())+" rewards captured successfully!", 
 								a1lib.mixColor(100, 255, 100), 20, Math.round(alt1.rsWidth / 2), 200, 4000, "", true, true)
 			if(!legacy)
@@ -928,8 +921,7 @@ async function submitToLS(item: any[], quant: any[], value: any){
 	for(let i = 0; i < quant.length; i++){
 		// If you get null or undefined here, check if one of your rewards doesn't exist in LocalStorage or LocalStorageInit
 		// Or maybe the name might be incorrectly written in, idk
-		//console.log("checking if in array")
-		//console.log(JSON.parse(localStorage.getItem(item[i])).tier)
+		console.log("checking if in array", item[i])
 		if(JSON.parse(localStorage.getItem(item[i])).tier.includes(current[0])){
 			let temp = JSON.parse(localStorage.getItem(item[i]))
 			let tempQuant =  quant[i].slice()
@@ -974,10 +966,10 @@ function tabDisplay(current: string){
 	for(let i = 0; i < divs.length; i++)
 		divs[i].textContent = "";
 	for(let i = 0; i < keys.length; i++){
-		//console.log('DEBUG:',keys[i],current)
+		console.log('DEBUG:',keys[i],current)
 		if(ignorelist.includes(keys[i]) || JSON.parse(localStorage.getItem(keys[i])).quantity[current] == 0)
 			continue;
-		//console.log(JSON.parse(localStorage.getItem(keys[i])).tab+"_loot")
+		console.log(JSON.parse(localStorage.getItem(keys[i])).tab+"_loot")
 		let ele = document.getElementById(JSON.parse(localStorage.getItem(keys[i])).tab+"_loot")
 		let nodevar = document.createElement("itembox");
 		let imgvar = document.createElement("img");
