@@ -3,17 +3,18 @@
 #### Report bugs or questions message me 🙂 -> Discord: RedX1000#3655
 #### RuneApps forum page: https://runeapps.org/forums/viewtopic.php?pid=4751
 
-*NOTE: Legacy Interface mode works, but I don't test with it often, so use at your own risk* 
+* *NOTE: Legacy Interface mode works, but I don't test with it often, so use at your own risk, and report any crashes and bugs* <br>
 
+* *NOTE: When reporting a crash, please take a screenshot of the loot window and send it to me. Use Windows Key + Shift + S, Lightshot, or Gyazo to take the screenshot to avoid distortion*
 
 ## Description
 This application was created to provide players with a way to easily record their clue scrolls in bulk, or over the course of their clue runs.
 
 ## How to install
 ### Click this link to install Openlogger to Alt1 automatically
-#### <alt1://addapp/https://redx1000.github.io/OpenLogger/appconfig.json>
+#### <alt1://addapp/https://redx1000.github.io/OpenLogger/appconfig.json><br><br>
 ### Or use direct link
-#### https://redx1000.github.io/OpenLogger <br><br>
+#### https://redx1000.github.io/OpenLogger <br>
 #### To install with the direct link
 1. Copy the direct link
 2. Open Alt1 applications and open the browser
@@ -24,10 +25,10 @@ This application was created to provide players with a way to easily record thei
  # Instructions on how to use
  ### Capture Rewards
 1. Open a reward casket (Easy, Medium, Hard, Elite, Master)
-    * Make sure clue reward window is not obfuscated in order to get a correct reading.
-2. Press the Capture button or press Alt+1 to record the clue interface.
-3. Wait a bit, recording takes between 1 - 5 second depending on the tier of clue and the amount of rewards in the window.
-4. Rewards appear in the OpenLogger Interface along with the value, and a dynamic display that updates when new rewards come in, along with the total and average value for the number of completed clues.
+    * Make sure clue reward window is not obfuscated in order to get a correct reading, list of things to not obfuscate at the bottom.
+2. Press the Capture button, press Alt+1, or enable Autocapture to record the clue interface.
+3. Wait a bit, recording takes between 1 - 5 second depending on the tier of clue, the amount of rewards in the window, the image searching algorithmn used (WIP), and the image collection library used.
+4. Rewards appear in the OpenLogger Interface with the value, and a dynamic display that updates when new rewards come in, along with the total and average value for the number of completed clues.
 
 ### Autocapture
 * Clues can be autocaptured by clicking on the lock (Closed == On, Open == Off).
@@ -63,7 +64,7 @@ This application was created to provide players with a way to easily record thei
 * Settings allow for user choice of Algorithm for icon recognition, list of reference images used for icon recognition, and for miscellaneous settings toggles.
 * Hover over the corresponding buttons title to learn more about what it does.
 
-### Image Searching Algorithm
+### Image Searching Algorithm (WORK IN PROGRESS)
 * So far only ResembleJS works. Pixelmatch is in the works, and I want to hybridize the two in the future.
 1. ResembleJS: Image recognition library that compares entire images and returns a percentage value. It is slow, but it is very accurate. 
     * Recommended image collections: OrgList or OrgMinus, due to its accuracy
@@ -76,7 +77,7 @@ This application was created to provide players with a way to easily record thei
 2. Two or more List: List of items, where items that appear in two or more tiers are compared with the clue tiers items. Takes the second longest to run
 3. Organized List: List of items where items are located in their respective tier. Best for a balance of speed and accuracy
 4. Organized Minus: Smallest list of items. OrgList but with less duplicates. Best for speed, but worst for accuracy due to lower variance.
-5. Experimental (WORK IN PROGRESS): Do not touch. I'm playing around with a different library of images, it WILL break.
+5. Experimental (WORK IN PROGRESS): Do not touch. I'm playing around with a different library of images, and it WILL break.
 
 ### Miscellaneous Toggles
 1. Reroll detection: Determines whether rerolls should be detected or not when capturing clues. When on, rerolls trigger a rollback of the previous reward and logs the new rewards. 
@@ -84,7 +85,7 @@ This application was created to provide players with a way to easily record thei
 3. Multi button prevention: Prevents the user from accidentally double-logging a clue by disabling the capture button when autocapture is on and when the plugin is trying to capture a clue.
 
 ## Potential and planned updates & Releases
-* Better legacy interface support. I don't test with it much. Legacy interface can log clues and perform lag detection checks, but I do not have a reroll window detection set for legacy mode, and I would need to iron out aany bugs or kinks that appear. Use at your own risk.
+* Better legacy interface support. I don't test with it much. Legacy interface can log clues and perform lag detection checks, but I do not have a reroll window detection set for legacy mode, and I would need to iron out any bugs or kinks that appear. Use at your own risk.
 * Allowing the user to deposit or withdraw a reward or value into or out of LocalStorage directly in case of a misread.
 * Algorithm choice for icon recognition.
 * Rollback further than one.
