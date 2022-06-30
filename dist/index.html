@@ -10,9 +10,9 @@
 		<link rel="stylesheet" type="text/css" href="./styles/nis/nis.css"/>
 		<link rel="stylesheet" type="text/css" href="./styles/nis/alt1-currentskin/skinstyle.css"/><!--stylesheet with all nis styles (Will be part of public resources so feel free to copy/paste)-->
 		<link rel="stylesheet" type="text/css" href="./styles/nis/fonts/stylesheet.css"/>
-		
+
 	</head>
-	<body class="nis" onload="TEST.init()"></body>
+	<body class="nis" onload="TEST.initOnLoad()"></body>
 		<header>
 			<h1 class="title">OpenLogger, an open-source clue logger</h1>
 			<div class="header_box">
@@ -21,23 +21,23 @@
 						<h3 class="clue_scrolls_button_header">Select clue tier</h3>
 						<div class="clue_scrolls_button_box">
 							<div class="clue_button_label_holder" id="clue_easy">
-								<label for="easy" id="clue_scroll_level_label" onclick="TEST.changeClueTierSpan('easy', event);">Easy</label>
+								<label class="clue_scroll_level_label" id="label_easy" onclick="TEST.changeClueTierSpan('easy', event);">Easy</label>
 								<input type="radio" id="easy" name="clue_scroll_level" class="clue_scroll_level" value="easy" onclick="TEST.changeClueTierSpan('easy', event);">
 							</div>
 							<div class="clue_button_label_holder" id="clue_medium">
-								<label for="medium" id="clue_scroll_level_label" onclick="TEST.changeClueTierSpan('medium', event);">Medium</label>
+								<label class="clue_scroll_level_label" id="label_medium" onclick="TEST.changeClueTierSpan('medium', event);">Medium</label>
 								<input type="radio" id="medium" name="clue_scroll_level" class="clue_scroll_level" value="medium" onclick="TEST.changeClueTierSpan('medium', event);">
 							</div>
 							<div class="clue_button_label_holder" id="clue_hard">
-								<label for="hard" id="clue_scroll_level_label" onclick="TEST.changeClueTierSpan('hard', event);">Hard</label>
+								<label class="clue_scroll_level_label" id="label_hard" onclick="TEST.changeClueTierSpan('hard', event);">Hard</label>
 								<input type="radio" id="hard" name="clue_scroll_level" class="clue_scroll_level" value="hard" onclick="TEST.changeClueTierSpan('hard', event);">
 							</div>
 							<div class="clue_button_label_holder" id="clue_elite">
-								<label for="elite" id="clue_scroll_level_label" onclick="TEST.changeClueTierSpan('elite', event);">Elite</label>
+								<label class="clue_scroll_level_label" id="label_elite" onclick="TEST.changeClueTierSpan('elite', event);">Elite</label>
 								<input type="radio" id="elite" name="clue_scroll_level" class="clue_scroll_level" value="elite" onclick="TEST.changeClueTierSpan('elite', event);">
 							</div>
 							<div class="clue_button_label_holder" id="clue_master">
-								<label for="master" id="clue_scroll_level_label" onclick="TEST.changeClueTierSpan('master', event);">Master</label>
+								<label class="clue_scroll_level_label" id="label_master" onclick="TEST.changeClueTierSpan('master', event);">Master</label>
 								<input type="radio" id="master" name="clue_scroll_level" class="clue_scroll_level" value="master" onclick="TEST.changeClueTierSpan('master', event);">
 							</div>
 						</div>
@@ -46,9 +46,9 @@
 					<div class="main_buttons" id="top">
 						<div id="bottom_buttons">
 							<div id="csv_button" class="nisbutton" onclick="TEST.exporttocsv();">Export to CSV</div>
-							<div id="settings_button" class="nisbutton" title="Settings" data-toggle="modal" data-target="#settings"><img id="settings_cog" src="images/SettingsCog.png"></div>
+							<div id="settings_button" class="nisbutton" title="Settings" data-toggle="modal" data-target="#settings" onclick="TEST.autoDisableCheckAuto()"><img id="settings_cog" src="images/SettingsCog.png"></div>
 						</div>
-						<div id="clear_button" class="nisbutton" data-toggle="modal" data-target="#cleardb">Clear DB Options</div>
+						<div id="clear_button" class="nisbutton" data-toggle="modal" data-target="#cleardb" onclick="TEST.autoDisableCheckAuto()">Clear Options Menu</div>
 						<div id="docapturebutton" class="nisbutton" onclick="TEST.capture(false)">
 							<div id="toggleunlocktrack" title="Autocapture toggle&#013;Locked = On; Unlocked = Off&#013;While on, capture button and Alt+1 is disabled&#013;This can be changed in the settings" class onclick="TEST.toggleCapture(event)"></div>
 							<span id="docapturebuttonwords">Capture Rewards</span>
@@ -122,122 +122,120 @@
 		<footer>
 			<div class="footer_bar"></div>
 			<div class="copyright">
-				&nbsp;&nbsp;<span style="color: yellow">6/22/2022: For anyone who still uses this, i'm resuming work on this now. Trying to make it faster.</span><br><br>
-				&nbsp;&nbsp;Reach out on Discord for bug reports or inquiries @RedX1000#3655<br>
+				&nbsp;&nbsp;<span style="color: yellow">06/29/2022: For those with existing versions of OpenLogger, Click "Clear Options Menu", and reset settings for recommended settings.<br></span>
 				&nbsp;&nbsp;More information and troubleshooting on the <a id="githublink" href="alt1://browser/https://github.com/RedX1000/OpenLogger">Github Page</a>
 			</div>
 		</footer>
 		
 		<!-- SETTINGS MODAL -->
-
 		<div class="modal fade " id="settings" tabindex="-1" role="dialog" aria-labelledby="important-msg-label" aria-hidden="true">
-			<div class="modal-dialog">
-			  	<div class="modal-content">
-					<div class="modal-header">
-				  	<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true" class="close_x">&times;</span><span class="sr-only">Close</span></button>
-				  	<h1 class="modal-title" id="important-msg-label">Settings Menu<span id="hovertip" title="Hover over the options to learn more!&#013;&#013;Explore the Github link in the footer for more details.">&hairsp;&hairsp;&nbsp;?&nbsp;&hairsp;&hairsp;</span></h1>
-					</div>
-					<div class="modal-body" id="settings-body">
-						<h2 id="h2settings">Image searching algorithm <u>(WIP, ONLY RESEMBLEJS WORKS)</u></h2>
-						<mainalgs>
-							<label class="title_labels" title="Slower but more accurate algorithm utilizing ResembleJS library. Best used with OrgList or OrgMinus.">ResembleJS Algorithm:<br></label>
-							<div class="main_divs">
-							  <label for="resemblejs" id="algorithm_label" title="Slower but more accurate algorithm utilizing ResembleJS library. Best used with OrgList or OrgMinus.">ResembleJS</label>
-							  <input type="radio" id="resemblejs" name="algorithm" class="mainsection_buttons" value="resemblejs" title="Slower but more accurate algorithm utilizing ResembleJS library. Best used with OrgList or OrgMinus.">
-							</div>
-							<label class="title_labels" title="Much faster but less accurate algorithm, finding the image pixel by pixel.&#013;Best used with All or TwoPlus">Pixelmatch Algorithm:<br></label>
-							<div class="main_divs">
-							  <label for="pixelmatch" id="algorithm_label" title="Much faster but less accurate algorithm, finding the image pixel by pixel.&#013;Best used with All or TwoPlus">Pixelmatch</label>
-							  <input type="radio" id="pixelmatch" name="algorithm" class="mainsection_buttons" value="pixelmatch" title="Much faster but less accurate algorithm, finding the image pixel by pixel.&#013;Best used with All or TwoPlus">
-							</div>
-							<label class="title_labels" title="A mix between both ResembleJS and Pixel Autocompletion algorithms.&#013;Good balance of speed and accuracy">Hybrid Algorithm:<br></label>
-							<div class="main_divs">
-							  <label for="hybrid" id="algorithm_label" title="A mix between both ResembleJS and Pixel Autocompletion algorithms.">Hybrid</label>
-							  <input type="radio" id="hybrid" name="algorithm" class="mainsection_buttons" value="hybrid" title="A mix between both ResembleJS and Pixel Autocompletion algorithms.">
-							</div>
-						</mainalgs>
-						<h2 id="h2settings">Reference Image Collection</h2>
-						<mainimgs>
-							<label class="title_labels" title="Complete, full list of reference images. Takes the longest to compare">All Items List:<br></label>
-							<div class="main_divs">
-							  <label for="all" id="img_label" title="Complete, full list of reference images. Takes the longest to compare">All Images</label>
-							  <input type="radio" id="all" name="refimgs" class="mainimgs_buttons" value="all" title="Complete, full list of reference images. Takes the longest to compare">
-							</div>
-							<label class="title_labels" title="List of items, where items that appear in two or more tiers are compared with the clue tiers items. Takes the second longest">Two or more List:<br></label>
-							<div class="main_divs">
-							  <label for="twoplus" id="img_label" title="List of items, where items that appear in two or more tiers are compared with the clue tiers items. Takes the second longest to run">TwoPlus</label>
-							  <input type="radio" id="twoplus" name="refimgs" class="mainimgs_buttons" value="twoplus" title="List of items, where items that appear in two or more tiers are compared with the clue tiers items. Takes the second longest">
-							</div>
-							<label class="title_labels" title="List of items where items are located in their respective tier. Best for a balance of speed and accuracy">Organized List:<br></label>
-							<div class="main_divs">
-							  <label for="orglist" id="img_label" title="List of items where items are located in their respective tier. Best for a balance of speed and accuracy">Org List</label>
-							  <input type="radio" id="orglist" name="refimgs" class="mainimgs_buttons" value="orglist" title="List of items where items are located in their respective tier. Best for a balance of speed and accuracy">
-							</div>
-							<label class="title_labels" title="Smallest list of items. OrgList but with less duplicates. Best for speed, but worst for accuracy due to lower variance.">Organized Minus:<br></label>
-							<div class="main_divs">
-							  <label for="orgminus" id="img_label" title="Smaller list of items. OrgList but with less duplicates. Best for speed, but worst for accuracy due to lower variance.">Org Minus</label>
-							  <input type="radio" id="orgminus" name="refimgs" class="mainimgs_buttons" value="orgminus" title="Smaller list of items. OrgList but with less duplicates. Best for speed, but worst for accuracy due to lower variance.">
-							</div>
-							<label class="title_labels" title="Experimental. Do not use, it'll break hard.">Experimental:<br></label>
-							<div class="main_divs">
-							  <label for="alt164" id="img_label" title="">Alt1 64</label>
-							  <input type="radio" id="alt164" name="refimgs" class="mainimgs_buttons" value="alt164" title="">
-							</div>
-						</mainimgs>
-						<h2 id="h2settings">Miscellaneous toggles&nbsp;&nbsp;&nbsp;&nbsp;</h2>
-						<maintoggles>
-						  <label class="title_labels" title="Determines whether rerolling a reward is taken into account for logging purposes or not. Removes previously rolled loot from log when on.">Reroll detection:<br></label>
-						  <div id="reroll_buttons">
-							<div class="main_divs">
-							  <label for="rerollon" id="img_label" title="Determines whether rerolling a reward is taken into account for logging purposes or not. Removes previously rolled loot from log when on.">On</label>
-							  <input type="radio" id="rerollon" name="reroll" class="maintoggles_buttons" value="rerollon" title="Determine whether rerolling a reward is taken into account for logging purposes or not. Removes previously rolled loot from log when on.">
-							</div>
-							<div class="main_divs">
-							  <label for="rerolloff" id="img_label" title="Determines whether rerolling a reward is taken into account for logging purposes or not. Removes previously rolled loot from log when on.">Off</label>
-							  <input type="radio" id="rerolloff" name="reroll" class="maintoggles_buttons" value="rerolloff" title="Determine whether rerolling a reward is taken into account for logging purposes or not. Removes previously rolled loot from log when on.">
-							</div>
-						  </div>
-						  <label class="title_labels" title="Determines whether lag is taken into account when caapturing. Clue will attempt to recapture&#013;If the last item fails to capture, attempt a rollback and try again.">Lag detection:<br></label>
-						  <div id="reroll_buttons">
-							<div class="main_divs">
-							  <label for="lagon" id="img_label" title="Determines whether lag is taken into account when caapturing. Clue will attempt to recapture&#013;If the last item fails to capture, attempt a rollback and try again.">On</label>
-							  <input type="radio" id="lagon" name="lag" class="maintoggles_buttons" value="lagon" title="Determines whether lag is taken into account when caapturing. Clue will attempt to recapture&#013;If the last item fails to capture, attempt a rollback and try again.">
-							</div>
-							<div class="main_divs">
-							  <label for="lagoff" id="img_label" title="Determine whether lag is taken into account when caapturing. Clue will attempt to recapture&#013;If the last item fails to capture, attempt a rollback and try again.">Off</label>
-							  <input type="radio" id="lagoff" name="lag" class="maintoggles_buttons" value="lagoff" title="Determine whether lag is taken into account when caapturing. Clue will attempt to recapture&#013;If the last item fails to capture, attempt a rollback and try again.">
-							</div>
-						  </div>
-						  <label class="title_labels" title="Prevents the user from accidentally capturing a clue while its being logged to prevent double-logging.">Multi button prevention:<br></label>
-						  <div id="reroll_buttons">
-							<div class="main_divs">
-							  <label for="multion" id="img_label" title="">On</label>
-							  <input type="radio" id="multion" name="multi" class="maintoggles_buttons" value="multion" title="Prevents the user from accidentally capturing a clue while its being logged to prevent double-logging.">
-							</div>
-							<div class="main_divs">
-							  <label for="multioff" id="img_label" title="">Off</label>
-							  <input type="radio" id="multioff" name="multi" class="maintoggles_buttons" value="multioff" title="Prevents the user from accidentally capturing a clue while its being logged to prevent double-logging.">
-							</div>
-						  </div>
-
-						  <label class="title_labels" title="Determines whether clues are automatically captured or not. The lock on the capture button toggles this.">Autocapture:<br></label>
-						  <div id="reroll_buttons">
-							<div class="main_divs">
-							  <label for="autocaptureon" id="img_label" title="Determines whether clues are automatically captured or not. The lock on the capture button toggles this.">Click the lock on<br>"Capture Rewards"</label>
-							</div>
-						  </div>
-						</maintoggles>
-					</div>
-					<div class="modal-footer">
-						<div id="choice_buttons">
-							<div id="confirm_button" class="nisbutton" data-dismiss="modal" onclick="getSaveDetails();">Confirm</div>
-							<div id="cancel_button" class="nisbutton" data-dismiss="modal" onclick="TEST.settingsInit()">Cancel</div>
-						</div>
-					  	<!-- <button type="button" class="btn btn-default" >Close</button>
-					  	<button type="button" class="btn btn-primary" id="dont-show-again">Don't Show Again</button> -->
-					</div>
-			  	</div>
-			</div>
+		    <div class="modal-dialog">
+		        <div class="modal-content">
+		            <div class="modal-header">
+		                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true" class="close_x">&times;</span><span class="sr-only">Close</span></button>
+		                <h1 class="modal-title" id="important-msg-label">Settings Menu<span id="hovertip" title="Hover over the options to learn more!&#013;&#013;Explore the Github link in the footer for more details.&#013;&#013;An asterisk next to an option signifies a default option">&hairsp;&hairsp;&nbsp;?&nbsp;&hairsp;&hairsp;</span></h1>
+		            </div>
+		            <div class="modal-body" id="settings-body">
+		                <h2 id="h2settings">Image searching algorithm</h2>
+		                <mainalgs>
+		                    <label class="title_labels" title="Slower but more accurate algorithm utilizing ResembleJS library.">ResembleJS Algorithm:<br></label>
+		                    <div class="main_divs">
+		                        <label for="resemblejs" id="algorithm_label" title="Slower but more accurate algorithm utilizing ResembleJS library.">ResembleJS</label>
+		                        <input type="radio" id="resemblejs" name="algorithm" class="mainsection_buttons" value="resemblejs" title="Slower but more accurate algorithm utilizing ResembleJS library.">
+		                    </div>
+		                    <label class="title_labels" title="Significantly faster but less accurate algorithm, finding items pixel by pixel.&#013;&#013;There are known items that don't work in TwoPlus and All for this collection.">Pixelmatch Algorithm:<br></label>
+		                    <div class="main_divs">
+		                        <label for="pixelmatch" id="algorithm_label" title="Significantly faster but less accurate algorithm, finding items pixel by pixel.&#013;&#013;There are known items that don't work in TwoPlus and All for this collection.">Pixelmatch</label>
+		                        <input type="radio" id="pixelmatch" name="algorithm" class="mainsection_buttons" value="pixelmatch" title="Significantly faster but less accurate algorithm, finding items pixel by pixel.&#013;&#013;There are known items that don't work in TwoPlus and All for this collection.">
+		                    </div>
+		                    <label class="title_labels" title="A mix between both ResembleJS and Pixelmatch algorithms.&#013;&#013;Good balance of speed and accuracy&#013;Adjust precision in the settings below">Hybrid Algorithm <u>(RECOMMENDED)</u>:<br></label>
+		                    <div class="main_divs">
+		                        <label for="hybrid" id="algorithm_label" title="A mix between both ResembleJS and Pixelmatch algorithms.&#013;&#013;Good balance of speed and accuracy&#013;Adjust precision in the settings below">Hybrid&ast;</label>
+		                        <input type="radio" id="hybrid" name="algorithm" class="mainsection_buttons" value="hybrid" title="A mix between both ResembleJS and Pixelmatch algorithms.&#013;&#013;Good balance of speed and accuracy&#013;Adjust precision in the settings below">
+		                    </div>
+		                </mainalgs>
+		                <h2 id="h2settings">Reference Image Collection</h2>
+		                <mainimgs>
+		                    <label class="title_labels" title="Complete, full list of reference images. Takes the longest to compare">All Items List:<br></label>
+		                    <div class="main_divs">
+		                        <label for="all" id="img_label" title="Complete, full list of reference images. Takes the longest to compare">All Images</label>
+		                        <input type="radio" id="all" name="refimgs" class="mainimgs_buttons" value="all" title="Complete, full list of reference images. Takes the longest to compare">
+		                    </div>
+		                    <label class="title_labels" title="List of items, where items that appear in two or more tiers are compared with the clue tiers items. Takes the second longest">Two or more List:<br></label>
+		                    <div class="main_divs">
+		                        <label for="twoplus" id="img_label" title="List of items, where items that appear in two or more tiers are compared with the clue tiers items. Takes the second longest to run">TwoPlus</label>
+		                        <input type="radio" id="twoplus" name="refimgs" class="mainimgs_buttons" value="twoplus" title="List of items, where items that appear in two or more tiers are compared with the clue tiers items. Takes the second longest">
+		                    </div>
+		                    <label class="title_labels" title="List of items where items are located in their respective tier. Recommended image collection.">Organized List <U>(RECOMMENDED)</U>:<br></label>
+		                    <div class="main_divs">
+		                        <label for="orglist" id="img_label" title="List of items where items are located in their respective tier. Recommended image collection.">Org List&ast;</label>
+		                        <input type="radio" id="orglist" name="refimgs" class="mainimgs_buttons" value="orglist" title="List of items where items are located in their respective tier. Recommended image collection.">
+		                    </div>
+		                    <label class="title_labels" title="OrgList but with less duplicates. Best for speed, but worst for accuracy due to lower variance.">Organized Minus:<br></label>
+		                    <div class="main_divs">
+		                        <label for="orgminus" id="img_label" title="OrgList but with less duplicates. Best for speed, but worst for accuracy due to lower variance.">Org Minus</label>
+		                        <input type="radio" id="orgminus" name="refimgs" class="mainimgs_buttons" value="orgminus" title="OrgList but with less duplicates. Best for speed, but worst for accuracy due to lower variance.">
+		                    </div>
+		                </mainimgs>
+		                <h2 id="h2settings">Miscellaneous toggles&nbsp;&nbsp;&nbsp;&nbsp;</h2>
+		                <maintoggles>
+		                    <label class="title_labels" title="Determines whether rerolling a reward is taken into account for logging purposes or not. Removes previously rolled loot from log when on.">Reroll detection:<br></label>
+		                    <div id="reroll_buttons">
+		                        <div class="main_divs">
+		                            <label for="rerollon" id="img_label" title="Determines whether rerolling a reward is taken into account for logging purposes or not. Removes previously rolled loot from log when on.">On&ast;</label>
+		                            <input type="radio" id="rerollon" name="reroll" class="maintoggles_buttons" value="rerollon" title="Determine whether rerolling a reward is taken into account for logging purposes or not. Removes previously rolled loot from log when on.">
+		                        </div>
+		                        <div class="main_divs">
+		                            <label for="rerolloff" id="img_label" title="Determines whether rerolling a reward is taken into account for logging purposes or not. Removes previously rolled loot from log when on.">Off</label>
+		                            <input type="radio" id="rerolloff" name="reroll" class="maintoggles_buttons" value="rerolloff" title="Determine whether rerolling a reward is taken into account for logging purposes or not. Removes previously rolled loot from log when on.">
+		                        </div>
+		                    </div>
+		                    <label class="title_labels" title="Determines whether lag is taken into account when caapturing. Clue will attempt to recapture&#013;If the last item fails to capture, attempt a rollback and try again.">Lag detection:<br></label>
+		                    <div id="lag_buttons">
+		                        <div class="main_divs">
+		                            <label for="lagon" id="img_label" title="Determines whether lag is taken into account when caapturing. Clue will attempt to recapture&#013;If the last item fails to capture, attempt a rollback and try again.">On&ast;</label>
+		                            <input type="radio" id="lagon" name="lag" class="maintoggles_buttons" value="lagon" title="Determines whether lag is taken into account when caapturing. Clue will attempt to recapture&#013;If the last item fails to capture, attempt a rollback and try again.">
+		                        </div>
+		                        <div class="main_divs">
+		                            <label for="lagoff" id="img_label" title="Determine whether lag is taken into account when caapturing. Clue will attempt to recapture&#013;If the last item fails to capture, attempt a rollback and try again.">Off</label>
+		                            <input type="radio" id="lagoff" name="lag" class="maintoggles_buttons" value="lagoff" title="Determine whether lag is taken into account when caapturing. Clue will attempt to recapture&#013;If the last item fails to capture, attempt a rollback and try again.">
+		                        </div>
+		                    </div>
+		                    <label class="title_labels" title="Prevents the user from accidentally capturing a clue while its being logged to prevent double-logging.">Multi button prevention:<br></label>
+		                    <div id="multi_buttons">
+		                        <div class="main_divs">
+		                            <label for="multion" id="img_label" title="">On&ast;</label>
+		                            <input type="radio" id="multion" name="multi" class="maintoggles_buttons" value="multion" title="Prevents the user from accidentally capturing a clue while its being logged to prevent double-logging.">
+		                        </div>
+		                        <div class="main_divs">
+		                            <label for="multioff" id="img_label" title="">Off</label>
+		                            <input type="radio" id="multioff" name="multi" class="maintoggles_buttons" value="multioff" title="Prevents the user from accidentally capturing a clue while its being logged to prevent double-logging.">
+		                        </div>
+		                    </div>
+		                    <label class="title_labels" title="Determines the level of precision for the Hybrid Algorithm.&#013;&#013;Lower: More precise & faster, Higher: Less precise & slower.&#013;&#013;Default is 0.3, lowest value is 0.1 and highest value is 1.0">Hybrid Alg Precision:<br></label>
+		                    <div id="hybrid_precision_field">
+		                        <div class="main_divs">
+		                            <input type="number" min="0" max="2" step="0.1" value="0.3" id="hybrid_precision" name="precision" class="hybrid_precision_text" title="Determines the level of precision for the Hybrid Algorithm.&#013;&#013;Lower: More precise & faster, Higher: Less precise & slower.&#013;&#013;Default is 0.3, lowest value is 0.1 and highest value is 1.0">
+		                        </div>
+		                    </div>
+		                    <label class="title_labels" title="Determines whether clues are automatically captured or not. The lock on the capture button toggles this.">Autocapture:<br></label>
+		                    <div id="reroll_buttons">
+		                        <div class="main_divs">
+		                            <label for="autocaptureon" id="img_label" title="Determines whether clues are automatically captured or not. The lock on the capture button toggles this.">Click the lock on<br>"Capture Rewards"</label>
+		                        </div>
+		                    </div>
+		                </maintoggles>
+		            </div>
+		            <div class="modal-footer">
+		                <div id="choice_buttons">
+		                    <div id="confirm_button" class="nisbutton" data-dismiss="modal" onclick="getSaveDetails();">Confirm</div>
+		                    <div id="cancel_button" class="nisbutton" data-dismiss="modal" onclick="TEST.settingsInit()">Cancel</div>
+		                </div>
+		                <!-- <button type="button" class="btn btn-default" >Close</button>
+		                    <button type="button" class="btn btn-primary" id="dont-show-again">Don't Show Again</button> -->
+		            </div>
+		        </div>
+		    </div>
 		</div>
 		<!-- END SETTINGS MODAL -->
 
@@ -246,21 +244,20 @@
 			<div class="modal-dialog">
 			  	<div class="modal-content">
 					<div class="modal-header">
-				  	<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true" class="close_x">&times;</span><span class="sr-only">Close</span></button>
-				  	<h1 class="modal-title" id="important-msg-label">Clear database options<span id="hovertip" title="Hover over the options to learn more!&#013;&#013;Explore the Github link in the footer for more details.">&hairsp;&hairsp;&nbsp;?&nbsp;&hairsp;&hairsp;</span></h1>
+				  		<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true" class="close_x">&times;</span><span class="sr-only">Close</span></button>
+				  		<h1 class="modal-title" id="important-msg-label">Clear database options<span id="hovertip" title="Hover over the options to learn more!&#013;&#013;Explore the Github link in the footer for more details.">&hairsp;&hairsp;&nbsp;?&nbsp;&hairsp;&hairsp;</span></h1>
 					</div>
 					<div class="modal-body">
 						<div id="clear_db_buttons">
 							<div id="db_confirm_button" class="nisbutton" data-toggle="modal" data-target="#resetOpenVerif" title="Nuclear option, completely resets plugin, but can be used to troubleshoot">Completely reset OpenLogger</div>
 							<div id="db_confirm_button" class="nisbutton" data-toggle="modal" data-target="#resetAllVerif" title="Clear all of the items in the database only.">Clear all items from database</div>
 							<div id="db_confirm_button" class="nisbutton" data-toggle="modal" data-target="#resetTierVerif" title="Clear the currently selected tier of items only.">Clear currently selected tier</div>
+							<div id="db_confirm_button" class="nisbutton" data-toggle="modal" data-target="#resetSettingsVerif" title="Reset settings back to default.">Reset settings</div>
 							<div id="db_confirm_button" class="nisbutton" onclick="javascript:window.location.reload()" title="Refreshes the page. Does not clear the DB, but may help push an update.">Refresh page</div>
 							<div id="db_confirm_button" class="nisbutton" data-dismiss="modal" onclick="" title="Do nothing. Go. Get out of here. Leave.">Cancel</div>
 						</div>
 					</div>
-					<div class="modal-footer">
-						*There are verification screens for each option
-					</div>
+					<div class="modal-footer"> *There are verification screens for each option except Refresh<br>It is strongly recommended to pause Autocapture before deleting anything</div>
 			  	</div>
 			</div>
 		</div>
@@ -271,8 +268,8 @@
 			<div class="modal-dialog">
 			  	<div class="modal-content">
 					<div class="modal-header">
-				  	<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true" class="close_x">&times;</span><span class="sr-only">Close</span></button>
-				  	<h1 class="modal-title" id="important-msg-label">Completely reset OpenLogger?<span id="hovertip" title="Hover over the options to learn more!&#013;&#013;Explore the Github link in the footer for more details.">&hairsp;&hairsp;&nbsp;?&nbsp;&hairsp;&hairsp;</span></h1>
+				  		<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true" class="close_x">&times;</span><span class="sr-only">Close</span></button>
+				  		<h1 class="modal-title" id="important-msg-label">Completely reset OpenLogger?<span id="hovertip" title="Hover over the options to learn more!&#013;&#013;Explore the Github link in the footer for more details.">&hairsp;&hairsp;&nbsp;?&nbsp;&hairsp;&hairsp;</span></h1>
 					</div>
 					<div class="modal-body">
 						<div id="clear_db_buttons">
@@ -280,8 +277,7 @@
 							<div id="db_confirm_button" class="nisbutton" data-dismiss="modal" data-toggle="modal" data-target="#cleardb" onclick="" title="Do nothing. Go. Get out of here. Leave.">Cancel</div>
 						</div>
 					</div>
-					<div class="modal-footer">
-					</div>
+					<div class="modal-footer"></div>
 			  	</div>
 			</div>
 		</div>
@@ -292,8 +288,8 @@
 			<div class="modal-dialog">
 			  	<div class="modal-content">
 					<div class="modal-header">
-				  	<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true" class="close_x">&times;</span><span class="sr-only">Close</span></button>
-				  	<h1 class="modal-title" id="important-msg-label">Clear all items from database?<span id="hovertip" title="Hover over the options to learn more!&#013;&#013;Explore the Github link in the footer for more details.">&hairsp;&hairsp;&nbsp;?&nbsp;&hairsp;&hairsp;</span></h1>
+				  		<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true" class="close_x">&times;</span><span class="sr-only">Close</span></button>
+				  		<h1 class="modal-title" id="important-msg-label">Clear all items from database?<span id="hovertip" title="Hover over the options to learn more!&#013;&#013;Explore the Github link in the footer for more details.">&hairsp;&hairsp;&nbsp;?&nbsp;&hairsp;&hairsp;</span></h1>
 					</div>
 					<div class="modal-body">
 						<div id="clear_db_buttons">
@@ -301,29 +297,47 @@
 							<div id="db_confirm_button" class="nisbutton" data-dismiss="modal" data-toggle="modal" data-target="#cleardb" onclick="" title="Do nothing. Go. Get out of here. Leave.">Cancel</div>
 						</div>
 					</div>
-					<div class="modal-footer">
-					</div>
+					<div class="modal-footer"></div>
 			  	</div>
 			</div>
 		</div>
 		<!-- END RESET ALL ITEMS VERIFICATION MODAL -->
+
+		<!-- RESET SETTINGS VERIFICATION MODAL -->
+		<div class="modal fade " id="resetSettingsVerif" tabindex="-1" role="dialog" aria-labelledby="important-msg-label" aria-hidden="true">
+			<div class="modal-dialog">
+			  	<div class="modal-content">
+					<div class="modal-header">
+				  		<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true" class="close_x">&times;</span><span class="sr-only">Close</span></button>
+				  		<h1 class="modal-title" id="important-msg-label">Reset settings?<span id="hovertip" title="Hover over the options to learn more!&#013;&#013;Explore the Github link in the footer for more details.">&hairsp;&hairsp;&nbsp;?&nbsp;&hairsp;&hairsp;</span></h1>
+					</div>
+					<div class="modal-body">
+						<div id="clear_db_buttons">
+							<div id="db_confirm_button" class="nisbutton" data-dismiss="modal" onclick="TEST.cleardb(3)" title="Reset settings back to default.">Reset settings</div>
+							<div id="db_confirm_button" class="nisbutton" data-dismiss="modal" data-toggle="modal" data-target="#cleardb" onclick="" title="Do nothing. Go. Get out of here. Leave.">Cancel</div>
+						</div>
+					</div>
+					<div class="modal-footer"></div>
+			  	</div>
+			</div>
+		</div>
+		<!-- END RESET SETTINGS VERIFICATION MODAL -->
 		
 		<!-- RESET CURRENT TIER VERIFICATION MODAL -->
 		<div class="modal fade " id="resetTierVerif" tabindex="-1" role="dialog" aria-labelledby="important-msg-label" aria-hidden="true">
 			<div class="modal-dialog">
 			  	<div class="modal-content">
 					<div class="modal-header">
-				  	<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true" class="close_x">&times;</span><span class="sr-only">Close</span></button>
-				  	<h1 class="modal-title" id="important-msg-label">Clear rewards from <span class="current_tier_button"><span id="hovertip" title="Hover over the options to learn more!&#013;&#013;Explore the Github link in the footer for more details.">&hairsp;&hairsp;&nbsp;?&nbsp;&hairsp;&hairsp;</span></h1>
+				  		<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true" class="close_x">&times;</span><span class="sr-only">Close</span></button>
+				  		<h1 class="modal-title" id="important-msg-label">Clear rewards from <span class="current_tier_button">?<span id="hovertip" title="Hover over the options to learn more!&#013;&#013;Explore the Github link in the footer for more details.">&hairsp;&hairsp;&nbsp;?&nbsp;&hairsp;&hairsp;</span></h1>
 					</div>
 					<div class="modal-body">
 						<div id="clear_db_buttons">
-							<div id="db_confirm_button" class="nisbutton" data-dismiss="modal" onclick="TEST.cleardb(3)" title="Completely clear all rewards from currently selected tier">Clear <span class="current_tier_button"></span> tier</div>
+							<div id="db_confirm_button" class="nisbutton" data-dismiss="modal" onclick="TEST.cleardb(4)" title="Completely clear all rewards from currently selected tier">Clear <span class="current_tier_button"></span> tier</div>
 							<div id="db_confirm_button" class="nisbutton" data-dismiss="modal" data-toggle="modal" data-target="#cleardb" onclick="" title="Do nothing. Go. Get out of here. Leave.">Cancel</div>
 						</div>
 					</div>
-					<div class="modal-footer">
-					</div>
+					<div class="modal-footer"></div>
 			  	</div>
 			</div>
 		</div>
@@ -334,8 +348,8 @@
 			<div class="modal-dialog">
 			  	<div class="modal-content">
 					<div class="modal-header">
-				  	<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true" class="close_x">&times;</span><span class="sr-only">Close</span></button>
-				  	<h1 class="modal-title" id="important-msg-label">Insert Into Database<span id="hovertip" title="Hover over the options to learn more!&#013;&#013;Explore the Github link in the footer for more details.">&hairsp;&hairsp;&nbsp;?&nbsp;&hairsp;&hairsp;</span></h1>
+				  		<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true" class="close_x">&times;</span><span class="sr-only">Close</span></button>
+				  		<h1 class="modal-title" id="important-msg-label">Insert Into Database<span id="hovertip" title="Hover over the options to learn more!&#013;&#013;Explore the Github link in the footer for more details.">&hairsp;&hairsp;&nbsp;?&nbsp;&hairsp;&hairsp;</span></h1>
 					</div>
 					<div class="modal-body">
 				  		<p>This does not work yet. Why are you here?</p>
@@ -365,6 +379,7 @@
     		    let reroll;
     		    let lag;
     		    let multi;
+				let precision;
 
 				if(document.getElementById("resemblejs").checked)
 					alg = "resemblejs"
@@ -381,8 +396,6 @@
     		        list = "orglist"
     		    else if(document.getElementById("orgminus").checked)
     		        list = "orgminus"
-    		    else if(document.getElementById("alt164").checked)
-    		        list = "alt164"
 			
     		    if(document.getElementById("rerollon").checked)
     		        reroll = "true"
@@ -398,9 +411,24 @@
     		        multi = "true"
     		    else if(document.getElementById("multioff").checked)
     		        multi = "false"
-			
-    		    TEST.saveSettings(alg, list, reroll, lag, multi)
-    		}
+
+				if(document.getElementById("hybrid_precision").getAttribute("value") != null){
+					if(document.getElementById("hybrid_precision").value < 0.1){
+						precision = 0.1
+					}
+					else if(document.getElementById("hybrid_precision").value > 1){
+						precision = 1
+					}
+					else{
+				 		precision = document.getElementById("hybrid_precision").value
+					}
+				}
+				else{
+					precision = "0.3"
+				}
+
+    		    TEST.saveSettings(alg, list, reroll, lag, multi, precision)
+			}
   		</script>
 
 	</body>

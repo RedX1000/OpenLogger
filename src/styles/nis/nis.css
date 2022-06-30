@@ -477,10 +477,9 @@ header {
   line-height: 35px;
 }
 
-#clue_scroll_level_label {
+.clue_scroll_level_label {
   font-size: 17px;
   position:center;
-
   text-align: center;
 }
 
@@ -816,7 +815,9 @@ maintoggles{
   margin:auto;
 }
 
-#reroll_buttons{
+#reroll_buttons,
+#lag_buttons,
+#multi_buttons{
   display:grid;
   grid-template-columns: repeat(2, auto);
 }
@@ -842,6 +843,14 @@ label{
     color:#f9c037;
     margin: 0 0 0 7px;
     font-size: 15px;
+}
+
+#hybrid_precision{
+  font-size: 15px;
+  font-weight: 700;
+  color:#000;
+  background-color: #d6d6d6;
+  padding-left: 5px;
 }
 
 #choice_buttons{
