@@ -12,7 +12,7 @@ This application was created to provide players with a way to easily record thei
 
 ## How to install
 ### Click this link to install Openlogger to Alt1 automatically
-#### <a href="alt1://addapp/https://redx1000.github.io/OpenLogger/appconfig.json" target="_blank">alt1://addapp/https://redx1000.github.io/OpenLogger/appconfig.json</a><br><br>
+#### <a href="alt1://addapp/https://redx1000.github.io/OpenLogger/appconfig.json" rel="nofollow" target="_blank">alt1://addapp/https://redx1000.github.io/OpenLogger/appconfig.json</a><br><br>
 ### Or use direct link
 #### https://redx1000.github.io/OpenLogger <br>
 #### To install with the direct link
