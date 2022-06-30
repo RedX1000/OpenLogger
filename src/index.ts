@@ -18,7 +18,7 @@ import * as itemsReorgTwo from './JSONs/ItemsAndImagesReorganizedTwo.json';
 import * as itemsLegacyFull from './JSONs/ItemsAndImagesLegacy.json';
 import * as itemsLegacyReorg from './JSONs/ItemsAndImagesLegacyReorganized.json';
 import * as itemsLegacyReorgTwo from './JSONs/ItemsAndImagesLegacyReorganizedTwo.json';
-import * as itemsB64 from './JSONs/ItemsAndImagesAlt64.json';
+import { Console } from "console";
 
 //tell webpack to add index.html and appconfig.json to output
 require("!file-loader?name=[name].[ext]!./index.html");
@@ -29,7 +29,7 @@ var tierlist = ["easy", "medium", "hard", "elite", "master"]
 var ignorelist = ["EValue", "ECount", "MValue", "MCount", "HValue",
 	"HCount", "ElValue", "ElCount", "MaValue", "MaCount",
 	"Checked button", "Algorithm", "ItemList", "autoCapture",
-	"rerollToggle", "lagDetect", "multiButtonPressDetect"];
+	"rerollToggle", "lagDetect", "multiButtonPressDetect", "hybridPrecision"];
 
 var listOfItemsAll;
 var listOfItemsFull;
@@ -49,9 +49,6 @@ var listOfItemsLegacyFullArray = [];
 var listOfItemsLegacyReorgArray = [];
 var listOfItemsLegacyReorgTwoArray = [];
 
-var listOfItemsB64;
-var listOfItemsB64Array = [];
-
 var legacy = false;
 var displaybox = true;
 
@@ -69,16 +66,26 @@ var opentabs = [true, true, true, true];
 
 var lagDetected = false;
 
+var toggle = true
+
+var autoAdjust = true
+
 export function refresh() {
 	location.reload();
 }
 
-
-export function init() {
+export function initOnLoad(){
 	alt1.overLayClearGroup("overlays");
 	alt1.overLayClearGroup("icon");
 	alt1.overLayClearGroup("lag");
-	// Set the checked button
+	
+	alt1.overLaySetGroup("overlays");
+	alt1.overLayTextEx("Initializing OpenLogger...", a1lib.mixColor(255, 144, 0), 20, Math.round(alt1.rsWidth / 2), 200, 50000, "", true, true);
+	init()
+}
+
+export async function init() {
+	buttonDisabler()
 	console.log("Initializing plugin...");
 	let keys = Object.keys(lsdb);
 	if (localStorage.getItem("Checked button") == null) { // Checked button init check
@@ -101,8 +108,8 @@ export function init() {
 		tierSpans[i].textContent = currentTier()[0]
 
 	if (localStorage.getItem("Algorithm") == null) { // Algorithim init check
-		console.log("Defaulting button to ResembleJS...");
-		localStorage.setItem("Algorithm", "resemblejs");
+		console.log("Defaulting button to Hybrid...");
+		localStorage.setItem("Algorithm", "hybrid");
 	}
 
 	if (localStorage.getItem("ItemList") == null) { // Item Referense list init check
@@ -115,10 +122,16 @@ export function init() {
 		localStorage.setItem("autoCapture", "false");
 	}
 	else {
-		if (localStorage.getItem("autoCapture") == "true")
-			document.getElementById("toggleunlocktrack").classList.add("enabled")
-		else {
-			document.getElementById("toggleunlocktrack").classList.remove("enabled")
+		if(autoAdjust == true){
+			if (localStorage.getItem("autoCapture") == "true")
+				document.getElementById("toggleunlocktrack").classList.add("enabled")
+			else {
+				document.getElementById("toggleunlocktrack").classList.remove("enabled")
+			}
+			autoCheck()
+		}
+		else{
+			autoAdjust = true
 		}
 	}
 
@@ -154,8 +167,14 @@ export function init() {
 		lootdisplay[i].style.display = 'flex'
 	}
 
+	// Initialize Hybrid precision
+	if (localStorage.getItem("hybridPrecision") == null) {
+		console.log("Defaulting hybridPrecision to 0.3...");
+		localStorage.setItem("hybridPrecision", "0.3");
+	}
+
 	// Set up image libraries
-	arraySetup()
+	await arraySetup()
 
 	//listOfItemsLegacyArray = []
 	//for(let i = 0; i < listOfItemsLegacy.length; i++){
@@ -165,17 +184,24 @@ export function init() {
 
 	//Set display
 	lootDisplay()
-	autoCheck()
 
 	//Set up settings
 	settingsInit()
-
+	alt1.overLayClearGroup("overlays");
+	alt1.overLaySetGroup("overlays");
+	alt1.overLayTextEx("OpenLogger ready!", a1lib.mixColor(0, 255, 0), 20, Math.round(alt1.rsWidth / 2), 200, 5000, "", true, true);
 	console.log("Initialization complete");
+	buttonDisabler()
 }
 
 
-export function changeClueTierSpan(id: string, event: Event) {
+export async function changeClueTierSpan(id: string, event: Event) {
 	// Set the clue_tier span for the checked box
+	buttonDisabler()
+	alt1.overLayClearGroup("overlays");
+	alt1.overLaySetGroup("overlays");
+	alt1.overLayTextEx("Loading " + (id[0] + id.slice(1).toLowerCase()) + " clues...", a1lib.mixColor(255, 144, 0), 20, Math.round(alt1.rsWidth / 2), 200, 5000, "", true, true);
+
 	console.log("Setting button to " + (id[0].toUpperCase() + id.slice(1).toLowerCase()) + "...");
 	document.getElementById('clue_tier').textContent = (id[0].toUpperCase() + id.slice(1).toLowerCase());
 	(document.getElementById(id) as HTMLInputElement).checked = true
@@ -193,16 +219,16 @@ export function changeClueTierSpan(id: string, event: Event) {
 	}
 
 	// Set up arrays
-	arraySetup()
+	await arraySetup()
 
 	//Set display
 	lootDisplay()
 
-	lastReroll = [0, 0]
-
 	alt1.overLayClearGroup("overlays");
 	alt1.overLaySetGroup("overlays");
 	alt1.overLayTextEx((id[0].toUpperCase() + id.slice(1).toLowerCase()) + " tier rewards & images loaded!", a1lib.mixColor(100, 255, 100), 20, Math.round(alt1.rsWidth / 2), 200, 2000, "", true, true)
+	buttonDisabler()
+	lastReroll = [0, 0]
 }
 
 
@@ -235,6 +261,7 @@ export async function cleardb(choice: any) {
 			alt1.overLaySetGroup("overlays");
 			alt1.overLayTextEx("Clearing all items from reward database...", a1lib.mixColor(255, 144, 0), 20, Math.round(alt1.rsWidth / 2), 200, 4000, "", true, true);
 		}
+		autoAdjust = false
 
 		localStorage.setItem(current[1], "0");
 		localStorage.setItem(current[2], "0");
@@ -251,14 +278,36 @@ export async function cleardb(choice: any) {
 		}
 
 		init();
-
 		if (window.alt1) {
 			alt1.overLayClearGroup("overlays");
 			alt1.overLaySetGroup("overlays");
 			alt1.overLayTextEx("All items cleared successfully!", a1lib.mixColor(100, 255, 100), 20, Math.round(alt1.rsWidth / 2), 200, 4000, "", true, true);
 		}
 	}
-	else if (choice == 3) { // Current tier clear
+	else if (choice == 3){ // Reset settings
+		if (window.alt1) {
+			alt1.overLayClearGroup("overlays");
+			alt1.overLaySetGroup("overlays");
+			alt1.overLayTextEx("Reseting settings to default...", a1lib.mixColor(255, 144, 0), 20, Math.round(alt1.rsWidth / 2), 200, 4000, "", true, true);
+		}
+		autoAdjust = false
+
+		// Yay learning for(const item of array) :))))
+		var temp = ignorelist.slice()
+		for(const item of temp){
+			if(!(["EValue", "ECount", "MValue", "MCount", "HValue", "HCount", "ElValue", "ElCount", "MaValue", "MaCount", "autoCapture"].includes(item))){
+				localStorage.removeItem(item)
+			}
+		}
+		await init()
+
+		if (window.alt1) {
+			alt1.overLayClearGroup("overlays");
+			alt1.overLaySetGroup("overlays");
+			alt1.overLayTextEx("Settings reset successfully!", a1lib.mixColor(100, 255, 100), 20, Math.round(alt1.rsWidth / 2), 200, 4000, "", true, true);
+		}
+	}
+	else if (choice == 4) { // Current tier clear
 		if (window.alt1) {
 			alt1.overLayClearGroup("overlays");
 			alt1.overLaySetGroup("overlays");
@@ -326,15 +375,18 @@ var imgs = a1lib.ImageDetect.webpackImages({
 a1lib.on("alt1pressed", alt1pressedcapture)
 
 function alt1pressedcapture() {
-	if (document.getElementById("docapturebutton").getAttribute("title") === ("Disabled while scanning. Please wait...")) {
-		return;
+	if(toggle == true){
+		if (document.getElementById("docapturebutton").getAttribute("title") === ("Disabled while scanning. Please wait...")) {
+			return;
+		}
+		else if (document.getElementById("docapturebutton").getAttribute("title") === ("Disable autocapture to use this button")) {
+			return;
+		}
+		else {
+			capture(false);
+		}
 	}
-	else if (document.getElementById("docapturebutton").getAttribute("title") === ("Disable autocapture to use this button")) {
-		return;
-	}
-	else {
-		capture(false);
-	}
+
 }
 
 //You can reach exports on window.TEST because of
@@ -357,7 +409,10 @@ export async function capture(autobool: boolean) {
 	}
 
 	var img = a1lib.captureHoldFullRs();
-	findtrailComplete(img, autobool);
+	const promises = [];
+	promises.push(await findtrailComplete(img, autobool));
+	await Promise.all(promises);
+	console.log("finished checking")
 
 	if (localStorage.getItem("multiButtonPressDetect") === "true") {
 		if (!autobool) {
@@ -365,7 +420,7 @@ export async function capture(autobool: boolean) {
 				document.getElementById("docapturebutton").setAttribute("onclick", "TEST.capture(false)")
 				document.getElementById("docapturebutton").setAttribute("title", "")
 				document.getElementById("docapturebuttonwords").style.removeProperty("text-decoration")
-			}, 600));
+			}, 400));
 		}
 	}
 }
@@ -695,6 +750,7 @@ async function findtrailComplete(img: ImgRef, autobool: boolean) {
 		if (window.alt1) {
 			alt1.overLayClearGroup("overlays");
 			alt1.overLayClearGroup("lag");
+			alt1.overLayClearGroup("rect");
 			alt1.overLaySetGroup("overlays");
 			alt1.overLayTextEx("        A crash occured.\n\n     Remove any obstructions, \n check tier, open a reward casket, \nreload plugin or clear database and try again",
 				a1lib.mixColor(255, 80, 80), 20, Math.round(alt1.rsWidth / 2), 200, 5000, "", true, true);
@@ -726,17 +782,6 @@ async function compareItems(item: ImageData) {
 	// 	Choices are: yellow, black1, black2, black3, legacytan, rs3blue
 	// all, twoplus, orglist, orgminus
 
-	/*
-	document.getElementById("common_loot").textContent = ""
-	var canvas = document.createElement("canvas");
-	var ctx = canvas.getContext("2d");
-	var imgvar = document.createElement("img");
-	canvas.width = item.width;
-	canvas.height = item.height;
-	ctx.putImageData(item, 0, 0);
-	imgvar.src = canvas.toDataURL();
-	document.getElementById("common_loot").appendChild(imgvar);*/
-
 	if (!legacy) {
 		if (localStorage.getItem("ItemList") == "all") {
 			var matches = listOfItemsAllArray.slice();
@@ -754,10 +799,7 @@ async function compareItems(item: ImageData) {
 			var matches = listOfItemsReorgTwoArray.slice();
 			var imgset = listOfItemsReorgTwo;
 		}
-		else if (localStorage.getItem("ItemList") == "alt164") {
-			var matches = listOfItemsB64Array.slice();
-			var imgset = listOfItemsB64;
-		}
+
 	}
 	else { // Legacy kinda janky. Need to figure it out more
 		if (localStorage.getItem("ItemList") == "all") {
@@ -779,68 +821,102 @@ async function compareItems(item: ImageData) {
 	}
 
 	//console.log("DEBUG",matches)
+	//TODO: fix ther link issue on the github in markdown
 
 	//Check if the item is blank first
-	var imgdata = await compareImages(item, matches[0][1], { output: {}, ignore: "less" })
+	var imgdata = await compareImages(item, matches[0][1], { output: {}, ignore: "less" });
 	matches[0][2] = imgdata.rawMisMatchPercentage;
 	if (matches[0][2] == 0.00) {
-		return "Blank"
+		return "Blank";
 	}
 	matches.shift() // Remove blank from the list
 
 	if (localStorage.getItem("Algorithm") == "resemblejs") {
-		var found = matches[0]
-		const promises = []
+		var found = matches[0];
+		const promises = [];
+
+		// Webworkers code. Doesn't work yet
+		// var myWorker = new Worker("resembleJSCompare.ts", { type: "module" })
+		// for (let i = 0; i < matches.length; i++) {
+		// 	console.log("At item number:",i)
+		// 	if(window.Worker){
+		// 		promises.push(new Promise(resolve => {
+		// 			myWorker.postMessage([item, matches[i][1]])
+		// 			myWorker.onmessage = function(e) {
+		// 				console.log("message received from worker:", e[0])
+		// 				matches[i][2] = e[0]
+		// 				resolve(e[0]);
+		// 			}
+		// 		}))
+		// 	}
+		// }
+		// await Promise.all(promises);
+
+		// Original copy in case shit hits the fan when figuring out WebWorkers
 		for (let i = 0; i < matches.length; i++) {
 			promises.push(await compareImages(item, matches[i][1], { output: {}, ignore: "less" }).then(data => {
 				matches[i][2] = data.rawMisMatchPercentage;
-				if (found[2] > matches[i][2]) {
-					found = matches[i]
-				}
 			}));
+			if (found[2] > matches[i][2]) {
+				found = matches[i]
+			}	
 		}
-		await Promise.all(promises)
+		await Promise.all(promises);
 	}
+
 	else if (localStorage.getItem("Algorithm") == "pixelmatch") {
+		/* List of items that do not identify in PixelMatch
+			- Huge Plated Adamant Salvage identifies as Huge Plated Rune Salvage when using TwoPlus or All
+		*/
+
 		var found = matches[0];
 		const promises = [];
-		for (let i = 49; i < matches.length; i++) {
-
-			const byteCharacters = atob(matches[i][1].replace("data:image/png;base64,", ''));
-			const byteNumbers = new Array(byteCharacters.length);
-			for (let i = 0; i < byteCharacters.length + 1; i++) {
-				byteNumbers[i] = byteCharacters.charCodeAt(i);
-			}
-			const byteArray = new Uint8Array(byteNumbers);
-
-			var bufimg = Buffer.from(matches[i][1], "base64");
-			var newByteArray = Uint8Array.from(atob(matches[i][1].replace("data:image/png;base64,", '')), c => c.charCodeAt(0));
-
-			//var newNewByteArray = decode(matches[i][1])
-			//var newArray = new Uint8ClampedArray(newNewByteArray)
-			//TODO: Figure this out :/
-			// AHHHHHHHHHHHHHHH'
-			// thIS WILL BE WORKED ON NEXT
-			// I JUST WANT IT TO BE A BIT FASTER
-
-			console.log(i);
-			console.log("Original Image", item.data);
-			console.log("Reference Buffer Image", bufimg);
-			console.log("Reference Array Image", byteArray);
-			console.log("Reference New Array Image", newByteArray);
-			//console.log("Reference New New Array Image",newArray);
-			matches[i][2] = pixelmatch(item.data, item.data, null, item.width, item.height, { threshold: 0 });
-			console.log(matches[i][2]);
-			if (found[2] < matches[i][2]) {
+		for (let i = 0; i < matches.length; i++) {
+			promises.push(matches[i][2] = pixelmatch(item.data, matches[i][3].data, null, item.width, item.height, {includeAA: true, threshold: 0.1 }));
+			if (found[2] > matches[i][2]) {
 				found = matches[i];
 			}
+		}
+		await Promise.all(promises);
+	}
+
+	else if (localStorage.getItem("Algorithm") == "hybrid") {
+
+		// First we check with Pixelmatch and get the comparison of everything to the item
+		let promises = [];
+		let total = 0;
+		for (let i = 0; i < matches.length; i++) {
+			promises.push(matches[i][2] = pixelmatch(item.data, matches[i][3].data, null, item.width, item.height, {includeAA: true, threshold: 0.1 }));
+			total += matches[i][2]
+		}
+
+		// Then we get the average so we can remove half of the items that don't match
+		let average = total / matches.length
+		let precision = parseFloat(localStorage.getItem("hybridPrecision")) //1 does nothing
+		console.log(parseFloat(localStorage.getItem("hybridPrecision")))
+		await Promise.all(promises);
+		
+		for(let i = matches.length-1; i > 0; i--){
+			if(matches[i][2] > (average * precision)){
+				matches.splice(i,1)
+			}
+		}
+		
+		promises = []
+		var found = matches[0];
+		for (let i = 0; i < matches.length; i++) {
+			promises.push(await compareImages(item, matches[i][1], { output: {}, ignore: "less" }).then(data => {
+				matches[i][2] = data.rawMisMatchPercentage;
+			}));
+			if (found[2] > matches[i][2]) {
+				found = matches[i]
+			}	
 		}
 		await Promise.all(promises);
 	}
 	console.log(found[0]);
 	return found[0];
 }
-
 
 async function readQuantities(item: ImageData) {
 	// Instead oif reading top to bottom individulally, 
@@ -1023,11 +1099,11 @@ function tabDisplay(current: string) {
 		divs[i].textContent = "";
 	}
 	for (let i = 0; i < keys.length; i++) {
-		console.log('DEBUG:', keys[i], current)
+		//console.log('DEBUG:', keys[i], current)
 		if (ignorelist.includes(keys[i]) || JSON.parse(localStorage.getItem(keys[i])).quantity[current] == 0) {
 			continue;
 		}
-		console.log(JSON.parse(localStorage.getItem(keys[i])).tab + "_loot");
+		//console.log(JSON.parse(localStorage.getItem(keys[i])).tab + "_loot");
 		let ele = document.getElementById(JSON.parse(localStorage.getItem(keys[i])).tab + "_loot");
 		let nodevar = document.createElement("itembox");
 		let imgvar = document.createElement("img");
@@ -1036,7 +1112,7 @@ function tabDisplay(current: string) {
 		nodevar.setAttribute('title', JSON.parse(localStorage.getItem(keys[i])).quantity[current] + " x " + keys[i])
 		imgvar.src = encodeURI("./images/items/" + keys[i] + ".png");
 		imgvar.setAttribute('style', 'margin:0 auto;');
-		console.log(parseInt(JSON.parse(localStorage.getItem(keys[i])).quantity[current]));
+		//console.log(parseInt(JSON.parse(localStorage.getItem(keys[i])).quantity[current]));
 		if (parseInt(JSON.parse(localStorage.getItem(keys[i])).quantity[current]) > 9999999) {
 			quantvar.setAttribute('style', 'position:absolute; left:0; top:-5px; font-family:Runescape Chat Font; font-size:16px; color:rgb(0,255,128); text-shadow:1px 1px #000000;');
 			quantvar.textContent = Math.trunc(parseInt(JSON.parse(localStorage.getItem(keys[i])).quantity[current]) / 1000000).toString() + "M";
@@ -1243,8 +1319,8 @@ function rollbackFunc(valueClear: boolean) {
 }
 
 
-function arraySetup() {
-	// Set new array
+async function arraySetup() {
+	// Set new array of current tier
 	listOfItemsFull = itemsFull.any.concat(itemsFull[currentTier()[0]]);
 	listOfItemsReorg = itemsReorg.any.concat(itemsReorg[currentTier()[0]]);
 	listOfItemsReorgTwo = itemsReorgTwo.any.concat(itemsReorgTwo[currentTier()[0]]);
@@ -1259,45 +1335,97 @@ function arraySetup() {
 	listOfItemsLegacyFullArray = [];
 	listOfItemsLegacyReorgArray = [];
 	listOfItemsLegacyReorgTwoArray = [];
+
+	// Setting Array items and ImageData arrays
+	var promises = [];
 	for (let i = 0; i < listOfItemsFull.length; i++) {
 		if (i < listOfItemsFull.length) {
 			listOfItemsFullArray.push([listOfItemsFull[i].name, listOfItemsFull[i].base64, 0.0]);
+			if (localStorage.getItem("ItemList") == "twoplus"){
+				promises.push(await _base64ToImageData(listOfItemsFullArray[i][1], 32, 32).then(data => { 
+					listOfItemsFullArray[i].push(data) 
+				}));
+			}
 		}
 		if (i < listOfItemsReorg.length) {
 			listOfItemsReorgArray.push([listOfItemsReorg[i].name, listOfItemsReorg[i].base64, 0.0]);
+			if (localStorage.getItem("ItemList") == "orglist"){
+				promises.push(await _base64ToImageData(listOfItemsReorgArray[i][1], 32, 32).then(data => { 
+					listOfItemsReorgArray[i].push(data) 
+				}));
+
+			}
 		}
 		if (i < listOfItemsReorgTwo.length) {
 			listOfItemsReorgTwoArray.push([listOfItemsReorgTwo[i].name, listOfItemsReorgTwo[i].base64, 0.0]);
+			if (localStorage.getItem("ItemList") == "orgminus"){
+				promises.push(await _base64ToImageData(listOfItemsReorgTwoArray[i][1], 32, 32).then(data => { 
+					listOfItemsReorgTwoArray[i].push(data)
+				}));
+			}
 		}
 		if (i < listOfItemsLegacyFull.length) {
 			listOfItemsLegacyFullArray.push([listOfItemsLegacyFull[i].name, listOfItemsLegacyFull[i].base64, 0.0]);
+			if (localStorage.getItem("ItemList") == "twoplus"){
+				promises.push(await _base64ToImageData(listOfItemsLegacyFullArray[i][1], 32, 32).then(data => { 
+					listOfItemsLegacyFullArray[i].push(data)
+				}));
+			}
 		}
 		if (i < listOfItemsLegacyReorg.length) {
 			listOfItemsLegacyReorgArray.push([listOfItemsLegacyReorg[i].name, listOfItemsLegacyReorg[i].base64, 0.0]);
+			if (localStorage.getItem("ItemList") == "orglist"){
+				promises.push(await _base64ToImageData(listOfItemsLegacyReorgArray[i][1], 32, 32).then(data => { 
+					listOfItemsLegacyReorgArray[i].push(data)
+				}));
+			}
 		}
 		if (i < listOfItemsLegacyReorgTwo.length) {
 			listOfItemsLegacyReorgTwoArray.push([listOfItemsLegacyReorgTwo[i].name, listOfItemsLegacyReorgTwo[i].base64, 0.0]);
+			if (localStorage.getItem("ItemList") == "orgminus"){
+				promises.push(await _base64ToImageData(listOfItemsLegacyReorgArray[i][1], 32, 32).then(data => { 
+					listOfItemsLegacyReorgTwoArray[i].push(data)
+				}));
+			}
 		}
 	}
+	await Promise.all(promises);
 
 	listOfItemsAll = itemsFull.any.concat(itemsFull.easy).concat(itemsFull.medium).concat(itemsFull.hard).concat(itemsFull.elite).concat(itemsFull.master);
 	listOfItemsLegacyAll = itemsLegacyFull.any.concat(itemsLegacyFull.easy).concat(itemsLegacyFull.medium).concat(itemsLegacyFull.hard).concat(itemsLegacyFull.elite).concat(itemsLegacyFull.master);
 	listOfItemsAllArray = [];
 	listOfItemsLegacyAllArray = [];
+	promises = [];
 	for (let i = 0; i < listOfItemsAll.length; i++) {
 		listOfItemsAllArray.push([listOfItemsAll[i].name, listOfItemsAll[i].base64, 0.0]);
 		listOfItemsLegacyAllArray.push([listOfItemsLegacyAll[i].name, listOfItemsLegacyAll[i].base64, 0.0]);
+		if (localStorage.getItem("ItemList") == "all"){
+			promises.push(await _base64ToImageData(listOfItemsAllArray[i][1], 32, 32).then(data => { 
+				listOfItemsAllArray[i].push(data)
+			}));
+			promises.push(await _base64ToImageData(listOfItemsLegacyAllArray[i][1], 32, 32).then(data => { 
+				listOfItemsLegacyAllArray[i].push(data)
+			}));
+		}
 	}
-
-	//TODO: Play with this, its directly from the DB
-	listOfItemsB64 = itemsB64.any.concat(itemsB64[currentTier()[0]]);
-	listOfItemsB64Array = [];
-	for (let i = 0; i < listOfItemsB64.length; i++) {
-		listOfItemsB64Array.push([listOfItemsB64[i].name, listOfItemsB64[i].base64, 0.0]);
-	}
-	// console.log("DEBUG:",listOfItemsFullArray, listOfItemsReorgArray, listOfItemsReorgTwoArray, listOfItemsLegacyFullArray, listOfItemsLegacyReorgArray, listOfItemsLegacyReorgTwoArray, listOfItemsFullArray, listOfItemsLegacyFullArray)
+	await Promise.all(promises);
+	// console.log("DEBUG:",listOfItemsFullArray, listOfItemsReorgArray, listOfItemsReorgTwoArray, listOfItemsLegacyFullArray, listOfItemsLegacyReorgArray, listOfItemsLegacyReorgTwoArray, listOfItemsFullArray, listOfItemsLegacyFullArray, listOfItemsAllUint8ArrayArray)
 }
 
+function _base64ToImageData(buffer: string, width: any, height: any) { // https://stackoverflow.com/questions/68495924
+    return new Promise(resolve => {
+    var image = new Image();
+    image.addEventListener('load', function (e) {
+      var canvasElement = document.createElement('canvas');
+      canvasElement.width = width;
+      canvasElement.height = height;
+      var context = canvasElement.getContext('2d');
+      context.drawImage(e.target as HTMLVideoElement, 0, 0, width, height);
+      resolve(context.getImageData(0, 0, width, height));
+    });
+    image.src = buffer;
+  });
+}
 
 export function insert() {
 	if (window.alt1) {
@@ -1389,14 +1517,30 @@ export function settingsInit() {
 			ele.checked = true;
 		}
 	}
+
+	if (localStorage.getItem("hybridPrecision") == null) {
+		console.log("Defaulting hybridPrecision to 0.3...");
+		var ele = document.getElementById("hybrid_precision") as HTMLInputElement;
+		ele.value = "0.3";
+		localStorage.setItem("hybridPrecision", "0.3");
+	}
+	else{
+		var ele = document.getElementById("hybrid_precision") as HTMLInputElement;
+		ele.value = localStorage.getItem("hybridPrecision");
+	}
 }
 
 
-export function saveSettings(alg: string, list: string, reroll: string, lag: string, multi: string) {
+export async function saveSettings(alg: string, list: string, reroll: string, lag: string, multi: string, precision: string) {
+	buttonDisabler()
+	alt1.overLayClearGroup("overlays");
+	alt1.overLaySetGroup("overlays");
+	alt1.overLayTextEx("Saving settings...", a1lib.mixColor(255, 144, 0), 20, Math.round(alt1.rsWidth / 2), 200, 50000, "", true, true);
 	localStorage.setItem("Algorithm", alg);
 	localStorage.setItem("ItemList", list);
 	localStorage.setItem("rerollToggle", reroll);
 	localStorage.setItem("lagDetect", lag);
+	localStorage.setItem("hybridPrecision", precision)
 	if (localStorage.getItem("multiButtonPressDetect") !== multi) {
 		localStorage.setItem("multiButtonPressDetect", multi)
 		console.log("Adjusting saved values")
@@ -1421,35 +1565,48 @@ export function saveSettings(alg: string, list: string, reroll: string, lag: str
 		}
 	}
 
+	settingsInit()
+	await arraySetup();
 	if (window.alt1) {
-		alt1.overLayClearGroup("overlays"); alt1.overLaySetGroup("overlays")
+		alt1.overLayClearGroup("overlays"); 
+		alt1.overLaySetGroup("overlays");
 		alt1.overLayTextEx("Settings saved!", a1lib.mixColor(100, 255, 100), 20, Math.round(alt1.rsWidth / 2), 200, 2000, "", true, true);
+	}
+	buttonDisabler()
+}
+
+export function autoDisableCheckAuto(event: Event){
+	if(document.getElementById("toggleunlocktrack").classList.contains("enabled")){
+		toggleCapture(event)
 	}
 }
 
-
 export function toggleCapture(event: Event) {
-	if (document.getElementById("toggleunlocktrack").classList.contains("enabled")) {
-		document.getElementById("toggleunlocktrack").classList.remove("enabled");
-		localStorage.setItem("autoCapture", "false");
-		if (window.alt1) {
-			alt1.overLayClearGroup("overlays");
-			alt1.overLaySetGroup("overlays");
-			alt1.overLayTextEx("Autocapture disabled!", a1lib.mixColor(100, 255, 100), 20, Math.round(alt1.rsWidth / 2), 200, 2000, "", true, true);
+	try{
+		if (document.getElementById("toggleunlocktrack").classList.contains("enabled")) {
+			document.getElementById("toggleunlocktrack").classList.remove("enabled");
+			localStorage.setItem("autoCapture", "false");
+			if (window.alt1) {
+				alt1.overLayClearGroup("overlays");
+				alt1.overLaySetGroup("overlays");
+				alt1.overLayTextEx("Autocapture disabled!", a1lib.mixColor(100, 255, 100), 20, Math.round(alt1.rsWidth / 2), 200, 2000, "", true, true);
+			}
 		}
-	}
-	else {
-		document.getElementById("toggleunlocktrack").classList.add("enabled");
-		localStorage.setItem("autoCapture", "true");
-		if (window.alt1) {
-			alt1.overLayClearGroup("overlays");
-			alt1.overLaySetGroup("overlays");
-			alt1.overLayTextEx("Autocapture enabled!", a1lib.mixColor(100, 255, 100), 20, Math.round(alt1.rsWidth / 2), 200, 2000, "", true, true);
+		else {
+			document.getElementById("toggleunlocktrack").classList.add("enabled");
+			localStorage.setItem("autoCapture", "true");
+			if (window.alt1) {
+				alt1.overLayClearGroup("overlays");
+				alt1.overLaySetGroup("overlays");
+				alt1.overLayTextEx("Autocapture enabled!", a1lib.mixColor(100, 255, 100), 20, Math.round(alt1.rsWidth / 2), 200, 2000, "", true, true);
+			}
 		}
+		autoCheck();
+		event.stopPropagation();
+	} catch (e){
+		console.log("Clear Options Menu or Settings auto-disabling autocapture. In the event of bugfixing and getting this message in this function, try re-enabling this throw.")
+		//throw(e)
 	}
-
-	autoCheck();
-	event.stopPropagation();
 }
 
 
@@ -1655,6 +1812,47 @@ export function toggleLootDisplay(id: string) {
 	}
 }
 
+
+function buttonDisabler(){
+	if (toggle == true) {
+		if(localStorage.getItem("autoCapture") !== "true"){
+			document.getElementById("docapturebutton").setAttribute("title", "Currently disabled to due initialization, settings being saved, or autocapture");
+			document.getElementById("docapturebuttonwords").style.setProperty("text-decoration", "line-through");
+			document.getElementById("docapturebutton").setAttribute("onclick", "");
+		}
+		document.getElementById("toggleunlocktrack").setAttribute("onclick", "");
+		document.getElementById("easy").setAttribute("onclick", "");
+		document.getElementById("medium").setAttribute("onclick", "");
+		document.getElementById("hard").setAttribute("onclick", "");
+		document.getElementById("elite").setAttribute("onclick", "");
+		document.getElementById("master").setAttribute("onclick", "");
+		document.getElementById("label_easy").setAttribute("onclick", "");
+		document.getElementById("label_medium").setAttribute("onclick", "");
+		document.getElementById("label_hard").setAttribute("onclick", "");
+		document.getElementById("label_elite").setAttribute("onclick", "");
+		document.getElementById("label_master").setAttribute("onclick", "");
+		toggle = false
+	}
+	else {
+		if(localStorage.getItem("autoCapture") !== "true"){
+			document.getElementById("docapturebutton").setAttribute("title", "");
+			document.getElementById("docapturebuttonwords").style.removeProperty("text-decoration");
+			document.getElementById("docapturebutton").setAttribute("onclick", "TEST.capture(false)");
+		}
+		document.getElementById("toggleunlocktrack").setAttribute("onclick", "TEST.toggleCapture(event)");
+		document.getElementById("easy").setAttribute("onclick", "TEST.changeClueTierSpan('easy', event);");
+		document.getElementById("medium").setAttribute("onclick", "TEST.changeClueTierSpan('medium', event);");
+		document.getElementById("hard").setAttribute("onclick", "TEST.changeClueTierSpan('hard', event);");
+		document.getElementById("elite").setAttribute("onclick", "TEST.changeClueTierSpan('elite', event);");
+		document.getElementById("master").setAttribute("onclick", "TEST.changeClueTierSpan('master', event);");
+		document.getElementById("label_easy").setAttribute("onclick", "TEST.changeClueTierSpan('easy', event);");
+		document.getElementById("label_medium").setAttribute("onclick", "TEST.changeClueTierSpan('medium', event);");
+		document.getElementById("label_hard").setAttribute("onclick", "TEST.changeClueTierSpan('hard', event);");
+		document.getElementById("label_elite").setAttribute("onclick", "TEST.changeClueTierSpan('elite', event);");
+		document.getElementById("label_master").setAttribute("onclick", "TEST.changeClueTierSpan('master', event);");
+		toggle = true
+	}
+}
 //print text world
 //also the worst possible example of how to use global exposed exports as described in webpack.config.json
 
