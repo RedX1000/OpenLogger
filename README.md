@@ -74,7 +74,7 @@ This application was created to provide players with a way to easily record thei
 3. Hybrid: A mix of the two. Pixelmatch runs first then ResembleJS. Great balance of speed and accuracy.
     * Recommended image collections: OrgList and OrgMinus.
     * You could use TwoPlus or All Images for more items to compare. It shouldn't make a big difference in accuracy, especially with how Hybrid works. 
-    * When using Hybrid, TwoPlus and AllImages works perfectly, but takes longer.
+    * When using Hybrid, TwoPlus and All Images works perfectly, but takes longer.
     * Hybrid precision can be adjusted using Hybrid Alg Precision setting in the settings menu, listed below.
 
 ### Reference Image Collection
