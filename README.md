@@ -99,7 +99,7 @@ This application was created to provide players with a way to easily record thei
 * Skillbert for creating Alt1 and providing the tools and libraries to create third-party applications.
 * Dala/Daladen for not only prviding me with an insight into how the Summit Clue Logger worked to help write OpenLogger and for general web dev help, but also for providing all of the reference images for image comparison. Could not have done this project without those images.
 * Athabastyx for the technical help and Javascript insight. This is my first JS/TS project and Atha helped a lot with helping me understand new functions, libraries, and how to optimize things better.
-* All the people I've reached out to and have provided help regarding JS/TS and Alt1 plugin questions through Runeapps Discord's #development channel and DMs. 
+* All the people I've reached out to and have provided help regarding JS/TS and Alt1 plugin questions through the [Runeapps Discord channel](https://discord.com/invite/G3SbcS8) and DMs. 
 * Everyone reaching out to report bugs and make suggestions.
 
 ## Additional info
