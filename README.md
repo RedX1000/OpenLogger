@@ -8,7 +8,7 @@
 * *NOTE: When reporting a crash, please take a screenshot of the loot window and send it to me. Use Windows Key + Shift + S, Lightshot, or Gyazo to take the screenshot to avoid distortion.*
 
 ## Description
-This application was created to provide players with a way to easily record their clue scrolls in bulk, or over the course of their clue runs.
+This application was created to provide players with a way to easily record their clue scrolls in bulk, or over the course of their clue runs, and to allow users to share their data with other users.
 
 ## How to install
 ### Click this link to install Openlogger to Alt1 automatically
