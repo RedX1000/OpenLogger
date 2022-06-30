@@ -27,7 +27,7 @@ This application was created to provide players with a way to easily record thei
 1. Open a reward casket (Easy, Medium, Hard, Elite, Master).
     * Make sure clue reward window is not obfuscated in order to get a correct reading, list of things to not obfuscate at the bottom.
 2. Press the Capture button, press Alt+1, or enable Autocapture to record the clue interface.
-3. Wait a bit, recording takes between 1 - 5 second depending on the tier of clue, the amount of rewards in the window, the image searching algorithmn used (WIP), and the image collection library used.
+3. Wait a bit, recording can be less than 600ms or over 5 seconds seconds depending on the tier of clue, the amount of rewards in the window, the image searching algorithmn used, and the image collection library used.
 4. Rewards appear in the OpenLogger Interface with the value, and a dynamic display that updates when new rewards come in, along with the total and average value for the number of completed clues.
 
 ### Autocapture
