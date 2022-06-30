@@ -902,6 +902,7 @@ async function compareItems(item: ImageData) {
 			}
 		}
 		
+		//Now we find the correct item with ResembleJS!
 		promises = []
 		var found = matches[0];
 		for (let i = 0; i < matches.length; i++) {
