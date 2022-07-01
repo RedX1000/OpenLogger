@@ -69,8 +69,6 @@ var autoAdjust = true
 
 var noMenuInterval;
 
-var noMenuValue = false
-
 export function refresh() {
 	location.reload();
 }
@@ -505,16 +503,37 @@ async function findtrailComplete(img: ImgRef, autobool: boolean) {
 			let rewardreader = new ClueRewardReader();
 			rewardreader.pos = ModalUIReader.find()[0];
 			value = rewardreader.read(img).value;
+			let valueStr = value.toString()
+			var valueList = [];
+
+			for(let i = valueStr.length - 1; i > 0; i--){
+				valueList.push(valueStr)
+				valueStr = valueStr.slice(0,-1)
+			}
+
+			let lastValueStr = lastValue.toString()
+			var lastValueList = []
+			for(let i = lastValueStr.length - 1; i > 0; i--){
+				lastValueList.push(lastValueStr)
+				lastValueStr = lastValueStr.slice(0,-1)
+			}
+			
 		} catch (e) {
 			return;
 		}
-		console.log(value, lastValue)
+		console.log(value, lastValue, valueList, lastValueList)
+		console.log("Is",value,"equal to",lastValue,"?")
+		console.log("Is",lastValue,"located in",valueList,"?")
+		console.log("Is",value,"located in",lastValueList,"?")
 		if (autobool == true) {
 			if (lastValue == 0) {
 				// Pass
 				console.log("value is zero");
 			}
-			else if (value == lastValue) {
+			else if (value == lastValue){
+				return
+			}
+			else if (valueList.includes(lastValue.toString()) && lastValueList.includes(value.toString())) {
 				return;
 			}
 		}
