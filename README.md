@@ -48,6 +48,7 @@ This application was created to provide players with a way to easily record thei
 * Easy way to fix a misread is to disable autocapture, rolling it back and recapturing it, unless value is obfuscated and it triggers a multi-capture. One would need to edit values within `localStorage`. 
 * If some items are not reading when capturing, it is most likely caused by icons loading in. Check to see if Lag Detection settings are on in the OpenLogger settings and manually roll it back. The clue should be automatically recaptured.
 * In the event of a multi-capture from not obfuscating the value, pause Autocapture, rollback, and open the next casket, then re-enable autocapture.
+* In the rare event that the value of the new clue is equivalent to the value of the previous clue, disable Autocapture and manually capture the reward.
 <br><br>
 ### Export to CSV
 * Export to CSV will create a CSV file of the your clue rewards from `localStorage` and allows the user to download the file.
