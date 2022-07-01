@@ -1574,7 +1574,7 @@ export async function saveSettings(alg: string, list: string, reroll: string, la
 	localStorage.setItem("rerollToggle", reroll);
 	localStorage.setItem("lagDetect", lag);
 	localStorage.setItem("hybridPrecision", precision)
-	
+
 	if (localStorage.getItem("multiButtonPressDetect") !== multi) {
 		localStorage.setItem("multiButtonPressDetect", multi)
 		console.log("Adjusting saved values")
@@ -1697,8 +1697,8 @@ function noMenuCheck(){
 			let comma = Math.floor(length / 3)
 			console.log("Highlighting value...")
 			
-			alt1.overLayRect(a1lib.mixColor(255, 0, 0), loc[0].x + 246 - (5 * length) + (1 * comma), loc[0].y + 94, 0 + (8 * length) + (4 * comma), await imgs.trailComplete.height + 6, 60000, 2);
-			alt1.overLayTextEx("NO MENUS HERE", a1lib.mixColor(255, 0, 0), 10, loc[0].x + 245, loc[0].y + 118, 50000, "", true, true);
+			alt1.overLayRect(a1lib.mixColor(255, 50, 50), loc[0].x + 246 - (5 * length) + (1 * comma), loc[0].y + 94, 0 + (8 * length) + (4 * comma), await imgs.trailComplete.height + 6, 60000, 2);
+			alt1.overLayTextEx("NO MENUS HERE", a1lib.mixColor(255, 50, 50), 10, loc[0].x + 245, loc[0].y + 118, 50000, "", true, true);
 			
 		}, 1000);
 	}
