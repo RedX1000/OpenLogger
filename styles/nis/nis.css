@@ -817,7 +817,8 @@ maintoggles{
 
 #reroll_buttons,
 #lag_buttons,
-#multi_buttons{
+#multi_buttons,
+#menu_buttons{
   display:grid;
   grid-template-columns: repeat(2, auto);
 }
@@ -839,7 +840,8 @@ label{
 
 #algorithm_label,
 #img_label,
-#misc_label{
+#misc_label,
+#menu_label{
     color:#f9c037;
     margin: 0 0 0 7px;
     font-size: 15px;
