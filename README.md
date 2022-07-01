@@ -80,7 +80,7 @@ This application was created to provide players with a way to easily record thei
 2. Pixelmatch: Image recognition library using [`Pixelmatch`](https://github.com/mapbox/pixelmatch) that compares images pixel by pixel for and returns a percentage value. It is very fast, but can be less accurate than ResembleJS.
     * Recommended image collections: OrgList or OrgMinus, but you can use any library with good speed. There is a known issue with TwoPlus and All Items libraries listed below.
     * Pixelmatch has an issue where some items read incorrectly while using TwoPlus and All Images, i.e. Huge plated adamant salvage being read as Huge plated rune salvage. Send me a DM on discord if you run into other misreads with this configuration. 
-3. #### Hybrid: A mix of the two. Pixelmatch runs first then ResembleJS. Great balance of speed and accuracy. Enabled by default.
+3. ##### Hybrid: A mix of the two. Pixelmatch runs first then ResembleJS. Great balance of speed and accuracy. Enabled by default.
     * Recommended image collections: OrgList and OrgMinus.
     * You could use TwoPlus or All Images for more items to compare. It shouldn't make a big difference in accuracy, especially with how Hybrid works. 
     * When using Hybrid, TwoPlus and All Images works perfectly, but takes longer.
@@ -121,7 +121,7 @@ This application was created to provide players with a way to easily record thei
     * **Everything else is free game to obfuscate. More details below about preenting multi-capturing over the value**<br><br>
 
 * ### A few tips on where to avoid having menus appearing over the value
-    * It IS **_NOT_** save to have a menu pop up if covering ONLY the value itself. OpenLogger WILL capture if you cover up the value such that ONLY the value is covered up like this:<br>![Menu covering only the value](/dist/images/menu%20screen1.png "Menu covering only value")
+    * It IS **_NOT_** safe to have a menu pop up if covering ONLY the value itself. OpenLogger WILL capture if you cover up the value such that ONLY the value is covered up like this:<br>![Menu covering only the value](/dist/images/menu%20screen1.png "Menu covering only value")
 
     * It **_IS_** safe to hover over or right click items as long as the menu resulting from it can cover the "Current Reward Value" text, but try to avoid it. A few examples of safe menus:<br>
     ![Hover-over menu covering both value and 'Current Reward Value'"](/dist/images/menu%20screen2.png "Hover-over menu covering both value and 'Current Reward Value'")<br>
