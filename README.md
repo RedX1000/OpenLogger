@@ -30,6 +30,7 @@ This application was created to provide players with a way to easily record thei
 * [Settings](#settings)
 * [Hybrid](#image-searching-algorithm)
 * [Avoiding menus causing multi-capturing](#a-few-tips-on-where-to-avoid-having-menus-appearing-over-the-value)
+* [Special thanks](#special-thanks)
  # Instructions on how to use
  ### Capture Rewards
 1. Open a reward casket (Easy, Medium, Hard, Elite, Master).
@@ -42,7 +43,7 @@ This application was created to provide players with a way to easily record thei
 * Clues can be autocaptured by clicking on the lock (Closed == On, Open == Off).
 * This is turned off by default. Click the lock to enable it.
 * When opening settings or Clear Options Menu buttons, autocapture is automatically disabled.
-* **Be careful when obfuscating details in the clue window**, more specifically "Current Reward Value: X" coins and "Reroll Reward ( X )".
+* **Be careful when obfuscating details in the clue window**, more specifically "Current Reward Value: X" coins and "Reroll Reward ( X )". There is code in place to avoid this, but it can happen if 2 values from the left are left uncovered.
 * List of things to not hover over below at [Additional Information](#additional-information) and [Avoiding menus causing multi-capturing](#a-few-tips-on-where-to-avoid-having-menus-appearing-over-the-value)
 * Easy way to fix a misread is to disable autocapture, rolling it back and recapturing it, unless value is obfuscated and it triggers a multi-capture. One would need to edit values within `localStorage`. 
 * If some items are not reading when capturing, it is most likely caused by icons loading in. Check to see if Lag Detection settings are on in the OpenLogger settings and manually roll it back. The clue should be automatically recaptured.
