@@ -3,8 +3,6 @@
 import * as a1lib from "@alt1/base";
 import { ImgRef } from "@alt1/base";
 
-import { Buffer } from "buffer";
-
 import compareImages from "resemblejs/compareImages"
 import pixelmatch from "pixelmatch";
 
@@ -18,7 +16,6 @@ import * as itemsReorgTwo from './JSONs/ItemsAndImagesReorganizedTwo.json';
 import * as itemsLegacyFull from './JSONs/ItemsAndImagesLegacy.json';
 import * as itemsLegacyReorg from './JSONs/ItemsAndImagesLegacyReorganized.json';
 import * as itemsLegacyReorgTwo from './JSONs/ItemsAndImagesLegacyReorganizedTwo.json';
-import { Console } from "console";
 
 //tell webpack to add index.html and appconfig.json to output
 require("!file-loader?name=[name].[ext]!./index.html");
@@ -29,7 +26,8 @@ var tierlist = ["easy", "medium", "hard", "elite", "master"]
 var ignorelist = ["EValue", "ECount", "MValue", "MCount", "HValue",
 	"HCount", "ElValue", "ElCount", "MaValue", "MaCount",
 	"Checked button", "Algorithm", "ItemList", "autoCapture",
-	"rerollToggle", "lagDetect", "multiButtonPressDetect", "hybridPrecision"];
+	"rerollToggle", "lagDetect", "multiButtonPressDetect", 
+	"hybridPrecision", "noMenu"];
 
 var listOfItemsAll;
 var listOfItemsFull;
@@ -60,7 +58,6 @@ var lastValue = 0;
 var lastReroll = [0, 0];
 
 var autoCaptureInterval;
-var autoCaptureTimeout;
 
 var opentabs = [true, true, true, true];
 
@@ -70,6 +67,10 @@ var toggle = true
 
 var autoAdjust = true
 
+var noMenuInterval;
+
+var noMenuValue = false
+
 export function refresh() {
 	location.reload();
 }
@@ -78,6 +79,7 @@ export function initOnLoad(){
 	alt1.overLayClearGroup("overlays");
 	alt1.overLayClearGroup("icon");
 	alt1.overLayClearGroup("lag");
+	alt1.overLayClearGroup("nomenu");
 	
 	alt1.overLaySetGroup("overlays");
 	alt1.overLayTextEx("Initializing OpenLogger...", a1lib.mixColor(255, 144, 0), 20, Math.round(alt1.rsWidth / 2), 200, 50000, "", true, true);
@@ -85,6 +87,7 @@ export function initOnLoad(){
 }
 
 export async function init() {
+
 	buttonDisabler()
 	console.log("Initializing plugin...");
 	let keys = Object.keys(lsdb);
@@ -173,6 +176,17 @@ export async function init() {
 		localStorage.setItem("hybridPrecision", "0.3");
 	}
 
+	// Initialize No Hover rectangle
+	if (localStorage.getItem("noMenu") == null){
+		console.log("Defaulting no menu box to true")
+		localStorage.setItem("noMenu","true")
+		noMenuCheck()
+	}
+	else if(localStorage.getItem("noMenu") == "true"){
+		console.log("Enabling no menu box")
+		noMenuCheck()
+	}
+
 	// Set up image libraries
 	await arraySetup()
 
@@ -184,12 +198,12 @@ export async function init() {
 
 	//Set display
 	lootDisplay()
-
+ 
 	//Set up settings
 	settingsInit()
 	alt1.overLayClearGroup("overlays");
 	alt1.overLaySetGroup("overlays");
-	alt1.overLayTextEx("OpenLogger ready!", a1lib.mixColor(0, 255, 0), 20, Math.round(alt1.rsWidth / 2), 200, 5000, "", true, true);
+	alt1.overLayTextEx("OpenLogger ready!", a1lib.mixColor(100, 255, 100), 20, Math.round(alt1.rsWidth / 2), 200, 5000, "", true, true);
 	console.log("Initialization complete");
 	buttonDisabler()
 }
@@ -1505,7 +1519,7 @@ export function settingsInit() {
 		console.log("Defaulting reroll toggle to on...");
 		var ele = document.getElementById("multion") as HTMLInputElement;
 		ele.checked = true;
-		localStorage.setItem("multion", "on");
+		localStorage.setItem("multion", "true");
 	}
 	else { // If it does, set the button and span
 		console.log("Setting previously set radio button: " + localStorage.getItem("multiButtonPressDetect") + "...");
@@ -1515,6 +1529,24 @@ export function settingsInit() {
 		}
 		else if (localStorage.getItem("multiButtonPressDetect") == "false") {
 			var ele = document.getElementById("multioff") as HTMLInputElement;
+			ele.checked = true;
+		}
+	}
+
+	if (localStorage.getItem("noMenu") == null) { // Remove rerolls init check
+		console.log("Defaulting menu toggle to on...");
+		var ele = document.getElementById("menuon") as HTMLInputElement;
+		ele.checked = true;
+		localStorage.setItem("menuon", "true");
+	}
+	else { // If it does, set the button and span
+		console.log("Setting previously set radio button: " + localStorage.getItem("noMenu") + "...");
+		if (localStorage.getItem("noMenu") == "true") {
+			var ele = document.getElementById("menuon") as HTMLInputElement;
+			ele.checked = true;
+		}
+		else if (localStorage.getItem("noMenu") == "false") {
+			var ele = document.getElementById("menuoff") as HTMLInputElement;
 			ele.checked = true;
 		}
 	}
@@ -1532,7 +1564,7 @@ export function settingsInit() {
 }
 
 
-export async function saveSettings(alg: string, list: string, reroll: string, lag: string, multi: string, precision: string) {
+export async function saveSettings(alg: string, list: string, reroll: string, lag: string, multi: string, menu: string, precision: string) {
 	buttonDisabler()
 	alt1.overLayClearGroup("overlays");
 	alt1.overLaySetGroup("overlays");
@@ -1542,6 +1574,7 @@ export async function saveSettings(alg: string, list: string, reroll: string, la
 	localStorage.setItem("rerollToggle", reroll);
 	localStorage.setItem("lagDetect", lag);
 	localStorage.setItem("hybridPrecision", precision)
+	
 	if (localStorage.getItem("multiButtonPressDetect") !== multi) {
 		localStorage.setItem("multiButtonPressDetect", multi)
 		console.log("Adjusting saved values")
@@ -1566,6 +1599,11 @@ export async function saveSettings(alg: string, list: string, reroll: string, la
 		}
 	}
 
+	if (localStorage.getItem("noMenu") !== menu) {
+		localStorage.setItem("noMenu", menu)
+		noMenuCheck()
+	}
+
 	settingsInit()
 	await arraySetup();
 	if (window.alt1) {
@@ -1576,11 +1614,13 @@ export async function saveSettings(alg: string, list: string, reroll: string, la
 	buttonDisabler()
 }
 
+
 export function autoDisableCheckAuto(event: Event){
 	if(document.getElementById("toggleunlocktrack").classList.contains("enabled")){
 		toggleCapture(event)
 	}
 }
+
 
 export function toggleCapture(event: Event) {
 	try{
@@ -1623,12 +1663,6 @@ function autoCheck() {
 			promises.push(await autoCallCapture());
 			await Promise.all(promises);
 		}, 1000);
-		//autoCaptureTimeout = setTimeout(autoCallCapture, 750)
-		//autoCaptureInterval = window.setInterval(async function(){
-		//	let promises = []
-		//	promises.push(await autoCallCapture());
-		//	await Promise.all(promises)
-		//}, 750);
 	}
 	else {
 		if (localStorage.getItem("multiButtonPressDetect") === "true") {
@@ -1637,15 +1671,42 @@ function autoCheck() {
 			document.getElementById("docapturebuttonwords").style.removeProperty("text-decoration");
 		}
 		window.clearInterval(autoCaptureInterval);
-		clearTimeout(autoCaptureTimeout);
-		autoCaptureTimeout = null;
 		autoCaptureInterval = null;
 	}
 }
 
 
+
 function autoCallCapture() {
 	capture(true);
+}
+
+
+function noMenuCheck(){
+	if (localStorage.getItem("noMenu") === "true") {
+		noMenuInterval = window.setInterval(async function () {
+			alt1.overLayClearGroup("nomenu");
+			alt1.overLaySetGroup("nomenu");
+			var img = a1lib.captureHoldFullRs();
+			var loc = img.findSubimage(await imgs.trailComplete);
+
+			let rewardreader = new ClueRewardReader();
+			rewardreader.pos = ModalUIReader.find()[0];
+			let value = rewardreader.read(img).value;
+			let length = value.toString().length
+			let comma = Math.floor(length / 3)
+			console.log("Highlighting value...")
+			
+			alt1.overLayRect(a1lib.mixColor(255, 0, 0), loc[0].x + 246 - (5 * length) + (1 * comma), loc[0].y + 94, 0 + (8 * length) + (4 * comma), await imgs.trailComplete.height + 6, 60000, 2);
+			alt1.overLayTextEx("NO MENUS HERE", a1lib.mixColor(255, 0, 0), 10, loc[0].x + 245, loc[0].y + 118, 50000, "", true, true);
+			
+		}, 1000);
+	}
+	else {
+		alt1.overLayClearGroup("nomenu");
+		window.clearInterval(noMenuInterval);
+		noMenuInterval = null;
+	}
 }
 
 
