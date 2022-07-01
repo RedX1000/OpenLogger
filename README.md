@@ -59,10 +59,10 @@ This application was created to provide players with a way to easily record thei
 ## Clear Options Menu
 * Clear Options Menu has multiple choices that determine the scope of how much you want to delete from the database of items.
 * There are confirm windows for each option except Refresh page.
-1. Clear currently selected tier: Clears the database of quantities, values, and clue counts from the currently selected tier.
-2. Clear all items from database: Clears the database of quantities, values, and clue counts from all tiers, Easy to Master.
-3. Completely reset OpenLogger: Nuclear option, **COMPLETELY** resets OpenLoggers settings and database. This is a recommended last option for troubleshooting. A value within `localStorage` may or may not change between updates (I try not to), and if it turns out that it breaks it, give this a try, otherwise reach out to me on Discord and we'll chat about it 🙂.
-4. Reset Settings: Sets settings back to default settings. Default settings are marked with an asterisk or in hover-over text.
+1. Reset Settings: Sets settings back to default settings. Default settings are marked with an asterisk or in hover-over text.
+2. Clear currently selected tier: Clears the database of quantities, values, and clue counts from the currently selected tier.
+3. Clear all items from database: Clears the database of quantities, values, and clue counts from all tiers, Easy to Master.
+4. Completely reset OpenLogger: Nuclear option, **COMPLETELY** resets OpenLoggers settings and database. This is a recommended last option for troubleshooting. A value within `localStorage` may or may not change between updates (I try not to), and if it turns out that it breaks it, give this a try, otherwise reach out to me on Discord and we'll chat about it 🙂. 
 5. Refresh page: Refreshes the plugin webpage, does not delete anything.
 <br><br>
 ## Toggleable loot tabs
