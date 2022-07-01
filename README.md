@@ -28,7 +28,7 @@ This application was created to provide players with a way to easily record thei
 * [Capture Rewards](#capture-rewards)
 * [AutoCapture](#autocapture)
 * [Settings](#settings)
-* [Hybrid](#hybrid-a-mix-of-the-two-pixelmatch-runs-first-then-resemblejs-great-balance-of-speed-and-accuracy-enabled-by-default)
+* [Hybrid](#image-searching-algorithm)
 * [Avoiding menus causing multi-capturing](#a-few-tips-on-where-to-avoid-having-menus-appearing-over-the-value)
  # Instructions on how to use
  ### Capture Rewards
@@ -80,7 +80,7 @@ This application was created to provide players with a way to easily record thei
 2. Pixelmatch: Image recognition library using [`Pixelmatch`](https://github.com/mapbox/pixelmatch) that compares images pixel by pixel for and returns a percentage value. It is very fast, but can be less accurate than ResembleJS.
     * Recommended image collections: OrgList or OrgMinus, but you can use any library with good speed. There is a known issue with TwoPlus and All Items libraries listed below.
     * Pixelmatch has an issue where some items read incorrectly while using TwoPlus and All Images, i.e. Huge plated adamant salvage being read as Huge plated rune salvage. Send me a DM on discord if you run into other misreads with this configuration. 
-3. ##### Hybrid: A mix of the two. Pixelmatch runs first then ResembleJS. Great balance of speed and accuracy. Enabled by default.
+3. Hybrid: A mix of the two. Pixelmatch runs first then ResembleJS. Great balance of speed and accuracy. Enabled by default.
     * Recommended image collections: OrgList and OrgMinus.
     * You could use TwoPlus or All Images for more items to compare. It shouldn't make a big difference in accuracy, especially with how Hybrid works. 
     * When using Hybrid, TwoPlus and All Images works perfectly, but takes longer.
