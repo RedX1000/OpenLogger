@@ -41,7 +41,7 @@
 								<input type="radio" id="master" name="clue_scroll_level" class="clue_scroll_level" value="master" onclick="TEST.changeClueTierSpan('master', event);">
 							</div>
 						</div>
-						<h3 class="clue_scrolls_button_footer">06/29/2022: See below</h3> <!--style="color: rgb(255, 94, 0)"-->
+						<h3 class="clue_scrolls_button_footer">07/04/2022: See below</h3> <!--style="color: rgb(255, 94, 0)"-->
 					</div>
 					<div class="main_buttons" id="top">
 						<div id="bottom_buttons">
@@ -85,7 +85,7 @@
 							<div id="ninth_item" class="rewards"></div>
 						</div>
 						<div id="bottom_buttons">
-							<div id="rollback_button" class="nisbutton" onclick="TEST.rollback();">Rollback</div>	
+							<div id="rollback_button" class="nisbutton" data-toggle="modal" data-target="#rollback">Rollback</div><!--onclick="TEST.rollback();"-->	
 							<div id="insert_button" class="nisbutton" data-toggle="modal" data-target="#insert"><strike>&nbsp;Insert&nbsp;</strike></div>
 							<!-- onclick="TEST.insert();" -->
 						</div>
@@ -94,10 +94,6 @@
 			</div>
 		</header>
 		<mainsection>
-			<!-- Consider making the tabs toggleable to hide them 
-					- Create assets for the tabs for on hover and onclick
-					- Have is hide display for its respective child
-			-->
 			<div class="broadcasts">
 				<div class="broadcasts_title"><span id="broadcasts_rewards" onclick="TEST.toggleLootDisplay(this.id)" title="Click here to hide broadcast rewards">&nbsp;Broadcast Rewards&nbsp;</span></div>
 				<div class="bottom_border"></div>
@@ -122,7 +118,7 @@
 		<footer>
 			<div class="footer_bar"></div>
 			<div class="copyright">
-				&nbsp;&nbsp;<span style="color: rgb(235, 196, 22)">06/29/2022: For those with existing versions of OpenLogger, Click "Clear Options Menu", and reset settings for recommended settings.<br></span>
+				&nbsp;&nbsp;<span style="color: rgb(235, 196, 22)">07/04/2022: For those with existing versions of OpenLogger, Click "Clear Options Menu", and then completely reset OpenLogger for a fresh experience.<br></span>
 				&nbsp;&nbsp;Reach out on Discord for bug reports and inquiries @ RedX1000#3655<br>
 				&nbsp;&nbsp;More information and troubleshooting on the <a id="githublink" href="alt1://browser/https://github.com/RedX1000/OpenLogger">Github Page</a>
 			</div>
@@ -230,6 +226,12 @@
 		                            <input type="number" min="0" max="2" step="0.1" value="0.3" id="hybrid_precision" name="precision" class="hybrid_precision_text" title="Determines the level of precision for the Hybrid Algorithm.&#013;&#013;Lower: More precise & faster, Higher: Less precise & slower.&#013;&#013;Default is 0.3, lowest value is 0.1 and highest value is 1.0">
 		                        </div>
 		                    </div>
+							<label class="title_labels" title="Determines how many previous clues will display in the Rollback menu at one time.&#013;&#013;Default value is 25.">Rollback Display Limit:<br></label>
+		                    <div id="rollback_display_field">
+		                        <div class="main_divs">
+		                            <input type="number" min="0" step="1" value="25" id="rollback_display_limit" name="rollbacklimit" class="rollback_display_text" title="Determines how many previous clues will display in the Rollback menu at one time.&#013;&#013;Default value is 25.">
+		                        </div>
+		                    </div>
 		                    <label class="title_labels" title="Determines whether clues are automatically captured or not. The lock on the capture button toggles this.">Autocapture:<br></label>
 		                    <div id="reroll_buttons">
 		                        <div class="main_divs">
@@ -241,7 +243,7 @@
 		            <div class="modal-footer">
 		                <div id="choice_buttons">
 		                    <div id="confirm_button" class="nisbutton" data-dismiss="modal" onclick="getSaveDetails();">Confirm</div>
-		                    <div id="cancel_button" class="nisbutton" data-dismiss="modal" onclick="TEST.settingsInit()">Cancel</div>
+		                    <div id="cancel_button" class="nisbuttonblue" data-dismiss="modal" onclick="TEST.settingsInit()">Cancel</div>
 		                </div>
 		                <!-- <button type="button" class="btn btn-default" >Close</button>
 		                    <button type="button" class="btn btn-primary" id="dont-show-again">Don't Show Again</button> -->
@@ -251,13 +253,13 @@
 		</div>
 		<!-- END SETTINGS MODAL -->
 
-		<!-- CLEAR DATABASE MODAL -->
+		<!-- CLEAR OPTIONS MENU MODAL -->
 		<div class="modal fade " id="cleardb" tabindex="-1" role="dialog" aria-labelledby="important-msg-label" aria-hidden="true">
 			<div class="modal-dialog">
 			  	<div class="modal-content">
 					<div class="modal-header">
 				  		<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true" class="close_x">&times;</span><span class="sr-only">Close</span></button>
-				  		<h1 class="modal-title" id="important-msg-label">Clear database options<span id="hovertip" title="Hover over the options to learn more!&#013;&#013;Explore the Github link in the footer for more details.">&hairsp;&hairsp;&nbsp;?&nbsp;&hairsp;&hairsp;</span></h1>
+				  		<h1 class="modal-title" id="important-msg-label">Clear Options Menu<span id="hovertip" title="Hover over the options to learn more!&#013;&#013;Explore the Github link in the footer for more details.">&hairsp;&hairsp;&nbsp;?&nbsp;&hairsp;&hairsp;</span></h1>
 					</div>
 					<div class="modal-body">
 						<div id="clear_db_buttons">
@@ -266,14 +268,14 @@
 							<div id="db_confirm_button" class="nisbutton" data-toggle="modal" data-target="#resetTierVerif" title="Clear the currently selected tier of items only.">Clear currently selected tier</div>
 							<div id="db_confirm_button" class="nisbutton" data-toggle="modal" data-target="#resetSettingsVerif" title="Reset settings back to default.">Reset settings</div>
 							<div id="db_confirm_button" class="nisbutton" onclick="javascript:window.location.reload()" title="Refreshes the page. Does not clear the DB, but may help push an update.">Refresh page</div>
-							<div id="db_confirm_button" class="nisbutton" data-dismiss="modal" onclick="" title="Do nothing. Go. Get out of here. Leave.">Cancel</div>
+							<div id="db_confirm_button" class="nisbuttonblue" data-dismiss="modal" onclick="" title="Do nothing. Go. Get out of here. Leave.">Cancel</div>
 						</div>
 					</div>
 					<div class="modal-footer"> *There are verification screens for each option except Refresh<br>It is strongly recommended to pause Autocapture before deleting anything</div>
 			  	</div>
 			</div>
 		</div>
-		<!-- END CLEAR DATABASE MODAL -->
+		<!-- END CLEAR OPTIONS MENU MODAL -->
 
 		<!-- RESET OPENLOGGER VERIFICATION MODAL -->
 		<div class="modal fade " id="resetOpenVerif" tabindex="-1" role="dialog" aria-labelledby="important-msg-label" aria-hidden="true">
@@ -281,12 +283,12 @@
 			  	<div class="modal-content">
 					<div class="modal-header">
 				  		<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true" class="close_x">&times;</span><span class="sr-only">Close</span></button>
-				  		<h1 class="modal-title" id="important-msg-label">Completely reset OpenLogger?<span id="hovertip" title="Hover over the options to learn more!&#013;&#013;Explore the Github link in the footer for more details.">&hairsp;&hairsp;&nbsp;?&nbsp;&hairsp;&hairsp;</span></h1>
+				  		<h1 class="modal-title" id="important-msg-label">Completely Reset OpenLogger?<span id="hovertip" title="Hover over the options to learn more!&#013;&#013;Explore the Github link in the footer for more details.">&hairsp;&hairsp;&nbsp;?&nbsp;&hairsp;&hairsp;</span></h1>
 					</div>
 					<div class="modal-body">
 						<div id="clear_db_buttons">
 							<div id="db_confirm_button" class="nisbutton" data-dismiss="modal" onclick="TEST.cleardb(1)" title="Nuclear option, completely resets plugin, but can be used to troubleshoot">Reset everything</div>
-							<div id="db_confirm_button" class="nisbutton" data-dismiss="modal" data-toggle="modal" data-target="#cleardb" onclick="" title="Do nothing. Go. Get out of here. Leave.">Cancel</div>
+							<div id="db_confirm_button" class="nisbuttonblue" data-dismiss="modal" data-toggle="modal" data-target="#cleardb" onclick="" title="Do nothing. Go. Get out of here. Leave.">Cancel</div>
 						</div>
 					</div>
 					<div class="modal-footer"></div>
@@ -301,12 +303,12 @@
 			  	<div class="modal-content">
 					<div class="modal-header">
 				  		<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true" class="close_x">&times;</span><span class="sr-only">Close</span></button>
-				  		<h1 class="modal-title" id="important-msg-label">Clear all items from database?<span id="hovertip" title="Hover over the options to learn more!&#013;&#013;Explore the Github link in the footer for more details.">&hairsp;&hairsp;&nbsp;?&nbsp;&hairsp;&hairsp;</span></h1>
+				  		<h1 class="modal-title" id="important-msg-label">Clear All Items From Database?<span id="hovertip" title="Hover over the options to learn more!&#013;&#013;Explore the Github link in the footer for more details.">&hairsp;&hairsp;&nbsp;?&nbsp;&hairsp;&hairsp;</span></h1>
 					</div>
 					<div class="modal-body">
 						<div id="clear_db_buttons">
 							<div id="db_confirm_button" class="nisbutton" data-dismiss="modal" onclick="TEST.cleardb(2)" title="Nuclear option, completely resets plugin, but can be used to troubleshoot">Clear all items</div>
-							<div id="db_confirm_button" class="nisbutton" data-dismiss="modal" data-toggle="modal" data-target="#cleardb" onclick="" title="Do nothing. Go. Get out of here. Leave.">Cancel</div>
+							<div id="db_confirm_button" class="nisbuttonblue" data-dismiss="modal" data-toggle="modal" data-target="#cleardb" onclick="" title="Do nothing. Go. Get out of here. Leave.">Cancel</div>
 						</div>
 					</div>
 					<div class="modal-footer"></div>
@@ -326,7 +328,7 @@
 					<div class="modal-body">
 						<div id="clear_db_buttons">
 							<div id="db_confirm_button" class="nisbutton" data-dismiss="modal" onclick="TEST.cleardb(3)" title="Reset settings back to default.">Reset settings</div>
-							<div id="db_confirm_button" class="nisbutton" data-dismiss="modal" data-toggle="modal" data-target="#cleardb" onclick="" title="Do nothing. Go. Get out of here. Leave.">Cancel</div>
+							<div id="db_confirm_button" class="nisbuttonblue" data-dismiss="modal" data-toggle="modal" data-target="#cleardb" onclick="" title="Do nothing. Go. Get out of here. Leave.">Cancel</div>
 						</div>
 					</div>
 					<div class="modal-footer"></div>
@@ -341,12 +343,12 @@
 			  	<div class="modal-content">
 					<div class="modal-header">
 				  		<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true" class="close_x">&times;</span><span class="sr-only">Close</span></button>
-				  		<h1 class="modal-title" id="important-msg-label">Clear rewards from <span class="current_tier_button">?<span id="hovertip" title="Hover over the options to learn more!&#013;&#013;Explore the Github link in the footer for more details.">&hairsp;&hairsp;&nbsp;?&nbsp;&hairsp;&hairsp;</span></h1>
+				  		<h1 class="modal-title" id="important-msg-label">Clear rewards from <span class="current_tier_button"></span> tier?<span id="hovertip" title="Hover over the options to learn more!&#013;&#013;Explore the Github link in the footer for more details.">&hairsp;&hairsp;&nbsp;?&nbsp;&hairsp;&hairsp;</span></h1>
 					</div>
 					<div class="modal-body">
 						<div id="clear_db_buttons">
 							<div id="db_confirm_button" class="nisbutton" data-dismiss="modal" onclick="TEST.cleardb(4)" title="Completely clear all rewards from currently selected tier">Clear <span class="current_tier_button"></span> tier</div>
-							<div id="db_confirm_button" class="nisbutton" data-dismiss="modal" data-toggle="modal" data-target="#cleardb" onclick="" title="Do nothing. Go. Get out of here. Leave.">Cancel</div>
+							<div id="db_confirm_button" class="nisbuttonblue" data-dismiss="modal" data-toggle="modal" data-target="#cleardb" onclick="" title="Do nothing. Go. Get out of here. Leave.">Cancel</div>
 						</div>
 					</div>
 					<div class="modal-footer"></div>
@@ -354,6 +356,25 @@
 			</div>
 		</div>
 		<!-- END RESET CURRENT TIER VERIFICATION MODAL -->
+
+		<!-- ROLLBACK MODAL -->
+		<div class="modal fade " id="rollback" tabindex="-1" role="dialog" aria-labelledby="important-msg-label" aria-hidden="true">
+			<div class="modal-dialog">
+			  	<div class="modal-content">
+					<div class="modal-header">
+				  		<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true" class="close_x">&times;</span><span class="sr-only">Close</span></button>
+				  		<h1 class="modal-title" id="important-msg-label">Rollback <span class="current_tier_button" id="rollback_tier_caps"></span> Clue Rewards<span id="hovertip" title="Hover over the options to learn more!&#013;&#013;Explore the Github link in the footer for more details.">&hairsp;&hairsp;&nbsp;?&nbsp;&hairsp;&hairsp;</span></h1>
+						<h2 id="rollback_quantity_title">Displaying the last <span id="rollback_quantity"></span> captured clues</h2>
+					</div>
+					<div class="modal-body" id="rollback_body">
+					</div>
+					<div class="modal-footer">
+						<div id="db_return_button" class="nisbuttonblue" data-dismiss="modal" onclick="">Return</div>
+					</div>
+			  	</div>
+			</div>
+		</div>
+		<!-- END ROLLBACK MODAL -->
 
 		<!-- INSERT MODAL -->
 		<div class="modal fade " id="insert" tabindex="-1" role="dialog" aria-labelledby="important-msg-label" aria-hidden="true">
@@ -369,7 +390,7 @@
 					<div class="modal-footer">
 						<div id="choice_buttons">
 							<div id="confirm_button" class="nisbutton" data-dismiss="modal" onclick="">Confirm</div>
-							<div id="cancel_button" class="nisbutton" data-dismiss="modal" onclick="">Cancel</div>
+							<div id="cancel_button" class="nisbuttonblue" data-dismiss="modal" onclick="">Cancel</div>
 						</div>
 					</div>
 			  	</div>
@@ -393,6 +414,7 @@
     		    let multi;
 				let menu;
 				let precision;
+				let limit;
 
 				if(document.getElementById("resemblejs").checked)
 					alg = "resemblejs"
@@ -446,7 +468,20 @@
 					precision = "0.3"
 				}
 
-    		    TEST.saveSettings(alg, list, reroll, lag, multi, menu, precision)
+				if(document.getElementById("rollback_display_limit").getAttribute("value") != null){
+					if(document.getElementById("rollback_display_limit").value < 0){
+						limit = 0
+					}
+					else{
+				 		limit = document.getElementById("rollback_display_limit").value
+						limit = Math.trunc(limit)
+					}
+				}
+				else{
+					limit = "25"
+				}
+
+    		    TEST.saveSettings(alg, list, reroll, lag, multi, menu, precision, limit)
 			}
   		</script>
 

@@ -238,6 +238,82 @@
   color: white;
 }
 
+/* Blue version of nisbutton, custom */
+.nisbuttonblue {
+  height: 32px;
+  position: relative;
+  background: url("alt1-currentskin/nisbuttonblue.png") 0px -100% / 10px 400% repeat content-box;
+  cursor: pointer;
+  text-align: center;
+  color: #000;
+  font-family: "trajan-pro-3";
+  text-shadow: 1px 1px 2px #004f8f9f;
+  font-size: 18px;
+  /* margin: 10px 5%; */
+  margin: 4px 0%;
+  padding: 0px 12px 0px 12px;
+  line-height: 32px;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.nisbuttonblue::before {
+  width: 12px;
+  height: 100%;
+  content: "";
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  background: url("alt1-currentskin/nisbuttonblue.png") 0px 0px / 24px 400%;
+}
+.nisbuttonblue::after {
+  width: 12px;
+  height: 100%;
+  content: "";
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  background: url("alt1-currentskin/nisbuttonblue.png") -12px 0px / 24px 400%;
+}
+.nisbuttonblue:hover {
+  background-position: 0px -300%;
+}
+.nisbuttonblue:hover::before {
+  background-position: 0px -200%;
+}
+.nisbuttonblue:hover::after {
+  background-position: -12px -200%;
+}
+.nisbuttonblue:active,
+.nisbuttonblue.fakeactive {
+  -webkit-filter: brightness(1.2);
+  filter: brightness(1.2);
+}
+.nissmallbutton {
+  line-height: 26px;
+  height: 26px;
+  font-size: 12px;
+}
+
+.pb2_nis .pb2-button,
+.nisbuttonblue2 {
+  padding: 0.15em;
+  border: 1px solid #485b65;
+  border-radius: 3px;
+  background: linear-gradient(to bottom, #2a799c, #123443 25%);
+  font-weight: bold;
+  color: #ddd;
+  cursor: pointer;
+  box-shadow: 0px 0px 5px #152932 inset;
+  text-align: center;
+  box-sizing: border-box;
+}
+.pb2_nis .pb2-button:hover,
+.nisbuttonblue2:hover {
+  background: linear-gradient(to bottom, #2a799c, #1b4e65 25%);
+  color: white;
+}
+
+
 *[data-nistitle-r]:hover::before,
 *[data-nistitle-l]:hover::before,
 *[data-nistitle-rt]:hover::before,
@@ -706,7 +782,7 @@ mainsection {
 .common_title :hover,
 .rare_title :hover,
 .broadcasts_title :hover {
-  color:rgb(240, 178, 22);
+  color:#f0b216;
   cursor: pointer;
 }
 
@@ -847,12 +923,14 @@ label{
     font-size: 15px;
 }
 
-#hybrid_precision{
+#hybrid_precision,
+#rollback_display_limit{
   font-size: 15px;
   font-weight: 700;
   color:#000;
   background-color: #d6d6d6;
   padding-left: 5px;
+  width: 80px;
 }
 
 #choice_buttons{
@@ -935,6 +1013,17 @@ label{
   line-height: 32px;
   user-select: none;
   margin: 40px auto;
+}
+
+#db_return_button{
+  width: 80%;
+  cursor: pointer;
+  color: #000;
+  font-family: "trajan-pro-3";
+  font-size: 18px;
+  line-height: 32px;
+  user-select: none;
+  margin: auto auto;
 }
 
 /*font stolen from jagex*/

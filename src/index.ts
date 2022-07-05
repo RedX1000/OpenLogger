@@ -23,11 +23,15 @@ require("!file-loader?name=[name].[ext]!./appconfig.json");
 
 var rewardSlots = ["first_item", "second_item", "third_item", "fourth_item", "fifth_item", "sixth_item", "seventh_item", "eigth_item", "ninth_item"];
 var tierlist = ["easy", "medium", "hard", "elite", "master"]
+
+// When adding new objects to LocalStorage that ARE NOT items, put that object into this list
+// Otherwise displaying items to the rewards display will break.
 var ignorelist = ["EValue", "ECount", "MValue", "MCount", "HValue",
 	"HCount", "ElValue", "ElCount", "MaValue", "MaCount",
 	"Checked button", "Algorithm", "ItemList", "autoCapture",
 	"rerollToggle", "lagDetect", "multiButtonPressDetect", 
-	"hybridPrecision", "noMenu"];
+	"hybridPrecision", "noMenu", "Rollback", "PrimaryKeyRollback",
+	"RollbackDisplayLimit"];
 
 var listOfItemsAll;
 var listOfItemsFull;
@@ -69,9 +73,11 @@ var autoAdjust = true
 
 var noMenuInterval;
 
+
 export function refresh() {
 	location.reload();
 }
+
 
 export function initOnLoad(){
 	alt1.overLayClearGroup("overlays");
@@ -124,12 +130,10 @@ export async function init() {
 	}
 	else {
 		if(autoAdjust == true){
-			if (localStorage.getItem("autoCapture") == "true")
-				document.getElementById("toggleunlocktrack").classList.add("enabled")
-			else {
+			if (localStorage.getItem("autoCapture") == "true"){
 				document.getElementById("toggleunlocktrack").classList.remove("enabled")
+				localStorage.setItem("autoCapture", "false");
 			}
-			autoCheck()
 		}
 		else{
 			autoAdjust = true
@@ -177,12 +181,29 @@ export async function init() {
 	// Initialize No Hover rectangle
 	if (localStorage.getItem("noMenu") == null){
 		console.log("Defaulting no menu box to true")
-		localStorage.setItem("noMenu","true")
-		noMenuCheck()
+		localStorage.setItem("noMenu","false")
 	}
 	else if(localStorage.getItem("noMenu") == "true"){
 		console.log("Enabling no menu box")
 		noMenuCheck()
+	}
+
+	// Initialize Rollback
+	if (localStorage.getItem("Rollback") == null){
+		console.log("Creating rollback")
+		localStorage.setItem("Rollback",JSON.stringify([]))
+	}
+
+	// Initialize primary key for rollbacks
+	if (localStorage.getItem("PrimaryKeyRollback") == null){
+		console.log("Creating rollback primary key")
+		localStorage.setItem("PrimaryKeyRollback", "1")
+	}
+
+	// Initialize rollback display limit
+	if (localStorage.getItem("RollbackDisplayLimit") == null){
+		console.log("Creating rollback display limit")
+		localStorage.setItem("RollbackDisplayLimit", "25")
 	}
 
 	// Set up image libraries
@@ -199,6 +220,10 @@ export async function init() {
  
 	//Set up settings
 	settingsInit()
+
+	//Set up rollback window
+	rollbackInit()
+
 	alt1.overLayClearGroup("overlays");
 	alt1.overLaySetGroup("overlays");
 	alt1.overLayTextEx("OpenLogger ready!", a1lib.mixColor(100, 255, 100), 20, Math.round(alt1.rsWidth / 2), 200, 5000, "", true, true);
@@ -230,11 +255,16 @@ export async function changeClueTierSpan(id: string, event: Event) {
 		document.getElementById(rewardSlots[i]).textContent = "";
 	}
 
+	// Set up rollback window
+	await rollbackClear()
+	rollbackInit()
+
 	// Set up arrays
 	await arraySetup()
 
 	//Set display
 	lootDisplay()
+
 
 	alt1.overLayClearGroup("overlays");
 	alt1.overLaySetGroup("overlays");
@@ -257,12 +287,13 @@ export async function cleardb(choice: any) {
 
 		localStorage.clear();
 		document.getElementById("toggleunlocktrack").classList.remove("enabled");
-		init();
+		
+		//await init();
 
 		if (window.alt1) {
 			alt1.overLayClearGroup("overlays");
 			alt1.overLaySetGroup("overlays");
-			alt1.overLayTextEx("OpenLogger successfully reset!", a1lib.mixColor(100, 255, 100), 20, Math.round(alt1.rsWidth / 2), 200, 4000, "", true, true);
+			alt1.overLayTextEx("OpenLogger successfully reset! Restarting...", a1lib.mixColor(100, 255, 100), 20, Math.round(alt1.rsWidth / 2), 200, 4000, "", true, true);
 		}
 		await new Promise(resolve => setTimeout(resolve, 750));
 		location.reload()
@@ -289,7 +320,10 @@ export async function cleardb(choice: any) {
 			localStorage.removeItem(clearlist[i]);
 		}
 
-		init();
+		await init();
+		
+		localStorage.setItem("Rollback","[]")
+
 		if (window.alt1) {
 			alt1.overLayClearGroup("overlays");
 			alt1.overLaySetGroup("overlays");
@@ -307,7 +341,7 @@ export async function cleardb(choice: any) {
 		// Yay learning for(const item of array) :))))
 		var temp = ignorelist.slice()
 		for(const item of temp){
-			if(!(["EValue", "ECount", "MValue", "MCount", "HValue", "HCount", "ElValue", "ElCount", "MaValue", "MaCount", "autoCapture"].includes(item))){
+			if(!(["EValue", "ECount", "MValue", "MCount", "HValue", "HCount", "ElValue", "ElCount", "MaValue", "MaCount", "autoCapture", "PrimaryKeyRollback", "Rollback"].includes(item))){
 				localStorage.removeItem(item)
 			}
 		}
@@ -338,6 +372,15 @@ export async function cleardb(choice: any) {
 			localStorage.setItem(keys[i], JSON.stringify(temp));
 		}
 
+		let lsRollback = JSON.parse(localStorage.getItem("Rollback"))
+		for(let i = lsRollback.length - 1; i >= 0; i--){
+			if(lsRollback[i][3][0] == currentTier()[0]){
+				let temp = lsRollback[i]
+				lsRollback.splice(i, 1)
+				localStorage.setItem("Rollback",JSON.stringify(lsRollback))
+			}
+		}
+
 		if (window.alt1) {
 			alt1.overLayClearGroup("overlays");
 			alt1.overLaySetGroup("overlays");
@@ -345,6 +388,15 @@ export async function cleardb(choice: any) {
 				a1lib.mixColor(100, 255, 100), 20, Math.round(alt1.rsWidth / 2), 200, 4000, "", true, true);
 		}
 	}
+	
+	let ele = document.getElementById("rollback_body")
+	let container = document.createElement("div")
+	container.textContent = "There's nothing here. Start scanning!"
+	container.setAttribute('style','font-size: 20px; text-align: center; margin: auto; padding: auto;')
+	ele.append(container)
+
+	await rollbackClear()
+	rollbackInit()
 
 	document.getElementById("number_of_clues").textContent = "0";
 	document.getElementById("value_of_clues").textContent = "0";
@@ -444,20 +496,27 @@ async function findtrailComplete(img: ImgRef, autobool: boolean) {
 	try {
 		try {
 			var loc = img.findSubimage(await imgs.trailCompleteLegacy);
-			let testvalue = 0 + loc[0].x;
+			let testvalue = 0 + loc[0].x; // Tests and breaks
 			console.log("legacy window");
 			legacy = true;
 		} catch (e) {
 			try {
-				//TODO: add legacy support for reroll window checking
 				try {
-					var loc = img.findSubimage(await imgs.rerollWindow);
-					let testvalue = 0 + loc[0].x;
-					console.log("reroll window");
-					reroll = false;
+					try {
+						//TODO: add legacy support for reroll window checking
+						var loc = img.findSubimage(await imgs.rerollWindow/*Legacy*/);
+						let testvalue = 0 + loc[0].x; // Tests and breaks
+						console.log("reroll window");
+						reroll = false;
+					} catch (e) {
+						var loc = img.findSubimage(await imgs.rerollWindow);
+						let testvalue = 0 + loc[0].x; // Tests and breaks
+						console.log("reroll window");
+						reroll = false;
+					}
 				} catch (e) {
 					var loc = img.findSubimage(await imgs.trailComplete);
-					let testvalue = 0 + loc[0].x;
+					let testvalue = 0 + loc[0].x; // Tests and breaks
 					console.log("Non-legacy window");
 					legacy = false;
 				}
@@ -521,10 +580,10 @@ async function findtrailComplete(img: ImgRef, autobool: boolean) {
 		} catch (e) {
 			return;
 		}
-		console.log(value, lastValue, valueList, lastValueList)
-		console.log("Is",value,"equal to",lastValue,"?")
-		console.log("Is",lastValue,"located in",valueList,"?")
-		console.log("Is",value,"located in",lastValueList,"?")
+		///console.log(value, lastValue, valueList, lastValueList)
+		///console.log("Is",value,"equal to",lastValue,"?")
+		///console.log("Is",lastValue,"located in",valueList,"?")
+		///console.log("Is",value,"located in",lastValueList,"?")
 		if (autobool == true) {
 			if (lastValue == 0) {
 				// Pass
@@ -533,7 +592,7 @@ async function findtrailComplete(img: ImgRef, autobool: boolean) {
 			else if (value == lastValue){
 				return
 			}
-			else if (valueList.includes(lastValue.toString()) && lastValueList.includes(value.toString())) {
+			else if (/*valueList.includes(lastValue.toString()) ||*/ lastValueList.includes(value.toString())) {
 				return;
 			}
 		}
@@ -703,6 +762,14 @@ async function findtrailComplete(img: ImgRef, autobool: boolean) {
 			}
 		}
 
+		// Tweaks for Pixelmatch on TwoMatch or All Images. Don't rely on this...
+		// It's a hardcode. I hate it.
+		for(let i = 0; i > itemResults.length; i++){
+			if(currentTier[0] == "medium" && itemResults[i] == "Huge plated rune salvage"){
+				itemResults[i] = "Huge plated adamant salvage"
+			}
+		}
+
 
 		// Give me the quantity of the items!
 		var quantResults = [];
@@ -725,6 +792,13 @@ async function findtrailComplete(img: ImgRef, autobool: boolean) {
 			var notSuccess = 1 / 0;
 		}
 
+		// Record data for last casket
+		lastItems = itemResults.slice();
+		lastQuants = quantResults.slice();
+		lastTier = currentTier();
+
+		addRollbackToLs(lastValue, lastItems, lastQuants, lastTier)
+		
 		// Put the items and quantites on the display!
 		document.getElementById("rewards_value").textContent = value.toLocaleString("en-US");
 		for (let i = 0; i < 9; i++) {
@@ -740,6 +814,7 @@ async function findtrailComplete(img: ImgRef, autobool: boolean) {
 			nodevar.setAttribute('title', quantResults[i] + " x " + itemResults[i]);
 			imgvar.src = encodeURI("./images/items/" + itemResults[i] + ".png");
 			imgvar.setAttribute('style', 'margin:auto;');
+			imgvar.ondragstart = function() { return false; };
 			quantvar.textContent = quantResults[i];
 			if (!quantResults[i].includes("k")) {
 				quantvar.setAttribute('style', 'position:absolute; left:0; top:-5px; font-family:Runescape Chat Font; font-size:16px; color:rgb(255,255,0); color:rgb(255,255,0); text-shadow:1px 1px #000000;');
@@ -755,10 +830,6 @@ async function findtrailComplete(img: ImgRef, autobool: boolean) {
 		//Show it on the screen!
 		lootDisplay();
 
-		// Record data for last casket
-		lastItems = itemResults.slice();
-		lastQuants = quantResults.slice();
-		lastTier = currentTier();
 
 		//console.log("Value at end of script is",lastValue)
 		//console.log(lastItems, lastQuants, lastTier, lastValue)
@@ -852,9 +923,6 @@ async function compareItems(item: ImageData) {
 			var imgset = listOfItemsLegacyReorgTwo
 		}
 	}
-
-	//console.log("DEBUG",matches)
-	//TODO: fix ther link issue on the github in markdown
 
 	//Check if the item is blank first
 	var imgdata = await compareImages(item, matches[0][1], { output: {}, ignore: "less" });
@@ -951,6 +1019,7 @@ async function compareItems(item: ImageData) {
 	console.log(found[0]);
 	return found[0];
 }
+
 
 async function readQuantities(item: ImageData) {
 	// Instead oif reading top to bottom individulally, 
@@ -1080,11 +1149,10 @@ async function submitToLS(item: any[], quant: any[], value: any) {
 
 	//Add items to database
 	console.log("Adding to database...");
-	console.log(quant);
 	for (let i = 0; i < quant.length; i++) {
 		// If you get null or undefined here, check if one of your rewards doesn't exist in LocalStorage or LocalStorageInit
 		// Or maybe the name might be incorrectly written in, idk
-		console.log("checking if in array", item[i]);
+		//console.log("checking if in array", item[i]);
 		if (JSON.parse(localStorage.getItem(item[i])).tier.includes(current[0])) {
 			let temp = JSON.parse(localStorage.getItem(item[i]));
 			let tempQuant = quant[i].slice();
@@ -1092,7 +1160,7 @@ async function submitToLS(item: any[], quant: any[], value: any) {
 				tempQuant = tempQuant.slice(0, -1);
 				tempQuant += "000";
 			}
-			temp.quantity[current[0]] = (parseInt(temp.quantity[current[0]]) + parseInt(tempQuant)).toString();
+			temp.quantity[current[0]] = parseInt(temp.quantity[current[0]]) + parseInt(tempQuant);
 			localStorage.setItem(item[i], JSON.stringify(temp));
 		}
 		else {
@@ -1133,32 +1201,35 @@ function tabDisplay(current: string) {
 		divs[i].textContent = "";
 	}
 	for (let i = 0; i < keys.length; i++) {
-		//console.log('DEBUG:', keys[i], current)
+		// console.log(keys[i]) Check this in case of a break
 		if (ignorelist.includes(keys[i]) || JSON.parse(localStorage.getItem(keys[i])).quantity[current] == 0) {
 			continue;
 		}
-		//console.log(JSON.parse(localStorage.getItem(keys[i])).tab + "_loot");
+
 		let ele = document.getElementById(JSON.parse(localStorage.getItem(keys[i])).tab + "_loot");
 		let nodevar = document.createElement("itembox");
 		let imgvar = document.createElement("img");
 		let quantvar = document.createElement("span");
-		nodevar.setAttribute('style', 'position:relative; margin: 3 5 0 1; padding:0 42px 0px 2px; width:37px; height:37px; display:flex; align-items:center; text-align:center; order: ' + parseInt(JSON.parse(localStorage.getItem(keys[i])).order) + ';');
+
+		nodevar.setAttribute('style', 'position:relative; margin: 3px 7px 0px 1px; padding:auto 30px auto auto; width:37px; height:37px; display:flex; align-items:center; text-align:center; order: ' + parseInt(JSON.parse(localStorage.getItem(keys[i])).order) + ';');
 		nodevar.setAttribute('title', JSON.parse(localStorage.getItem(keys[i])).quantity[current] + " x " + keys[i])
 		imgvar.src = encodeURI("./images/items/" + keys[i] + ".png");
 		imgvar.setAttribute('style', 'margin:0 auto;');
-		//console.log(parseInt(JSON.parse(localStorage.getItem(keys[i])).quantity[current]));
+		imgvar.ondragstart = function() { return false; };
+		
 		if (parseInt(JSON.parse(localStorage.getItem(keys[i])).quantity[current]) > 9999999) {
-			quantvar.setAttribute('style', 'position:absolute; left:0; top:-5px; font-family:Runescape Chat Font; font-size:16px; color:rgb(0,255,128); text-shadow:1px 1px #000000;');
+			quantvar.setAttribute('style', 'position:absolute; left:0px; top:-5px; font-family:Runescape Chat Font; font-size:16px; color:rgb(0,255,128); text-shadow:1px 1px #000000;');
 			quantvar.textContent = Math.trunc(parseInt(JSON.parse(localStorage.getItem(keys[i])).quantity[current]) / 1000000).toString() + "M";
 		}
 		else if (parseInt(JSON.parse(localStorage.getItem(keys[i])).quantity[current]) > 99999) {
-			quantvar.setAttribute('style', 'position:absolute; left:0; top:-5px; font-family:Runescape Chat Font; font-size:16px; color:rgb(255,255,255); text-shadow:1px 1px #000000;');
+			quantvar.setAttribute('style', 'position:absolute; left:0px; top:-5px; font-family:Runescape Chat Font; font-size:16px; color:rgb(255,255,255); text-shadow:1px 1px #000000;');
 			quantvar.textContent = Math.trunc(parseInt(JSON.parse(localStorage.getItem(keys[i])).quantity[current]) / 1000).toString() + "k";
 		}
 		else {
-			quantvar.setAttribute('style', 'position:absolute; left:0; top:-5px; font-family:Runescape Chat Font; font-size:16px; color:rgb(255,255,0); text-shadow:1px 1px #000000;');
+			quantvar.setAttribute('style', 'position:absolute; left:0px; top:-5px; font-family:Runescape Chat Font; font-size:16px; color:rgb(255,255,0); text-shadow:1px 1px #000000;');
 			quantvar.textContent = Math.trunc(JSON.parse(localStorage.getItem(keys[i])).quantity[current]) + "";
 		}
+
 		nodevar.append(quantvar);
 		nodevar.append(imgvar);
 		ele.append(nodevar);
@@ -1296,15 +1367,50 @@ export function exporttocsv() {
 }
 
 
+async function addRollbackToLs(value: number, items: any, quants: any, tier: any){
+	for(let i = items.length - 1; i >= 0; i--){
+		if(items[i] == "Blank"){
+			items.splice(i, 1)
+		}
+	}
+
+	for(let i = 0; i < quants.length; i++){
+		if (quants[i].includes('k')) {
+			quants[i] = quants[i].slice(0, -1);
+			quants[i] += "000";
+		}
+	}
+
+	let previous = [items, quants, value, tier, localStorage.getItem(tier[2]), localStorage.getItem("PrimaryKeyRollback")]
+	let temp = JSON.parse(localStorage.getItem("Rollback"))
+	temp.push(previous)
+	localStorage.setItem("Rollback", JSON.stringify(temp))
+	localStorage.setItem("PrimaryKeyRollback", JSON.stringify(parseInt(localStorage.getItem("PrimaryKeyRollback")) + 1))
+
+	await rollbackClear()
+	rollbackInit()
+}
+
+
+async function rollbackClear(){
+	let body = document.getElementById("rollback_body")
+	while (body.firstChild){
+		body.removeChild(body.lastChild)
+	}
+}
+
+
 export function rollback() {
-	if (lastItems.length == 0) {
+	//console.log(localStorage.getItem("Rollback"))
+	if(localStorage.getItem("Rollback") == "[]"){
 		if (window.alt1) {
 			alt1.overLayClearGroup("overlays");
 			alt1.overLaySetGroup("overlays");
-			alt1.overLayTextEx("Nothing to roll back", a1lib.mixColor(255, 80, 80), 20, Math.round(alt1.rsWidth / 2), 200, 2000, "", true, true);
+			alt1.overLayTextEx("Nothing to roll back from ls", a1lib.mixColor(255, 80, 80), 20, Math.round(alt1.rsWidth / 2), 200, 2000, "", true, true);
 		}
 		return;
 	}
+
 	if (window.alt1) {
 		alt1.overLayClearGroup("overlays");
 		alt1.overLaySetGroup("overlays");
@@ -1325,31 +1431,268 @@ export function rollback() {
 }
 
 
-function rollbackFunc(valueClear: boolean) {
-	console.log("Rolling back:", lastItems, lastQuants, lastTier, lastValue);
-	for (let i = 0; i < lastQuants.length; i++) {
-		console.log("checking if in array");
-		//console.log(JSON.parse(localStorage.getItem(lastItems[i])).tier)
-		if (JSON.parse(localStorage.getItem(lastItems[i])).tier.includes(lastTier[0])) {
-			let temp = JSON.parse(localStorage.getItem(lastItems[i]));
-			temp.quantity[lastTier[0]] = (parseInt(temp.quantity[lastTier[0]]) - parseInt(lastQuants[i])).toString();
-			localStorage.setItem(lastItems[i], JSON.stringify(temp));
-		}
-		else {
-			return false;
-		}
+function rollbackFunc(valueClear: boolean) { // TODO: Edit this once you get the interface up and running... Consider sending in an index value...
+	let lsRollback = JSON.parse(localStorage.getItem("Rollback"))
+	let lastRoll = lsRollback[lsRollback.length - 1]
+	//	Index 0 = Items
+	//	Index 1 = Quantities
+	//	Index 2 = Value of clue
+	// 	Index 3 = Tier of clue, value and count
+
+	//console.log("Rolling back:", lastRoll[0], lastRoll[1], lastRoll[2], lastRoll[3]);
+	for (let i = 0; i < lastRoll[0].length; i++) {
+		let temp = JSON.parse(localStorage.getItem(lastRoll[0][i]))
+		temp.quantity[lastRoll[3][0]] = temp.quantity[lastRoll[3][0]] - lastRoll[1][i];
+		localStorage.setItem(lastRoll[0][i], JSON.stringify(temp))
 	}
 
 	// Decrease value and count
-	localStorage.setItem(lastTier[1], JSON.stringify((JSON.parse(localStorage.getItem(lastTier[1])) - lastValue)));
-	localStorage.setItem(lastTier[2], JSON.stringify(JSON.parse(localStorage.getItem(lastTier[2])) - 1));
+	localStorage.setItem(lastRoll[3][1], JSON.stringify(JSON.parse(localStorage.getItem(lastRoll[3][1])) - lastRoll[2]));
+	localStorage.setItem(lastRoll[3][2], JSON.stringify(JSON.parse(localStorage.getItem(lastRoll[3][2])) - 1));
 
-	lastItems = [];
-	lastQuants = [];
-	lastTier;
+	//console.log("Before splice:",lsRollback,"length is:",lsRollback.length)
+	lsRollback.pop()
+	//console.log("After splice:",lsRollback)
+	localStorage.setItem("Rollback", JSON.stringify(lsRollback))
+	
 	if (valueClear) {
 		lastValue = 0;
 	}
+}
+
+
+function rollbackInit(){
+	let lsRollback = JSON.parse(localStorage.getItem("Rollback"))
+	//console.log(lsRollback)
+	let title = document.getElementById("rollback_tier_caps")
+	title.textContent = currentTier()[0][0].toUpperCase() + currentTier()[0].slice(1).toLowerCase()
+
+	let quantity = document.getElementById("rollback_quantity")
+	quantity.textContent = localStorage.getItem("RollbackDisplayLimit")
+
+	if(lsRollback.length == 0){
+		let ele = document.getElementById("rollback_body")
+		let container = document.createElement("div")
+		container.textContent = "There's nothing to roll back. Start scanning!"
+		container.setAttribute('style','font-size: 20px; text-align: center; margin: auto; padding: auto;')
+		ele.append(container)
+	}
+	else{
+		var index = parseInt(localStorage.getItem(currentTier()[2]));
+		var limit = 0
+		for(let i = lsRollback.length - 1; i >= 0 ; i--){ //Navigating lsRollback
+			if(limit <= parseInt(localStorage.getItem("RollbackDisplayLimit"))){
+				let temp = lsRollback[i]
+				if(temp[3][0] === currentTier()[0]){
+					let ele = document.getElementById("rollback_body")
+					let container = document.createElement("div")
+					container.setAttribute("style", /*'background: url("styles/nis/alt1-currentskin/background.png");*/'background: url(images/items/Blank.png); margin: 10px 0px; padding: 5px 5px; display:grid; grid-template-columns: repeat(10 auto); align-items:center; border: 5px solid #f0b216; border-style: ridge;')
+					container.setAttribute('id','container' + temp[5])
+
+					let count = document.createElement("div")
+					count.textContent = (temp[3][0][0].toUpperCase() + temp[3][0].slice(1).toLowerCase()) + " Clue: " + index
+					count.setAttribute('style','width: auto; margin: auto 0 0 10; text-align: left; position: relative; color: #f0b216; font-family: "trajan-pro-3"; font-size: 12px; line-height: 20px; user-select: none; word-wrap: break-all; -webkit-user-select: none; grid-column: 1 / 4; grid-row: 1; text-shadow: 1px 1px 2px #000000;')
+					count.setAttribute('class','rollbackCount')
+					container.append(count)
+
+					let value = document.createElement("div")
+					value.textContent = "Reward Value: "+temp[2].toLocaleString("en-US")
+					value.setAttribute('style','width: auto; margin: auto 0 0 10; text-align: left; position: relative; color: #f0b216; font-family: "trajan-pro-3"; font-size: 13px; line-height: 20px; user-select: none; word-wrap: break-all; -webkit-user-select: none; grid-column: 4 / span 10; grid-row: 1; text-shadow: 1px 1px 2px #000000;')
+					container.append(value)
+
+					for(let j = 0; j < 9; j++){ // Navigating temp
+						//console.log(temp[0][j])]
+						let nodevar = document.createElement("itembox");
+						let imgvar = document.createElement("img")
+						let quantvar = document.createElement("span")
+
+						nodevar.setAttribute('style', 'position:relative; margin: auto; padding:auto; width:32px; height:32px; display:flex; align-items:center; text-align:center; grid-row: 2;'/* order: ' + parseInt(JSON.parse(localStorage.getItem(keys[i])).order) + ';'*/);
+						imgvar.setAttribute('style', 'margin: auto; padding: auto;');
+						imgvar.ondragstart = function() { return false; };
+
+						try{
+							imgvar.src = encodeURI("./images/items/" + temp[0][j] + ".png");
+							nodevar.setAttribute('title', temp[1][j] + " x " + temp[0][j])
+
+							//console.log("quantity is: ",parseInt(temp[1][j]))
+
+							if (temp[1][j] > 9999999) {
+								quantvar.setAttribute('style', 'position:absolute; left:0; top:-5px; font-family:Runescape Chat Font; font-size:16px; color:rgb(0,255,128); text-shadow:1px 1px #000000;');
+								quantvar.textContent = Math.trunc(temp[1][j] / 1000000).toString() + "M";
+							}
+							else if (temp[1][j] > 99999) {
+								console.log("white test")
+								quantvar.setAttribute('style', 'position:absolute; left:0; top:-5px; font-family:Runescape Chat Font; font-size:16px; color:rgb(255,255,255); text-shadow:1px 1px #000000;');
+								quantvar.textContent = Math.trunc(temp[1][j] / 1000).toString() + "k";
+							}
+							else {
+								quantvar.setAttribute('style', 'position:absolute; left:0; top:-5px; font-family:Runescape Chat Font; font-size:16px; color:rgb(255,255,0); text-shadow:1px 1px #000000;');
+								quantvar.textContent = temp[1][j] + "";
+							}
+
+						} catch (e) {
+							imgvar.src = encodeURI("./images/items/Transparent.png")
+						}
+
+						if(quantvar.textContent == "undefined"){
+							quantvar.textContent = ""
+							nodevar.removeAttribute("title");
+							imgvar.src = encodeURI("./images/items/Transparent.png")
+						}
+
+						nodevar.append(imgvar)
+						nodevar.append(quantvar)
+						container.append(nodevar)
+
+					}
+				
+					let buttonbox = document.createElement("div")
+					let button = document.createElement("div")
+					buttonbox.setAttribute('style','width: 125px; display: flex; grid-row: 1 / span 2; grid-column: 10; align-items:center; position:relative')
+					buttonbox.setAttribute('id','container'+temp[5]+'buttonbox')
+					button.setAttribute('style','width: 100%; cursor: pointer; text-align: center; color: #000; font-family: "trajan-pro-3"; font-size: 18px; line-height: 32px; user-select: none; -webkit-user-select: none;')
+					button.setAttribute('class','nisbutton')
+					button.setAttribute('id','container'+temp[5]+'button')
+					button.setAttribute('onClick','TEST.rollbackVeri("container'+temp[5]+'button")')
+					button.textContent = "Delete"
+
+					buttonbox.append(button)
+					container.append(buttonbox)
+					ele.append(container)
+					index--
+					limit++
+				}
+			}
+			else{
+				break;
+			}
+		}
+
+		if(index == parseInt(localStorage.getItem(currentTier()[2]))){
+			let ele = document.getElementById("rollback_body")
+			let container = document.createElement("div")
+			container.textContent = "There's nothing to roll back. Start scanning!"
+			container.setAttribute('style','font-size: 20px; text-align: center; margin: auto; padding: auto;')
+			ele.append(container)
+		}
+	}
+}
+
+
+export function rollbackVeri(id: any){
+	let buttonbox = document.getElementById(id+"box")
+	let button = document.getElementById(id)
+	buttonbox.removeChild(button)
+
+	let buttonYes = document.createElement("div")
+	let buttonNo = document.createElement("div")
+
+	buttonbox.setAttribute('style','display: grid; grid-template-columns: repeat(2, auto); width: 125px; grid-row: 1 / span 2; grid-column: 10;')
+
+	buttonYes.setAttribute('style',' width: 97%; cursor: pointer; text-align: center; color: #000; font-family: "trajan-pro-3"; font-size: 18px; line-height: 32px; user-select: none; -webkit-user-select: none;')
+	buttonYes.setAttribute('class','nisbutton')
+	buttonYes.setAttribute('onclick','TEST.rollbackYes("'+id+'")')
+	buttonYes.textContent = "Yes"
+
+	buttonNo.setAttribute('style',' width: 97%; cursor: pointer; text-align: center; color: #000; font-family: "trajan-pro-3"; font-size: 18px; line-height: 32px; user-select: none; -webkit-user-select: none;')
+	buttonNo.setAttribute('class','nisbuttonblue')
+	buttonNo.setAttribute('onclick','TEST.rollbackNo("'+id+'")')
+	buttonNo.textContent = "No"
+
+	buttonbox.append(buttonYes, buttonNo)
+	console.log("Made no and yes")
+}
+
+
+export function rollbackNo(id: any){
+	console.log("In no")
+	let buttonbox = document.getElementById(id+"box")
+	while (buttonbox.firstChild){
+		buttonbox.removeChild(buttonbox.lastChild)
+	}
+	buttonbox.setAttribute('style','width: 125px; display: flex; grid-row: 1 / span 2; grid-column: 10; align-items:center;')
+	
+	let button = document.createElement("div")
+	button.setAttribute('style','width: 95%; cursor: pointer; margin: auto; text-align: center; color: #000; font-family: "trajan-pro-3"; font-size: 18px; line-height: 32px; user-select: none; -webkit-user-select: none;')
+	button.setAttribute('class','nisbutton')
+	button.setAttribute('id', id)
+	button.setAttribute('onClick','TEST.rollbackVeri("'+id+'")')
+	button.textContent = "Delete"
+
+	buttonbox.append(button)
+}
+
+
+export function rollbackYes(id: any){
+	if (window.alt1) {
+		alt1.overLayClearGroup("overlays");
+		alt1.overLaySetGroup("overlays");
+		alt1.overLayTextEx("Rolling back reward...", a1lib.mixColor(255, 144, 0), 20, Math.round(alt1.rsWidth / 2), 200, 2000, "", true, true);
+	}
+
+	let container = document.getElementById(id.replace('button', ''))
+	container.remove()
+
+	let pKey = id.replace('container','')
+	pKey = parseInt(pKey.replace('button',''))
+
+	console.log(pKey)
+	let lsRollback = JSON.parse(localStorage.getItem("Rollback"))
+	for(let i = 0; i < lsRollback.length; i++){
+		if(lsRollback[i][5] == pKey){
+			var temp = lsRollback[i]
+			lsRollback.splice(i, 1)
+			localStorage.setItem("Rollback",JSON.stringify(lsRollback))
+			break;
+		}
+	}
+	
+	console.log(temp)
+	for (let i = 0; i < temp[0].length; i++) {
+		let item = JSON.parse(localStorage.getItem(temp[0][i]))
+		item.quantity[temp[3][0]] = item.quantity[temp[3][0]] - parseInt(temp[1][i]);
+		localStorage.setItem(temp[0][i], JSON.stringify(item))
+	}
+
+	// Decrease value and count
+	localStorage.setItem(temp[3][1], JSON.stringify(JSON.parse(localStorage.getItem(temp[3][1])) - temp[2]));
+	localStorage.setItem(temp[3][2], JSON.stringify(JSON.parse(localStorage.getItem(temp[3][2])) - 1));
+
+	console.log("Removed",pKey,"from LS")
+	if(pKey == ((parseInt(localStorage.getItem("PrimaryKeyRollback"))) - 1)){
+		document.getElementById("rewards_value").textContent = "0";
+		for (let i = 0; i < 9; i++)
+			document.getElementById(rewardSlots[i]).textContent = "";
+	}
+
+	let rollbackCount = document.getElementsByClassName('rollbackCount')
+	let index = parseInt(localStorage.getItem(currentTier()[2]))
+	for(let i = 0; i < parseInt(localStorage.getItem(currentTier()[2])); i++){
+		if(i >= parseInt(localStorage.getItem("RollbackDisplayLimit"))){
+			break;
+		}
+		console.log(i);
+		console.log(rollbackCount[i].textContent,"is now",(currentTier()[0][0].toUpperCase() + currentTier()[0].slice(1).toLowerCase()) + " Clue: " + index);
+		rollbackCount[i].textContent = (currentTier()[0][0].toUpperCase() + currentTier()[0].slice(1).toLowerCase()) + " Clue: " + index;
+		index--;
+	}
+
+
+	//for(let i = parseInt(localStorage.getItem(currentTier()[2])) - 1; i >= 0; i--){
+	//	rollbackCount[i].textContent = (currentTier()[0][0].toUpperCase() + currentTier()[0].slice(1).toLowerCase()) + " Clue: " + index
+	//	index--
+	//}
+
+	rollbackClear();
+	rollbackInit();
+
+	if (window.alt1) {
+		alt1.overLayClearGroup("overlays");
+		alt1.overLaySetGroup("overlays");
+		alt1.overLayTextEx("Previous rewards rolled back successfully!", a1lib.mixColor(100, 255, 100), 20, Math.round(alt1.rsWidth / 2), 200, 2000, "", true, true);
+	}
+
+	lootDisplay();
 }
 
 
@@ -1446,6 +1789,7 @@ async function arraySetup() {
 	// console.log("DEBUG:",listOfItemsFullArray, listOfItemsReorgArray, listOfItemsReorgTwoArray, listOfItemsLegacyFullArray, listOfItemsLegacyReorgArray, listOfItemsLegacyReorgTwoArray, listOfItemsFullArray, listOfItemsLegacyFullArray, listOfItemsAllUint8ArrayArray)
 }
 
+
 function _base64ToImageData(buffer: string, width: any, height: any) { // https://stackoverflow.com/questions/68495924
     return new Promise(resolve => {
     var image = new Image();
@@ -1460,6 +1804,7 @@ function _base64ToImageData(buffer: string, width: any, height: any) { // https:
     image.src = buffer;
   });
 }
+
 
 export function insert() {
 	if (window.alt1) {
@@ -1580,10 +1925,21 @@ export function settingsInit() {
 		var ele = document.getElementById("hybrid_precision") as HTMLInputElement;
 		ele.value = localStorage.getItem("hybridPrecision");
 	}
+
+	if (localStorage.getItem("RollbackDisplayLimit") == null) {
+		console.log("Defaulting RollbackDisplayLimit to 25...");
+		var ele = document.getElementById("rollback_display_limit") as HTMLInputElement;
+		ele.value = "25";
+		localStorage.setItem("RollbackDisplayLimit", "25");
+	}
+	else{
+		var ele = document.getElementById("rollback_display_limit") as HTMLInputElement;
+		ele.value = localStorage.getItem("RollbackDisplayLimit");
+	}
 }
 
 
-export async function saveSettings(alg: string, list: string, reroll: string, lag: string, multi: string, menu: string, precision: string) {
+export async function saveSettings(alg: string, list: string, reroll: string, lag: string, multi: string, menu: string, precision: string, limit: string) {
 	buttonDisabler()
 	alt1.overLayClearGroup("overlays");
 	alt1.overLaySetGroup("overlays");
@@ -1593,6 +1949,7 @@ export async function saveSettings(alg: string, list: string, reroll: string, la
 	localStorage.setItem("rerollToggle", reroll);
 	localStorage.setItem("lagDetect", lag);
 	localStorage.setItem("hybridPrecision", precision)
+	localStorage.setItem("RollbackDisplayLimit", limit)
 
 	if (localStorage.getItem("multiButtonPressDetect") !== multi) {
 		localStorage.setItem("multiButtonPressDetect", multi)
@@ -1622,6 +1979,9 @@ export async function saveSettings(alg: string, list: string, reroll: string, la
 		localStorage.setItem("noMenu", menu)
 		noMenuCheck()
 	}
+
+	rollbackClear()
+	rollbackInit()
 
 	settingsInit()
 	await arraySetup();
@@ -1693,7 +2053,6 @@ function autoCheck() {
 		autoCaptureInterval = null;
 	}
 }
-
 
 
 function autoCallCapture() {
@@ -1818,6 +2177,7 @@ export function toggleLootDisplay(id: string) {
 	let lootdisplay = Array.from(document.getElementsByClassName('loot_display') as HTMLCollectionOf<HTMLElement>);
 	let tab = document.getElementById(id) as HTMLInputElement;
 
+	// TODO: Figure out why General, Common, and Rare don't switch to "show rewards" text.
 	if (id == "broadcasts_rewards") {
 		lootdisplay[0].style.display = (lootdisplay[0].style.display == 'flex') ? 'none' : 'flex';
 		tab.style.textDecoration = (lootdisplay[0].style.display == 'flex') ? 'none' : 'line-through';
@@ -1843,6 +2203,7 @@ export function toggleLootDisplay(id: string) {
 		opentabs[3] = (lootdisplay[3].style.display == 'flex') ? true : false;
 	}
 	console.log(opentabs)
+
 	let truecount = 0;
 	for (let i = 0; i < opentabs.length; i++) {
 		if (opentabs[i] == true) {
