@@ -1521,8 +1521,11 @@ function rollbackInit(){
 								quantvar.textContent = Math.trunc(temp[1][j] / 1000000).toString() + "M";
 							}
 							else if (temp[1][j] > 99999) {
-								console.log("white test")
 								quantvar.setAttribute('style', 'position:absolute; left:0; top:-5px; font-family:Runescape Chat Font; font-size:16px; color:rgb(255,255,255); text-shadow:1px 1px #000000;');
+								quantvar.textContent = Math.trunc(temp[1][j] / 1000).toString() + "k";
+							}
+							else if (temp[1][j] > 9999) {
+								quantvar.setAttribute('style', 'position:absolute; left:0; top:-5px; font-family:Runescape Chat Font; font-size:16px; color:rgb(255,255,0); text-shadow:1px 1px #000000;');
 								quantvar.textContent = Math.trunc(temp[1][j] / 1000).toString() + "k";
 							}
 							else {
