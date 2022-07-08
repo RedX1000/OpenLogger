@@ -1352,7 +1352,7 @@ export function exporttocsv() {
 		let row = i.join(",");
 		csvContent += row + "\r\n";
 	});
-	let filename = "OpenLogger CSV " + d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate() + ".csv";
+	let filename = "OpenLogger CSV " + d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate() + "_" + d.getHours() + "-" + d.getMinutes() + "-" +d.getSeconds()+ ".csv";
 	var encodedUri = "data:text/csv;charset=utf-8,%EF%BB%BF" + encodeURI(csvContent);
 	var link = document.createElement("a");
 	link.setAttribute("href", encodedUri);
