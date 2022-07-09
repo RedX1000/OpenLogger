@@ -14,7 +14,7 @@ This application was created to provide players with a way to easily record thei
 
 ## How to install
 ### Copy and paste this link in your browser to install OpenLogger to Alt1 automatically
-#### <a href="alt1://addapp/https://redx1000.github.io/OpenLogger/appconfig.json" rel="nofollow" target="_blank">alt1://addapp/https://redx1000.github.io/OpenLogger/appconfig.json</a>
+#### `alt1://addapp/https://redx1000.github.io/OpenLogger/appconfig.json`
 <br>
 
 ### Or use direct link
@@ -133,7 +133,7 @@ This application was created to provide players with a way to easily record thei
     * Legacy Current Reward Value <u><b><i>[INCLUDING NUMBERS](#a-few-tips-on-where-to-avoid-having-menus-appearing-over-the-value)</i></b></u>:&nbsp;&nbsp; ![Legacy Current Reward Value INCLUDING NUMBERS](/dist/images/RewardValueLegacy.data.png "Legacy Current Reward Value")
     * These words in the EOC reroll window:&nbsp;&nbsp; ![These words in the reroll window](/dist/images/rerollWindow.data.png "Reroll words")
     * The current value of rerolls remaining:&nbsp;&nbsp; ![The current value of rerolls remaining](/dist/images/rerollnumbers.png "Reroll numbers")
-    * **Everything else is free game to obfuscate. More details below about preenting multi-capturing over the value**
+    * **Everything else is free game to obfuscate. More details below about preventing multi-capturing over the value**
 <br><br>
 * ### Avoiding menus causing multi-capturing: A few tips on where to avoid having menus appearing over the value
     * It IS **_NOT_** safe to have a menu pop up if covering ONLY the value itself. OpenLogger WILL capture if you cover up the value such that ONLY the value is covered up like this:<br>![Menu covering only the value](/dist/images/menu%20screen1.png "Menu covering only value")
