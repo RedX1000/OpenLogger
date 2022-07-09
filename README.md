@@ -5,17 +5,17 @@
 
 * *NOTE: Legacy Interface mode works, but I don't test with it often, so use at your own risk, and report any crashes and bugs.* <br>
 
-* *NOTE: When reporting a crash, please take a screenshot of the loot window and send it to me. Use Windows Key + Shift + S, Lightshot, or Gyazo to take the screenshot to avoid distortion.*<br><br>
-![OpenLogger Tall](/dist/images/OpenLogger%20Tall.png "OpenLogger Tall")<br><br>
-
+* *NOTE: When reporting a crash, please take a screenshot of the loot window and send it to me. Use Windows Key + Shift + S, Lightshot, or Gyazo to take the screenshot to avoid distortion.*
+<br><br>
 
 ## Description
-This application was created to provide players with a way to easily record their clue scroll rewards in bulk, or over the course of their clue runs, and to allow users to share their clue data with others.<br><br>
+This application was created to provide players with a way to easily record their clue scroll rewards in bulk, or over the course of their clue runs, and to allow users to share their clue data with others.
+<br><br>
 
 ## How to install
 ### Copy and paste this link in your browser to install OpenLogger to Alt1 automatically
-#### `alt1://addapp/https://redx1000.github.io/OpenLogger/appconfig.json`
-<br>
+#### `alt1://addapp/https://redx1000.github.io/OpenLogger/appconfig.json` 
+<br><br>
 
 ### Or use direct link
 #### https://redx1000.github.io/OpenLogger <br>
@@ -24,7 +24,10 @@ This application was created to provide players with a way to easily record thei
 2. Open Alt1 applications and open the browser.
 3. Paste link in URL bar and press enter.
 4. Click Add App on the top of the page.
-5. Accept permissions and click confirm.
+5. Accept permissions and click confirm. 
+<br><br>
+
+![OpenLogger Tall](/dist/images/OpenLogger%20Tall.png "OpenLogger Tall") 
 <br><br>
 
 ### Quick links to important parts of the document 
@@ -34,16 +37,18 @@ This application was created to provide players with a way to easily record thei
 * [Settings](#settings)
 * [Hybrid](#image-searching-algorithm)
 * [Avoiding menus causing multi-capturing](#avoiding-menus-causing-multi-capturing-a-few-tips-on-where-to-avoid-having-menus-appearing-over-the-value)
-* [Special thanks](#special-thanks)
+* [Special thanks](#special-thanks) 
 <br><br>
+
  # Instructions on how to use
  ## Capture Rewards
 1. Open a reward casket (Easy, Medium, Hard, Elite, Master).
     * Make sure clue reward window is not obfuscated in order to get a correct reading; list of things to not obfuscate at [Additional Information](#additional-information) and [Avoiding menus causing multi-capturing](#avoiding-menus-causing-multi-capturing-a-few-tips-on-where-to-avoid-having-menus-appearing-over-the-value).
 2. Press the Capture button, press Alt+1, or enable Autocapture to record the clue reward interface.
 3. Wait a bit, recording can be less than 600ms or over 5 seconds seconds depending on the tier of clue, the amount of rewards in the window, the image searching algorithmn used, and the image collection library used (Some users experience longer times than usual. Tweak with the settings or DM me if this happens).
-4. Rewards appear in the OpenLogger interface with the value, and a dynamic display that updates when new rewards come in, the total number of clues logged, and the total and average value for the number of completed clues. 
+4. Rewards appear in the OpenLogger interface with the value, and a dynamic display that updates when new rewards come in, the total number of clues logged, and the total and average value for the number of completed clues.  
 <br><br>
+
 ## Autocapture
 * Clues can be autocaptured by clicking on the lock (Closed == On, Open == Off).
 * This is turned off by default. Click the lock to enable it.
@@ -56,11 +61,13 @@ This application was created to provide players with a way to easily record thei
 * In the event of a multi-capture from not obfuscating the value or if, pause Autocapture, perform a rollback, and open the next casket, then re-enable autocapture.
 * In the rare event that the value of the new clue is equivalent to the value of the previous clue, disable Autocapture and manually capture the reward.
 <br><br>
+
 ## Export to CSV
 * Export to CSV will create a comma separated value file of the your clue rewards from `localStorage` and allows the user to download the file.
 * This will be useful for storing data long term or for crowdsourcing data, i.e. A clan casket opening event.<br>
 ![CSV Example](/dist/images/CSV%20demo.png "CSV Example")
 <br><br>
+
 ## Rollback
 * Rollback will open a menu that displays every captured clue of the currently selected type that can be rolled back and deleted.
 * By default, Rollback will the display the last 25 items you've captured. This can be adjusted in the [Settings](#settings) under Rollback Display Limit. 
@@ -70,6 +77,7 @@ This application was created to provide players with a way to easily record thei
 * When you click "Delete", verification buttons "Yes" and "No" will appear in it's place. Upon clicking yes, the given entry will be deleted from `localStorage` and the display will update to reflect this. If the deleted entry is the first in the list, the recently captured rewards display will clear itself.<br>
 ![Rollback Example](/dist/images/RollbackSample.png "Rollback Example")
 <br><br>
+
 ## Clear Options Menu
 * Clear Options Menu has multiple choices that determine the scope of how much you want to delete from the database of items.
 * There are confirm windows for each option except Refresh page.
@@ -77,17 +85,19 @@ This application was created to provide players with a way to easily record thei
 2. Clear currently selected tier: Clears the database of quantities, values, and clue counts from the currently selected tier.
 3. Clear all items from database: Clears the database of quantities, values, and clue counts from all tiers, Easy to Master.
 4. Completely reset OpenLogger: Nuclear option, **COMPLETELY** resets OpenLoggers settings and database. This is a recommended last option for troubleshooting. A value within `localStorage` may or may not change between updates (I try not to), and if it turns out that it breaks it, give this a try, otherwise reach out to me on Discord and we'll chat about it 🙂. 
-5. Refresh page: Refreshes the plugin webpage, does not delete anything.
+5. Refresh page: Refreshes the plugin webpage, does not delete anything. 
 <br><br>
+
 ## Toggleable loot tabs
 * Click on the loot tab title to hide the loot, and click it again to show the loot.
 * Hidden tabs will be strikethroughed, and the space below it will be hidden.
-* Hovering over it will give a tooltip on whether you can hide or show the loot.
-<br><br>
+* Hovering over it will give a tooltip on whether you can hide or show the loot. <br><br>
+
 # Settings
 * Settings allow for user choice of Algorithm for icon recognition, list of reference images used for icon recognition, and for miscellaneous settings toggles.
 * Hover over the corresponding buttons title to learn more about what it does.
 <br><br>
+
 ### Image Searching Algorithm
 1. ResembleJS: Image recognition library using [`ResembleJS`](https://github.com/rsmbl/Resemble.js) that compares entire images and returns a percentage value. It is slow, but it is very accurate. 
     * Recommended image collections: OrgList or OrgMinus, for best speed results.
@@ -100,12 +110,14 @@ This application was created to provide players with a way to easily record thei
     * When using Hybrid, TwoPlus and All Images works perfectly, but takes longer.
     * Hybrid precision can be adjusted using Hybrid Alg Precision setting in the settings menu, listed below.
 <br><br>
+
 ### Reference Image Collection
 1. All Items List: Complete, full list of reference images. Takes the longest to compare.
 2. Two or more List: List of items, where items that appear in two or more tiers are compared with the clue tiers items. Takes the second longest to run.
 3. Organized List: List of items where items are located in their respective tier. Best for a balance of speed and accuracy. Enabled by default.
 4. Organized Minus: Smallest list of items. OrgList but with less duplicates. Best for speed, but worst for accuracy due to lower variance.
 <br><br>
+
 ### Miscellaneous Toggles
 1. Reroll Detection: Determines whether rerolls should be detected or not when capturing clues. When on, rerolls trigger a rollback of the previous reward and logs the new rewards. 
 2. Lag Detection: Determines whether lag should be detected when scanning clues. When on, it will try to rescan it again. In the event that it does not capture everything due to lag, perform a manual rollback and try again.
@@ -135,6 +147,7 @@ This application was created to provide players with a way to easily record thei
     * The current value of rerolls remaining:&nbsp;&nbsp; ![The current value of rerolls remaining](/dist/images/rerollnumbers.png "Reroll numbers")
     * **Everything else is free game to obfuscate. More details below about preventing multi-capturing over the value**
 <br><br>
+
 * ### Avoiding menus causing multi-capturing: A few tips on where to avoid having menus appearing over the value
     * It IS **_NOT_** safe to have a menu pop up if covering ONLY the value itself. OpenLogger WILL capture if you cover up the value such that ONLY the value is covered up like this:<br>![Menu covering only the value](/dist/images/menu%20screen1.png "Menu covering only value")
 
@@ -143,6 +156,7 @@ This application was created to provide players with a way to easily record thei
     ![Right click menu covering only the 'Current Reward Value'"](/dist/images/menu%20screen3.png "Right click menu covering only 'Current Reward Value'")
     * In the event that a capture is auto-triggered due to this, roll it back in the [Rollback menu](#rollback)
 <br><br>
+
 * ### This plugin stores data using `localStorage` within Alt1, therefore it can remember all of the loot you have gotten between sessions unless it is deleted. To completely refresh it:
     * Select "Completely Reset OpenLogger" in the Clear Options Menu and select "Reset Everything" OR:
     <br><br>
@@ -154,13 +168,16 @@ This application was created to provide players with a way to easily record thei
     6. right click the link
     7. Clear
 <br><br>
+
 * ### OpenLogger can be stretched out widthwise to display more of the loot in its display, as the top is flexy:<br>![OpenLogger Wide](/dist/images/OpenLogger%20Wide.png "OpenLogger Wide")
 <br><br>
+
 ## Potential or planned updates
 * Better legacy interface support. I don't test with it much. Legacy interface can log clues and perform lag detection checks, but I do not have a reroll window detection set for legacy mode, and I would need to iron out any bugs or kinks that appear. Use at your own risk.
 * Allowing the user to deposit or withdraw a reward or value into or out of `localStorage` directly in case of a misread.
 * Allowing download of last clue reward captured.
 <br><br>
+
 ## Special thanks
 * Skillbert for creating Alt1 and providing the tools and libraries to create third-party applications.
 * Dala/Daladen for not only providing me with an insight into how the Summit Clue Logger worked to help write OpenLogger and for general web dev help, but also for providing all of the reference images for image comparison. Could not have done this project without those images.
