@@ -73,6 +73,7 @@ var autoAdjust = true
 
 var noMenuInterval;
 
+var lagCounter = 0
 
 export function refresh() {
 	location.reload();
@@ -493,6 +494,25 @@ export async function capture(autobool: boolean) {
 async function findtrailComplete(img: ImgRef, autobool: boolean) {
 	let noWindow = false;
 	let reroll = false;
+
+	// If 3 rerolls..., default
+	// Adjust this if you want to add more rerolls.
+	if(lagCounter == 3){
+		autoDisableCheckAuto(event)
+		if (window.alt1) {
+			alt1.overLayClearGroup("overlays");
+			alt1.overLayClearGroup("lag");
+			alt1.overLayClearGroup("rect");
+			alt1.overLaySetGroup("overlays");
+			alt1.overLayTextEx("Too much lag or back to back loot detected.\n\n        Autocapture has been automatically\nturned off. Manually capture this clue or turn\n         autocapture back on and try again",
+				a1lib.mixColor(255, 80, 80), 20, Math.round(alt1.rsWidth / 2), 200, 50000, "", true, true);
+		}
+		
+		lagCounter = 0
+
+		return;
+	}
+
 	try {
 		try {
 			var loc = img.findSubimage(await imgs.trailCompleteLegacy);
@@ -718,7 +738,38 @@ async function findtrailComplete(img: ImgRef, autobool: boolean) {
 					await Promise.all(promises2);
 					console.log(itemResults, i);
 					console.log("Comparing", itemResults[i], "to", lastresult);
-					if (lastresult === itemResults[i]) {
+
+					let comparison = true
+					if(autobool){
+						try{
+							let lsRollback = JSON.parse(localStorage.getItem("Rollback"))[JSON.parse(localStorage.getItem("Rollback")).length-1][0]
+							console.log("Checking arrays for equivalence:",JSON.parse(localStorage.getItem("Rollback"))[JSON.parse(localStorage.getItem("Rollback")).length-1][0], itemResults)
+							for(let j = 0; j < lsRollback.length; j++){
+								console.log("Comparing these items... :",lsRollback[j],itemResults[j])
+								if(lsRollback[j] === itemResults[j]){
+									console.log("They're the same. make it false.")
+									comparison = false
+								}
+							}
+						} catch (e){
+							console.log(e,"Something broke.")
+						}
+					}
+
+					if (!comparison){
+						if (window.alt1) {
+							alt1.overLayClearGroup("overlays");
+							alt1.overLayClearGroup("lag");
+							alt1.overLaySetGroup("lag");
+							alt1.overLayTextEx("Lag detected, rescanning...", a1lib.mixColor(255, 144, 0), 20, Math.round(alt1.rsWidth / 2), 200, 60000, "", true, true);
+						}
+						lagDetected = true;
+						lastValue = 0;
+						lagCounter++;
+						capture(autobool);
+						return;
+					}
+					else if (lastresult === itemResults[i]) {
 						break;
 					}
 					else {
@@ -730,6 +781,7 @@ async function findtrailComplete(img: ImgRef, autobool: boolean) {
 						}
 						lagDetected = true;
 						lastValue = 0;
+						lagCounter++;
 						capture(autobool);
 						return;
 					}
@@ -737,6 +789,8 @@ async function findtrailComplete(img: ImgRef, autobool: boolean) {
 			}
 		}
 		await Promise.all(promises);
+
+		lagCounter = 0
 
 		//Maybe comment this out later idk
 		let equalArrays = true;
@@ -868,7 +922,7 @@ async function findtrailComplete(img: ImgRef, autobool: boolean) {
 
 async function compareItems(item: ImageData) {
 	//TODO: Try to get Legacy to work better
-	//Legacy works, but I don't have a lot of testing mateirals
+	//Legacy works, but I don't have a lot of testing materials
 
 	// Can't use all at once. Can only do one color at a time.
 	// const yellow = { r: 255, g: 0, b: 0, a: 255};
@@ -2027,7 +2081,7 @@ export function toggleCapture(event: Event) {
 		autoCheck();
 		event.stopPropagation();
 	} catch (e){
-		console.log("Clear Options Menu or Settings auto-disabling autocapture. In the event of bugfixing and getting this message in this function, try re-enabling this throw.")
+		console.log("Clear Options Menu, Settings, or lagCounter auto-disabling autocapture. In the event of bugfixing and getting this message in this function, try re-enabling this throw.")
 		//throw(e)
 	}
 }
