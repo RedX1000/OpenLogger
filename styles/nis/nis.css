@@ -682,7 +682,7 @@ header {
   grid-template-columns: repeat(2, auto);
 }
 
-#rollback_button,
+#history_button,
 #insert_button{
   width: 90%;
   font-size: 18px;
@@ -924,7 +924,7 @@ label{
 }
 
 #hybrid_precision,
-#rollback_display_limit{
+#history_display_limit{
   font-size: 15px;
   font-weight: 700;
   color:#000;
