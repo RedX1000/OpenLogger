@@ -17,6 +17,15 @@ import * as itemsLegacyFull from './JSONs/ItemsAndImagesLegacy.json';
 import * as itemsLegacyReorg from './JSONs/ItemsAndImagesLegacyReorganized.json';
 import * as itemsLegacyReorgTwo from './JSONs/ItemsAndImagesLegacyReorganizedTwo.json';
 
+/* A couple of notes for development
+- In order to adjust this plugin for other loot adjust two key things:
+	* The JSONs, the initializer and the image lists
+	* The Image or images that allow Alt1 to find the window 
+- One would need to tweak various settings around to accomdate the loot window
+- Value reader is also from the Clue Solver, so I'm not sure how it works, it may break.
+
+*/
+
 //tell webpack to add index.html and appconfig.json to output
 require("!file-loader?name=[name].[ext]!./index.html");
 require("!file-loader?name=[name].[ext]!./appconfig.json");
@@ -31,7 +40,7 @@ var ignorelist = ["EValue", "ECount", "MValue", "MCount", "HValue",
 	"Checked button", "Algorithm", "ItemList", "autoCapture",
 	"rerollToggle", "lagDetect", "multiButtonPressDetect", 
 	"hybridPrecision", "noMenu", "Rollback", "PrimaryKeyRollback",
-	"RollbackDisplayLimit"];
+	"RollbackDisplayLimit", "History", "PrimaryKeyHistory", "HistoryDisplayLimit"];
 
 var listOfItemsAll;
 var listOfItemsFull;
@@ -189,22 +198,22 @@ export async function init() {
 		noMenuCheck()
 	}
 
-	// Initialize Rollback
-	if (localStorage.getItem("Rollback") == null){
-		console.log("Creating rollback")
-		localStorage.setItem("Rollback",JSON.stringify([]))
+	// Initialize History
+	if (localStorage.getItem("History") == null){
+		console.log("Creating history")
+		localStorage.setItem("History",JSON.stringify([]))
 	}
 
-	// Initialize primary key for rollbacks
-	if (localStorage.getItem("PrimaryKeyRollback") == null){
-		console.log("Creating rollback primary key")
-		localStorage.setItem("PrimaryKeyRollback", "1")
+	// Initialize primary key for history
+	if (localStorage.getItem("PrimaryKeyHistory") == null){
+		console.log("Creating history primary key")
+		localStorage.setItem("PrimaryKeyHistory", "1")
 	}
 
-	// Initialize rollback display limit
-	if (localStorage.getItem("RollbackDisplayLimit") == null){
-		console.log("Creating rollback display limit")
-		localStorage.setItem("RollbackDisplayLimit", "25")
+	// Initialize history display limit
+	if (localStorage.getItem("HistoryDisplayLimit") == null){
+		console.log("Creating history display limit")
+		localStorage.setItem("HistoryDisplayLimit", "25")
 	}
 
 	// Set up image libraries
@@ -222,8 +231,8 @@ export async function init() {
 	//Set up settings
 	settingsInit()
 
-	//Set up rollback window
-	rollbackInit()
+	//Set up history window
+	historyInit()
 
 	alt1.overLayClearGroup("overlays");
 	alt1.overLaySetGroup("overlays");
@@ -256,9 +265,9 @@ export async function changeClueTierSpan(id: string, event: Event) {
 		document.getElementById(rewardSlots[i]).textContent = "";
 	}
 
-	// Set up rollback window
-	await rollbackClear()
-	rollbackInit()
+	// Set up history window
+	await historyClear()
+	historyInit()
 
 	// Set up arrays
 	await arraySetup()
@@ -323,7 +332,7 @@ export async function cleardb(choice: any) {
 
 		await init();
 		
-		localStorage.setItem("Rollback","[]")
+		localStorage.setItem("History","[]")
 
 		if (window.alt1) {
 			alt1.overLayClearGroup("overlays");
@@ -342,7 +351,7 @@ export async function cleardb(choice: any) {
 		// Yay learning for(const item of array) :))))
 		var temp = ignorelist.slice()
 		for(const item of temp){
-			if(!(["EValue", "ECount", "MValue", "MCount", "HValue", "HCount", "ElValue", "ElCount", "MaValue", "MaCount", "autoCapture", "PrimaryKeyRollback", "Rollback"].includes(item))){
+			if(!(["EValue", "ECount", "MValue", "MCount", "HValue", "HCount", "ElValue", "ElCount", "MaValue", "MaCount", "autoCapture", "PrimaryKeyRollback", "Rollback", "PrimaryKeyHistory", "History"].includes(item))){
 				localStorage.removeItem(item)
 			}
 		}
@@ -373,12 +382,12 @@ export async function cleardb(choice: any) {
 			localStorage.setItem(keys[i], JSON.stringify(temp));
 		}
 
-		let lsRollback = JSON.parse(localStorage.getItem("Rollback"))
-		for(let i = lsRollback.length - 1; i >= 0; i--){
-			if(lsRollback[i][3][0] == currentTier()[0]){
-				let temp = lsRollback[i]
-				lsRollback.splice(i, 1)
-				localStorage.setItem("Rollback",JSON.stringify(lsRollback))
+		let lsHistory = JSON.parse(localStorage.getItem("History"))
+		for(let i = lsHistory.length - 1; i >= 0; i--){
+			if(lsHistory[i][3][0] == currentTier()[0]){
+				let temp = lsHistory[i]
+				lsHistory.splice(i, 1)
+				localStorage.setItem("History",JSON.stringify(lsHistory))
 			}
 		}
 
@@ -390,14 +399,14 @@ export async function cleardb(choice: any) {
 		}
 	}
 	
-	let ele = document.getElementById("rollback_body")
+	let ele = document.getElementById("history_body")
 	let container = document.createElement("div")
 	container.textContent = "There's nothing here. Start scanning!"
 	container.setAttribute('style','font-size: 20px; text-align: center; margin: auto; padding: auto;')
 	ele.append(container)
 
-	await rollbackClear()
-	rollbackInit()
+	await historyClear()
+	historyInit()
 
 	document.getElementById("number_of_clues").textContent = "0";
 	document.getElementById("value_of_clues").textContent = "0";
@@ -616,7 +625,7 @@ async function findtrailComplete(img: ImgRef, autobool: boolean) {
 				return;
 			}
 		}
-		//TODO: give the rectangle borders its own group name "rect"
+
 		alt1.overLayClearGroup("overlays");
 		alt1.overLaySetGroup("rect");
 		if (!legacy) {
@@ -742,11 +751,11 @@ async function findtrailComplete(img: ImgRef, autobool: boolean) {
 					let comparison = true
 					if(autobool){
 						try{
-							let lsRollback = JSON.parse(localStorage.getItem("Rollback"))[JSON.parse(localStorage.getItem("Rollback")).length-1][0]
-							console.log("Checking arrays for equivalence:",JSON.parse(localStorage.getItem("Rollback"))[JSON.parse(localStorage.getItem("Rollback")).length-1][0], itemResults)
-							for(let j = 0; j < lsRollback.length; j++){
-								console.log("Comparing these items... :",lsRollback[j],itemResults[j])
-								if(lsRollback[j] === itemResults[j]){
+							let lsHistory = JSON.parse(localStorage.getItem("History"))[JSON.parse(localStorage.getItem("History")).length-1][0]
+							console.log("Checking arrays for equivalence:",JSON.parse(localStorage.getItem("History"))[JSON.parse(localStorage.getItem("History")).length-1][0], itemResults)
+							for(let j = 0; j < lsHistory.length; j++){
+								console.log("Comparing these items... :",lsHistory[j],itemResults[j])
+								if(lsHistory[j] === itemResults[j]){
 									console.log("They're the same. make it false.")
 									comparison = false
 								}
@@ -851,7 +860,7 @@ async function findtrailComplete(img: ImgRef, autobool: boolean) {
 		lastQuants = quantResults.slice();
 		lastTier = currentTier();
 
-		addRollbackToLs(lastValue, lastItems, lastQuants, lastTier)
+		addHistoryToLs(lastValue, lastItems, lastQuants, lastTier)
 		
 		// Put the items and quantites on the display!
 		document.getElementById("rewards_value").textContent = value.toLocaleString("en-US");
@@ -1421,7 +1430,7 @@ export function exporttocsv() {
 }
 
 
-async function addRollbackToLs(value: number, items: any, quants: any, tier: any){
+async function addHistoryToLs(value: number, items: any, quants: any, tier: any){
 	for(let i = items.length - 1; i >= 0; i--){
 		if(items[i] == "Blank"){
 			items.splice(i, 1)
@@ -1435,59 +1444,28 @@ async function addRollbackToLs(value: number, items: any, quants: any, tier: any
 		}
 	}
 
-	let previous = [items, quants, value, tier, localStorage.getItem(tier[2]), localStorage.getItem("PrimaryKeyRollback")]
-	let temp = JSON.parse(localStorage.getItem("Rollback"))
+	let previous = [items, quants, value, tier, localStorage.getItem(tier[2]), localStorage.getItem("PrimaryKeyHistory")]
+	let temp = JSON.parse(localStorage.getItem("History"))
 	temp.push(previous)
-	localStorage.setItem("Rollback", JSON.stringify(temp))
-	localStorage.setItem("PrimaryKeyRollback", JSON.stringify(parseInt(localStorage.getItem("PrimaryKeyRollback")) + 1))
+	localStorage.setItem("History", JSON.stringify(temp))
+	localStorage.setItem("PrimaryKeyHistory", JSON.stringify(parseInt(localStorage.getItem("PrimaryKeyHistory")) + 1))
 
-	await rollbackClear()
-	rollbackInit()
+	await historyClear()
+	historyInit()
 }
 
 
-async function rollbackClear(){
-	let body = document.getElementById("rollback_body")
+async function historyClear(){
+	let body = document.getElementById("history_body")
 	while (body.firstChild){
 		body.removeChild(body.lastChild)
 	}
 }
 
 
-export function rollback() {
-	//console.log(localStorage.getItem("Rollback"))
-	if(localStorage.getItem("Rollback") == "[]"){
-		if (window.alt1) {
-			alt1.overLayClearGroup("overlays");
-			alt1.overLaySetGroup("overlays");
-			alt1.overLayTextEx("Nothing to roll back from ls", a1lib.mixColor(255, 80, 80), 20, Math.round(alt1.rsWidth / 2), 200, 2000, "", true, true);
-		}
-		return;
-	}
-
-	if (window.alt1) {
-		alt1.overLayClearGroup("overlays");
-		alt1.overLaySetGroup("overlays");
-		alt1.overLayTextEx("Rolling back last reward...", a1lib.mixColor(255, 144, 0), 20, Math.round(alt1.rsWidth / 2), 200, 2000, "", true, true);
-	}
-
-	rollbackFunc(true);
-	document.getElementById("rewards_value").textContent = "0";
-	for (let i = 0; i < 9; i++)
-		document.getElementById(rewardSlots[i]).textContent = "";
-	lootDisplay();
-
-	if (window.alt1) {
-		alt1.overLayClearGroup("overlays");
-		alt1.overLaySetGroup("overlays");
-		alt1.overLayTextEx("Previous rewards rolled back successfully!", a1lib.mixColor(100, 255, 100), 20, Math.round(alt1.rsWidth / 2), 200, 2000, "", true, true);
-	}
-}
-
-
 function rollbackFunc(valueClear: boolean) { // TODO: Edit this once you get the interface up and running... Consider sending in an index value...
-	let lsRollback = JSON.parse(localStorage.getItem("Rollback"))
-	let lastRoll = lsRollback[lsRollback.length - 1]
+	let lsHistory = JSON.parse(localStorage.getItem("History"))
+	let lastRoll = lsHistory[lsHistory.length - 1]
 	//	Index 0 = Items
 	//	Index 1 = Quantities
 	//	Index 2 = Value of clue
@@ -1504,10 +1482,10 @@ function rollbackFunc(valueClear: boolean) { // TODO: Edit this once you get the
 	localStorage.setItem(lastRoll[3][1], JSON.stringify(JSON.parse(localStorage.getItem(lastRoll[3][1])) - lastRoll[2]));
 	localStorage.setItem(lastRoll[3][2], JSON.stringify(JSON.parse(localStorage.getItem(lastRoll[3][2])) - 1));
 
-	//console.log("Before splice:",lsRollback,"length is:",lsRollback.length)
-	lsRollback.pop()
-	//console.log("After splice:",lsRollback)
-	localStorage.setItem("Rollback", JSON.stringify(lsRollback))
+	//console.log("Before splice:",lsHistory,"length is:",lsHistory.length)
+	lsHistory.pop()
+	//console.log("After splice:",lsHistory)
+	localStorage.setItem("History", JSON.stringify(lsHistory))
 	
 	if (valueClear) {
 		lastValue = 0;
@@ -1515,17 +1493,17 @@ function rollbackFunc(valueClear: boolean) { // TODO: Edit this once you get the
 }
 
 
-function rollbackInit(){
-	let lsRollback = JSON.parse(localStorage.getItem("Rollback"))
-	//console.log(lsRollback)
-	let title = document.getElementById("rollback_tier_caps")
+function historyInit(){
+	let lsHistory = JSON.parse(localStorage.getItem("History"))
+	//console.log(lsHistory)
+	let title = document.getElementById("history_tier_caps")
 	title.textContent = currentTier()[0][0].toUpperCase() + currentTier()[0].slice(1).toLowerCase()
 
-	let quantity = document.getElementById("rollback_quantity")
-	quantity.textContent = localStorage.getItem("RollbackDisplayLimit")
+	let quantity = document.getElementById("history_quantity")
+	quantity.textContent = localStorage.getItem("HistoryDisplayLimit")
 
-	if(lsRollback.length == 0){
-		let ele = document.getElementById("rollback_body")
+	if(lsHistory.length == 0){
+		let ele = document.getElementById("history_body")
 		let container = document.createElement("div")
 		container.textContent = "There's nothing to roll back. Start scanning!"
 		container.setAttribute('style','font-size: 20px; text-align: center; margin: auto; padding: auto;')
@@ -1534,11 +1512,11 @@ function rollbackInit(){
 	else{
 		var index = parseInt(localStorage.getItem(currentTier()[2]));
 		var limit = 0
-		for(let i = lsRollback.length - 1; i >= 0 ; i--){ //Navigating lsRollback
-			if(limit <= parseInt(localStorage.getItem("RollbackDisplayLimit"))){
-				let temp = lsRollback[i]
+		for(let i = lsHistory.length - 1; i >= 0 ; i--){ //Navigating lsHistory
+			if(limit <= parseInt(localStorage.getItem("HistoryDisplayLimit"))){
+				let temp = lsHistory[i]
 				if(temp[3][0] === currentTier()[0]){
-					let ele = document.getElementById("rollback_body")
+					let ele = document.getElementById("history_body")
 					let container = document.createElement("div")
 					container.setAttribute("style", /*'background: url("styles/nis/alt1-currentskin/background.png");*/'background: url(images/items/Blank.png); margin: 10px 0px; padding: 5px 5px; display:grid; grid-template-columns: repeat(10 auto); align-items:center; border: 5px solid #f0b216; border-style: ridge;')
 					container.setAttribute('id','container' + temp[5])
@@ -1546,7 +1524,7 @@ function rollbackInit(){
 					let count = document.createElement("div")
 					count.textContent = (temp[3][0][0].toUpperCase() + temp[3][0].slice(1).toLowerCase()) + " Clue: " + index
 					count.setAttribute('style','width: auto; margin: auto 0 0 10; text-align: left; position: relative; color: #f0b216; font-family: "trajan-pro-3"; font-size: 12px; line-height: 20px; user-select: none; word-wrap: break-all; -webkit-user-select: none; grid-column: 1 / 4; grid-row: 1; text-shadow: 1px 1px 2px #000000;')
-					count.setAttribute('class','rollbackCount')
+					count.setAttribute('class','historyCount')
 					container.append(count)
 
 					let value = document.createElement("div")
@@ -1626,7 +1604,7 @@ function rollbackInit(){
 		}
 
 		if(index == parseInt(localStorage.getItem(currentTier()[2]))){
-			let ele = document.getElementById("rollback_body")
+			let ele = document.getElementById("history_body")
 			let container = document.createElement("div")
 			container.textContent = "There's nothing to roll back. Start scanning!"
 			container.setAttribute('style','font-size: 20px; text-align: center; margin: auto; padding: auto;')
@@ -1694,12 +1672,12 @@ export function rollbackYes(id: any){
 	pKey = parseInt(pKey.replace('button',''))
 
 	console.log(pKey)
-	let lsRollback = JSON.parse(localStorage.getItem("Rollback"))
-	for(let i = 0; i < lsRollback.length; i++){
-		if(lsRollback[i][5] == pKey){
-			var temp = lsRollback[i]
-			lsRollback.splice(i, 1)
-			localStorage.setItem("Rollback",JSON.stringify(lsRollback))
+	let lsHistory = JSON.parse(localStorage.getItem("History"))
+	for(let i = 0; i < lsHistory.length; i++){
+		if(lsHistory[i][5] == pKey){
+			var temp = lsHistory[i]
+			lsHistory.splice(i, 1)
+			localStorage.setItem("History",JSON.stringify(lsHistory))
 			break;
 		}
 	}
@@ -1716,21 +1694,21 @@ export function rollbackYes(id: any){
 	localStorage.setItem(temp[3][2], JSON.stringify(JSON.parse(localStorage.getItem(temp[3][2])) - 1));
 
 	console.log("Removed",pKey,"from LS")
-	if(pKey == ((parseInt(localStorage.getItem("PrimaryKeyRollback"))) - 1)){
+	if(pKey == ((parseInt(localStorage.getItem("PrimaryKeyHistory"))) - 1)){
 		document.getElementById("rewards_value").textContent = "0";
 		for (let i = 0; i < 9; i++)
 			document.getElementById(rewardSlots[i]).textContent = "";
 	}
 
-	let rollbackCount = document.getElementsByClassName('rollbackCount')
+	let historyCount = document.getElementsByClassName('historyCount')
 	let index = parseInt(localStorage.getItem(currentTier()[2]))
 	for(let i = 0; i < parseInt(localStorage.getItem(currentTier()[2])); i++){
 		if(i >= parseInt(localStorage.getItem("RollbackDisplayLimit"))){
 			break;
 		}
 		console.log(i);
-		console.log(rollbackCount[i].textContent,"is now",(currentTier()[0][0].toUpperCase() + currentTier()[0].slice(1).toLowerCase()) + " Clue: " + index);
-		rollbackCount[i].textContent = (currentTier()[0][0].toUpperCase() + currentTier()[0].slice(1).toLowerCase()) + " Clue: " + index;
+		console.log(historyCount[i].textContent,"is now",(currentTier()[0][0].toUpperCase() + currentTier()[0].slice(1).toLowerCase()) + " Clue: " + index);
+		historyCount[i].textContent = (currentTier()[0][0].toUpperCase() + currentTier()[0].slice(1).toLowerCase()) + " Clue: " + index;
 		index--;
 	}
 
@@ -1740,8 +1718,8 @@ export function rollbackYes(id: any){
 	//	index--
 	//}
 
-	rollbackClear();
-	rollbackInit();
+	historyClear();
+	historyInit();
 
 	if (window.alt1) {
 		alt1.overLayClearGroup("overlays");
@@ -1983,15 +1961,15 @@ export function settingsInit() {
 		ele.value = localStorage.getItem("hybridPrecision");
 	}
 
-	if (localStorage.getItem("RollbackDisplayLimit") == null) {
-		console.log("Defaulting RollbackDisplayLimit to 25...");
-		var ele = document.getElementById("rollback_display_limit") as HTMLInputElement;
+	if (localStorage.getItem("HistoryDisplayLimit") == null) {
+		console.log("Defaulting HistoryDisplayLimit to 25...");
+		var ele = document.getElementById("history_display_limit") as HTMLInputElement;
 		ele.value = "25";
-		localStorage.setItem("RollbackDisplayLimit", "25");
+		localStorage.setItem("HistoryDisplayLimit", "25");
 	}
 	else{
-		var ele = document.getElementById("rollback_display_limit") as HTMLInputElement;
-		ele.value = localStorage.getItem("RollbackDisplayLimit");
+		var ele = document.getElementById("history_display_limit") as HTMLInputElement;
+		ele.value = localStorage.getItem("HistoryDisplayLimit");
 	}
 }
 
@@ -2006,7 +1984,7 @@ export async function saveSettings(alg: string, list: string, reroll: string, la
 	localStorage.setItem("rerollToggle", reroll);
 	localStorage.setItem("lagDetect", lag);
 	localStorage.setItem("hybridPrecision", precision)
-	localStorage.setItem("RollbackDisplayLimit", limit)
+	localStorage.setItem("HistoryDisplayLimit", limit)
 
 	if (localStorage.getItem("multiButtonPressDetect") !== multi) {
 		localStorage.setItem("multiButtonPressDetect", multi)
@@ -2037,8 +2015,8 @@ export async function saveSettings(alg: string, list: string, reroll: string, la
 		noMenuCheck()
 	}
 
-	rollbackClear()
-	rollbackInit()
+	historyClear()
+	historyInit()
 
 	settingsInit()
 	await arraySetup();

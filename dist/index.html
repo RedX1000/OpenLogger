@@ -41,7 +41,7 @@
 								<input type="radio" id="master" name="clue_scroll_level" class="clue_scroll_level" value="master" onclick="TEST.changeClueTierSpan('master', event);">
 							</div>
 						</div>
-						<h3 class="clue_scrolls_button_footer">07/04/2022: See below</h3> <!--style="color: rgb(255, 94, 0)"-->
+						<h3 class="clue_scrolls_button_footer">07/17/2022: See below</h3> <!--style="color: rgb(255, 94, 0)"-->
 					</div>
 					<div class="main_buttons" id="top">
 						<div id="bottom_buttons">
@@ -85,7 +85,7 @@
 							<div id="ninth_item" class="rewards"></div>
 						</div>
 						<div id="bottom_buttons">
-							<div id="rollback_button" class="nisbutton" data-toggle="modal" data-target="#rollback">Rollback</div><!--onclick="TEST.rollback();"-->	
+							<div id="history_button" class="nisbutton" data-toggle="modal" data-target="#history">History</div><!--onclick="TEST.rollback();"-->	
 							<div id="insert_button" class="nisbutton" data-toggle="modal" data-target="#insert"><strike>&nbsp;Insert&nbsp;</strike></div>
 							<!-- onclick="TEST.insert();" -->
 						</div>
@@ -118,9 +118,9 @@
 		<footer>
 			<div class="footer_bar"></div>
 			<div class="copyright">
-				&nbsp;&nbsp;<span style="color: rgb(235, 196, 22)">07/04/2022: For those with existing versions of OpenLogger, Click "Clear Options Menu", and then completely reset OpenLogger for the Rollback button update. Previous clues before today will not be logged in the Rollback feature pushed today.<br></span>
+				&nbsp;&nbsp;<span style="color: rgb(235, 196, 22); font-size: 13px;">07/17/2022: Rollback and various instances of is have been renamed to History, as it turns out that's exactly what it is. You may not see previous history logs. To restore, copy "Rollback" value from <span style="font-family: Consolas;">localStorage</span> and paste it where the "History" key is located. If unsure of how to access <span style="font-family: Consolas;">localStorage</span>, see the GitHub link below.<br><br></span>
 				&nbsp;&nbsp;Reach out on Discord for bug reports and inquiries @ RedX1000#3655<br>
-				&nbsp;&nbsp;More information and troubleshooting on the <a id="githublink" href="alt1://browser/https://github.com/RedX1000/OpenLogger">Github Page</a>
+				&nbsp;&nbsp;More information and troubleshooting on the <a id="githublink" href="alt1://browser/https://github.com/RedX1000/OpenLogger">GitHub Page</a>
 			</div>
 		</footer>
 		
@@ -226,10 +226,10 @@
 		                            <input type="number" min="0" max="2" step="0.1" value="0.3" id="hybrid_precision" name="precision" class="hybrid_precision_text" title="Determines the level of precision for the Hybrid Algorithm.&#013;&#013;Lower: More precise & faster, Higher: Less precise & slower.&#013;&#013;Default is 0.3, lowest value is 0.1 and highest value is 1.0">
 		                        </div>
 		                    </div>
-							<label class="title_labels" title="Determines how many previous clues will display in the Rollback menu at one time.&#013;&#013;Default value is 25.">Rollback Display Limit:<br></label>
-		                    <div id="rollback_display_field">
+							<label class="title_labels" title="Determines how many previous clues will display in the History menu at one time.&#013;&#013;Default value is 25.">History Display Limit:<br></label>
+		                    <div id="history_display_field">
 		                        <div class="main_divs">
-		                            <input type="number" min="0" step="1" value="25" id="rollback_display_limit" name="rollbacklimit" class="rollback_display_text" title="Determines how many previous clues will display in the Rollback menu at one time.&#013;&#013;Default value is 25.">
+		                            <input type="number" min="0" step="1" value="25" id="history_display_limit" name="historylimit" class="history_display_text" title="Determines how many previous clues will display in the History menu at one time.&#013;&#013;Default value is 25.">
 		                        </div>
 		                    </div>
 		                    <label class="title_labels" title="Determines whether clues are automatically captured or not. The lock on the capture button toggles this.">Autocapture:<br></label>
@@ -357,16 +357,16 @@
 		</div>
 		<!-- END RESET CURRENT TIER VERIFICATION MODAL -->
 
-		<!-- ROLLBACK MODAL -->
-		<div class="modal fade " id="rollback" tabindex="-1" role="dialog" aria-labelledby="important-msg-label" aria-hidden="true">
+		<!-- HISTORY MODAL -->
+		<div class="modal fade " id="history" tabindex="-1" role="dialog" aria-labelledby="important-msg-label" aria-hidden="true">
 			<div class="modal-dialog">
 			  	<div class="modal-content">
 					<div class="modal-header">
 				  		<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true" class="close_x">&times;</span><span class="sr-only">Close</span></button>
-				  		<h1 class="modal-title" id="important-msg-label">Rollback <span class="current_tier_button" id="rollback_tier_caps"></span> Clue Rewards<span id="hovertip" title="Hover over the options to learn more!&#013;&#013;Explore the Github link in the footer for more details.">&hairsp;&hairsp;&nbsp;?&nbsp;&hairsp;&hairsp;</span></h1>
-						<h2 id="rollback_quantity_title">Displaying the last <span id="rollback_quantity"></span> captured clues</h2>
+				  		<h1 class="modal-title" id="important-msg-label">History of <span class="current_tier_button" id="history_tier_caps"></span> Clue Rewards<span id="hovertip" title="Hover over the options to learn more!&#013;&#013;Explore the Github link in the footer for more details.">&hairsp;&hairsp;&nbsp;?&nbsp;&hairsp;&hairsp;</span></h1>
+						<h2 id="history_quantity_title">Displaying the last <span id="history_quantity"></span> captured clues</h2>
 					</div>
-					<div class="modal-body" id="rollback_body">
+					<div class="modal-body" id="history_body">
 					</div>
 					<div class="modal-footer">
 						<div id="db_return_button" class="nisbuttonblue" data-dismiss="modal" onclick="">Return</div>
@@ -374,7 +374,7 @@
 			  	</div>
 			</div>
 		</div>
-		<!-- END ROLLBACK MODAL -->
+		<!-- END HISTORY MODAL -->
 
 		<!-- INSERT MODAL -->
 		<div class="modal fade " id="insert" tabindex="-1" role="dialog" aria-labelledby="important-msg-label" aria-hidden="true">
@@ -468,12 +468,12 @@
 					precision = "0.3"
 				}
 
-				if(document.getElementById("rollback_display_limit").getAttribute("value") != null){
-					if(document.getElementById("rollback_display_limit").value < 0){
+				if(document.getElementById("history_display_limit").getAttribute("value") != null){
+					if(document.getElementById("history_display_limit").value < 0){
 						limit = 0
 					}
 					else{
-				 		limit = document.getElementById("rollback_display_limit").value
+				 		limit = document.getElementById("history_display_limit").value
 						limit = Math.trunc(limit)
 					}
 				}
