@@ -29,7 +29,7 @@ This application was created to provide players with a way to easily record thei
 ### Quick links to important parts of the document 
 * [Capture Rewards](#capture-rewards)
 * [AutoCapture](#autocapture)
-* [Rollback](#rollback)
+* [History (Rollback)](#history-rollback)
 * [Settings](#settings)
 * [Hybrid](#image-searching-algorithm)
 * [Avoiding menus causing multi-capturing](#avoiding-menus-causing-multi-capturing-a-few-tips-on-where-to-avoid-having-menus-appearing-over-the-value)
@@ -47,7 +47,7 @@ This application was created to provide players with a way to easily record thei
 * Clues can be autocaptured by clicking on the lock (Closed == On, Open == Off).
 * This is turned off by default. Click the lock to enable it.
 * When opening settings or Clear Options Menu buttons, autocapture is automatically disabled.
-* **Be careful when obfuscating details in the clue window**, specifically "Current Reward Value: X" coins, "Reroll Reward ( X )", and the clue rewards. There is code in place to help avoid this for values, but it can happen if 2 values from the left are left uncovered. If this happens for items, perform a [rollback](#rollback).
+* **Be careful when obfuscating details in the clue window**, specifically "Current Reward Value: X" coins, "Reroll Reward ( X )", and the clue rewards. There is code in place to help avoid this for values, but it can happen if 2 values from the left are left uncovered. If this happens for items, perform a [rollback](#history-rollback).
 * List of things to not hover over below at [Additional Information](#additional-information) and [Avoiding menus causing multi-capturing](#avoiding-menus-causing-multi-capturing-a-few-tips-on-where-to-avoid-having-menus-appearing-over-the-value).
 * Easy way to fix a misread is to disable autocapture, rolling it backand recapturing it. 
 * If some items are not reading correctly when capturing, it is most likely caused by icons loading in. Check to see if [lag detection](#miscellaneous-toggles) settings are on in the OpenLogger [settings](#settings) and manually roll it back. The clue should be automatically recaptured.
@@ -60,14 +60,14 @@ This application was created to provide players with a way to easily record thei
 * This will be useful for storing data long term or for crowdsourcing data, i.e. A clan casket opening event.<br>
 ![CSV Example](/dist/images/CSV%20demo.png "CSV Example") <br><br>
 
-## Rollback
-* Rollback will open a menu that displays every captured clue of the currently selected type that can be rolled back and deleted.
-* By default, Rollback will the display the last 25 items you've captured. This can be adjusted in the [Settings](#settings) under Rollback Display Limit. 
-* Rollbacks will remove the given items quantities, the currently selected clues' value, and its counter.
+## History (Rollback)
+* History will open a menu that displays every captured clue of the currently selected type that can be rolled back and deleted.
+* By default, History will the display the last 25 items you've captured. This can be adjusted in the [Settings](#settings) under History Display Limit. 
+* Rollbacks performed in History will remove the given items quantities, the currently selected clues' value, and its counter.
+* When you click "Delete", verification buttons "Yes" and "No" will appear in it's place. Upon clicking yes, the given entry will be deleted from `localStorage` and the display will update to reflect this. If the deleted entry is the first in the list, the recently captured rewards display will clear itself. Clicking "No" will revert the button back to "Delete".<br>
 * These displayed clues persist between sessions, so clues can be rolled back from `localStorage` at any time.
 * This is great if you accidentally scan a clue twice, trigger a multi-capture, or if OpenLogger incorrectly identifies an item or value (Ways to mitigate multi-capture from value obfuscation jump to [Avoiding menus causing multi-capturing](#avoiding-menus-causing-multi-capturing-a-few-tips-on-where-to-avoid-having-menus-appearing-over-the-value).)
-* When you click "Delete", verification buttons "Yes" and "No" will appear in it's place. Upon clicking yes, the given entry will be deleted from `localStorage` and the display will update to reflect this. If the deleted entry is the first in the list, the recently captured rewards display will clear itself.<br>
-![Rollback Example](/dist/images/RollbackSample.png "Rollback Example") <br><br>
+![History Example](/dist/images/HistorySample.png "History Example") <br><br>
 
 ## Clear Options Menu
 * Clear Options Menu has multiple choices that determine the scope of how much you want to delete from the database of items.
@@ -107,13 +107,13 @@ This application was created to provide players with a way to easily record thei
 
 ### Miscellaneous Toggles
 1. Reroll Detection: Determines whether rerolls should be detected or not when capturing clues. When on, rerolls trigger a rollback of the previous reward and logs the new rewards. 
-2. Lag Detection: Determines whether lag should be detected when scanning clues. When on, it will try to rescan it again. In the event that it does not capture everything due to lag, perform a manual rollback and try again.
+2. Lag Detection: Determines whether lag should be detected when scanning clues. When on, it will try to rescan it again. In the event that it does not capture everything due to lag, perform a rollback and try again.
 3. Multi button prevention: Prevents the user from accidentally multi-logging a clue by disabling the capture button when autocapture is on and when the plugin is trying to capture a clue.
 4. No Menu Highlighter: Displays a box where the user should prevent menus appearing at all costs while AutoCapture is on. A menu appearing in this area could potentially cause a double capture that cannot be rolled back. More information on how to avoid a multi-capture, [click here](#avoiding-menus-causing-multi-capturing-a-few-tips-on-where-to-avoid-having-menus-appearing-over-the-value).
 5. Hybrid Alg Precision: Allows the user to adjust the precision of the Hybrid image recognition algorithm.
     * The lower the value, the higher the precision. The higher the precision, the faster it runs, but the less accurate it could potentially be, and vice versa. 
     * Default value is 0.3, minimum value is 0.1, maximum value is 1.0. Setting this value higher or lower than this will be auto-capped.
-6. Rollback Display Limit: Limits the number of latest clues displayed within the Rollback menu. Default value is 25, minimum value is 0. <br><br>
+6. History Display Limit: Limits the number of latest clues displayed within the History menu. Default value is 25, minimum value is 0. <br><br>
 
 # Additional information
 * ### When scanning clues, do not obfuscate these spots on a casket open screen.
@@ -139,7 +139,7 @@ This application was created to provide players with a way to easily record thei
     * It **_IS_** safe to hover over or right click items as long as the menu resulting from it can cover the "Current Reward Value" text, but try to avoid it. A few examples of safe menus:<br>
     ![Hover-over menu covering both value and 'Current Reward Value'"](/dist/images/menu%20screen2.png "Hover-over menu covering both value and 'Current Reward Value'")<br>
     ![Right click menu covering only the 'Current Reward Value'"](/dist/images/menu%20screen3.png "Right click menu covering only 'Current Reward Value'")
-    * In the event that a capture is auto-triggered due to this, roll it back in the [Rollback menu](#rollback) <br><br>
+    * In the event that a capture is auto-triggered due to this, roll it back in the [History menu](#history-rollback) <br><br>
 
 * ### This plugin stores data using `localStorage` within Alt1, therefore it can remember all of the loot you have gotten between sessions unless it is deleted. To completely refresh it:
     * Select "Completely Reset OpenLogger" in the Clear Options Menu and select "Reset Everything" OR:
