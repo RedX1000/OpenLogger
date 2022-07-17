@@ -401,7 +401,7 @@ export async function cleardb(choice: any) {
 	
 	let ele = document.getElementById("history_body")
 	let container = document.createElement("div")
-	container.textContent = "There's nothing here. Start scanning!"
+	container.textContent = "There's nothing here to display. Start scanning!"
 	container.setAttribute('style','font-size: 20px; text-align: center; margin: auto; padding: auto;')
 	ele.append(container)
 
@@ -1505,7 +1505,7 @@ function historyInit(){
 	if(lsHistory.length == 0){
 		let ele = document.getElementById("history_body")
 		let container = document.createElement("div")
-		container.textContent = "There's nothing to roll back. Start scanning!"
+		container.textContent = "There's nothing to display. Start scanning!"
 		container.setAttribute('style','font-size: 20px; text-align: center; margin: auto; padding: auto;')
 		ele.append(container)
 	}
@@ -1606,7 +1606,7 @@ function historyInit(){
 		if(index == parseInt(localStorage.getItem(currentTier()[2]))){
 			let ele = document.getElementById("history_body")
 			let container = document.createElement("div")
-			container.textContent = "There's nothing to roll back. Start scanning!"
+			container.textContent = "There's nothing to display. Start scanning!"
 			container.setAttribute('style','font-size: 20px; text-align: center; margin: auto; padding: auto;')
 			ele.append(container)
 		}
