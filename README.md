@@ -33,7 +33,7 @@ This application was created to provide players with a way to easily record thei
 * [Settings](#settings)
 * [Hybrid](#image-searching-algorithm)
 * [Avoiding menus causing multi-capturing](#avoiding-menus-causing-multi-capturing-a-few-tips-on-where-to-avoid-having-menus-appearing-over-the-value)
-* [Accessing `localStorage`](#this-plugin-stores-data-using-localstorage-within-alt1-therefore-it-can-remember-all-of-the-loot-you-have-gotten-between-sessions-unless-it-is-deleted-to-access-it)
+* [Accessing `localStorage`](#this-plugin-stores-data-using-localstorage-within-alt1-therefore-it-can-remember-all-of-the-loot-you-have-gotten-between-sessions-unless-it-is-cleared-to-access-it)
 * [Special thanks](#special-thanks) <br><br>
 
  # Instructions on how to use
