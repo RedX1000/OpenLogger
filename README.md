@@ -13,7 +13,7 @@ This application was created to provide players with a way to easily record thei
 
 ## How to install
 ### Copy and paste this link in your browser to install OpenLogger to Alt1 automatically
-#### `alt1://addapp/https://redx1000.github.io/OpenLogger/appconfig.json`  <br><br>
+#### `alt1://addapp/https://redx1000.github.io/OpenLogger/appconfig.json` <br><br>
 
 ### Or use direct link
 #### https://redx1000.github.io/OpenLogger <br>
@@ -22,9 +22,9 @@ This application was created to provide players with a way to easily record thei
 2. Open Alt1 applications and open the browser.
 3. Paste link in URL bar and press enter.
 4. Click Add App on the top of the page.
-5. Accept permissions and click confirm.  <br><br>
+5. Accept permissions and click confirm. <br><br>
 
-![OpenLogger Tall](/dist/images/OpenLogger%20Tall.png "OpenLogger Tall")  <br><br>
+![OpenLogger Tall](/dist/images/OpenLogger%20Tall.png "OpenLogger Tall") <br><br>
 
 ### Quick links to important parts of the document 
 * [Capture Rewards](#capture-rewards)
@@ -34,7 +34,7 @@ This application was created to provide players with a way to easily record thei
 * [Hybrid](#image-searching-algorithm)
 * [Avoiding menus causing multi-capturing](#avoiding-menus-causing-multi-capturing-a-few-tips-on-where-to-avoid-having-menus-appearing-over-the-value)
 * [Accessing `localStorage`](#this-plugin-stores-data-using-localstorage-within-alt1-therefore-it-can-remember-all-of-the-loot-you-have-gotten-between-sessions-unless-it-is-deleted-to-access-it)
-* [Special thanks](#special-thanks)  <br><br>
+* [Special thanks](#special-thanks) <br><br>
 
  # Instructions on how to use
  ## Capture Rewards
@@ -42,7 +42,7 @@ This application was created to provide players with a way to easily record thei
     * Make sure clue reward window is not obfuscated in order to get a correct reading; list of things to not obfuscate at [Additional Information](#additional-information) and [Avoiding menus causing multi-capturing](#avoiding-menus-causing-multi-capturing-a-few-tips-on-where-to-avoid-having-menus-appearing-over-the-value).
 2. Press the Capture button, press Alt+1, or enable Autocapture to record the clue reward interface.
 3. Wait a bit, recording can be less than 600ms or over 5 seconds seconds depending on the tier of clue, the amount of rewards in the window, the image searching algorithmn used, and the image collection library used (Some users experience longer times than usual. Tweak with the settings or DM me if this happens).
-4. Rewards appear in the OpenLogger interface with the value, and a dynamic display that updates when new rewards come in, the total number of clues logged, and the total and average value for the number of completed clues.   <br><br>
+4. Rewards appear in the OpenLogger interface with the value, and a dynamic display that updates when new rewards come in, the total number of clues logged, and the total and average value for the number of completed clues.  <br><br>
 
 ## Autocapture
 * Clues can be autocaptured by clicking on the lock (Closed == On, Open == Off).
