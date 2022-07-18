@@ -33,6 +33,7 @@ This application was created to provide players with a way to easily record thei
 * [Settings](#settings)
 * [Hybrid](#image-searching-algorithm)
 * [Avoiding menus causing multi-capturing](#avoiding-menus-causing-multi-capturing-a-few-tips-on-where-to-avoid-having-menus-appearing-over-the-value)
+* [Accessing `localStorage`](#this-plugin-stores-data-using-localstorage-within-alt1-therefore-it-can-remember-all-of-the-loot-you-have-gotten-between-sessions-unless-it-is-deleted-to-access-it)
 * [Special thanks](#special-thanks)  <br><br>
 
  # Instructions on how to use
@@ -141,16 +142,16 @@ This application was created to provide players with a way to easily record thei
     ![Right click menu covering only the 'Current Reward Value'"](/dist/images/menu%20screen3.png "Right click menu covering only 'Current Reward Value'")
     * In the event that a capture is auto-triggered due to this, roll it back in the [History menu](#history-rollback) <br><br>
 
-* ### This plugin stores data using `localStorage` within Alt1, therefore it can remember all of the loot you have gotten between sessions unless it is deleted. To completely refresh it:
-    * Select "Completely Reset OpenLogger" in the Clear Options Menu and select "Reset Everything" OR:
-    <br><br>
-    1. Right click 
-    2. Inspect element
-    3. Application tab
-    4. Storage
-    5. Local Storage
-    6. right click the link
-    7. Clear <br><br>
+* ### This plugin stores data using `localStorage` within Alt1, therefore it can remember all of the loot you have gotten between sessions unless it is cleared. To access it:
+    1. Right click the plugin anywhere 
+    2. Click "Inspect element"
+    3. Click the "Application" tab
+    4. On the left-hand side, under "Storage", click "Local Storage"
+    6. Click the link under "Local Storage"
+
+    * To Clear `localStorage` completely it can be done in one of two ways:
+        * Select "Completely Reset OpenLogger" in the Clear Options Menu and select "Reset Everything" (Easiest best choice).
+        * Right click the link under Local Storage and select "Clear". <br><br>
 
 * ### OpenLogger can be stretched out widthwise to display more of the loot in its display, as the top is flexy:<br>![OpenLogger Wide](/dist/images/OpenLogger%20Wide.png "OpenLogger Wide") <br><br>
 
