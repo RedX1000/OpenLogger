@@ -149,7 +149,8 @@ This application was created to provide players with a way to easily record thei
 &emsp;&emsp;&emsp;4\. On the left-hand side, under "Storage", click "Local Storage" <br>
 &emsp;&emsp;&emsp;5\. Click the link under "Local Storage" <br>
 
-    * To Clear `localStorage` completely it can be done in one of two ways:
+-
+    - To Clear `localStorage` completely it can be done in one of two ways:
         * Select "Completely Reset OpenLogger" in the Clear Options Menu and select        "Reset Everything" (Easiest best choice).
         * Right click the link under Local Storage and select "Clear". <br><br>
 
