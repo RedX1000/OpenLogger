@@ -39,7 +39,7 @@ This application was created to provide players with a way to easily record thei
  # Instructions on how to use
  ## Capture Rewards
 1. Open a reward casket (Easy, Medium, Hard, Elite, Master).
-    * Make sure clue reward window is not obfuscated in order to get a correct reading; list of things to not obfuscate at [Additional Information](#additional-information) and [Avoiding menus causing multi-capturing](#avoiding-menus-causing-multi-capturing-a-few-tips-on-where-to-avoid-having-menus-appearing-over-the-value).
+    * Make sure clue reward window is not covered in order to get a correct reading; list of things to not obfuscate at [Additional Information](#additional-information) and [Avoiding menus causing multi-capturing](#avoiding-menus-causing-multi-capturing-a-few-tips-on-where-to-avoid-having-menus-appearing-over-the-value).
 2. Press the Capture button, press Alt+1, or enable Autocapture to record the clue reward interface.
 3. Wait a bit, recording can be less than 600ms or over 5 seconds seconds depending on the tier of clue, the amount of rewards in the window, the image searching algorithmn used, and the image collection library used (Some users experience longer times than usual. Tweak with the settings or DM me if this happens).
 4. Rewards appear in the OpenLogger interface with the value, and a dynamic display that updates when new rewards come in, the total number of clues logged, and the total and average value for the number of completed clues.  <br><br>
@@ -48,7 +48,7 @@ This application was created to provide players with a way to easily record thei
 * Clues can be autocaptured by clicking on the lock (Closed == On, Open == Off).
 * This is turned off by default. Click the lock to enable it.
 * When opening settings or Clear Options Menu buttons, autocapture is automatically disabled.
-* **Be careful when obfuscating details in the clue window**, specifically "Current Reward Value: X" coins, "Reroll Reward ( X )", and the clue rewards. There is code in place to help avoid this for values, but it can happen if 2 values from the left are left uncovered. If this happens for items, perform a [rollback](#history-rollback).
+* **Be careful to not cover details in the clue window**, specifically "Current Reward Value: X" coins, "Reroll Reward ( X )", and the clue rewards. There is code in place to help avoid this for values, but it can happen if 2 values from the left are left uncovered. If this happens for items, perform a [rollback](#history-rollback).
 * List of things to not hover over below at [Additional Information](#additional-information) and [Avoiding menus causing multi-capturing](#avoiding-menus-causing-multi-capturing-a-few-tips-on-where-to-avoid-having-menus-appearing-over-the-value).
 * Easy way to fix a misread is to disable autocapture, rolling it backand recapturing it. 
 * If some items are not reading correctly when capturing, it is most likely caused by icons loading in. Check to see if [lag detection](#miscellaneous-toggles) settings are on in the OpenLogger [settings](#settings) and manually roll it back. The clue should be automatically recaptured.
@@ -117,7 +117,7 @@ This application was created to provide players with a way to easily record thei
 6. History Display Limit: Limits the number of latest clues displayed within the History menu. Default value is 25, minimum value is 0. <br><br>
 
 # Additional information
-* ### When scanning clues, do not obfuscate these spots on a casket open screen.
+* ### When scanning clues, do not cover these spots on a casket open screen.
     * EOC rewards display: <br>![EOC rewards display](/dist/images/rewardsample.png "EOC Rewards")
     * Legacy rewards display: <br>![EOC rewards display](/dist/images/rewardsamplelegacy.png "Legacy Rewards")
     * EOC Trail Complete in the corner:&nbsp;&nbsp; ![EOC Trail Complete in the corner](/dist/images/TrailComplete.data.png "Trail Complete")
@@ -132,7 +132,7 @@ This application was created to provide players with a way to easily record thei
     * Legacy Current Reward Value <u><b><i>[INCLUDING NUMBERS](#a-few-tips-on-where-to-avoid-having-menus-appearing-over-the-value)</i></b></u>:&nbsp;&nbsp; ![Legacy Current Reward Value INCLUDING NUMBERS](/dist/images/RewardValueLegacy.data.png "Legacy Current Reward Value")
     * These words in the EOC reroll window:&nbsp;&nbsp; ![These words in the reroll window](/dist/images/rerollWindow.data.png "Reroll words")
     * The current value of rerolls remaining:&nbsp;&nbsp; ![The current value of rerolls remaining](/dist/images/rerollnumbers.png "Reroll numbers")
-    * **Everything else is free game to obfuscate. More details below about preventing multi-capturing over the value** <br><br>
+    * **Everything else is free game to accidentally cover. More details below about preventing multi-capturing over the value** <br><br>
 
 * ### Avoiding menus causing multi-capturing: A few tips on where to avoid having menus appearing over the value
     * It IS **_NOT_** safe to have a menu pop up if covering ONLY the value itself. OpenLogger WILL capture if you cover up the value such that ONLY the value is covered up like this:<br>![Menu covering only the value](/dist/images/menu%20screen1.png "Menu covering only value")
@@ -143,27 +143,27 @@ This application was created to provide players with a way to easily record thei
     * In the event that a capture is auto-triggered due to this, roll it back in the [History menu](#history-rollback) <br><br>
 
 * ### This plugin stores data using `localStorage` within Alt1, therefore it can remember all of the loot you have gotten between sessions unless it is cleared. To access it:
-    1. Right click the plugin anywhere 
-    2. Click "Inspect element"
-    3. Click the "Application" tab
-    4. On the left-hand side, under "Storage", click "Local Storage"
-    6. Click the link under "Local Storage"
+&emsp;&emsp;&emsp;1\. Right click the plugin anywhere <br>
+&emsp;&emsp;&emsp;2\. Click "Inspect element" <br>
+&emsp;&emsp;&emsp;3\. Click the "Application" tab <br>
+&emsp;&emsp;&emsp;4\. On the left-hand side, under "Storage", click "Local Storage" <br>
+&emsp;&emsp;&emsp;5\. Click the link under "Local Storage" <br>
 
     * To Clear `localStorage` completely it can be done in one of two ways:
-        * Select "Completely Reset OpenLogger" in the Clear Options Menu and select "Reset Everything" (Easiest best choice).
+        * Select "Completely Reset OpenLogger" in the Clear Options Menu and select        "Reset Everything" (Easiest best choice).
         * Right click the link under Local Storage and select "Clear". <br><br>
 
 * ### OpenLogger can be stretched out widthwise to display more of the loot in its display, as the top is flexy:<br>![OpenLogger Wide](/dist/images/OpenLogger%20Wide.png "OpenLogger Wide") <br><br>
 
 ## Potential or planned updates
-* Better legacy interface support. I don't test with it much. Legacy interface can log clues and perform lag detection checks, but I do not have a reroll window detection set for legacy mode, and I would need to iron out any bugs or kinks that appear. Use at your own risk.
+* Better legacy interface support; I don't test with it much. Legacy interface can log clues and perform lag detection checks, but I do not have a reroll window detection set for legacy mode, and I would need to iron out any bugs or kinks that appear. Use at your own risk.
 * Allowing the user to deposit or withdraw a reward or value into or out of `localStorage` directly in case of a misread.
 * Allowing download of last clue reward captured. <br><br>
 
 ## Special thanks
-* Skillbert for creating Alt1 and providing the tools and libraries to create third-party applications.
-* Dala/Daladen for not only providing me with an insight into how the Summit Clue Logger worked to help write OpenLogger and for general web dev help, but also for providing all of the reference images for image comparison. Could not have done this project without those images.
-* Athabastyx for the technical help and Javascript insight. This is my first JS/TS project and Atha helped a lot with helping me understand new functions, libraries, and how to optimize things better.
+* Skillbert, for creating Alt1 and providing the tools and libraries to create third-party applications.
+* Dala/Daladen, for not only providing me with an insight into how the Summit Clue Logger worked to help write OpenLogger and for general web dev help, but also for providing all of the reference images for image comparison. Could not have done this project without those images.
+* Athabastyx, for the technical help and Javascript insight. This is my first JS/TS project and Atha helped a lot with helping me understand new functions, libraries, and how to optimize things better.
 * All the people I've reached out to and have provided help regarding JS/TS and Alt1 plugin questions through the [Runeapps Discord channel](https://discord.com/invite/G3SbcS8) and DMs. 
 * The [Clue Chaser Discord channel](https://discord.gg/cluechasers) for the near-endless amounts of clue reward screenshots to test on.
 * Everyone reaching out to report bugs and make suggestions. <br><br>
