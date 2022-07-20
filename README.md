@@ -11,6 +11,8 @@
 ## Description
 This application was created to provide players with a way to easily record their clue scroll rewards in bulk, or over the course of their clue runs, and to allow users to share their clue data with others. <br><br>
 
+OpenLogger works out of the box, so you don't have to adjust any settings if you don't want to. Select the tier of clue you're opening and manually capture or press the lock to autocapture clue rewards to begin logging! <br><br>
+
 ## How to install
 ### Copy and paste this link in your browser to install OpenLogger to Alt1 automatically
 #### `alt1://addapp/https://redx1000.github.io/OpenLogger/appconfig.json` <br><br>
@@ -38,11 +40,12 @@ This application was created to provide players with a way to easily record thei
 
  # Instructions on how to use
  ## Capture Rewards
-1. Open a reward casket (Easy, Medium, Hard, Elite, Master).
+1. Select the tier of clue you're opening with the radio buttons in the top-left corner of the window (Easy, Medium, Hard, Elite, Master).
+2. Open a reward casket (Easy, Medium, Hard, Elite, Master).
     * Make sure clue reward window is not covered in order to get a correct reading; list of things to not obfuscate at [Additional Information](#additional-information) and [Avoiding menus causing multi-capturing](#avoiding-menus-causing-multi-capturing-a-few-tips-on-where-to-avoid-having-menus-appearing-over-the-value).
-2. Press the Capture button, press Alt+1, or enable Autocapture to record the clue reward interface.
-3. Wait a bit, recording can be less than 600ms or over 5 seconds seconds depending on the tier of clue, the amount of rewards in the window, the image searching algorithmn used, and the image collection library used (Some users experience longer times than usual. Tweak with the settings or DM me if this happens).
-4. Rewards appear in the OpenLogger interface with the value, and a dynamic display that updates when new rewards come in, the total number of clues logged, and the total and average value for the number of completed clues.  <br><br>
+3. Press the Capture button, press Alt+1, or enable Autocapture to record the clue reward interface.
+4. Wait a bit, recording can be less than 600ms or over 5 seconds seconds depending on the tier of clue, the amount of rewards in the window, the image searching algorithmn used, and the image collection library used (Some users experience longer times than usual. Tweak with the settings or DM me if this happens).
+5. Rewards appear in the OpenLogger interface with the value, and a dynamic display that updates when new rewards come in, the total number of clues logged, and the total and average value for the number of completed clues. Captured clues are also saved within the [history](#history-rollback) for review and deletion. <br><br>
 
 ## Autocapture
 * Clues can be autocaptured by clicking on the lock (Closed == On, Open == Off).
