@@ -1,5 +1,5 @@
 # OpenLogger
-## An open-source Alt1 Plugin designed for tracking clue rewards.
+### An open-source Alt1 Plugin designed for tracking clue rewards.
 #### Report bugs or questions, message me 🙂 -> Discord: RedX1000#3655
 #### RuneApps forum page: https://runeapps.org/forums/viewtopic.php?pid=4751
 
@@ -8,12 +8,12 @@
 * *NOTE: When reporting a crash, please take a screenshot of the loot window and send it to me. Use Windows Key + Shift + S, Lightshot, or Gyazo to take the screenshot to avoid distortion.*
 <br><br>
 
-## Description
+### Description
 This application was created to provide players with a way to easily record their clue scroll rewards in bulk, or over the course of their clue runs, and to allow users to share their clue data with others. <br><br>
 
 OpenLogger works out of the box, so you don't have to adjust any settings if you don't want to. Select the tier of clue you're opening and manually capture or press the lock to autocapture clue rewards to begin logging! <br><br>
 
-## How to install
+### How to install
 ### Copy and paste this link in your browser to install OpenLogger to Alt1 automatically
 #### `alt1://addapp/https://redx1000.github.io/OpenLogger/appconfig.json` <br><br>
 
@@ -38,8 +38,21 @@ OpenLogger works out of the box, so you don't have to adjust any settings if you
 * [Accessing `localStorage`](#this-plugin-stores-data-using-localstorage-within-alt1-therefore-it-can-remember-all-of-the-loot-you-have-gotten-between-sessions-unless-it-is-cleared-to-access-it)
 * [Special thanks](#special-thanks) <br><br>
 
- # Instructions on how to use
- ## Capture Rewards
+# Instructions on how to use
+
+### Selecting Clue Tier
+* By selecting one of the radio buttons corresponding to the clue tier you're opening or wanting to see the [history](#history-rollback) of, it will tune OpenLogger to that specific tier.
+* By default, Easy is selected, but OpenLogger remembers the last selected tier.
+* There is only support for Easy, Medium, Hard, Elite, and Master tiers of clues.
+* OpenLogger currently does not support Sandy clues, CS Week clues, or Oyster rewards.
+* List of things affected by changing the clue tier:
+    1. Capture rewards image library
+    2. Rewards display
+    3. Clear Options Menu clearing current tier
+    4. History display of captured clues
+    5. Insert menu <br><br>
+
+### Capture Rewards
 1. Select the tier of clue you're opening with the radio buttons in the top-left corner of the window (Easy, Medium, Hard, Elite, Master).
 2. Open a reward casket (Easy, Medium, Hard, Elite, Master).
     * Make sure clue reward window is not covered in order to get a correct reading; list of things to not obfuscate at [Additional Information](#additional-information) and [Avoiding menus causing multi-capturing](#avoiding-menus-causing-multi-capturing-a-few-tips-on-where-to-avoid-having-menus-appearing-over-the-value).
@@ -47,7 +60,7 @@ OpenLogger works out of the box, so you don't have to adjust any settings if you
 4. Wait a bit, recording can be less than 600ms or over 5 seconds seconds depending on the tier of clue, the amount of rewards in the window, the image searching algorithmn used, and the image collection library used (Some users experience longer times than usual. Tweak with the settings or DM me if this happens).
 5. Rewards appear in the OpenLogger interface with the value, and a dynamic display that updates when new rewards come in, the total number of clues logged, and the total and average value for the number of completed clues. Captured clues are also saved within the [history](#history-rollback) for review and deletion. <br><br>
 
-## Autocapture
+### Autocapture
 * Clues can be autocaptured by clicking on the lock (Closed == On, Open == Off).
 * This is turned off by default. Click the lock to enable it.
 * When opening settings or Clear Options Menu buttons, autocapture is automatically disabled.
@@ -59,12 +72,12 @@ OpenLogger works out of the box, so you don't have to adjust any settings if you
 * In the event of a multi-capture from not obfuscating the value or if, pause Autocapture, perform a rollback, and open the next casket, then re-enable autocapture.
 * In the rare event that the value of the new clue is equivalent to the value of the previous clue, disable Autocapture and manually capture the reward. <br><br>
 
-## Export to CSV
+### Export to CSV
 * Export to CSV will create a comma separated value file of the your clue rewards from `localStorage` and allows the user to download the file.
 * This will be useful for storing data long term or for crowdsourcing data, i.e. A clan casket opening event.<br>
 ![CSV Example](/dist/images/CSV%20demo.png "CSV Example") <br><br>
 
-## History (Rollback)
+### History (Rollback)
 * History will open a menu that displays every captured clue of the currently selected type that can be rolled back and deleted.
 * By default, History will the display the last 25 items you've captured. This can be adjusted in the [Settings](#settings) under History Display Limit. 
 * Rollbacks performed in History will remove the given items quantities, the currently selected clues' value, and its counter.
@@ -73,7 +86,7 @@ OpenLogger works out of the box, so you don't have to adjust any settings if you
 * This is great if you accidentally scan a clue twice, trigger a multi-capture, or if OpenLogger incorrectly identifies an item or value (Ways to mitigate multi-capture from value obfuscation jump to [Avoiding menus causing multi-capturing](#avoiding-menus-causing-multi-capturing-a-few-tips-on-where-to-avoid-having-menus-appearing-over-the-value).) <br>
 ![History Example](/dist/images/HistorySample.png "History Example") <br><br>
 
-## Clear Options Menu
+### Clear Options Menu
 * Clear Options Menu has multiple choices that determine the scope of how much you want to delete from the database of items.
 * There are confirm windows for each option except Refresh page.
 1. Reset Settings: Sets settings back to default settings. Default settings are marked with an asterisk or in hover-over text.
@@ -82,12 +95,12 @@ OpenLogger works out of the box, so you don't have to adjust any settings if you
 4. Completely reset OpenLogger: Nuclear option, **COMPLETELY** resets OpenLoggers settings and database. This is a recommended last option for troubleshooting. A value within `localStorage` may or may not change between updates (I try not to), and if it turns out that it breaks it, give this a try, otherwise reach out to me on Discord and we'll chat about it 🙂. 
 5. Refresh page: Refreshes the plugin webpage, does not delete anything.  <br><br>
 
-## Toggleable loot tabs
+### Toggleable loot tabs
 * Click on the loot tab title to hide the loot, and click it again to show the loot.
 * Hidden tabs will be strikethroughed, and the space below it will be hidden.
 * Hovering over it will give a tooltip on whether you can hide or show the loot. <br><br>
 
-# Settings
+## Settings
 * Settings allow for user choice of Algorithm for icon recognition, list of reference images used for icon recognition, and for miscellaneous settings toggles.
 * Hover over the corresponding buttons title to learn more about what it does. <br><br>
 
@@ -159,12 +172,12 @@ OpenLogger works out of the box, so you don't have to adjust any settings if you
 
 * ### OpenLogger can be stretched out widthwise to display more of the loot in its display, as the top is flexy:<br>![OpenLogger Wide](/dist/images/OpenLogger%20Wide.png "OpenLogger Wide") <br><br>
 
-## Potential or planned updates
+### Potential or planned updates
 * Better legacy interface support; I don't test with it much. Legacy interface can log clues and perform lag detection checks, but I do not have a reroll window detection set for legacy mode, and I would need to iron out any bugs or kinks that appear. Use at your own risk.
 * Allowing the user to deposit or withdraw a reward or value into or out of `localStorage` directly in case of a misread.
 * Allowing download of last clue reward captured. <br><br>
 
-## Special thanks
+### Special thanks
 * Skillbert, for creating Alt1 and providing the tools and libraries to create third-party applications.
 * Dala/Daladen, for not only providing me with an insight into how the Summit Clue Logger worked to help write OpenLogger and for general web dev help, but also for providing all of the reference images for image comparison. Could not have done this project without those images.
 * Athabastyx, for the technical help and Javascript insight. This is my first JS/TS project and Atha helped a lot with helping me understand new functions, libraries, and how to optimize things better.
