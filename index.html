@@ -5,7 +5,6 @@
 		<script type="module" src="resembleJScompare.js"></script>
 		<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
 
-		<!-- TODO: Import Bootstrap and fix broken CSS -->
 		<link rel="stylesheet" type="text/css" href="./styles/nis/bootstrap.min.css"/>
 		<link rel="stylesheet" type="text/css" href="./styles/nis/nis.css"/>
 		<link rel="stylesheet" type="text/css" href="./styles/nis/alt1-currentskin/skinstyle.css"/><!--stylesheet with all nis styles (Will be part of public resources so feel free to copy/paste)-->
@@ -41,7 +40,7 @@
 								<input type="radio" id="master" name="clue_scroll_level" class="clue_scroll_level" value="master" onclick="TEST.changeClueTierSpan('master', event);">
 							</div>
 						</div>
-						<h3 class="clue_scrolls_button_footer">07/17/2022: See below</h3> <!--style="color: rgb(255, 94, 0)"-->
+						<h3 class="clue_scrolls_button_footer">08/01/2022: See below</h3> <!--style="color: rgb(255, 94, 0)"-->
 					</div>
 					<div class="main_buttons" id="top">
 						<div id="bottom_buttons">
@@ -58,7 +57,7 @@
 				<div class="value_box">
 					<div class="capture_info" id="top">
 						<div class="capture_box_elements" id="math_box_count">
-							<span id="clue_tier"></span> clues logged: <span id="number_of_clues">10000</span>
+							<span id="clue_tier"></span> clues logged: <span id="number_of_clues">0</span>
 						</div>
 						<div class="capture_box_elements" id="math_box_total">
 							<u>Total value of logged clues</u>
@@ -86,8 +85,7 @@
 						</div>
 						<div id="bottom_buttons">
 							<div id="history_button" class="nisbutton" data-toggle="modal" data-target="#history">History</div>
-							<div id="insert_button" class="nisbutton" data-toggle="modal" data-target="#insert"><strike>&nbsp;Insert&nbsp;</strike></div>
-							<!-- onclick="TEST.insert();" -->
+							<div id="insert_button" class="nisbutton" data-toggle="modal" data-target="#insert" onclick="clearVerify()">&nbsp;Insert&nbsp;</div>
 						</div>
 					</div>
 				</div>
@@ -118,9 +116,9 @@
 		<footer>
 			<div class="footer_bar"></div>
 			<div class="copyright">
-				&nbsp;&nbsp;<span style="color: rgb(235, 196, 22); font-size: 13px;">07/17/2022: Rollback and various instances of is have been renamed to History, as it turns out that's exactly what it is. You may not see previous history logs. To restore, copy "Rollback" value from <span style="font-family: Consolas;">localStorage</span> and paste it where the "History" key is located. If unsure of how to access <span style="font-family: Consolas;">localStorage</span>, see the GitHub link below.<br><br></span>
+				&nbsp;&nbsp;<span style="color: rgb(235, 196, 22); font-size: 12px;">08/01/2022: Insert now works. Information on how to use the insert button in the Github link below.<br>Next update will be about improving code readability and improving performance on Alt1. The current plan is when this update comes out, the way <span style="font-family: Consolas;">localStorage</span> will be changed which will most likely cause all entries to be lost. To make sure you don't lose your data, press Export to CSV to save your clue capture data.<br><br></span>
 				&nbsp;&nbsp;Reach out on Discord for bug reports and inquiries @ RedX1000#3655<br>
-				&nbsp;&nbsp;More information and troubleshooting on the <a id="githublink" href="alt1://browser/https://github.com/RedX1000/OpenLogger">GitHub Page</a>
+				&nbsp;&nbsp;Instructions and troubleshooting on the <a id="githublink" href="alt1://browser/https://github.com/RedX1000/OpenLogger">GitHub Page</a>
 			</div>
 		</footer>
 		
@@ -382,14 +380,84 @@
 			  	<div class="modal-content">
 					<div class="modal-header">
 				  		<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true" class="close_x">&times;</span><span class="sr-only">Close</span></button>
-				  		<h1 class="modal-title" id="important-msg-label">Insert Into Database<span id="hovertip" title="Hover over the options to learn more!&#013;&#013;Explore the Github link in the footer for more details.">&hairsp;&hairsp;&nbsp;?&nbsp;&hairsp;&hairsp;</span></h1>
+				  		<h1 class="modal-title" id="important-msg-label"><span>Insert custom <span class="current_tier_button" id="insert_tier_title_caps"></span> clue reward</span><span id="hovertip" title="Hover over the options to learn more!&#013;&#013;Explore the Github link in the footer for more details.">&hairsp;&hairsp;&nbsp;?&nbsp;&hairsp;&hairsp;</span></h1>
+						<h3 id="insert_remove_title">To remove items and value from <span style="font-family: Consolas;">localStorage</span>, make numbers negative. Custom clues are also logged in History.</h3>
 					</div>
 					<div class="modal-body">
-				  		<p>This does not work yet. Why are you here?</p>
+						<div id="insert_value">
+							<label class="insert_title_labels" title="Reward value to be inserted"><span class="current_tier_button" id="insert_tier_caps"></span> Reward Value<br></label>
+							<input type="number" step="1" value="0" id="value_input" name="insert_value" class="insert_text" title="Reward value to be inserted">
+							<div id="fetchge_button" class="nisbutton" onclick="TEST.fetchFromGE()">Fetch GE</div>
+						</div>
+						<div id="insert_items">
+							<div class="insert_items_divs">
+								<label class="insert_items_labels" title="First item to be inserted and quantity">First Item<br></label>
+								<select name="item_1" class="items insert_options" id="items_first">
+									<option value="Blank" class="insert_options">~Nothing~</option>
+								</select>
+								<input type="number" step="1" value="0" class= "item_quants insert_text" id="item_input_1" name="item_input_1" title="First item to be inserted and quantity">
+							</div>
+							<div class="insert_items_divs">
+								<label class="insert_items_labels" title="Second item to be inserted and quantity">Second Item<br></label>
+								<select name="item_2" class="items insert_options" id="items_second">
+									<option value="Blank">~Nothing~</option>
+								</select>
+								<input type="number" step="1" value="0" class= "item_quants insert_text" id="item_input_2" name="item_input_2" title="Second item to be inserted and quantity">
+							</div>
+							<div class="insert_items_divs">
+								<label class="insert_items_labels" title="Third item to be inserted and quantity">Third Item<br></label>
+								<select name="item_3" class="items insert_options" id="items_third">
+									<option value="Blank">~Nothing~</option>
+								</select>
+								<input type="number" step="1" value="0" class= "item_quants insert_text" id="item_input_3" name="item_input_3" title="Third item to be inserted and quantity">
+							</div>
+							<div class="insert_items_divs">
+								<label class="insert_items_labels" title="Fourth item to be inserted and quantity">Fourth Item<br></label>
+								<select name="item_4" class="items insert_options" id="items_fourth">
+									<option value="Blank">~Nothing~</option>
+								</select>
+								<input type="number" step="1" value="0" class= "item_quants insert_text" id="item_input_4" name="item_input_4" title="Fourth item to be inserted and quantity">
+							</div>
+							<div class="insert_items_divs">
+								<label class="insert_items_labels" title="Fifth item to be inserted and quantity">Fifth Item<br></label>
+								<select name="item_5" class="items insert_options" id="items_fifth">
+									<option value="Blank">~Nothing~</option>
+								</select>
+								<input type="number" step="1" value="0" class= "item_quants insert_text" id="item_input_5" name="item_input_5" title="Fifth item to be inserted and quantity">
+							</div>
+							<div class="insert_items_divs">
+								<label class="insert_items_labels" title="Sixth item to be inserted and quantity">Sixth Item<br></label>
+								<select name="item_6" class="items insert_options" id="items_sixth">
+									<option value="Blank">~Nothing~</option>
+								</select>
+								<input type="number" step="1" value="0" class= "item_quants insert_text" id="item_input_6" name="item_input_6" title="Sixth item to be inserted and quantity">
+							</div>
+							<div class="insert_items_divs">
+								<label class="insert_items_labels" title="Seventh item to be inserted and quantity">Seventh Item<br></label>
+								<select name="item_7" class="items insert_options" id="items_seventh">
+									<option value="Blank">~Nothing~</option>
+								</select>
+								<input type="number" step="1" value="0" class= "item_quants insert_text" id="item_input_7" name="item_input_7" title="Seventh item to be inserted and quantity">
+							</div>
+							<div class="insert_items_divs">
+								<label class="insert_items_labels" title="Eigth item to be inserted and quantity">Eigth Item<br></label>
+								<select name="item_8" class="items insert_options" id="items_eigth">
+									<option value="Blank">~Nothing~</option>
+								</select>
+								<input type="number" step="1" value="0" class= "item_quants insert_text" id="item_input_8" name="item_input_8" title="Eigth item to be inserted and quantity">
+							</div>
+							<div class="insert_items_divs">
+								<label class="insert_items_labels" title="Ninth item to be inserted and quantity">Ninth Item<br></label>
+								<select name="item_9" class="items insert_options" id="items_ninth">
+									<option value="Blank">~Nothing~</option>
+								</select>
+								<input type="number" step="1" value="0" class= "item_quants insert_text" id="item_input_9" name="item_input_9" title="Ninth item to be inserted and quantity">
+							</div>
+						</div>
 					</div>
 					<div class="modal-footer">
 						<div id="choice_buttons">
-							<div id="confirm_button" class="nisbutton" data-dismiss="modal" onclick="">Confirm</div>
+							<div id="confirm_button" class="nisbutton" data-dismiss="modal" data-toggle="modal" data-target="#insertVerif" onclick="clearVerify(), TEST.verifyInsert(event)">Confirm</div>
 							<div id="cancel_button" class="nisbuttonblue" data-dismiss="modal" onclick="">Cancel</div>
 						</div>
 					</div>
@@ -398,6 +466,26 @@
 		</div>
 		<!-- END INSERT MODAL -->
 
+		<!-- INSERT VERIFICATION MODAL -->
+		<div class="modal fade " id="insertVerif" tabindex="-1" role="dialog" aria-labelledby="important-msg-label" aria-hidden="true">
+			<div class="modal-dialog">
+			  	<div class="modal-content">
+					<div class="modal-header">
+				  		<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true" class="close_x">&times;</span><span class="sr-only">Close</span></button>
+				  		<h1 class="modal-title" id="important-msg-label">Enter these custom items into Database?<span id="hovertip" title="Hover over the options to learn more!&#013;&#013;Explore the Github link in the footer for more details.">&hairsp;&hairsp;&nbsp;?&nbsp;&hairsp;&hairsp;</span></h1>
+					</div>
+					<div class="modal-body" id="insertVerif_body">
+					</div>
+					<div class="modal-footer">
+						<div id="clear_db_buttons">
+							<div id="confirm_button" class="nisbutton" data-dismiss="modal" onclick="TEST.insertToDB(), clearVerify()" title="">Confirm</div>
+							<div id="cancel_button" class="nisbuttonblue" data-dismiss="modal" data-toggle="modal" data-target="#insert" onclick="" title="">Cancel</div>
+						</div>
+					</div>
+			  	</div>
+			</div>
+		</div>
+		<!-- END INSERT VERIFICATION MODAL -->
     	<script src="./scripts/bootstrap.min.js"></script>
 		<script>
 			$('.modal').on('show.bs.modal', function () {
@@ -483,6 +571,18 @@
 
     		    TEST.saveSettings(alg, list, reroll, lag, multi, menu, precision, limit)
 			}
+
+			function insertToDB(){
+				TEST.insertInitEx()
+			}
+
+			function clearVerify(){
+				let bodybox = document.getElementById("insertVerif_body")
+				while (bodybox.firstChild) {
+    			    bodybox.removeChild(bodybox.firstChild);
+    			}
+			}
+
   		</script>
 
 	</body>
