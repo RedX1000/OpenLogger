@@ -28,7 +28,7 @@
     * [Things to avoid accidentally covering when scanning](#when-scanning-clues-do-not-cover-these-spots-on-a-casket-open-screen)
     * [Avoiding menus causing multi-capturing](#avoiding-menus-causing-multi-capturing-a-few-tips-on-where-to-avoid-having-menus-appearing-over-the-value)
     * [Accessing `localStorage`](#this-plugin-stores-data-using-localstorage-within-alt1-therefore-it-can-remember-all-of-the-loot-you-have-gotten-between-sessions-unless-it-is-cleared-to-access-it)
-    * [OpenLogger is flexy!](#openlogger-can-be-stretched-out-widthwise-to-display-more-of-the-loot-in-its-display-as-the-top-is-flexybropenlogger-widedistimagesopenlogger20widepng-openlogger-wide-brbr)
+    * [OpenLogger is flexy!](#openlogger-can-be-stretched-out-widthwise-to-display-more-of-the-loot-in-its-display-as-the-top-is-flexy)
     * [Potential or planned updates](#potential-or-planned-updates)
     * [Special thanks](#special-thanks) <br><br>
 
@@ -198,7 +198,8 @@ OpenLogger works out of the box, so you don't have to adjust any settings if you
             1. Select "Completely Reset OpenLogger" in the Clear Options Menu and select       "Reset Everything" (Easiest best choice). <br>
             2. Right click the link under Local Storage and select "Clear". <br><br>
 
-* ### OpenLogger can be stretched out widthwise to display more of the loot in its display, as the top is flexy:<br>![OpenLogger Wide](/dist/images/OpenLogger%20Wide.png "OpenLogger Wide") <br><br>
+* ### OpenLogger can be stretched out widthwise to display more of the loot in its display, as the top is flexy: 
+    <br>![OpenLogger Wide](/dist/images/OpenLogger%20Wide.png "OpenLogger Wide") <br><br>
 
 ### Potential or planned updates
 * Better legacy interface support; I don't test with it much. Legacy interface can log clues and perform lag detection checks, but I do not have a reroll window detection set for legacy mode, and I would need to iron out any bugs or kinks that appear. Use at your own risk.
