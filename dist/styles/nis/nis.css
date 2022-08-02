@@ -629,7 +629,7 @@ header {
   font-size: 16px;
   line-height: 1px;
   text-align: center;
-  color:rgb(235, 196, 22);
+  color:rgb(255, 139, 30);
 }
 
 .main_buttons {
@@ -852,6 +852,10 @@ footer {
   color: #ecdb3a;
 } */
 
+.modal-title{
+  font-size: 25px;
+}
+
 #h2settings{
     margin:0;
     font-family:"trajan-pro-3";
@@ -1024,6 +1028,69 @@ label{
   line-height: 32px;
   user-select: none;
   margin: auto auto;
+}
+
+#insert_remove_title{
+  font-size: 16px;
+}
+
+#insert_value{
+  display:grid;
+  grid-template-columns: repeat(3, auto);
+  padding: 20px 0px;
+}
+
+#insert_items{
+  display: grid;
+  grid-template-columns: repeat(1, auto);
+  width: auto;
+}
+
+.insert_text,
+.insert_options{
+  font-size: 15px;
+  font-weight: 700;
+  color:#000;
+  background-color: #d6d6d6;
+  padding-left: 5px;
+  width: 120px;
+}
+
+.insert_text{
+  width: 80px;
+}
+
+.insert_options{
+  width: 260px;
+  word-wrap: normal;
+  font-size: 13px;
+  padding-left: 0px;
+}
+
+#value_input{
+  width: 125px;
+}
+
+.insert_items_divs{
+  display:grid;
+  grid-template-columns: repeat(3, auto);
+  padding: 20px 0px;
+}
+
+.insert_title_labels,
+.insert_items_labels{
+  font-family:"trajan-pro-3";
+  color:#f9c037;
+  font-size: 15px;
+  margin: auto 0px;
+}
+
+.insert_title_labels{
+  width:190px;
+}
+
+.insert_items_labels{
+  width: 125px;
 }
 
 /*font stolen from jagex*/
