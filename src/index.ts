@@ -16,6 +16,8 @@ import * as itemsReorgTwo from './JSONs/ItemsAndImagesReorganizedTwo.json';
 import * as itemsLegacyFull from './JSONs/ItemsAndImagesLegacy.json';
 import * as itemsLegacyReorg from './JSONs/ItemsAndImagesLegacyReorganized.json';
 import * as itemsLegacyReorgTwo from './JSONs/ItemsAndImagesLegacyReorganizedTwo.json';
+import { Template } from "webpack";
+import { info } from "console";
 
 /* A couple of notes for development
 - In order to adjust this plugin for other loot adjust two key things:
@@ -84,6 +86,8 @@ var noMenuInterval;
 
 var lagCounter = 0
 
+// TODO: Consider adding an update price for all clues within history, current tier value
+
 export function refresh() {
 	location.reload();
 }
@@ -99,6 +103,7 @@ export function initOnLoad(){
 	alt1.overLayTextEx("Initializing OpenLogger...", a1lib.mixColor(255, 144, 0), 20, Math.round(alt1.rsWidth / 2), 200, 50000, "", true, true);
 	init()
 }
+
 
 export async function init() {
 
@@ -171,9 +176,11 @@ export async function init() {
 
 	// Initializing the rest of the LocalStorage
 	console.log("Initializing LocalStorage...");
-	for (let i = 0; i < keys.length; i++)
-		if (!(localStorage.getItem(keys[i]))) // If doesn't exist, add it
+	for (let i = 0; i < keys.length; i++){
+		if (!(localStorage.getItem(keys[i]))){ // If doesn't exist, add it
 			localStorage.setItem(keys[i], JSON.stringify(lsdb[keys[i]]));
+		} 
+	}
 	console.log("LocalStorage initialized.\n ");
 
 	// Initialize loot display as flexy
@@ -234,9 +241,12 @@ export async function init() {
 	//Set up history window
 	historyInit()
 
+	//Set up insert window
+	insertInit()
+
 	alt1.overLayClearGroup("overlays");
 	alt1.overLaySetGroup("overlays");
-	alt1.overLayTextEx("OpenLogger ready!", a1lib.mixColor(100, 255, 100), 20, Math.round(alt1.rsWidth / 2), 200, 5000, "", true, true);
+	alt1.overLayTextEx("OpenLogger ready!", a1lib.mixColor(100, 255, 100), 20, Math.round(alt1.rsWidth / 2), 200, 2000, "", true, true);
 	console.log("Initialization complete");
 	buttonDisabler()
 }
@@ -244,6 +254,10 @@ export async function init() {
 
 export async function changeClueTierSpan(id: string, event: Event) {
 	// Set the clue_tier span for the checked box
+	document.getElementById("number_of_clues").textContent = "0";
+	document.getElementById("value_of_clues").textContent = "Loading...";
+	document.getElementById("average_of_clues").textContent = "Loading...";
+
 	buttonDisabler()
 	alt1.overLayClearGroup("overlays");
 	alt1.overLaySetGroup("overlays");
@@ -275,6 +289,7 @@ export async function changeClueTierSpan(id: string, event: Event) {
 	//Set display
 	lootDisplay()
 
+	insertInit()
 
 	alt1.overLayClearGroup("overlays");
 	alt1.overLaySetGroup("overlays");
@@ -426,6 +441,7 @@ export async function cleardb(choice: any) {
 	lastValue = 0;
 }
 
+
 //loads all images as raw pixel data async, images have to be saved as *.data.png
 //this also takes care of metadata headers in the image that make browser load the image
 //with slightly wrong colors
@@ -439,6 +455,7 @@ var imgs = a1lib.ImageDetect.webpackImages({
 	rerollWindow: require("./images/rerollWindow.data.png")
 });
 
+
 //listen for pasted (ctrl-v) images, usually used in the browser version of an app
 //a1lib.PasteInput.listen(img => {
 //	findtrailComplete(img);
@@ -447,6 +464,7 @@ var imgs = a1lib.ImageDetect.webpackImages({
 //});
 
 a1lib.on("alt1pressed", alt1pressedcapture)
+
 
 function alt1pressedcapture() {
 	if(toggle == true){
@@ -462,6 +480,7 @@ function alt1pressedcapture() {
 	}
 
 }
+
 
 //You can reach exports on window.TEST because of
 //config.makeUmd("testpackage", "TEST"); in webpack.config.ts
@@ -532,7 +551,7 @@ async function findtrailComplete(img: ImgRef, autobool: boolean) {
 			try {
 				try {
 					try {
-						//TODO: add legacy support for reroll window checking
+						//FIXME: add legacy support for reroll window checking
 						var loc = img.findSubimage(await imgs.rerollWindow/*Legacy*/);
 						let testvalue = 0 + loc[0].x; // Tests and breaks
 						console.log("reroll window");
@@ -828,7 +847,7 @@ async function findtrailComplete(img: ImgRef, autobool: boolean) {
 		// Tweaks for Pixelmatch on TwoMatch or All Images. Don't rely on this...
 		// It's a hardcode. I hate it.
 		for(let i = 0; i > itemResults.length; i++){
-			if(currentTier[0] == "medium" && itemResults[i] == "Huge plated rune salvage"){
+			if(currentTier()[0] == "medium" && itemResults[i] == "Huge plated rune salvage"){
 				itemResults[i] = "Huge plated adamant salvage"
 			}
 		}
@@ -892,10 +911,6 @@ async function findtrailComplete(img: ImgRef, autobool: boolean) {
 
 		//Show it on the screen!
 		lootDisplay();
-
-
-		//console.log("Value at end of script is",lastValue)
-		//console.log(lastItems, lastQuants, lastTier, lastValue)
 
 		//Display the victory screen!!!
 		if (window.alt1) {
@@ -1208,22 +1223,20 @@ async function readQuantities(item: ImageData) {
 
 
 async function submitToLS(item: any[], quant: any[], value: any) {
-	let current = currentTier();
-
 	//Add items to database
 	console.log("Adding to database...");
 	for (let i = 0; i < quant.length; i++) {
 		// If you get null or undefined here, check if one of your rewards doesn't exist in LocalStorage or LocalStorageInit
 		// Or maybe the name might be incorrectly written in, idk
 		//console.log("checking if in array", item[i]);
-		if (JSON.parse(localStorage.getItem(item[i])).tier.includes(current[0])) {
+		if (JSON.parse(localStorage.getItem(item[i])).tier.includes(currentTier()[0])) {
 			let temp = JSON.parse(localStorage.getItem(item[i]));
 			let tempQuant = quant[i].slice();
 			if (quant[i].includes('k')) {
 				tempQuant = tempQuant.slice(0, -1);
 				tempQuant += "000";
 			}
-			temp.quantity[current[0]] = parseInt(temp.quantity[current[0]]) + parseInt(tempQuant);
+			temp.quantity[currentTier()[0]] = parseInt(temp.quantity[currentTier()[0]]) + parseInt(tempQuant);
 			localStorage.setItem(item[i], JSON.stringify(temp));
 		}
 		else {
@@ -1232,8 +1245,8 @@ async function submitToLS(item: any[], quant: any[], value: any) {
 	}
 
 	// Increase value and count
-	localStorage.setItem(current[1], JSON.stringify((JSON.parse(localStorage.getItem(current[1])) + value)));
-	localStorage.setItem(current[2], JSON.stringify(JSON.parse(localStorage.getItem(current[2])) + 1));
+	localStorage.setItem(currentTier()[1], JSON.stringify((JSON.parse(localStorage.getItem(currentTier()[1])) + value)));
+	localStorage.setItem(currentTier()[2], JSON.stringify(JSON.parse(localStorage.getItem(currentTier()[2])) + 1));
 
 	return true;
 }
@@ -1243,17 +1256,17 @@ function lootDisplay() {
 	let current = currentTier();
 
 	//Set Number of clues and Current and Average values
-	document.getElementById("number_of_clues").textContent = JSON.parse(localStorage.getItem(current[2])).toLocaleString("en-US");
-	document.getElementById("value_of_clues").textContent = JSON.parse(localStorage.getItem(current[1])).toLocaleString("en-US");
-	if (parseInt(JSON.parse(localStorage.getItem(current[2]))) != 0) {
-		document.getElementById("average_of_clues").textContent = Math.round(parseInt(JSON.parse(localStorage.getItem(current[1]))) / parseInt(JSON.parse(localStorage.getItem(current[2])))).toLocaleString("en-US");
+	document.getElementById("number_of_clues").textContent = JSON.parse(localStorage.getItem(currentTier()[2])).toLocaleString("en-US");
+	document.getElementById("value_of_clues").textContent = JSON.parse(localStorage.getItem(currentTier()[1])).toLocaleString("en-US");
+	if (parseInt(JSON.parse(localStorage.getItem(currentTier()[2]))) != 0) {
+		document.getElementById("average_of_clues").textContent = Math.round(parseInt(JSON.parse(localStorage.getItem(currentTier()[1]))) / parseInt(JSON.parse(localStorage.getItem(currentTier()[2])))).toLocaleString("en-US");
 	}
 	else {
 		document.getElementById("average_of_clues").textContent = "0";
 	}
 
 	//Set the icons in the tabs
-	tabDisplay(current[0]);
+	tabDisplay(currentTier()[0]);
 }
 
 
@@ -1280,6 +1293,7 @@ function tabDisplay(current: string) {
 		imgvar.setAttribute('style', 'margin:0 auto;');
 		imgvar.ondragstart = function() { return false; };
 		
+		// FIXME: Add the negative quantity stylings here.
 		if (parseInt(JSON.parse(localStorage.getItem(keys[i])).quantity[current]) > 9999999) {
 			quantvar.setAttribute('style', 'position:absolute; left:0px; top:-5px; font-family:Runescape Chat Font; font-size:16px; color:rgb(0,255,128); text-shadow:1px 1px #000000;');
 			quantvar.textContent = Math.trunc(parseInt(JSON.parse(localStorage.getItem(keys[i])).quantity[current]) / 1000000).toString() + "M";
@@ -1443,7 +1457,7 @@ async function addHistoryToLs(value: number, items: any, quants: any, tier: any)
 			quants[i] += "000";
 		}
 	}
-
+	
 	let previous = [items, quants, value, tier, localStorage.getItem(tier[2]), localStorage.getItem("PrimaryKeyHistory")]
 	let temp = JSON.parse(localStorage.getItem("History"))
 	temp.push(previous)
@@ -1456,10 +1470,7 @@ async function addHistoryToLs(value: number, items: any, quants: any, tier: any)
 
 
 async function historyClear(){
-	let body = document.getElementById("history_body")
-	while (body.firstChild){
-		body.removeChild(body.lastChild)
-	}
+	removeChildNodes(document.getElementById("history_body"))
 }
 
 
@@ -1497,7 +1508,7 @@ function historyInit(){
 	let lsHistory = JSON.parse(localStorage.getItem("History"))
 	//console.log(lsHistory)
 	let title = document.getElementById("history_tier_caps")
-	title.textContent = currentTier()[0][0].toUpperCase() + currentTier()[0].slice(1).toLowerCase()
+	title.textContent = currentTierUpper()
 
 	let quantity = document.getElementById("history_quantity")
 	quantity.textContent = localStorage.getItem("HistoryDisplayLimit")
@@ -1515,17 +1526,34 @@ function historyInit(){
 		for(let i = lsHistory.length - 1; i >= 0 ; i--){ //Navigating lsHistory
 			if(limit <= parseInt(localStorage.getItem("HistoryDisplayLimit"))){
 				let temp = lsHistory[i]
-				if(temp[3][0] === currentTier()[0]){
+				if(temp[3][0].replace(" [C] ","") === currentTier()[0]){
 					let ele = document.getElementById("history_body")
 					let container = document.createElement("div")
 					container.setAttribute("style", /*'background: url("styles/nis/alt1-currentskin/background.png");*/'background: url(images/items/Blank.png); margin: 10px 0px; padding: 5px 5px; display:grid; grid-template-columns: repeat(10 auto); align-items:center; border: 5px solid #f0b216; border-style: ridge;')
 					container.setAttribute('id','container' + temp[5])
 
-					let count = document.createElement("div")
-					count.textContent = (temp[3][0][0].toUpperCase() + temp[3][0].slice(1).toLowerCase()) + " Clue: " + index
-					count.setAttribute('style','width: auto; margin: auto 0 0 10; text-align: left; position: relative; color: #f0b216; font-family: "trajan-pro-3"; font-size: 12px; line-height: 20px; user-select: none; word-wrap: break-all; -webkit-user-select: none; grid-column: 1 / 4; grid-row: 1; text-shadow: 1px 1px 2px #000000;')
-					count.setAttribute('class','historyCount')
-					container.append(count)
+					if(temp[3][0].includes(" [C] ")){
+						let customSpan = document.createElement("span") as HTMLSpanElement
+						customSpan.setAttribute("style", "font-size: 9px; color: red;")
+						customSpan.setAttribute("title", "Custom clue manually inserted.")
+						customSpan.textContent = " [C] "
+						let countText = currentTierUpper() + " Clue" + ": " + index
+
+						let count = document.createElement("div") as HTMLDivElement
+						count.innerHTML = countText
+						count.setAttribute('style','width: auto; margin: auto 0 0 10; text-align: left; position: relative; color: #f0b216; font-family: "trajan-pro-3"; font-size: 12px; line-height: 20px; user-select: none; word-wrap: break-all; -webkit-user-select: none; grid-column: 1 / 4; grid-row: 1; text-shadow: 1px 1px 2px #000000;')
+						count.setAttribute('class','historyCount')
+						count.append(customSpan)
+						container.append(count)
+					}
+					else{
+						let count = document.createElement("div")
+						count.textContent = (currentTierUpper()) + " Clue: " + index
+						count.setAttribute('style','width: auto; margin: auto 0 0 10; text-align: left; position: relative; color: #f0b216; font-family: "trajan-pro-3"; font-size: 12px; line-height: 20px; user-select: none; word-wrap: break-all; -webkit-user-select: none; grid-column: 1 / 4; grid-row: 1; text-shadow: 1px 1px 2px #000000;')
+						count.setAttribute('class','historyCount')
+						container.append(count)
+					}
+
 
 					let value = document.createElement("div")
 					value.textContent = "Reward Value: "+temp[2].toLocaleString("en-US")
@@ -1545,26 +1573,7 @@ function historyInit(){
 						try{
 							imgvar.src = encodeURI("./images/items/" + temp[0][j] + ".png");
 							nodevar.setAttribute('title', temp[1][j] + " x " + temp[0][j])
-
-							//console.log("quantity is: ",parseInt(temp[1][j]))
-
-							if (temp[1][j] > 9999999) {
-								quantvar.setAttribute('style', 'position:absolute; left:0; top:-5px; font-family:Runescape Chat Font; font-size:16px; color:rgb(0,255,128); text-shadow:1px 1px #000000;');
-								quantvar.textContent = Math.trunc(temp[1][j] / 1000000).toString() + "M";
-							}
-							else if (temp[1][j] > 99999) {
-								quantvar.setAttribute('style', 'position:absolute; left:0; top:-5px; font-family:Runescape Chat Font; font-size:16px; color:rgb(255,255,255); text-shadow:1px 1px #000000;');
-								quantvar.textContent = Math.trunc(temp[1][j] / 1000).toString() + "k";
-							}
-							else if (temp[1][j] > 9999) {
-								quantvar.setAttribute('style', 'position:absolute; left:0; top:-5px; font-family:Runescape Chat Font; font-size:16px; color:rgb(255,255,0); text-shadow:1px 1px #000000;');
-								quantvar.textContent = Math.trunc(temp[1][j] / 1000).toString() + "k";
-							}
-							else {
-								quantvar.setAttribute('style', 'position:absolute; left:0; top:-5px; font-family:Runescape Chat Font; font-size:16px; color:rgb(255,255,0); text-shadow:1px 1px #000000;');
-								quantvar.textContent = temp[1][j] + "";
-							}
-
+							quantvar = quantMaker(temp[1][j])
 						} catch (e) {
 							imgvar.src = encodeURI("./images/items/Transparent.png")
 						}
@@ -1641,10 +1650,10 @@ export function rollbackVeri(id: any){
 
 export function rollbackNo(id: any){
 	console.log("In no")
+
 	let buttonbox = document.getElementById(id+"box")
-	while (buttonbox.firstChild){
-		buttonbox.removeChild(buttonbox.lastChild)
-	}
+	removeChildNodes(buttonbox)
+
 	buttonbox.setAttribute('style','width: 125px; display: flex; grid-row: 1 / span 2; grid-column: 10; align-items:center;')
 	
 	let button = document.createElement("div")
@@ -1685,7 +1694,7 @@ export function rollbackYes(id: any){
 	console.log(temp)
 	for (let i = 0; i < temp[0].length; i++) {
 		let item = JSON.parse(localStorage.getItem(temp[0][i]))
-		item.quantity[temp[3][0]] = item.quantity[temp[3][0]] - parseInt(temp[1][i]);
+		item.quantity[temp[3][0].replace(" [C] ","")] = item.quantity[temp[3][0].replace(" [C] ","")] - parseInt(temp[1][i]);
 		localStorage.setItem(temp[0][i], JSON.stringify(item))
 	}
 
@@ -1707,8 +1716,8 @@ export function rollbackYes(id: any){
 			break;
 		}
 		console.log(i);
-		console.log(historyCount[i].textContent,"is now",(currentTier()[0][0].toUpperCase() + currentTier()[0].slice(1).toLowerCase()) + " Clue: " + index);
-		historyCount[i].textContent = (currentTier()[0][0].toUpperCase() + currentTier()[0].slice(1).toLowerCase()) + " Clue: " + index;
+		console.log(historyCount[i].textContent,"is now",(currentTierUpper()) + " Clue: " + index);
+		historyCount[i].textContent = (currentTierUpper()) + " Clue: " + index;
 		index--;
 	}
 
@@ -1841,12 +1850,347 @@ function _base64ToImageData(buffer: string, width: any, height: any) { // https:
 }
 
 
-export function insert() {
+export function insertInitEx(){
+	insertInit()
+}
+
+
+async function insertInit() {
+	let title = document.getElementById("insert_tier_caps")
+	title.textContent = currentTierUpper()
+	title = document.getElementById("insert_tier_title_caps")
+	title.textContent = currentTierUpper()
+
+	let keys = Object.keys(localStorage)
+	let list = [["Blank", "~Nothing~", 0]]
+	for(let i = 0; i < keys.length; i++){
+		if (ignorelist.includes(keys[i])) {
+			continue;
+		}
+
+		if (JSON.parse(localStorage.getItem(keys[i])).tier.includes(currentTier()[0])){
+			list.push([keys[i], keys[i], JSON.parse(localStorage.getItem(keys[i])).order])
+		}
+	}
+
+	list.sort(function (a: any, b: any) { // https://stackoverflow.com/a/16097058
+		if (a[2] === b[2]) return 0;
+		else return (a[2] < b[2]) ? -1 : 1;
+	});
+
+	let itemBoxes = document.getElementsByClassName("items")
+	let quantBoxes = document.getElementsByClassName("item_quants") as HTMLCollectionOf<HTMLInputElement>
+	let valueBox = document.getElementById("value_input") as HTMLInputElement
+	valueBox.textContent = "0"
+
+	for(let i = 0; i < itemBoxes.length; i++){
+		removeChildNodes(itemBoxes[i]) 
+		quantBoxes[i].value = "0"
+
+		for(let j = 0; j < list.length; j++){
+			let option = document.createElement('option');
+			//console.log(list[j][0])
+			option.value = list[j][0].toString();
+			option.textContent = list[j][1].toString();
+			option.setAttribute('class', "insert_options")
+			itemBoxes[i].append(option)
+		}
+	}
+	//console.log(itemBoxes.length)
+	
+	
+
+	///if (window.alt1) {
+	///	alt1.overLayClearGroup("overlays");
+	///	alt1.overLaySetGroup("overlays");
+	///	alt1.overLayTextEx("Doesn't work yet...", a1lib.mixColor(255, 80, 80), 20, Math.round(alt1.rsWidth / 2), 200, 4000, "", true, true);
+	///}
+}
+
+
+export function verifyInsert(event: Event){
+	console.log("Collecting info from insert...")
+	let items = []
+	let quants = []
+	let totalPrice = parseInt((document.getElementById("value_input") as HTMLInputElement).value)
+	let itemDivs = document.getElementsByClassName("items") as HTMLCollectionOf<HTMLSelectElement>
+	let quantDivs = document.getElementsByClassName("item_quants") as HTMLCollectionOf<HTMLInputElement>
+
+	removeChildNodes(document.getElementById("value_input") as HTMLDivElement)
+
+	for(let i = 0; i < itemDivs.length; i++){
+		if(itemDivs[i].options[itemDivs[i].selectedIndex].value == "Blank"){
+			continue
+		}
+		items.push(itemDivs[i].options[itemDivs[i].selectedIndex].value)
+		quants.push(parseInt(quantDivs[i].value))
+	}
+	console.log("items are", items, "quants are", quants)
+
+	if(items.length == 0){   
+		if (window.alt1) {
+			alt1.overLayClearGroup("overlays");
+			alt1.overLaySetGroup("overlays");
+			alt1.overLayTextEx("Nothing selected to insert.\n\u200a\u200aTry selecting some items.",
+				a1lib.mixColor(255, 144, 0), 20, Math.round(alt1.rsWidth / 2), 200, 4000, "", true, true);
+		
+		}
+		console.log("No items...")
+		event.stopPropagation();
+		return
+	}
+
+	let curr = (parseInt(localStorage.getItem(currentTier()[2])) + 1).toString()
+	console.log(curr)
+	let ele = document.getElementById("insertVerif_body")
+	let container = document.createElement("div")
+	container.setAttribute("style", /*'background: url("styles/nis/alt1-currentskin/background.png");*/'background: url(images/items/Blank.png); margin: 10px 0px; padding: 5px 5px; display:grid; grid-template-columns: repeat(10 auto); align-items:center; border: 5px solid #f0b216; border-style: ridge;')
+	container.setAttribute('id','container' + curr)  
+
+	//TODO: Consider putting below into a function along with the other one from history
+	let customSpan = document.createElement("span") as HTMLSpanElement
+	customSpan.setAttribute("style", "font-size: 9px; color: red;")
+	customSpan.setAttribute("title", "Custom clue manually inserted.")
+	customSpan.textContent = " [C] "
+	let countText = currentTierUpper() + " Clue" + ": " + curr
+
+	let count = document.createElement("div") as HTMLDivElement
+	count.innerHTML = countText
+	count.setAttribute('style','width: auto; margin: auto 0 0 10; text-align: left; position: relative; color: #f0b216; font-family: "trajan-pro-3"; font-size: 12px; line-height: 20px; user-select: none; word-wrap: break-all; -webkit-user-select: none; grid-column: 1 / 4; grid-row: 1; text-shadow: 1px 1px 2px #000000;')
+	count.setAttribute('class','historyCount')
+	count.append(customSpan)
+	container.append(count)
+
+	let value = document.createElement("div")
+	value.textContent = "Reward Value: " + totalPrice.toLocaleString("en-US")
+	value.setAttribute('style','width: auto; margin: auto 0 0 10; text-align: left; position: relative; color: #f0b216; font-family: "trajan-pro-3"; font-size: 13px; line-height: 20px; user-select: none; word-wrap: break-all; -webkit-user-select: none; grid-column: 4 / span 10; grid-row: 1; text-shadow: 1px 1px 2px #000000;')
+	container.append(value)
+
+	for(let j = 0; j < 9; j++){ // Navigating temp
+		//console.log(temp[0][j])]
+		let nodevar = document.createElement("itembox") as HTMLDivElement;
+		let imgvar = document.createElement("img") as HTMLImageElement;
+		let quantvar = document.createElement("span") as HTMLSpanElement;
+
+		nodevar.setAttribute('style', 'position:relative; margin: auto; padding:auto; width:32px; height:32px; display:flex; align-items:center; text-align:center; grid-row: 2;'/* order: ' + parseInt(JSON.parse(localStorage.getItem(keys[i])).order) + ';'*/);
+		imgvar.setAttribute('style', 'margin: auto; padding: auto;');
+		imgvar.ondragstart = function() { return false; };
+
+		try{
+			imgvar.src = encodeURI("./images/items/" + items[j] + ".png");
+			nodevar.setAttribute('title', quants[j] + " x " + items[j])
+			quantvar = quantMaker(quants[j])
+		} catch (e) {
+			imgvar.src = encodeURI("./images/items/Transparent.png")
+		}
+
+		if(quantvar.textContent == "undefined"){
+			quantvar.textContent = ""
+			nodevar.removeAttribute("title");
+			imgvar.src = encodeURI("./images/items/Transparent.png")
+		}
+		nodevar.append(imgvar)
+		nodevar.append(quantvar)
+		container.append(nodevar)
+	}
+	
+	let buttonbox = document.createElement("div") as HTMLDivElement;
+	let button = document.createElement("div") as HTMLDivElement;
+	buttonbox.setAttribute('style','width: 125px; display: flex; grid-row: 1 / span 2; grid-column: 10; align-items:center; position:relative')
+	buttonbox.setAttribute('id','container'+ curr +'buttonbox')
+	button.setAttribute('style','width: 100%; cursor: pointer; text-align: center; color: #000; font-family: "trajan-pro-3"; font-size: 18px; line-height: 32px; user-select: none; -webkit-user-select: none;')
+	button.setAttribute('class','nisbutton')
+	button.setAttribute('id','container'+ curr +'button')
+	button.textContent = "Sample"
+
+	let infoDiv = document.createElement("div") as HTMLDivElement;
+
+	//FIXME: Change this for a global variable, you dunce.
+	let customTier = currentTier()
+	customTier[0] += " [C] "
+	infoDiv.id = "insert_info"
+	infoDiv.textContent = "["+items+"]/,["+quants+"]/,"+totalPrice+"/,["+customTier+"]"
+	infoDiv.setAttribute("style","visibility: hidden; width: 1px; height: 1px;")
+	console.log("["+items+"]/,["+quants+"]/,"+totalPrice+"/,["+customTier+"]")
+
+	buttonbox.append(button)
+	container.append(buttonbox)
+	container.append(infoDiv)
+	ele.append(container)
+}
+
+
+export function insertToDB(){
 	if (window.alt1) {
 		alt1.overLayClearGroup("overlays");
 		alt1.overLaySetGroup("overlays");
-		alt1.overLayTextEx("Doesn't work yet...", a1lib.mixColor(255, 80, 80), 20, Math.round(alt1.rsWidth / 2), 200, 4000, "", true, true);
+		alt1.overLayTextEx("Submitting custom clue to Database...",
+			a1lib.mixColor(255, 144, 0), 20, Math.round(alt1.rsWidth / 2), 200, 40000, "", true, true);
 	}
+
+	let insertInfo = document.getElementById("insert_info") as HTMLDivElement
+	let infoArray = insertInfo.textContent.split("/,")
+	console.log(infoArray)
+
+	let temp = []
+	temp.push(infoArray[0].split(","), infoArray[1].split(","), infoArray[2].split(","), infoArray[3].split(","))
+
+	let items = []
+	let quants = []
+	let value = infoArray[2]
+	let tier = []
+
+	for(let i = 0; i < temp[0].length; i++){
+		items.push(temp[0][i].toString().replace("[","").replace("]",""))
+		quants.push(temp[1][i].toString().replace("[","").replace("]",""))
+	}
+
+	for(let i = 0; i < temp[3].length; i++){
+		if(i == 0){
+			tier.push(temp[3][i].toString().replace("[",""))
+		}
+		else{
+			tier.push(temp[3][i].toString().replace("[","").replace("]",""))
+		}
+		
+	}
+	
+	insertInit()
+	addHistoryToLs(parseInt(value), items, quants, tier)
+	submitToLS(items, quants, parseInt(value))
+	lootDisplay()
+
+	if (window.alt1) {
+		alt1.overLayClearGroup("overlays");
+		alt1.overLaySetGroup("overlays");
+		alt1.overLayTextEx("Custom " + currentTier()[0] + " clue submitted successfully!",
+			a1lib.mixColor(100, 255, 100), 20, Math.round(alt1.rsWidth / 2), 200, 4000, "", true, true);
+	}
+}
+
+
+function quantMaker(quant: number){
+	let quantvar = document.createElement("span")
+
+	if (quant > 9999999) {
+		quantvar.setAttribute('style', 'position:absolute; left:0; top:-5px; font-family:Runescape Chat Font; font-size:16px; color:rgb(0,255,128); text-shadow:1px 1px #000000;');
+		quantvar.textContent = Math.trunc(quant / 1000000).toString() + "M";
+	}
+	else if (quant > 99999) {
+		quantvar.setAttribute('style', 'position:absolute; left:0; top:-5px; font-family:Runescape Chat Font; font-size:16px; color:rgb(255,255,255); text-shadow:1px 1px #000000;');
+		quantvar.textContent = Math.trunc(quant / 1000).toString() + "k";
+	}
+	else if (quant > 9999) {
+		quantvar.setAttribute('style', 'position:absolute; left:0; top:-5px; font-family:Runescape Chat Font; font-size:16px; color:rgb(255,255,0); text-shadow:1px 1px #000000;');
+		quantvar.textContent = Math.trunc(quant / 1000).toString() + "k";
+	}
+	else if (quant <= 9999 && quant >= -9999){
+		quantvar.setAttribute('style', 'position:absolute; left:0; top:-5px; font-family:Runescape Chat Font; font-size:16px; color:rgb(255,255,0); text-shadow:1px 1px #000000;');
+		quantvar.textContent = quant + "";
+	}
+	else if (quant <= -9999999) {
+		quantvar.setAttribute('style', 'position:absolute; left:0; top:-5px; font-family:Runescape Chat Font; font-size:16px; color:rgb(0,255,128); text-shadow:1px 1px #000000;');
+		quantvar.textContent = Math.trunc(quant / 1000000).toString() + "M";
+	}
+	else if (quant <= -99999) {
+		quantvar.setAttribute('style', 'position:absolute; left:0; top:-5px; font-family:Runescape Chat Font; font-size:16px; color:rgb(255,255,255); text-shadow:1px 1px #000000;');
+		quantvar.textContent = Math.trunc(quant / 1000).toString() + "k";
+	}
+	else if (quant <= -9999) {
+		quantvar.setAttribute('style', 'position:absolute; left:0; top:-5px; font-family:Runescape Chat Font; font-size:16px; color:rgb(255,255,0); text-shadow:1px 1px #000000;');
+		quantvar.textContent = Math.trunc(quant / 1000).toString() + "k";
+	}
+	else {
+		quantvar.setAttribute('style', 'position:absolute; left:0; top:-5px; font-family:Runescape Chat Font; font-size:16px; color:rgb(255,255,0); text-shadow:1px 1px #000000;');
+		quantvar.textContent = quant + "";
+	}
+
+	return quantvar
+}
+
+
+export async function fetchFromGE(){
+	if (window.alt1) {
+		alt1.overLayClearGroup("overlays");
+		alt1.overLaySetGroup("overlays");
+		alt1.overLayTextEx("Fetching prices from GE...",
+			a1lib.mixColor(255, 144, 0), 20, Math.round(alt1.rsWidth / 2), 200, 40000, "", true, true);
+	}
+
+	let items = []
+	let quants = []
+	let itemDivs = document.getElementsByClassName("items") as HTMLCollectionOf<HTMLSelectElement>
+	let quantDivs = document.getElementsByClassName("item_quants") as HTMLCollectionOf<HTMLInputElement>
+
+	for(let i = 0; i < itemDivs.length; i++){
+		if(itemDivs[i].options[itemDivs[i].selectedIndex].value == "Blank"){
+			continue
+		}
+		if(["Saradomin page", "Guthix page", "Zamorak page", "Armadyl page", "Bandos page", "Ancient page"].includes(itemDivs[i].options[itemDivs[i].selectedIndex].value)){	
+			items.push((itemDivs[i].options[itemDivs[i].selectedIndex].value) + " 1")
+		}
+		else if(["Dragon platelegs-skirt ornament kit (or)", "Dragon platelegs-skirt ornament kit (sp)"].includes(itemDivs[i].options[itemDivs[i].selectedIndex].value)){
+			items.push((itemDivs[i].options[itemDivs[i].selectedIndex].value).replace("-","/"))
+		}
+		else{
+			items.push((itemDivs[i].options[itemDivs[i].selectedIndex].value))
+		}
+		quants.push(parseInt(quantDivs[i].value))
+	}
+	console.log("items are", items, "quants are", quants)
+
+	if(items.length == 0){
+		if (window.alt1) {
+			alt1.overLayClearGroup("overlays");
+			alt1.overLaySetGroup("overlays");
+			alt1.overLayTextEx("Nothing selected to fetch.\nTry selecting some items.",
+				a1lib.mixColor(255, 144, 0), 20, Math.round(alt1.rsWidth / 2), 200, 4000, "", true, true);
+		}
+		console.log("No items...")
+		return
+	}
+
+	let prices = []
+	for(let i = 0; i < items.length; i++){
+		try {
+			await fetch("https://api.weirdgloop.org/exchange/history/rs/latest?name=" + items[i].replace("+","%2B").replace("+","%2B"))
+  				.then(function(response) {
+  				  return response.json();
+  				})
+  				.then(function(data) {
+  				  prices.push(data[items[i]].price)
+  				});
+		} catch (e) {
+			console.log("It failed... setting to 0...", items[i], items[i].replace("+","%2B").replace("+","%2B"))
+			prices.push(0)
+    	}
+	}
+
+	let grandTotal = 0
+	for(let i = 0; i < items.length; i++){
+		if(items[i] == "Coins"){
+			grandTotal += quants[i]
+		}
+		else{
+			grandTotal += (quants[i] * prices[i])
+		}
+	}
+	let ele = document.getElementById("value_input") as HTMLInputElement
+	ele.value = grandTotal + ""
+
+	if (window.alt1) {
+		alt1.overLayClearGroup("overlays");
+		alt1.overLaySetGroup("overlays");
+		alt1.overLayTextEx("Prices fetched successfully!",
+			a1lib.mixColor(100, 255, 100), 20, Math.round(alt1.rsWidth / 2), 200, 4000, "", true, true);
+	}
+}
+
+
+function removeChildNodes(div: any){ // https://stackoverflow.com/a/40606838
+	while (div.firstChild) {
+        div.firstChild.remove();
+    }
 }
 
 
@@ -2212,7 +2556,7 @@ export function toggleLootDisplay(id: string) {
 	let lootdisplay = Array.from(document.getElementsByClassName('loot_display') as HTMLCollectionOf<HTMLElement>);
 	let tab = document.getElementById(id) as HTMLInputElement;
 
-	// TODO: Figure out why General, Common, and Rare don't switch to "show rewards" text.
+	// FIXME: Figure out why General, Common, and Rare don't switch to "show rewards" text.
 	if (id == "broadcasts_rewards") {
 		lootdisplay[0].style.display = (lootdisplay[0].style.display == 'flex') ? 'none' : 'flex';
 		tab.style.textDecoration = (lootdisplay[0].style.display == 'flex') ? 'none' : 'line-through';
@@ -2290,6 +2634,12 @@ export function toggleLootDisplay(id: string) {
 }
 
 
+function currentTierUpper(){
+	let tier = currentTier()[0]
+	return (tier[0].toUpperCase() + tier.slice(1).toLowerCase())
+}
+
+
 function buttonDisabler(){
 	if (toggle == true) {
 		if(localStorage.getItem("autoCapture") !== "true"){
@@ -2330,6 +2680,8 @@ function buttonDisabler(){
 		toggle = true
 	}
 }
+
+
 //print text world
 //also the worst possible example of how to use global exposed exports as described in webpack.config.json
 
