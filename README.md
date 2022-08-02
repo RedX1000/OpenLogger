@@ -8,6 +8,30 @@
 * *NOTE: When reporting a crash, please take a screenshot of the loot window and send it to me. Use Windows Key + Shift + S, Lightshot, or Gyazo to take the screenshot to avoid distortion.*
 <br><br>
 
+### Table of Contents
+* [Description](#description)
+* [How to install](#how-to-install)
+* [Instructions on how to use](#instructions-on-how-to-use)
+    * [Selecting clue tier](#selecting-clue-tier)
+    * [Capture Rewards](#capture-rewards)
+    * [AutoCapture](#autocapture)
+    * [Export to CSV](#export-to-csv)
+    * [History (Rollback)](#history-rollback)
+    * [Insert](#insert)
+    * [Clear Options menu](#clear-options-menu)
+    * [Toggleable loot tabs](#toggleable-loot-tabs)
+* [Settings](#settings) 
+    * [Image Searching Algorithm](#image-searching-algorithm)
+    * [Reference Image Collection](#reference-image-collection)
+    * [Miscellaneous Toggles](#miscellaneous-toggles)
+* [Additional Information](#additional-information)
+    * [Things to avoid accidentally covering when scanning](#when-scanning-clues-do-not-cover-these-spots-on-a-casket-open-screen)
+    * [Avoiding menus causing multi-capturing](#avoiding-menus-causing-multi-capturing-a-few-tips-on-where-to-avoid-having-menus-appearing-over-the-value)
+    * [Accessing `localStorage`](#this-plugin-stores-data-using-localstorage-within-alt1-therefore-it-can-remember-all-of-the-loot-you-have-gotten-between-sessions-unless-it-is-cleared-to-access-it)
+    * [OpenLogger is flexy!](#openlogger-can-be-stretched-out-widthwise-to-display-more-of-the-loot-in-its-display-as-the-top-is-flexybropenlogger-widedistimagesopenlogger20widepng-openlogger-wide-brbr)
+    * [Potential or planned updates](#potential-or-planned-updates)
+    * [Special thanks](#special-thanks) <br><br>
+
 ### Description
 This application was created to provide players with a way to easily record their clue scroll rewards in bulk, or over the course of their clue runs, and to allow users to share their clue data with others. <br><br>
 
@@ -28,15 +52,7 @@ OpenLogger works out of the box, so you don't have to adjust any settings if you
 
 ![OpenLogger Tall](/dist/images/OpenLogger%20Tall.png "OpenLogger Tall") <br><br>
 
-### Quick links to important parts of the document 
-* [Capture Rewards](#capture-rewards)
-* [AutoCapture](#autocapture)
-* [History (Rollback)](#history-rollback)
-* [Settings](#settings)
-* [Hybrid](#image-searching-algorithm)
-* [Avoiding menus causing multi-capturing](#avoiding-menus-causing-multi-capturing-a-few-tips-on-where-to-avoid-having-menus-appearing-over-the-value)
-* [Accessing `localStorage`](#this-plugin-stores-data-using-localstorage-within-alt1-therefore-it-can-remember-all-of-the-loot-you-have-gotten-between-sessions-unless-it-is-cleared-to-access-it)
-* [Special thanks](#special-thanks) <br><br>
+
 
 # Instructions on how to use
 
@@ -85,6 +101,19 @@ OpenLogger works out of the box, so you don't have to adjust any settings if you
 * These displayed clues persist between sessions, so clues can be rolled back from `localStorage` at any time.
 * This is great if you accidentally scan a clue twice, trigger a multi-capture, or if OpenLogger incorrectly identifies an item or value (Ways to mitigate multi-capture from value obfuscation jump to [Avoiding menus causing multi-capturing](#avoiding-menus-causing-multi-capturing-a-few-tips-on-where-to-avoid-having-menus-appearing-over-the-value).) <br>
 ![History Example](/dist/images/HistorySample.png "History Example") <br><br>
+
+### Insert
+* Insert allows users to directly manipulate `localStorage` by allowing users to add or subtract items by manually creating a new entry to be inserted into the database.
+* To remove items from `localStorage`, make the value and quantities of items negative before inserting.
+* The list of items avaible to be adjusted is determined by the currently selected clue tier.
+* The Fetch GE button uses the Runescape Wiki's APIs for pulling the current price of the selected items and autofills the clue value based on the item prices and quantity.
+* Entries inserted into `localStorage` are marked in the History menu with a <span style="color:red; font-size: 11px; font-family: trajan-pro-3;">[C]</span> which means "Custom".
+* To insert items into `localStorage`:
+    * Select the items you want to enter into the database.
+    * Set the quantity of items you are trying to add.
+    * Set the value manually or by selecting the "Fetch GE" button.
+    * Click confirm and review the verification page.
+    * Click confirm to add it into `localStorage`. <br><br>
 
 ### Clear Options Menu
 * Clear Options Menu has multiple choices that determine the scope of how much you want to delete from the database of items.
@@ -159,16 +188,15 @@ OpenLogger works out of the box, so you don't have to adjust any settings if you
     * In the event that a capture is auto-triggered due to this, roll it back in the [History menu](#history-rollback) <br><br>
 
 * ### This plugin stores data using `localStorage` within Alt1, therefore it can remember all of the loot you have gotten between sessions unless it is cleared. To access it:
-&emsp;&emsp;&emsp;1\. Right click the plugin anywhere <br>
-&emsp;&emsp;&emsp;2\. Click "Inspect element" <br>
-&emsp;&emsp;&emsp;3\. Click the "Application" tab <br>
-&emsp;&emsp;&emsp;4\. On the left-hand side, under "Storage", click "Local Storage" <br>
-&emsp;&emsp;&emsp;5\. Click the link under "Local Storage" <br>
 
--
-    - To Clear `localStorage` completely it can be done in one of two ways:
-        * Select "Completely Reset OpenLogger" in the Clear Options Menu and select        "Reset Everything" (Easiest best choice).
-        * Right click the link under Local Storage and select "Clear". <br><br>
+    1. Right click the plugin anywhere <br>
+    2. Click "Inspect element" <br>
+    3. Click the "Application" tab <br>
+    4. On the left-hand side, under "Storage", click "Local Storage" <br>
+    5. Click the link under "Local Storage" <br>
+        - To Clear `localStorage` completely it can be done in one of two ways: <br>   
+            1. Select "Completely Reset OpenLogger" in the Clear Options Menu and select       "Reset Everything" (Easiest best choice). <br>
+            2. Right click the link under Local Storage and select "Clear". <br><br>
 
 * ### OpenLogger can be stretched out widthwise to display more of the loot in its display, as the top is flexy:<br>![OpenLogger Wide](/dist/images/OpenLogger%20Wide.png "OpenLogger Wide") <br><br>
 
