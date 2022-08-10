@@ -629,7 +629,7 @@ header {
   font-size: 16px;
   line-height: 1px;
   text-align: center;
-  color:rgb(255, 139, 30);
+  color:rgb(21, 216, 118);
 }
 
 .main_buttons {
@@ -1124,14 +1124,25 @@ label{
 }
 
 .node_tab{
-  position:relative; 
+  position: relative; 
   margin: 3px 7px 0px 1px; 
-  padding:auto 30px auto auto; 
-  width:37px; 
-  height:37px; 
-  display:flex; 
-  align-items:center; 
-  text-align:center;
+  padding: auto 30px auto auto; 
+  width: 37px; 
+  height: 37px; 
+  display: flex; 
+  align-items: center; 
+  text-align: center;
+}
+
+.nodevarTabStyle{
+  position: relative;
+  margin: 3px 7px 0px 1px;
+  padding: auto 30px auto auto;
+  width: 37px;
+  height: 37px;
+  display: flex;
+  align-items: center;
+  text-align: center;
 }
 
 .node_history{
