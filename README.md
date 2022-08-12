@@ -3,6 +3,8 @@
 #### Report bugs or questions, message me 🙂 -> Discord: RedX1000#3655
 #### RuneApps forum page: https://runeapps.org/forums/viewtopic.php?pid=4751
 
+* *NOTE: This project is currently in maintence mode. There are plans for new features but are not a priority. If something breaks due to jagex updates or if there are bugs, message me on Discord..*
+
 * *NOTE: Legacy Interface mode works, but I don't test with it often, so use at your own risk, and report any crashes and bugs.* <br>
 
 * *NOTE: When reporting a crash, please take a screenshot of the loot window and send it to me. Use Windows Key + Shift + S, Lightshot, or Gyazo to take the screenshot to avoid distortion.*
@@ -50,7 +52,7 @@ OpenLogger works out of the box, so you don't have to adjust any settings if you
 4. Click Add App on the top of the page.
 5. Accept permissions and click confirm. <br><br>
 
-![OpenLogger Tall](/dist/images/OpenLogger%20Tall.png "OpenLogger Tall") <br><br>
+![OpenLogger Tall](/Readme%20Images/OpenLogger%20Tall.png "OpenLogger Tall") <br><br>
 
 
 
@@ -89,9 +91,10 @@ OpenLogger works out of the box, so you don't have to adjust any settings if you
 * In the rare event that the value of the new clue is equivalent to the value of the previous clue, disable Autocapture and manually capture the reward. <br><br>
 
 ### Export to CSV
-* Export to CSV will create a comma separated value file of the your clue rewards from `localStorage` and allows the user to download the file.
-* This will be useful for storing data long term or for crowdsourcing data, i.e. A clan casket opening event.<br>
-![CSV Example](/dist/images/CSV%20demo.png "CSV Example") <br><br>
+* Export to CSV will create a comma separated value file of the your clue rewards and clue history from `localStorage` and allows the user to download the file.
+* This will be useful for storing data long term or for crowdsourcing data, i.e. A clan clue scroll opening event.<br>
+![CSV Example](/Readme%20Images/CSV%20demo.png "CSV Example") <br>
+![CSV Example](/Readme%20Images/CSV%20History%20demo.png "CSV History Example; Open image to see details") <br><br>
 
 ### History (Rollback)
 * History will open a menu that displays every captured clue of the currently selected type that can be rolled back and deleted.
@@ -100,7 +103,7 @@ OpenLogger works out of the box, so you don't have to adjust any settings if you
 * When you click "Delete", verification buttons "Yes" and "No" will appear in it's place. Upon clicking yes, the given entry will be deleted from `localStorage` and the display will update to reflect this. If the deleted entry is the first in the list, the recently captured rewards display will clear itself. Clicking "No" will revert the button back to "Delete".<br>
 * These displayed clues persist between sessions, so clues can be rolled back from `localStorage` at any time.
 * This is great if you accidentally scan a clue twice, trigger a multi-capture, or if OpenLogger incorrectly identifies an item or value (Ways to mitigate multi-capture from value obfuscation jump to [Avoiding menus causing multi-capturing](#avoiding-menus-causing-multi-capturing-a-few-tips-on-where-to-avoid-having-menus-appearing-over-the-value).) <br>
-![History Example](/dist/images/HistorySample.png "History Example") <br><br>
+![History Example](/Readme%20Images/HistorySample.png "History Example") <br><br>
 
 ### Insert
 * Insert allows users to directly manipulate `localStorage` by allowing users to add or subtract items by manually creating a new entry to be inserted into the database.
@@ -163,8 +166,8 @@ OpenLogger works out of the box, so you don't have to adjust any settings if you
 
 # Additional information
 * ### When scanning clues, do not cover these spots on a casket open screen.
-    * EOC rewards display: <br>![EOC rewards display](/dist/images/rewardsample.png "EOC Rewards")
-    * Legacy rewards display: <br>![EOC rewards display](/dist/images/rewardsamplelegacy.png "Legacy Rewards")
+    * EOC rewards display: <br>![EOC rewards display](/Readme%20Images/rewardsample.png "EOC Rewards")
+    * Legacy rewards display: <br>![EOC rewards display](/Readme%20Images/rewardsamplelegacy.png "Legacy Rewards")
     * EOC Trail Complete in the corner:&nbsp;&nbsp; ![EOC Trail Complete in the corner](/dist/images/TrailComplete.data.png "Trail Complete")
     * Legacy Trail Complete on the top of the screen:&nbsp;&nbsp; ![Legacy Trail Complete on the top of the screen](/dist/images/TrailCompleteLegacy.data.png "Trail Complete Legacy")
     * Top left corner of EOC loot window:&nbsp;&nbsp; ![Top left corner of EOC loot window](/dist/images/eoctopleft.data.png "EOC Top left")
@@ -176,15 +179,15 @@ OpenLogger works out of the box, so you don't have to adjust any settings if you
     * EOC Current Reward Value <u><b><i>[INCLUDING NUMBERS](#a-few-tips-on-where-to-avoid-having-menus-appearing-over-the-value)</i></b></u>:&nbsp;&nbsp; ![EOC Current Reward Value INCLUDING NUMBERS](/dist/images/RewardValue.data.png "EOC Current Reward Value")
     * Legacy Current Reward Value <u><b><i>[INCLUDING NUMBERS](#a-few-tips-on-where-to-avoid-having-menus-appearing-over-the-value)</i></b></u>:&nbsp;&nbsp; ![Legacy Current Reward Value INCLUDING NUMBERS](/dist/images/RewardValueLegacy.data.png "Legacy Current Reward Value")
     * These words in the EOC reroll window:&nbsp;&nbsp; ![These words in the reroll window](/dist/images/rerollWindow.data.png "Reroll words")
-    * The current value of rerolls remaining:&nbsp;&nbsp; ![The current value of rerolls remaining](/dist/images/rerollnumbers.png "Reroll numbers")
-    * **Everything else is free game to accidentally cover. More details below about preventing multi-capturing over the value** <br><br>
+    * The current value of rerolls remaining:&nbsp;&nbsp; ![The current value of rerolls remaining](/Readme%20Images/rerollnumbers.png "Reroll numbers")
+    * **Everything else is free game to cover. More details below about preventing multi-capturing over the value** <br><br>
 
 * ### Avoiding menus causing multi-capturing: A few tips on where to avoid having menus appearing over the value
-    * It IS **_NOT_** safe to have a menu pop up if covering ONLY the value itself. OpenLogger WILL capture if you cover up the value such that ONLY the value is covered up like this:<br>![Menu covering only the value](/dist/images/menu%20screen1.png "Menu covering only value")
+    * It IS **_NOT_** safe to have a menu pop up if covering ONLY the value itself. OpenLogger WILL capture if you cover up the value such that ONLY the value is covered up like this:<br>![Menu covering only the value](/Readme%20Images/menu%20screen1.png "Menu covering only value")
 
     * It **_IS_** safe to hover over or right click items as long as the menu resulting from it can cover the "Current Reward Value" text, but try to avoid it. A few examples of safe menus:<br>
-    ![Hover-over menu covering both value and 'Current Reward Value'"](/dist/images/menu%20screen2.png "Hover-over menu covering both value and 'Current Reward Value'")<br>
-    ![Right click menu covering only the 'Current Reward Value'"](/dist/images/menu%20screen3.png "Right click menu covering only 'Current Reward Value'")
+    ![Hover-over menu covering both value and 'Current Reward Value'"](/Readme%20Images/menu%20screen2.png "Hover-over menu covering both value and 'Current Reward Value'")<br>
+    ![Right click menu covering only the 'Current Reward Value'"](/Readme%20Images/menu%20screen3.png "Right click menu covering only 'Current Reward Value'")
     * In the event that a capture is auto-triggered due to this, roll it back in the [History menu](#history-rollback) <br><br>
 
 * ### This plugin stores data using `localStorage` within Alt1, therefore it can remember all of the loot you have gotten between sessions unless it is cleared. To access it:
@@ -199,7 +202,7 @@ OpenLogger works out of the box, so you don't have to adjust any settings if you
             2. Right click the link under Local Storage and select "Clear". <br><br>
 
 * ### OpenLogger can be stretched out widthwise to display more of the loot in its display, as the top is flexy: 
-    ![OpenLogger Wide](/dist/images/OpenLogger%20Wide.png "OpenLogger Wide") <br><br>
+    ![OpenLogger Wide](/Readme%20Images/OpenLogger%20Wide.png "OpenLogger Wide") <br><br>
 
 ### Potential or planned updates
 * Better legacy interface support; I don't test with it much. Legacy interface can log clues and perform lag detection checks, but I do not have a reroll window detection set for legacy mode, and I would need to iron out any bugs or kinks that appear. Use at your own risk.
