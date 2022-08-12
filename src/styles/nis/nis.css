@@ -629,7 +629,7 @@ header {
   font-size: 16px;
   line-height: 1px;
   text-align: center;
-  color:rgb(21, 216, 118);
+  color:rgb(216, 196, 21);
 }
 
 .main_buttons {
@@ -1119,7 +1119,7 @@ label{
   top:-5px; 
   font-family:"Runescape Chat Font"; 
   font-size:16px; 
-  color:rgb(216, 196, 21); 
+  color:rgb(0,255,128); 
   text-shadow:1px 1px #000000;
 }
 
