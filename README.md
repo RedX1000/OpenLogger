@@ -201,7 +201,9 @@ OpenLogger works out of the box, so you don't have to adjust any settings if you
             1. Select "Completely Reset OpenLogger" in the Clear Options Menu and select       "Reset Everything" (Easiest best choice). <br>
             2. Right click the link under Local Storage and select "Clear". <br><br>
 
-* ### OpenLogger can be stretched out widthwise to display more of the loot in its display, as the top is flexy: 
+* ### OpenLogger can be stretched out widthwise to display more of the loot in its display, as the top is flexy, and if you compress the bottom, you can have a minimal box for only seeing scanned items: 
+    ![OpenLogger Tall Top](/Readme%20Images/OpenLogger%20Tall%20Top.png "OpenLogger Tall Top") <br>
+    ![OpenLogger Wide Top](/Readme%20Images/OpenLogger%20Wide%20Top.png "OpenLogger Wide") <br>
     ![OpenLogger Wide](/Readme%20Images/OpenLogger%20Wide.png "OpenLogger Wide") <br><br>
 
 ### Potential or planned updates
