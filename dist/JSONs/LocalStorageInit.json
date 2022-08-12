@@ -547,10 +547,7 @@
         ],
         "quantity": {
             "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 31
     },
@@ -562,10 +559,7 @@
         ],
         "quantity": {
             "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 32
     },
@@ -577,10 +571,7 @@
         ],
         "quantity": {
             "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 33
     },
@@ -592,10 +583,7 @@
         ],
         "quantity": {
             "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 34
     },
@@ -609,9 +597,7 @@
         "quantity": {
             "easy": 0,
             "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 35
     },
@@ -625,9 +611,7 @@
         "quantity": {
             "easy": 0,
             "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 36
     },
@@ -639,10 +623,7 @@
         ],
         "quantity": {
             "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 37
     },
@@ -652,11 +633,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 38
     },
@@ -666,11 +643,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 39
     },
@@ -680,11 +653,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 40
     },
@@ -694,11 +663,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 41
     },
@@ -708,11 +673,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 42
     },
@@ -722,11 +683,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 43
     },
@@ -736,11 +693,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 44
     },
@@ -750,11 +703,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 45
     },
@@ -764,11 +713,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 46
     },
@@ -778,11 +723,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 47
     },
@@ -792,11 +733,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 48
     },
@@ -806,11 +743,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 49
     },
@@ -820,11 +753,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 50
     },
@@ -834,11 +763,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 51
     },
@@ -848,11 +773,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 52
     },
@@ -862,11 +783,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 53
     },
@@ -879,8 +796,6 @@
         ],
         "quantity": {
             "easy": 0,
-            "medium": 0,
-            "hard": 0,
             "elite": 0,
             "master": 0
         },
@@ -892,11 +807,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 55
     },
@@ -906,11 +817,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 56
     },
@@ -920,11 +827,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 57
     },
@@ -934,11 +837,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 58
     },
@@ -948,11 +847,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 59
     },
@@ -966,9 +861,7 @@
         "quantity": {
             "easy": 0,
             "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 60
     },
@@ -982,9 +875,7 @@
         "quantity": {
             "easy": 0,
             "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 61
     },
@@ -994,11 +885,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 62
     },
@@ -1008,11 +895,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 63
     },
@@ -1022,11 +905,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 64
     },
@@ -1036,11 +915,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 65
     },
@@ -1050,11 +925,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 66
     },
@@ -1064,11 +935,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 67
     },
@@ -1078,11 +945,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 68
     },
@@ -1092,11 +955,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 69
     },
@@ -1106,11 +965,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 70
     },
@@ -1120,11 +975,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 71
     },
@@ -1134,11 +985,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 72
     },
@@ -1148,11 +995,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 73
     },
@@ -1162,11 +1005,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 74
     },
@@ -1176,11 +1015,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 75
     },
@@ -1190,11 +1025,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 76
     },
@@ -1204,11 +1035,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 77
     },
@@ -1218,11 +1045,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 78
     },
@@ -1232,11 +1055,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 79
     },
@@ -1246,11 +1065,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 80
     },
@@ -1260,11 +1075,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 81
     },
@@ -1274,11 +1085,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 82
     },
@@ -1288,11 +1095,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 83
     },
@@ -1302,11 +1105,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 84
     },
@@ -1316,11 +1115,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 85
     },
@@ -1330,11 +1125,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 86
     },
@@ -1344,11 +1135,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 87
     },
@@ -1358,11 +1145,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 88
     },
@@ -1372,11 +1155,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 89
     },
@@ -1386,11 +1165,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 90
     },
@@ -1400,11 +1175,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 91
     },
@@ -1414,11 +1185,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 92
     },
@@ -1428,11 +1195,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 93
     },
@@ -1442,11 +1205,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 94
     },
@@ -1456,11 +1215,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 95
     },
@@ -1470,11 +1225,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 96
     },
@@ -1484,11 +1235,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 97
     },
@@ -1498,11 +1245,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 98
     },
@@ -1512,11 +1255,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 99
     },
@@ -1526,11 +1265,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 100
     },
@@ -1540,11 +1275,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 101
     },
@@ -1554,11 +1285,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 102
     },
@@ -1568,11 +1295,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 103
     },
@@ -1582,11 +1305,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 104
     },
@@ -1596,11 +1315,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 105
     },
@@ -1610,11 +1325,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 106
     },
@@ -1624,11 +1335,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 107
     },
@@ -1638,11 +1345,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 108
     },
@@ -1652,11 +1355,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 109
     },
@@ -1666,11 +1365,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 110
     },
@@ -1680,11 +1375,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 111
     },
@@ -1694,11 +1385,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 112
     },
@@ -1708,11 +1395,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 113
     },
@@ -1722,11 +1405,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 114
     },
@@ -1736,11 +1415,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 115
     },
@@ -1750,11 +1425,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 116
     },
@@ -1764,11 +1435,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 117
     },
@@ -1778,11 +1445,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 118
     },
@@ -1792,11 +1455,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 119
     },
@@ -1806,11 +1465,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 120
     },
@@ -1820,11 +1475,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 121
     },
@@ -1834,11 +1485,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 122
     },
@@ -1848,11 +1495,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 123
     },
@@ -1862,11 +1505,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 124
     },
@@ -1876,11 +1515,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 125
     },
@@ -1890,11 +1525,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 126
     },
@@ -1904,11 +1535,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 127
     },
@@ -1918,11 +1545,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 128
     },
@@ -1932,11 +1555,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 129
     },
@@ -1946,11 +1565,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 130
     },
@@ -1960,11 +1575,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 131
     },
@@ -1974,11 +1585,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 132
     },
@@ -1988,11 +1595,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 133
     },
@@ -2002,11 +1605,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 134
     },
@@ -2016,11 +1615,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 135
     },
@@ -2030,11 +1625,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 136
     },
@@ -2044,11 +1635,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 137
     },
@@ -2058,11 +1645,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 138
     },
@@ -2072,11 +1655,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 139
     },
@@ -2086,11 +1665,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 140
     },
@@ -2100,11 +1675,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 141
     },
@@ -2114,11 +1685,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 142
     },
@@ -2128,11 +1695,7 @@
             "easy"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "easy": 0
         },
         "order": 143
     },
@@ -2160,11 +1723,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 145
     },
@@ -2174,11 +1733,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 146
     },
@@ -2188,11 +1743,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 147
     },
@@ -2202,11 +1753,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 148
     },
@@ -2216,11 +1763,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 149
     },
@@ -2230,11 +1773,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 150
     },
@@ -2244,11 +1783,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 151
     },
@@ -2258,11 +1793,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 152
     },
@@ -2272,11 +1803,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 153
     },
@@ -2286,11 +1813,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 154
     },
@@ -2300,11 +1823,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 155
     },
@@ -2314,11 +1833,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 156
     },
@@ -2328,11 +1843,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 157
     },
@@ -2342,11 +1853,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 158
     },
@@ -2356,11 +1863,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 159
     },
@@ -2370,11 +1873,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 160
     },
@@ -2384,11 +1883,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 161
     },
@@ -2398,11 +1893,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 162
     },
@@ -2412,11 +1903,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 163
     },
@@ -2426,11 +1913,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 164
     },
@@ -2440,11 +1923,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 165
     },
@@ -2454,11 +1933,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 166
     },
@@ -2468,11 +1943,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 167
     },
@@ -2482,11 +1953,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 168
     },
@@ -2496,11 +1963,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 169
     },
@@ -2510,11 +1973,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 170
     },
@@ -2524,11 +1983,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 171
     },
@@ -2538,11 +1993,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 172
     },
@@ -2552,11 +2003,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 173
     },
@@ -2566,11 +2013,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 174
     },
@@ -2580,11 +2023,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 175
     },
@@ -2594,11 +2033,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 176
     },
@@ -2608,11 +2043,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 177
     },
@@ -2622,11 +2053,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 178
     },
@@ -2636,11 +2063,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 179
     },
@@ -2650,11 +2073,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 180
     },
@@ -2664,11 +2083,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 181
     },
@@ -2678,11 +2093,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 182
     },
@@ -2692,11 +2103,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 183
     },
@@ -2706,11 +2113,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 184
     },
@@ -2720,11 +2123,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 185
     },
@@ -2734,11 +2133,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 186
     },
@@ -2748,11 +2143,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 187
     },
@@ -2762,11 +2153,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 188
     },
@@ -2776,11 +2163,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 189
     },
@@ -2790,11 +2173,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 190
     },
@@ -2804,11 +2183,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 191
     },
@@ -2818,11 +2193,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 192
     },
@@ -2832,11 +2203,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 193
     },
@@ -2846,11 +2213,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 194
     },
@@ -2860,11 +2223,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 195
     },
@@ -2874,11 +2233,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 196
     },
@@ -2888,11 +2243,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 197
     },
@@ -2902,11 +2253,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 198
     },
@@ -2916,11 +2263,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 199
     },
@@ -2930,11 +2273,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 200
     },
@@ -2944,11 +2283,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 201
     },
@@ -2958,11 +2293,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 202
     },
@@ -2972,11 +2303,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 203
     },
@@ -2986,11 +2313,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 204
     },
@@ -3000,11 +2323,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 205
     },
@@ -3014,11 +2333,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 206
     },
@@ -3028,11 +2343,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 207
     },
@@ -3042,11 +2353,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 208
     },
@@ -3056,11 +2363,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 209
     },
@@ -3070,11 +2373,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 210
     },
@@ -3084,11 +2383,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 211
     },
@@ -3098,11 +2393,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 212
     },
@@ -3112,11 +2403,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 213
     },
@@ -3126,11 +2413,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 214
     },
@@ -3140,11 +2423,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 215
     },
@@ -3154,11 +2433,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 216
     },
@@ -3168,11 +2443,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 217
     },
@@ -3182,11 +2453,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 218
     },
@@ -3196,11 +2463,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 219
     },
@@ -3210,11 +2473,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 220
     },
@@ -3224,11 +2483,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 221
     },
@@ -3238,11 +2493,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 222
     },
@@ -3252,11 +2503,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 223
     },
@@ -3266,11 +2513,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 224
     },
@@ -3280,11 +2523,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 225
     },
@@ -3294,11 +2533,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 226
     },
@@ -3308,11 +2543,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 227
     },
@@ -3322,11 +2553,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 228
     },
@@ -3336,11 +2563,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 229
     },
@@ -3350,11 +2573,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 230
     },
@@ -3364,11 +2583,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 231
     },
@@ -3378,11 +2593,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 232
     },
@@ -3392,11 +2603,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 233
     },
@@ -3406,11 +2613,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 234
     },
@@ -3420,11 +2623,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 235
     },
@@ -3434,11 +2633,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 236
     },
@@ -3448,11 +2643,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 237
     },
@@ -3462,11 +2653,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 238
     },
@@ -3476,11 +2663,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 239
     },
@@ -3490,11 +2673,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 240
     },
@@ -3504,11 +2683,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 241
     },
@@ -3518,11 +2693,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 242
     },
@@ -3532,11 +2703,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 243
     },
@@ -3546,11 +2713,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 244
     },
@@ -3560,11 +2723,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 245
     },
@@ -3574,11 +2733,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 246
     },
@@ -3588,11 +2743,7 @@
             "medium"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "medium": 0
         },
         "order": 247
     },
@@ -3602,11 +2753,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 248
     },
@@ -3616,11 +2763,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 249
     },
@@ -3630,11 +2773,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 250
     },
@@ -3644,11 +2783,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 251
     },
@@ -3658,11 +2793,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 252
     },
@@ -3672,11 +2803,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 253
     },
@@ -3686,11 +2813,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 254
     },
@@ -3700,11 +2823,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 255
     },
@@ -3714,11 +2833,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 256
     },
@@ -3728,11 +2843,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 257
     },
@@ -3742,11 +2853,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 258
     },
@@ -3756,11 +2863,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 259
     },
@@ -3772,8 +2875,6 @@
             "master"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
             "hard": 0,
             "elite": 0,
             "master": 0
@@ -3788,8 +2889,6 @@
             "master"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
             "hard": 0,
             "elite": 0,
             "master": 0
@@ -3802,11 +2901,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 262
     },
@@ -3817,11 +2912,8 @@
             "elite"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
             "hard": 0,
-            "elite": 0,
-            "master": 0
+            "elite": 0
         },
         "order": 263
     },
@@ -3831,11 +2923,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 264
     },
@@ -3845,11 +2933,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 265
     },
@@ -3859,11 +2943,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 266
     },
@@ -3873,11 +2953,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 267
     },
@@ -3887,11 +2963,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 268
     },
@@ -3901,11 +2973,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 269
     },
@@ -3915,11 +2983,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 270
     },
@@ -3929,11 +2993,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 271
     },
@@ -3943,11 +3003,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 272
     },
@@ -3957,11 +3013,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 273
     },
@@ -3971,11 +3023,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 274
     },
@@ -3985,11 +3033,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 275
     },
@@ -3999,11 +3043,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 276
     },
@@ -4013,11 +3053,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 277
     },
@@ -4027,11 +3063,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 278
     },
@@ -4041,11 +3073,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 279
     },
@@ -4055,11 +3083,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 280
     },
@@ -4069,11 +3093,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 281
     },
@@ -4083,11 +3103,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 282
     },
@@ -4097,11 +3113,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 283
     },
@@ -4111,11 +3123,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 284
     },
@@ -4125,11 +3133,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 285
     },
@@ -4139,11 +3143,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 286
     },
@@ -4153,11 +3153,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 287
     },
@@ -4167,11 +3163,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 288
     },
@@ -4181,11 +3173,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 289
     },
@@ -4195,11 +3183,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 290
     },
@@ -4209,11 +3193,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 291
     },
@@ -4223,11 +3203,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 292
     },
@@ -4237,11 +3213,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 293
     },
@@ -4251,11 +3223,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 294
     },
@@ -4265,11 +3233,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 295
     },
@@ -4279,11 +3243,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 296
     },
@@ -4293,11 +3253,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 297
     },
@@ -4307,11 +3263,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 298
     },
@@ -4321,11 +3273,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 299
     },
@@ -4335,11 +3283,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 300
     },
@@ -4349,11 +3293,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 301
     },
@@ -4363,11 +3303,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 302
     },
@@ -4377,11 +3313,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 303
     },
@@ -4391,11 +3323,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 304
     },
@@ -4405,11 +3333,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 305
     },
@@ -4419,11 +3343,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 306
     },
@@ -4433,11 +3353,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 307
     },
@@ -4447,11 +3363,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 308
     },
@@ -4461,11 +3373,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 309
     },
@@ -4475,11 +3383,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 310
     },
@@ -4489,11 +3393,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 311
     },
@@ -4503,11 +3403,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 312
     },
@@ -4517,11 +3413,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 313
     },
@@ -4531,11 +3423,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 314
     },
@@ -4545,11 +3433,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 315
     },
@@ -4559,11 +3443,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 316
     },
@@ -4573,11 +3453,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 317
     },
@@ -4587,11 +3463,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 318
     },
@@ -4601,11 +3473,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 319
     },
@@ -4615,11 +3483,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 320
     },
@@ -4629,11 +3493,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 321
     },
@@ -4643,11 +3503,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 322
     },
@@ -4657,11 +3513,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 323
     },
@@ -4671,11 +3523,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 324
     },
@@ -4685,11 +3533,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 325
     },
@@ -4699,11 +3543,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 326
     },
@@ -4713,11 +3553,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 327
     },
@@ -4727,11 +3563,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 328
     },
@@ -4741,11 +3573,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 329
     },
@@ -4755,11 +3583,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 330
     },
@@ -4769,11 +3593,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 331
     },
@@ -4783,11 +3603,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 332
     },
@@ -4797,11 +3613,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 333
     },
@@ -4811,11 +3623,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 334
     },
@@ -4825,11 +3633,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 335
     },
@@ -4839,11 +3643,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 336
     },
@@ -4853,11 +3653,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 337
     },
@@ -4867,11 +3663,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 338
     },
@@ -4881,11 +3673,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 339
     },
@@ -4895,11 +3683,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 340
     },
@@ -4909,11 +3693,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 341
     },
@@ -4923,11 +3703,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 342
     },
@@ -4937,11 +3713,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 343
     },
@@ -4951,11 +3723,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 344
     },
@@ -4965,11 +3733,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 345
     },
@@ -4979,11 +3743,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 346
     },
@@ -4993,11 +3753,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 347
     },
@@ -5007,11 +3763,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 348
     },
@@ -5021,11 +3773,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 349
     },
@@ -5035,11 +3783,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 350
     },
@@ -5049,11 +3793,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 351
     },
@@ -5063,11 +3803,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 352
     },
@@ -5077,11 +3813,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 353
     },
@@ -5091,11 +3823,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 354
     },
@@ -5105,11 +3833,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 355
     },
@@ -5119,11 +3843,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 356
     },
@@ -5133,11 +3853,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 357
     },
@@ -5147,11 +3863,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 358
     },
@@ -5161,11 +3873,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 359
     },
@@ -5177,8 +3885,6 @@
             "master"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
             "hard": 0,
             "elite": 0,
             "master": 0
@@ -5192,11 +3898,8 @@
             "elite"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
             "hard": 0,
-            "elite": 0,
-            "master": 0
+            "elite": 0
         },
         "order": 361
     },
@@ -5206,11 +3909,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 362
     },
@@ -5220,11 +3919,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 363
     },
@@ -5234,11 +3929,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 364
     },
@@ -5248,11 +3939,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 365
     },
@@ -5264,8 +3951,6 @@
             "master"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
             "hard": 0,
             "elite": 0,
             "master": 0
@@ -5280,8 +3965,6 @@
             "master"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
             "hard": 0,
             "elite": 0,
             "master": 0
@@ -5296,8 +3979,6 @@
             "master"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
             "hard": 0,
             "elite": 0,
             "master": 0
@@ -5312,8 +3993,6 @@
             "master"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
             "hard": 0,
             "elite": 0,
             "master": 0
@@ -5326,11 +4005,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 370
     },
@@ -5340,11 +4015,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 371
     },
@@ -5354,11 +4025,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 372
     },
@@ -5368,11 +4035,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 373
     },
@@ -5382,11 +4045,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 374
     },
@@ -5396,11 +4055,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 375
     },
@@ -5410,11 +4065,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 376
     },
@@ -5424,11 +4075,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 377
     },
@@ -5438,11 +4085,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 378
     },
@@ -5452,11 +4095,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 379
     },
@@ -5467,11 +4106,8 @@
             "elite"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
             "hard": 0,
-            "elite": 0,
-            "master": 0
+            "elite": 0
         },
         "order": 380
     },
@@ -5482,11 +4118,8 @@
             "elite"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
             "hard": 0,
-            "elite": 0,
-            "master": 0
+            "elite": 0
         },
         "order": 381
     },
@@ -5498,8 +4131,6 @@
             "master"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
             "hard": 0,
             "elite": 0,
             "master": 0
@@ -5512,11 +4143,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 383
     },
@@ -5526,11 +4153,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 384
     },
@@ -5540,11 +4163,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 385
     },
@@ -5554,11 +4173,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 386
     },
@@ -5568,11 +4183,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 387
     },
@@ -5582,11 +4193,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 388
     },
@@ -5596,11 +4203,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 389
     },
@@ -5610,11 +4213,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 390
     },
@@ -5624,11 +4223,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 391
     },
@@ -5638,11 +4233,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 392
     },
@@ -5652,11 +4243,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 393
     },
@@ -5666,11 +4253,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 394
     },
@@ -5680,11 +4263,7 @@
             "hard"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "hard": 0
         },
         "order": 395
     },
@@ -5694,11 +4273,7 @@
             "elite"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "elite": 0
         },
         "order": 396
     },
@@ -5709,9 +4284,6 @@
             "master"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
             "elite": 0,
             "master": 0
         },
@@ -5724,9 +4296,6 @@
             "master"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
             "elite": 0,
             "master": 0
         },
@@ -5738,11 +4307,7 @@
             "elite"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "elite": 0
         },
         "order": 399
     },
@@ -5752,11 +4317,7 @@
             "elite"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "elite": 0
         },
         "order": 400
     },
@@ -5766,11 +4327,7 @@
             "elite"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "elite": 0
         },
         "order": 401
     },
@@ -5780,11 +4337,7 @@
             "elite"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "elite": 0
         },
         "order": 402
     },
@@ -5794,11 +4347,7 @@
             "elite"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "elite": 0
         },
         "order": 403
     },
@@ -5808,11 +4357,7 @@
             "elite"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "elite": 0
         },
         "order": 404
     },
@@ -5822,11 +4367,7 @@
             "elite"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "elite": 0
         },
         "order": 405
     },
@@ -5836,11 +4377,7 @@
             "elite"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "elite": 0
         },
         "order": 406
     },
@@ -5850,11 +4387,7 @@
             "elite"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "elite": 0
         },
         "order": 407
     },
@@ -5865,9 +4398,6 @@
             "master"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
             "elite": 0,
             "master": 0
         },
@@ -5880,9 +4410,6 @@
             "master"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
             "elite": 0,
             "master": 0
         },
@@ -5895,9 +4422,6 @@
             "master"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
             "elite": 0,
             "master": 0
         },
@@ -5909,11 +4433,7 @@
             "elite"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "elite": 0
         },
         "order": 411
     },
@@ -5923,11 +4443,7 @@
             "elite"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "elite": 0
         },
         "order": 412
     },
@@ -5937,11 +4453,7 @@
             "elite"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "elite": 0
         },
         "order": 413
     },
@@ -5951,11 +4463,7 @@
             "elite"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "elite": 0
         },
         "order": 414
     },
@@ -5965,11 +4473,7 @@
             "elite"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "elite": 0
         },
         "order": 415
     },
@@ -5979,11 +4483,7 @@
             "elite"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "elite": 0
         },
         "order": 416
     },
@@ -5993,11 +4493,7 @@
             "elite"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "elite": 0
         },
         "order": 417
     },
@@ -6007,11 +4503,7 @@
             "elite"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "elite": 0
         },
         "order": 418
     },
@@ -6021,11 +4513,7 @@
             "elite"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "elite": 0
         },
         "order": 419
     },
@@ -6035,11 +4523,7 @@
             "elite"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "elite": 0
         },
         "order": 420
     },
@@ -6049,11 +4533,7 @@
             "elite"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "elite": 0
         },
         "order": 421
     },
@@ -6063,11 +4543,7 @@
             "elite"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "elite": 0
         },
         "order": 422
     },
@@ -6077,11 +4553,7 @@
             "elite"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "elite": 0
         },
         "order": 423
     },
@@ -6091,11 +4563,7 @@
             "elite"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "elite": 0
         },
         "order": 424
     },
@@ -6105,11 +4573,7 @@
             "elite"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "elite": 0
         },
         "order": 425
     },
@@ -6119,11 +4583,7 @@
             "elite"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "elite": 0
         },
         "order": 426
     },
@@ -6133,11 +4593,7 @@
             "elite"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "elite": 0
         },
         "order": 427
     },
@@ -6147,11 +4603,7 @@
             "elite"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "elite": 0
         },
         "order": 428
     },
@@ -6161,11 +4613,7 @@
             "elite"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "elite": 0
         },
         "order": 429
     },
@@ -6175,11 +4623,7 @@
             "elite"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "elite": 0
         },
         "order": 430
     },
@@ -6189,11 +4633,7 @@
             "elite"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "elite": 0
         },
         "order": 431
     },
@@ -6203,11 +4643,7 @@
             "elite"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "elite": 0
         },
         "order": 432
     },
@@ -6217,11 +4653,7 @@
             "elite"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "elite": 0
         },
         "order": 433
     },
@@ -6231,11 +4663,7 @@
             "elite"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "elite": 0
         },
         "order": 434
     },
@@ -6245,11 +4673,7 @@
             "elite"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "elite": 0
         },
         "order": 435
     },
@@ -6259,11 +4683,7 @@
             "elite"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "elite": 0
         },
         "order": 436
     },
@@ -6273,11 +4693,7 @@
             "elite"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "elite": 0
         },
         "order": 437
     },
@@ -6287,11 +4703,7 @@
             "elite"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "elite": 0
         },
         "order": 438
     },
@@ -6301,11 +4713,7 @@
             "elite"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "elite": 0
         },
         "order": 439
     },
@@ -6315,11 +4723,7 @@
             "elite"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "elite": 0
         },
         "order": 440
     },
@@ -6329,11 +4733,7 @@
             "elite"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "elite": 0
         },
         "order": 441
     },
@@ -6343,11 +4743,7 @@
             "elite"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "elite": 0
         },
         "order": 442
     },
@@ -6357,11 +4753,7 @@
             "elite"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "elite": 0
         },
         "order": 443
     },
@@ -6371,11 +4763,7 @@
             "elite"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "elite": 0
         },
         "order": 444
     },
@@ -6385,11 +4773,7 @@
             "elite"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "elite": 0
         },
         "order": 445
     },
@@ -6399,11 +4783,7 @@
             "elite"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "elite": 0
         },
         "order": 446
     },
@@ -6413,11 +4793,7 @@
             "elite"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "elite": 0
         },
         "order": 447
     },
@@ -6427,11 +4803,7 @@
             "elite"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "elite": 0
         },
         "order": 448
     },
@@ -6441,11 +4813,7 @@
             "elite"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "elite": 0
         },
         "order": 449
     },
@@ -6455,11 +4823,7 @@
             "elite"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "elite": 0
         },
         "order": 450
     },
@@ -6469,11 +4833,7 @@
             "elite"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "elite": 0
         },
         "order": 451
     },
@@ -6483,11 +4843,7 @@
             "elite"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "elite": 0
         },
         "order": 452
     },
@@ -6497,11 +4853,7 @@
             "elite"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "elite": 0
         },
         "order": 453
     },
@@ -6511,11 +4863,7 @@
             "elite"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "elite": 0
         },
         "order": 454
     },
@@ -6525,11 +4873,7 @@
             "elite"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "elite": 0
         },
         "order": 455
     },
@@ -6539,11 +4883,7 @@
             "elite"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "elite": 0
         },
         "order": 456
     },
@@ -6553,11 +4893,7 @@
             "elite"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "elite": 0
         },
         "order": 457
     },
@@ -6567,11 +4903,7 @@
             "elite"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "elite": 0
         },
         "order": 458
     },
@@ -6581,11 +4913,7 @@
             "elite"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "elite": 0
         },
         "order": 459
     },
@@ -6595,11 +4923,7 @@
             "elite"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "elite": 0
         },
         "order": 460
     },
@@ -6609,11 +4933,7 @@
             "elite"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "elite": 0
         },
         "order": 461
     },
@@ -6623,11 +4943,7 @@
             "elite"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "elite": 0
         },
         "order": 462
     },
@@ -6637,11 +4953,7 @@
             "elite"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "elite": 0
         },
         "order": 463
     },
@@ -6651,11 +4963,7 @@
             "elite"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "elite": 0
         },
         "order": 464
     },
@@ -6665,11 +4973,7 @@
             "elite"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "elite": 0
         },
         "order": 465
     },
@@ -6679,11 +4983,7 @@
             "elite"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "elite": 0
         },
         "order": 466
     },
@@ -6693,11 +4993,7 @@
             "elite"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "elite": 0
         },
         "order": 467
     },
@@ -6707,11 +5003,7 @@
             "elite"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "elite": 0
         },
         "order": 468
     },
@@ -6722,9 +5014,6 @@
             "master"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
             "elite": 0,
             "master": 0
         },
@@ -6737,9 +5026,6 @@
             "master"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
             "elite": 0,
             "master": 0
         },
@@ -6752,9 +5038,6 @@
             "master"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
             "elite": 0,
             "master": 0
         },
@@ -6766,11 +5049,7 @@
             "elite"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "elite": 0
         },
         "order": 472
     },
@@ -6781,9 +5060,6 @@
             "master"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
             "elite": 0,
             "master": 0
         },
@@ -6796,9 +5072,6 @@
             "master"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
             "elite": 0,
             "master": 0
         },
@@ -6811,9 +5084,6 @@
             "master"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
             "elite": 0,
             "master": 0
         },
@@ -6825,11 +5095,7 @@
             "elite"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "elite": 0
         },
         "order": 476
     },
@@ -6839,11 +5105,7 @@
             "elite"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "elite": 0
         },
         "order": 477
     },
@@ -6853,11 +5115,7 @@
             "elite"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "elite": 0
         },
         "order": 478
     },
@@ -6867,11 +5125,7 @@
             "elite"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "elite": 0
         },
         "order": 479
     },
@@ -6881,11 +5135,7 @@
             "elite"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "elite": 0
         },
         "order": 480
     },
@@ -6895,11 +5145,7 @@
             "elite"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "elite": 0
         },
         "order": 481
     },
@@ -6909,11 +5155,7 @@
             "elite"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "elite": 0
         },
         "order": 482
     },
@@ -6923,11 +5165,7 @@
             "elite"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "elite": 0
         },
         "order": 483
     },
@@ -6937,11 +5175,7 @@
             "elite"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
-            "master": 0
+            "elite": 0
         },
         "order": 484
     },
@@ -6951,10 +5185,6 @@
             "master"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
             "master": 0
         },
         "order": 485
@@ -6965,10 +5195,6 @@
             "master"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
             "master": 0
         },
         "order": 486
@@ -6979,10 +5205,6 @@
             "master"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
             "master": 0
         },
         "order": 487
@@ -6993,10 +5215,6 @@
             "master"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
             "master": 0
         },
         "order": 488
@@ -7007,10 +5225,6 @@
             "master"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
             "master": 0
         },
         "order": 489
@@ -7021,10 +5235,6 @@
             "master"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
             "master": 0
         },
         "order": 490
@@ -7035,10 +5245,6 @@
             "master"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
             "master": 0
         },
         "order": 491
@@ -7049,10 +5255,6 @@
             "master"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
             "master": 0
         },
         "order": 492
@@ -7063,10 +5265,6 @@
             "master"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
             "master": 0
         },
         "order": 493
@@ -7077,10 +5275,6 @@
             "master"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
             "master": 0
         },
         "order": 494
@@ -7091,10 +5285,6 @@
             "master"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
             "master": 0
         },
         "order": 495
@@ -7105,10 +5295,6 @@
             "master"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
             "master": 0
         },
         "order": 496
@@ -7119,10 +5305,6 @@
             "master"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
             "master": 0
         },
         "order": 497
@@ -7133,10 +5315,6 @@
             "master"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
             "master": 0
         },
         "order": 498
@@ -7147,10 +5325,6 @@
             "master"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
             "master": 0
         },
         "order": 499
@@ -7161,10 +5335,6 @@
             "master"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
             "master": 0
         },
         "order": 500
@@ -7175,10 +5345,6 @@
             "master"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
             "master": 0
         },
         "order": 501
@@ -7189,10 +5355,6 @@
             "master"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
             "master": 0
         },
         "order": 502
@@ -7203,10 +5365,6 @@
             "master"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
             "master": 0
         },
         "order": 503
@@ -7217,10 +5375,6 @@
             "master"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
             "master": 0
         },
         "order": 504
@@ -7231,10 +5385,6 @@
             "master"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
             "master": 0
         },
         "order": 505
@@ -7245,10 +5395,6 @@
             "master"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
             "master": 0
         },
         "order": 506
@@ -7259,10 +5405,6 @@
             "master"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
             "master": 0
         },
         "order": 507
@@ -7273,10 +5415,6 @@
             "master"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
             "master": 0
         },
         "order": 508
@@ -7287,10 +5425,6 @@
             "master"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
             "master": 0
         },
         "order": 509
@@ -7301,10 +5435,6 @@
             "master"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
             "master": 0
         },
         "order": 510
@@ -7315,10 +5445,6 @@
             "master"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
             "master": 0
         },
         "order": 511
@@ -7329,10 +5455,6 @@
             "master"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
             "master": 0
         },
         "order": 512
@@ -7343,10 +5465,6 @@
             "master"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
             "master": 0
         },
         "order": 513
@@ -7357,10 +5475,6 @@
             "master"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
             "master": 0
         },
         "order": 514
@@ -7371,10 +5485,6 @@
             "master"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
             "master": 0
         },
         "order": 515
@@ -7385,10 +5495,6 @@
             "master"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
             "master": 0
         },
         "order": 516
@@ -7399,10 +5505,6 @@
             "master"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
             "master": 0
         },
         "order": 517
@@ -7413,10 +5515,6 @@
             "master"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
             "master": 0
         },
         "order": 518
@@ -7427,10 +5525,6 @@
             "master"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
             "master": 0
         },
         "order": 519
@@ -7441,10 +5535,6 @@
             "master"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
             "master": 0
         },
         "order": 520
@@ -7455,10 +5545,6 @@
             "master"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
             "master": 0
         },
         "order": 521
@@ -7469,10 +5555,6 @@
             "master"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
             "master": 0
         },
         "order": 522
@@ -7483,10 +5565,6 @@
             "master"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
             "master": 0
         },
         "order": 523
@@ -7497,10 +5575,6 @@
             "master"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
             "master": 0
         },
         "order": 524
@@ -7511,10 +5585,6 @@
             "master"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
             "master": 0
         },
         "order": 525
@@ -7525,10 +5595,6 @@
             "master"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
             "master": 0
         },
         "order": 526
@@ -7539,10 +5605,6 @@
             "master"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
             "master": 0
         },
         "order": 527
@@ -7553,10 +5615,6 @@
             "master"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
             "master": 0
         },
         "order": 528
@@ -7567,10 +5625,6 @@
             "master"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
             "master": 0
         },
         "order": 529
@@ -7581,10 +5635,6 @@
             "master"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
             "master": 0
         },
         "order": 530
@@ -7595,10 +5645,6 @@
             "master"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
             "master": 0
         },
         "order": 531
@@ -7609,10 +5655,6 @@
             "master"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
             "master": 0
         },
         "order": 532
@@ -7623,10 +5665,6 @@
             "master"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
             "master": 0
         },
         "order": 533
@@ -7637,10 +5675,6 @@
             "master"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
             "master": 0
         },
         "order": 534
@@ -7651,10 +5685,6 @@
             "master"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
             "master": 0
         },
         "order": 535
@@ -7665,10 +5695,6 @@
             "master"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
             "master": 0
         },
         "order": 536
@@ -7679,10 +5705,6 @@
             "master"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
             "master": 0
         },
         "order": 537
@@ -7693,10 +5715,6 @@
             "master"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
             "master": 0
         },
         "order": 538
@@ -7707,10 +5725,6 @@
             "master"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
             "master": 0
         },
         "order": 539
@@ -7721,10 +5735,6 @@
             "master"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
             "master": 0
         },
         "order": 540
@@ -7735,10 +5745,6 @@
             "master"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
             "master": 0
         },
         "order": 541
@@ -7749,10 +5755,6 @@
             "master"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
             "master": 0
         },
         "order": 542
@@ -7763,10 +5765,6 @@
             "master"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
             "master": 0
         },
         "order": 543
@@ -7777,10 +5775,6 @@
             "master"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
             "master": 0
         },
         "order": 544
@@ -7791,10 +5785,6 @@
             "master"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
             "master": 0
         },
         "order": 545
@@ -7805,10 +5795,6 @@
             "master"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
             "master": 0
         },
         "order": 546
@@ -7819,10 +5805,6 @@
             "master"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
             "master": 0
         },
         "order": 547
@@ -7833,10 +5815,6 @@
             "master"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
             "master": 0
         },
         "order": 548
@@ -7847,10 +5825,6 @@
             "master"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
             "master": 0
         },
         "order": 549
@@ -7861,10 +5835,6 @@
             "master"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
             "master": 0
         },
         "order": 550
@@ -7875,10 +5845,6 @@
             "master"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
             "master": 0
         },
         "order": 551
@@ -7889,10 +5855,6 @@
             "master"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
             "master": 0
         },
         "order": 552
@@ -7903,10 +5865,6 @@
             "master"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
             "master": 0
         },
         "order": 553
@@ -7917,10 +5875,6 @@
             "master"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
             "master": 0
         },
         "order": 554
@@ -7931,10 +5885,6 @@
             "master"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
             "master": 0
         },
         "order": 555
@@ -7945,22 +5895,8 @@
             "master"
         ],
         "quantity": {
-            "easy": 0,
-            "medium": 0,
-            "hard": 0,
-            "elite": 0,
             "master": 0
         },
         "order": 556
-    },
-    "EValue": 0,
-    "ECount": 0,
-    "MValue": 0,
-    "MCount": 0,
-    "HValue": 0,
-    "HCount": 0,
-    "ElValue": 0,
-    "ElCount": 0,
-    "MaValue": 0,
-    "MaCount": 0
+    }
 }
