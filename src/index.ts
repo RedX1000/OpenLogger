@@ -10,298 +10,325 @@ import ClueRewardReader from "./scripts/rewardreader";
 import { ModalUIReader } from "./scripts/modeluireader";
 
 import * as lsdb from './JSONs/LocalStorageInit.json';
-import * as itemsFull from './JSONs/ItemsAndImages.json';
-import * as itemsReorg from './JSONs/ItemsAndImagesReorganized.json';
-import * as itemsReorgTwo from './JSONs/ItemsAndImagesReorganizedTwo.json';
-import * as itemsLegacyFull from './JSONs/ItemsAndImagesLegacy.json';
-import * as itemsLegacyReorg from './JSONs/ItemsAndImagesLegacyReorganized.json';
-import * as itemsLegacyReorgTwo from './JSONs/ItemsAndImagesLegacyReorganizedTwo.json';
-import { Template } from "webpack";
-import { info } from "console";
+import * as itemsTwoPlus from './JSONs/ItemsAndImagesAll.json';
+import * as itemsOrgList from './JSONs/ItemsAndImagesOrgList.json';
+import * as itemsOrgMinus from './JSONs/ItemsAndImagesOrgMinus.json';
+import * as itemslegacyTwoPlus from './JSONs/ItemsAndImagesLegacyAll.json';
+import * as itemsLegacyOrgList from './JSONs/ItemsAndImagesLegacyOrgList.json';
+import * as itemsLegacyOrgMinus from './JSONs/ItemsAndImagesLegacyOrgMinus.json';
 
-/* A couple of notes for development
+/* 
+A couple of notes for development
 - In order to adjust this plugin for other loot adjust two key things:
 	* The JSONs, the initializer and the image lists
 	* The Image or images that allow Alt1 to find the window 
 - One would need to tweak various settings around to accomdate the loot window
 - Value reader is also from the Clue Solver, so I'm not sure how it works, it may break.
-
 */
 
 //tell webpack to add index.html and appconfig.json to output
 require("!file-loader?name=[name].[ext]!./index.html");
 require("!file-loader?name=[name].[ext]!./appconfig.json");
 
-var rewardSlots = ["first_item", "second_item", "third_item", "fourth_item", "fifth_item", "sixth_item", "seventh_item", "eigth_item", "ninth_item"];
+// TODO: FOR THE PROGRAMMERS AND DEBUGGERS
+// Set this value to true or false to enable console log messages
+var seeConsoleLogs = true;
+
 var tierlist = ["easy", "medium", "hard", "elite", "master"]
 
-// When adding new objects to LocalStorage that ARE NOT items, put that object into this list
-// Otherwise displaying items to the rewards display will break.
-var ignorelist = ["EValue", "ECount", "MValue", "MCount", "HValue",
-	"HCount", "ElValue", "ElCount", "MaValue", "MaCount",
-	"Checked button", "Algorithm", "ItemList", "autoCapture",
-	"rerollToggle", "lagDetect", "multiButtonPressDetect", 
-	"hybridPrecision", "noMenu", "Rollback", "PrimaryKeyRollback",
-	"RollbackDisplayLimit", "History", "PrimaryKeyHistory", "HistoryDisplayLimit"];
+var settingslist = ["Checked button", "Algorithm", "ItemList", "rerollToggle", "lagDetect", 
+					"multiButtonPressDetect",  "hybridPrecision", "noMenu", "RollbackDisplayLimit"]
 
-var listOfItemsAll;
-var listOfItemsFull;
-var listOfItemsReorg;
-var listOfItemsReorgTwo;
-var listOfItemsLegacyAll;
-var listOfItemsLegacyFull;
-var listOfItemsLegacyReorg;
-var listOfItemsLegacyReorgTwo;
+var valuesAndCounts = ["EValue", "ECount", "MValue", "MCount", "HValue", 
+ 					   "HCount", "ElValue", "ElCount", "MaValue", "MaCount"]
+
+var rewardSlots = ["first_item", "second_item", "third_item", "fourth_item", "fifth_item", 
+					"sixth_item", "seventh_item", "eigth_item", "ninth_item"];
+					
+
+var listOfItemsAll = [];
+var listOfitemsTwoPlus = [];
+var listOfItemsOrgList = [];
+var listOfItemsOrgMinus = [];
+var listOfItemsLegacyAll = [];
+var listOfItemslegacyTwoPlus = [];
+var listOfItemsLegacyOrgList = [];
+var listOfItemsLegacyOrgMinus = [];
 
 var listOfItemsAllArray = [];
-var listOfItemsFullArray = [];
-var listOfItemsReorgArray = [];
-var listOfItemsReorgTwoArray = [];
+var listOfitemsTwoPlusArray = [];
+var listOfItemsOrgListArray = [];
+var listOfItemsOrgMinusArray = [];
 var listOfItemsLegacyAllArray = [];
-var listOfItemsLegacyFullArray = [];
-var listOfItemsLegacyReorgArray = [];
-var listOfItemsLegacyReorgTwoArray = [];
+var listOfItemslegacyTwoPlusArray = [];
+var listOfItemsLegacyOrgListArray = [];
+var listOfItemsLegacyOrgMinusArray = [];
+
+var items = JSON;
 
 var legacy = false;
 var displaybox = true;
 
 var lastItems = [];
 var lastQuants = [];
-var lastTier;
+var lastTier = [];
 var lastValue = 0;
 
 var lastReroll = [0, 0];
 
 var autoCaptureInterval;
 
+var noMenuInterval;
+
 var opentabs = [true, true, true, true];
 
 var lagDetected = false;
 
-var toggle = true
+var buttonDisabletoggle = true;
 
-var autoAdjust = true
+var lagCounter = 0;
 
-var noMenuInterval;
+var insertVerif = [];
 
-var lagCounter = 0
+var imgs = a1lib.ImageDetect.webpackImages({
+	trailComplete: require("./images/TrailComplete.data.png"),
+	trailCompleteLegacy: require("./images/TrailCompleteLegacy.data.png"),
+	rewardValue: require("./images/RewardValue.data.png"),
+	rewardValueLegacy: require("./images/RewardValueLegacy.data.png"),
+	rerollWindow: require("./images/rerollWindow.data.png"),
+	rerollWindowLegacy: require("./images/rerollWindowLegacy.data.png")
+});
 
 // TODO: Consider adding an update price for all clues within history, current tier value
+// TODO: Consider changing the coin icon depending on its quantity
+// Maybe extend this with purple sweets, holy biscuits, and various seeds.
+// TODO: Consider putting some functions in its own TS files for organization.
 
-export function refresh() {
-	location.reload();
-}
 
+export async function initOnLoad() {
+	if (window.alt1) {
+		alt1.overLayClearGroup("overlays");
+		alt1.overLayClearGroup("icon");
+		alt1.overLayClearGroup("lag");
+		alt1.overLayClearGroup("nomenu");
+		
+		alt1.overLaySetGroup("overlays");
+		alt1.overLayTextEx("Initializing OpenLogger...", a1lib.mixColor(255, 144, 0), 20, Math.round(alt1.rsWidth / 2), 200, 50000, "", true, true);
+	}
 
-export function initOnLoad(){
-	alt1.overLayClearGroup("overlays");
-	alt1.overLayClearGroup("icon");
-	alt1.overLayClearGroup("lag");
-	alt1.overLayClearGroup("nomenu");
-	
-	alt1.overLaySetGroup("overlays");
-	alt1.overLayTextEx("Initializing OpenLogger...", a1lib.mixColor(255, 144, 0), 20, Math.round(alt1.rsWidth / 2), 200, 50000, "", true, true);
-	init()
+	if (seeConsoleLogs) console.log("Initializing plugin...");
+	await init();
+	if (seeConsoleLogs) console.log("\nInitialization complete!");
 }
 
 
 export async function init() {
+	buttonDisabler();
 
-	buttonDisabler()
-	console.log("Initializing plugin...");
+	// Initializing LocalStorage items
+	if (seeConsoleLogs) console.log("Initializing LocalStorage items...");
+
+	if (localStorage.getItem("items") == null) {
+		localStorage.setItem("items", JSON.stringify(lsdb))
+	}
+
+	for (let i = 0; i < valuesAndCounts.length; i++) {
+		if (localStorage.getItem(valuesAndCounts[i]) == null) {
+			localStorage.setItem(valuesAndCounts[i], "0");
+		}
+	}
+
+	items = JSON.parse(localStorage.getItem("items"));
+
+
+	// This code should be able to save your data after the optimization update.
+	// This snippet can be removed a few months in the future or for future projects with this code.
+	// ~ 08/10/2022
 	let keys = Object.keys(lsdb);
+	for (let i = 0; i < keys.length; i++) {
+		if (localStorage.getItem(keys[i]) != null) {
+			for (let j = 0; j < items[keys[i]].tier.length; j++) {
+				let itemsQuant = parseInt(items[keys[i]].quantity[items[keys[i]].tier[j]]);
+				let lsItemQuant = parseInt(JSON.parse(localStorage.getItem(keys[i])).quantity[items[keys[i]].tier[j]]);
+				items[keys[i]].quantity[items[keys[i]].tier[j]] = itemsQuant + lsItemQuant;
+			}
+			localStorage.removeItem(keys[i]);
+		}
+	}
+
+
+	if (seeConsoleLogs) console.log("LocalStorage items initialized.");
+
+	if (seeConsoleLogs) console.log("Initializing radio buttons...");
 	if (localStorage.getItem("Checked button") == null) { // Checked button init check
-		console.log("Defaulting button to easy...");
+		if (seeConsoleLogs) console.log("Defaulting button to easy...");
 		let ele = document.getElementById("easy") as HTMLInputElement;
 		ele.checked = true;
-		document.getElementById('clue_tier').textContent = "Easy";
+		(document.getElementById('clue_tier') as HTMLSpanElement).textContent = "Easy";
 		localStorage.setItem("Checked button", "easy");
 	}
 	else { // If it does, set the button and span
-		console.log("Setting previously set radio button: " + localStorage.getItem("Checked button") + "...");
+		if (seeConsoleLogs) console.log("Setting previously set radio button: " + localStorage.getItem("Checked button") + "...");
 		let temp = localStorage.getItem("Checked button");
 		let ele = document.getElementById(temp) as HTMLInputElement;
 		ele.checked = true;
-		document.getElementById('clue_tier').textContent = temp[0].toUpperCase() + temp.slice(1).toLowerCase();
+		(document.getElementById('clue_tier') as HTMLSpanElement).textContent = temp[0].toUpperCase() + temp.slice(1).toLowerCase();
 	}
 
-	let tierSpans = document.getElementsByClassName("current_tier_button");
-	for (let i = 0; i < tierSpans.length; i++)
-		tierSpans[i].textContent = currentTier()[0]
+	if (seeConsoleLogs) console.log("Radio buttons initialized.");
+
+
+	let tierSpans = document.getElementsByClassName("current_tier_button") as HTMLCollectionOf<HTMLSpanElement>;
+	for (let i = 0; i < tierSpans.length; i++) {
+		if (seeConsoleLogs) console.log("Setting tier spans to", currentTier()[0]);
+		tierSpans[i].textContent = currentTier()[0];
+	}
 
 	if (localStorage.getItem("Algorithm") == null) { // Algorithim init check
-		console.log("Defaulting button to Hybrid...");
+		if (seeConsoleLogs) console.log("Defaulting Algorithm button to Hybrid...");
 		localStorage.setItem("Algorithm", "hybrid");
 	}
 
 	if (localStorage.getItem("ItemList") == null) { // Item Referense list init check
-		console.log("Defaulting list to Organized List...");
+		if (seeConsoleLogs) console.log("Defaulting ItemList to Organized List...");
 		localStorage.setItem("ItemList", "orglist");
 	}
 
-	if (localStorage.getItem("autoCapture") == null) {
-		console.log("Defaulting autocapture to off...");
+	if (localStorage.getItem("autoCapture") == null) { // Autocapture check
+		if (seeConsoleLogs) console.log("Defaulting autocapture to off...");
 		localStorage.setItem("autoCapture", "false");
 	}
-	else {
-		if(autoAdjust == true){
-			if (localStorage.getItem("autoCapture") == "true"){
-				document.getElementById("toggleunlocktrack").classList.remove("enabled")
-				localStorage.setItem("autoCapture", "false");
-			}
-		}
-		else{
-			autoAdjust = true
-		}
-	}
 
-	if (localStorage.getItem("rerollToggle") == null) {
-		console.log("Defaulting reroll toggle to true...");
+	if (localStorage.getItem("rerollToggle") == null) { // Reroll toggle check
+		if (seeConsoleLogs) console.log("Defaulting reroll toggle to true...");
 		localStorage.setItem("rerollToggle", "true");
 	}
 
-	//Initialize lag detection
-	if (localStorage.getItem("lagDetect") == null) {
-		console.log("Defaulting lag detect to true...");
+	if (localStorage.getItem("lagDetect") == null) { // Lag Detection toggle check
+		if (seeConsoleLogs) console.log("Defaulting lag detect to true...");
 		localStorage.setItem("lagDetect", "true");
 	}
 
-	//Initialize button double press detection
-	if (localStorage.getItem("multiButtonPressDetect") == null) {
-		console.log("Defaulting multi button press detect to true...");
+	if (localStorage.getItem("multiButtonPressDetect") == null) { // Button double press detection
+		if (seeConsoleLogs) console.log("Defaulting multi button press detect to true...");
 		localStorage.setItem("multiButtonPressDetect", "true");
 	}
 
-	console.log("Radio buttons initialized.\n ");
-
-	// Initializing the rest of the LocalStorage
-	console.log("Initializing LocalStorage...");
-	for (let i = 0; i < keys.length; i++){
-		if (!(localStorage.getItem(keys[i]))){ // If doesn't exist, add it
-			localStorage.setItem(keys[i], JSON.stringify(lsdb[keys[i]]));
-		} 
+	if (localStorage.getItem("noMenu") == null) { // No hover display box
+		if (seeConsoleLogs) console.log("Defaulting no menu box to true");
+		localStorage.setItem("noMenu","false");
 	}
-	console.log("LocalStorage initialized.\n ");
-
-	// Initialize loot display as flexy
-	let lootdisplay = Array.from(document.getElementsByClassName('loot_display') as HTMLCollectionOf<HTMLElement>)
-	for (let i = 0; i < lootdisplay.length; i++) {
-		lootdisplay[i].style.display = 'flex'
+	else if (localStorage.getItem("noMenu") == "true") {
+		if (seeConsoleLogs) console.log("Enabling no menu box");
+		noMenuCheck();
 	}
 
-	// Initialize Hybrid precision
-	if (localStorage.getItem("hybridPrecision") == null) {
-		console.log("Defaulting hybridPrecision to 0.3...");
+	if (localStorage.getItem("hybridPrecision") == null) { // Hybrid precision value
+		if (seeConsoleLogs) console.log("Defaulting hybridPrecision to 0.3...");
 		localStorage.setItem("hybridPrecision", "0.3");
 	}
 
-	// Initialize No Hover rectangle
-	if (localStorage.getItem("noMenu") == null){
-		console.log("Defaulting no menu box to true")
-		localStorage.setItem("noMenu","false")
-	}
-	else if(localStorage.getItem("noMenu") == "true"){
-		console.log("Enabling no menu box")
-		noMenuCheck()
+	if (localStorage.getItem("History") == null) { // History initializer
+		if (seeConsoleLogs) console.log("Creating history");
+		localStorage.setItem("History",JSON.stringify([]));
 	}
 
-	// Initialize History
-	if (localStorage.getItem("History") == null){
-		console.log("Creating history")
-		localStorage.setItem("History",JSON.stringify([]))
+	
+	if (localStorage.getItem("PrimaryKeyHistory") == null) { // Initialize primary key for history
+		if (seeConsoleLogs) console.log("Defaulting PrimaryKeyHistory to 1");
+		localStorage.setItem("PrimaryKeyHistory", "1");
 	}
 
-	// Initialize primary key for history
-	if (localStorage.getItem("PrimaryKeyHistory") == null){
-		console.log("Creating history primary key")
-		localStorage.setItem("PrimaryKeyHistory", "1")
+	
+	if (localStorage.getItem("HistoryDisplayLimit") == null) { // Initialize history display limit
+		if (seeConsoleLogs) console.log("Defaulting history display limit to 25");
+		localStorage.setItem("HistoryDisplayLimit", "25");
 	}
+	updateItems();
 
-	// Initialize history display limit
-	if (localStorage.getItem("HistoryDisplayLimit") == null){
-		console.log("Creating history display limit")
-		localStorage.setItem("HistoryDisplayLimit", "25")
-	}
+	if (seeConsoleLogs) console.log("\n")
 
 	// Set up image libraries
-	await arraySetup()
-
-	//listOfItemsLegacyArray = []
-	//for(let i = 0; i < listOfItemsLegacy.length; i++){
-	//	let temp = [listOfItemsLegacy[i].name, listOfItemsLegacy[i].base64, 0.0];
-	//	listOfItemsLegacyArray.push(temp);
-	//}
+	await arraySetup();
 
 	//Set display
-	lootDisplay()
+	lootDisplay();
  
 	//Set up settings
-	settingsInit()
+	settingsInit();
 
 	//Set up history window
-	historyInit()
+	historyInit();
 
 	//Set up insert window
-	insertInit()
+	insertInit();
 
-	alt1.overLayClearGroup("overlays");
-	alt1.overLaySetGroup("overlays");
-	alt1.overLayTextEx("OpenLogger ready!", a1lib.mixColor(100, 255, 100), 20, Math.round(alt1.rsWidth / 2), 200, 2000, "", true, true);
-	console.log("Initialization complete");
-	buttonDisabler()
+	if (window.alt1) {
+		alt1.overLayClearGroup("overlays");
+		alt1.overLaySetGroup("overlays");
+		alt1.overLayTextEx("OpenLogger ready!", a1lib.mixColor(100, 255, 100), 20, Math.round(alt1.rsWidth / 2), 200, 2000, "", true, true);
+	}
+	
+	buttonEnabler();
 }
 
 
 export async function changeClueTierSpan(id: string, event: Event) {
 	// Set the clue_tier span for the checked box
-	document.getElementById("number_of_clues").textContent = "0";
-	document.getElementById("value_of_clues").textContent = "Loading...";
-	document.getElementById("average_of_clues").textContent = "Loading...";
+	(document.getElementById("number_of_clues") as HTMLDivElement).textContent = "0";
+	(document.getElementById("value_of_clues") as HTMLDivElement).textContent = "Loading...";
+	(document.getElementById("average_of_clues") as HTMLDivElement).textContent = "Loading...";
 
-	buttonDisabler()
-	alt1.overLayClearGroup("overlays");
-	alt1.overLaySetGroup("overlays");
-	alt1.overLayTextEx("Loading " + (id[0] + id.slice(1).toLowerCase()) + " clues...", a1lib.mixColor(255, 144, 0), 20, Math.round(alt1.rsWidth / 2), 200, 5000, "", true, true);
+	buttonDisabler();
+	if (window.alt1) {
+		alt1.overLayClearGroup("overlays");
+		alt1.overLaySetGroup("overlays");
+		alt1.overLayTextEx("Loading " + (id[0] + id.slice(1).toLowerCase()) + " clues...", a1lib.mixColor(255, 144, 0), 20, Math.round(alt1.rsWidth / 2), 200, 5000, "", true, true);
+	}
 
-	console.log("Setting button to " + (id[0].toUpperCase() + id.slice(1).toLowerCase()) + "...");
-	document.getElementById('clue_tier').textContent = (id[0].toUpperCase() + id.slice(1).toLowerCase());
-	(document.getElementById(id) as HTMLInputElement).checked = true
+	if (seeConsoleLogs) console.log("Setting button to " + (id[0].toUpperCase() + id.slice(1).toLowerCase()) + "...");
+	(document.getElementById('clue_tier') as HTMLSpanElement).textContent = (id[0].toUpperCase() + id.slice(1).toLowerCase());
+	(document.getElementById(id) as HTMLInputElement).checked = true;
 	localStorage.setItem("Checked button", id);
 
-	let tierSpans = document.getElementsByClassName("current_tier_button");
+	let tierSpans = document.getElementsByClassName("current_tier_button") as HTMLCollectionOf<HTMLSpanElement>;
 	for (let i = 0; i < tierSpans.length; i++) {
-		tierSpans[i].textContent = currentTier()[0]
+		tierSpans[i].textContent = currentTier()[0];
 	}
 
 	// Clear reward slots and value
-	document.getElementById("rewards_value").textContent = "0"
+	(document.getElementById("rewards_value") as HTMLSpanElement).textContent = "0";
 	for (let i = 0; i < 9; i++) {
-		document.getElementById(rewardSlots[i]).textContent = "";
+		(document.getElementById(rewardSlots[i]) as HTMLSpanElement).textContent = "";
 	}
 
-	// Set up history window
-	await historyClear()
-	historyInit()
-
-	// Set up arrays
-	await arraySetup()
+	// Set up image libraries
+	await arraySetup();
 
 	//Set display
-	lootDisplay()
+	lootDisplay();
+ 
+	//Set up settings
+	settingsInit();
 
-	insertInit()
+	//Set up history window
+	historyInit();
 
-	alt1.overLayClearGroup("overlays");
-	alt1.overLaySetGroup("overlays");
-	alt1.overLayTextEx((id[0].toUpperCase() + id.slice(1).toLowerCase()) + " tier rewards & images loaded!", a1lib.mixColor(100, 255, 100), 20, Math.round(alt1.rsWidth / 2), 200, 2000, "", true, true)
-	buttonDisabler()
-	lastReroll = [0, 0]
+	//Set up insert window
+	insertInit();
+
+	if (window.alt1) {
+		alt1.overLayClearGroup("overlays");
+		alt1.overLaySetGroup("overlays");
+		alt1.overLayTextEx((id[0].toUpperCase() + id.slice(1).toLowerCase()) + " tier rewards & images loaded!", a1lib.mixColor(100, 255, 100), 20, Math.round(alt1.rsWidth / 2), 200, 2000, "", true, true)
+	}
+	buttonEnabler();
+	lastReroll = [0, 0];
 }
 
 
 export async function cleardb(choice: any) {
-	let keys = Object.keys(localStorage)
-	let current = currentTier()
+	let keys = Object.keys(items);
 
 	if (choice == 1) { // Nuclear reset all
 		if (window.alt1) {
@@ -311,9 +338,6 @@ export async function cleardb(choice: any) {
 		}
 
 		localStorage.clear();
-		document.getElementById("toggleunlocktrack").classList.remove("enabled");
-		
-		//await init();
 
 		if (window.alt1) {
 			alt1.overLayClearGroup("overlays");
@@ -321,7 +345,7 @@ export async function cleardb(choice: any) {
 			alt1.overLayTextEx("OpenLogger successfully reset! Restarting...", a1lib.mixColor(100, 255, 100), 20, Math.round(alt1.rsWidth / 2), 200, 4000, "", true, true);
 		}
 		await new Promise(resolve => setTimeout(resolve, 750));
-		location.reload()
+		location.reload();
 	}
 	else if (choice == 2) { // Full item db clear
 		if (window.alt1) {
@@ -329,25 +353,13 @@ export async function cleardb(choice: any) {
 			alt1.overLaySetGroup("overlays");
 			alt1.overLayTextEx("Clearing all items from reward database...", a1lib.mixColor(255, 144, 0), 20, Math.round(alt1.rsWidth / 2), 200, 4000, "", true, true);
 		}
-		autoAdjust = false
 
-		localStorage.setItem(current[1], "0");
-		localStorage.setItem(current[2], "0");
-		for (let i = 0; i < keys.length; i++) {
-			if (ignorelist.includes(keys[i])) {
-				continue;
-			}
-			localStorage.removeItem(keys[i]);
+		localStorage.removeItem("items");
+		localStorage.removeItem("History");
+		for (let i = 0; i < valuesAndCounts.length; i++) {
+			localStorage.removeItem(valuesAndCounts[i]);
 		}
-
-		let clearlist = ["EValue", "ECount", "MValue", "MCount", "HValue", "HCount", "ElValue", "ElCount", "MaValue", "MaCount"];
-		for (let i = 0; i < clearlist.length; i++) {
-			localStorage.removeItem(clearlist[i]);
-		}
-
 		await init();
-		
-		localStorage.setItem("History","[]")
 
 		if (window.alt1) {
 			alt1.overLayClearGroup("overlays");
@@ -355,22 +367,22 @@ export async function cleardb(choice: any) {
 			alt1.overLayTextEx("All items cleared successfully!", a1lib.mixColor(100, 255, 100), 20, Math.round(alt1.rsWidth / 2), 200, 4000, "", true, true);
 		}
 	}
-	else if (choice == 3){ // Reset settings
+	else if (choice == 3) { // Reset settings
 		if (window.alt1) {
 			alt1.overLayClearGroup("overlays");
 			alt1.overLaySetGroup("overlays");
 			alt1.overLayTextEx("Reseting settings to default...", a1lib.mixColor(255, 144, 0), 20, Math.round(alt1.rsWidth / 2), 200, 4000, "", true, true);
 		}
-		autoAdjust = false
-
-		// Yay learning for(const item of array) :))))
-		var temp = ignorelist.slice()
-		for(const item of temp){
-			if(!(["EValue", "ECount", "MValue", "MCount", "HValue", "HCount", "ElValue", "ElCount", "MaValue", "MaCount", "autoCapture", "PrimaryKeyRollback", "Rollback", "PrimaryKeyHistory", "History"].includes(item))){
-				localStorage.removeItem(item)
-			}
+		
+		if (localStorage.getItem("noMenu") === "true") {
+			localStorage.setItem("noMenu", "false");
+			noMenuCheck();
 		}
-		await init()
+		for (let i = 0; i < settingslist.length; i++) {
+			localStorage.removeItem(settingslist[i]);
+		}
+
+		await init();
 
 		if (window.alt1) {
 			alt1.overLayClearGroup("overlays");
@@ -386,25 +398,20 @@ export async function cleardb(choice: any) {
 				a1lib.mixColor(255, 144, 0), 20, Math.round(alt1.rsWidth / 2), 200, 4000, "", true, true);
 		}
 
-		localStorage.setItem(current[1], "0");
-		localStorage.setItem(current[2], "0");
+		localStorage.setItem(currentTier()[1], "0");
+		localStorage.setItem(currentTier()[2], "0");
 		for (let i = 0; i < keys.length; i++) {
-			if (ignorelist.includes(keys[i])) {
-				continue;
-			}
-			let temp = JSON.parse(localStorage.getItem(keys[i]));
-			temp.quantity[current[0]] = (0).toString();
-			localStorage.setItem(keys[i], JSON.stringify(temp));
+			items[keys[i]].quantity[currentTier()[0]] = 0;
 		}
+		updateItems()
 
-		let lsHistory = JSON.parse(localStorage.getItem("History"))
-		for(let i = lsHistory.length - 1; i >= 0; i--){
-			if(lsHistory[i][3][0] == currentTier()[0]){
-				let temp = lsHistory[i]
-				lsHistory.splice(i, 1)
-				localStorage.setItem("History",JSON.stringify(lsHistory))
+		let lsHistory = JSON.parse(localStorage.getItem("History"));
+		for (let i = lsHistory.length - 1; i >= 0; i--) {
+			if (lsHistory[i][3][0] == currentTier()[0] || lsHistory[i][3][0] == currentTier()[0] + " [C] ") {
+				lsHistory.splice(i, 1);
 			}
 		}
+		localStorage.setItem("History",JSON.stringify(lsHistory));
 
 		if (window.alt1) {
 			alt1.overLayClearGroup("overlays");
@@ -414,64 +421,141 @@ export async function cleardb(choice: any) {
 		}
 	}
 	
-	let ele = document.getElementById("history_body")
-	let container = document.createElement("div")
-	container.textContent = "There's nothing here to display. Start scanning!"
-	container.setAttribute('style','font-size: 20px; text-align: center; margin: auto; padding: auto;')
-	ele.append(container)
+	let ele = document.getElementById("history_body") as HTMLDivElement;
+	let container = document.createElement("div") as HTMLDivElement;
+	container.textContent = "There's nothing here to display. Start scanning!";
+	container.setAttribute('class','nothingToDisplayContainer');
+	ele.append(container);
 
-	await historyClear()
-	historyInit()
+	await historyClear();
+	historyInit();
 
-	document.getElementById("number_of_clues").textContent = "0";
-	document.getElementById("value_of_clues").textContent = "0";
-	document.getElementById("average_of_clues").textContent = "0";
-	let divs = document.getElementsByClassName("loot_display");
+	(document.getElementById("number_of_clues") as HTMLSpanElement).textContent = "0";
+	(document.getElementById("value_of_clues") as HTMLSpanElement).textContent = "0";
+	(document.getElementById("average_of_clues") as HTMLSpanElement).textContent = "0";
+	let divs = document.getElementsByClassName("loot_display") as HTMLCollectionOf<HTMLDivElement>;
 	for (let i = 0; i < divs.length; i++) {
 		divs[i].textContent = "";
 	}
 	for (let i = 0; i < 9; i++) {
-		document.getElementById(rewardSlots[i]).textContent = "";
+		(document.getElementById(rewardSlots[i]) as HTMLDivElement).textContent = "";
 	}
-	document.getElementById("rewards_value").textContent = "0";
+	(document.getElementById("rewards_value") as HTMLSpanElement).textContent = "0";
 
 	lastItems = [];
 	lastQuants = [];
-	lastTier;
+	lastTier = [];
 	lastValue = 0;
 }
 
 
-//loads all images as raw pixel data async, images have to be saved as *.data.png
-//this also takes care of metadata headers in the image that make browser load the image
-//with slightly wrong colors
-//this function is async, so you cant acccess the images instantly but generally takes <20ms
-//use `await imgs.promise` if you want to use the images as soon as they are loaded
-var imgs = a1lib.ImageDetect.webpackImages({
-	trailComplete: require("./images/TrailComplete.data.png"),
-	trailCompleteLegacy: require("./images/TrailCompleteLegacy.data.png"),
-	rewardValue: require("./images/RewardValue.data.png"),
-	rewardValueLegacy: require("./images/RewardValueLegacy.data.png"),
-	rerollWindow: require("./images/rerollWindow.data.png")
-});
+async function arraySetup() {
+	// TODO: Look into optimizing this function
+	// Set new array of current tier
+	// Turning image collection into array
+	let arrayLength = 0;
+	if (localStorage.getItem("ItemList") == "twoplus") {
+		listOfitemsTwoPlus = itemsTwoPlus.any.concat(itemsTwoPlus[currentTier()[0]]);
+		listOfItemslegacyTwoPlus = itemslegacyTwoPlus.any.concat(itemslegacyTwoPlus[currentTier()[0]]);
+		listOfitemsTwoPlusArray = [];
+		listOfItemslegacyTwoPlusArray = [];
+		arrayLength = listOfitemsTwoPlus.length;
+	}
+	else if (localStorage.getItem("ItemList") == "orglist") {
+		listOfItemsOrgList = itemsOrgList.any.concat(itemsOrgList[currentTier()[0]]);
+		listOfItemsLegacyOrgList = itemsLegacyOrgList.any.concat(itemsLegacyOrgList[currentTier()[0]]);
+		listOfItemsOrgListArray = [];
+		listOfItemsLegacyOrgListArray = [];
+		arrayLength = listOfItemsOrgList.length;
+	}
+	else if (localStorage.getItem("ItemList") == "orgminus") {
+		listOfItemsOrgMinus = itemsOrgMinus.any.concat(itemsOrgMinus[currentTier()[0]]);
+		listOfItemsLegacyOrgMinus = itemsLegacyOrgMinus.any.concat(itemsLegacyOrgMinus[currentTier()[0]]);
+		listOfItemsOrgMinusArray = [];
+		listOfItemsLegacyOrgMinusArray = [];
+		arrayLength = listOfItemsOrgMinus.length;
+	}
 
 
-//listen for pasted (ctrl-v) images, usually used in the browser version of an app
-//a1lib.PasteInput.listen(img => {
-//	findtrailComplete(img);
-//}, (err, errid) => {
+	// Setting Array items and ImageData arrays
+	let promises = [];
+	for (let i = 0; i < arrayLength; i++) {
+		if (localStorage.getItem("ItemList") == "twoplus") {
+			if (i < listOfitemsTwoPlus.length) {
+				listOfitemsTwoPlusArray.push([listOfitemsTwoPlus[i].name, listOfitemsTwoPlus[i].base64, 0.0]);
+				promises.push(await _base64ToImageData(listOfitemsTwoPlusArray[i][1], 32, 32).then(data => { 
+					listOfitemsTwoPlusArray[i].push(data);
+				}));
+			}
+			if (i < listOfItemslegacyTwoPlus.length) {
+				listOfItemslegacyTwoPlusArray.push([listOfItemslegacyTwoPlus[i].name, listOfItemslegacyTwoPlus[i].base64, 0.0]);
+				promises.push(await _base64ToImageData(listOfItemslegacyTwoPlusArray[i][1], 32, 32).then(data => { 
+					listOfItemslegacyTwoPlusArray[i].push(data);
+				}));
+			}
+		}
 
-//});
+		else if (localStorage.getItem("ItemList") == "orglist") {
+			if (i < listOfItemsOrgList.length) {
+				listOfItemsOrgListArray.push([listOfItemsOrgList[i].name, listOfItemsOrgList[i].base64, 0.0]);
+				promises.push(await _base64ToImageData(listOfItemsOrgListArray[i][1], 32, 32).then(data => { 
+					listOfItemsOrgListArray[i].push(data);
+				}));
+			}
+			if (i < listOfItemsLegacyOrgList.length) {
+				listOfItemsLegacyOrgListArray.push([listOfItemsLegacyOrgList[i].name, listOfItemsLegacyOrgList[i].base64, 0.0]);
+					promises.push(await _base64ToImageData(listOfItemsLegacyOrgListArray[i][1], 32, 32).then(data => { 
+					listOfItemsLegacyOrgListArray[i].push(data);
+				}));
+			}
+		}
 
-a1lib.on("alt1pressed", alt1pressedcapture)
+		else if (localStorage.getItem("ItemList") == "orgminus") {
+			if (i < listOfItemsOrgMinus.length) {
+				listOfItemsOrgMinusArray.push([listOfItemsOrgMinus[i].name, listOfItemsOrgMinus[i].base64, 0.0]);
+				promises.push(await _base64ToImageData(listOfItemsOrgMinusArray[i][1], 32, 32).then(data => { 
+					listOfItemsOrgMinusArray[i].push(data);
+				}));
+			}
+			if (i < listOfItemsLegacyOrgMinus.length) {
+				listOfItemsLegacyOrgMinusArray.push([listOfItemsLegacyOrgMinus[i].name, listOfItemsLegacyOrgMinus[i].base64, 0.0]);
+				promises.push(await _base64ToImageData(listOfItemsLegacyOrgListArray[i][1], 32, 32).then(data => { 
+					listOfItemsLegacyOrgMinusArray[i].push(data);
+				}));
+			}
+		}
+	}
+	await Promise.all(promises);
 
 
+	if (localStorage.getItem("ItemList") == "all") {
+		listOfItemsAll = itemsTwoPlus.any.concat(itemsTwoPlus.easy).concat(itemsTwoPlus.medium).concat(itemsTwoPlus.hard).concat(itemsTwoPlus.elite).concat(itemsTwoPlus.master);
+		listOfItemsLegacyAll = itemslegacyTwoPlus.any.concat(itemslegacyTwoPlus.easy).concat(itemslegacyTwoPlus.medium).concat(itemslegacyTwoPlus.hard).concat(itemslegacyTwoPlus.elite).concat(itemslegacyTwoPlus.master);
+		listOfItemsAllArray = [];
+		listOfItemsLegacyAllArray = [];
+		promises = [];
+		for (let i = 0; i < listOfItemsAll.length; i++) {
+			listOfItemsAllArray.push([listOfItemsAll[i].name, listOfItemsAll[i].base64, 0.0]);
+			listOfItemsLegacyAllArray.push([listOfItemsLegacyAll[i].name, listOfItemsLegacyAll[i].base64, 0.0]);
+			promises.push(await _base64ToImageData(listOfItemsAllArray[i][1], 32, 32).then(data => { 
+				listOfItemsAllArray[i].push(data);
+			}));
+			promises.push(await _base64ToImageData(listOfItemsLegacyAllArray[i][1], 32, 32).then(data => { 
+				listOfItemsLegacyAllArray[i].push(data);
+			}));
+		}
+		await Promise.all(promises);
+	}
+}
+
+
+a1lib.on("alt1pressed", alt1pressedcapture);
 function alt1pressedcapture() {
-	if(toggle == true){
-		if (document.getElementById("docapturebutton").getAttribute("title") === ("Disabled while scanning. Please wait...")) {
+	if (buttonDisabletoggle == true) {
+		if ((document.getElementById("docapturebutton") as HTMLDivElement).getAttribute("title") === ("Disabled while scanning. Please wait...")) {
 			return;
 		}
-		else if (document.getElementById("docapturebutton").getAttribute("title") === ("Disable autocapture to use this button")) {
+		else if ((document.getElementById("docapturebutton") as HTMLDivElement).getAttribute("title") === ("Disable autocapture to use this button")) {
 			return;
 		}
 		else {
@@ -482,8 +566,6 @@ function alt1pressedcapture() {
 }
 
 
-//You can reach exports on window.TEST because of
-//config.makeUmd("testpackage", "TEST"); in webpack.config.ts
 export async function capture(autobool: boolean) {
 	if (!window.alt1) {
 		return;
@@ -494,25 +576,26 @@ export async function capture(autobool: boolean) {
 
 	if (localStorage.getItem("multiButtonPressDetect") === "true") {
 		if (!autobool) {
-			document.getElementById("docapturebutton").setAttribute("onclick", "");
-			document.getElementById("docapturebutton").setAttribute("title", "Disabled while scanning. Please wait...");
-			document.getElementById("docapturebuttonwords").style.setProperty("text-decoration", "line-through");
+			(document.getElementById("docapturebutton") as HTMLDivElement).setAttribute("onclick", "");
+			(document.getElementById("docapturebutton") as HTMLDivElement).setAttribute("title", "Disabled while scanning. Please wait...");
+			(document.getElementById("docapturebuttonwords") as HTMLDivElement).style.setProperty("text-decoration", "line-through");
 			await new Promise(resolve => setTimeout(resolve, 200));
 		}
 	}
 
-	var img = a1lib.captureHoldFullRs();
+	let img = a1lib.captureHoldFullRs();
+
 	const promises = [];
 	promises.push(await findtrailComplete(img, autobool));
 	await Promise.all(promises);
-	console.log("finished checking")
+	if (seeConsoleLogs) console.log("Finished checking clue scroll");
 
 	if (localStorage.getItem("multiButtonPressDetect") === "true") {
 		if (!autobool) {
 			await new Promise(resolve => setTimeout(function () {
-				document.getElementById("docapturebutton").setAttribute("onclick", "TEST.capture(false)")
-				document.getElementById("docapturebutton").setAttribute("title", "")
-				document.getElementById("docapturebuttonwords").style.removeProperty("text-decoration")
+				(document.getElementById("docapturebutton") as HTMLDivElement).setAttribute("onclick", "TEST.capture(false)");
+				(document.getElementById("docapturebutton") as HTMLDivElement).setAttribute("title", "");
+				(document.getElementById("docapturebuttonwords") as HTMLDivElement).style.removeProperty("text-decoration");
 			}, 400));
 		}
 	}
@@ -520,13 +603,10 @@ export async function capture(autobool: boolean) {
 
 
 async function findtrailComplete(img: ImgRef, autobool: boolean) {
-	let noWindow = false;
-	let reroll = false;
-
 	// If 3 rerolls..., default
 	// Adjust this if you want to add more rerolls.
-	if(lagCounter == 3){
-		autoDisableCheckAuto(event)
+	if (lagCounter == 5) {
+		autoDisableCheckAuto(event);
 		if (window.alt1) {
 			alt1.overLayClearGroup("overlays");
 			alt1.overLayClearGroup("lag");
@@ -535,68 +615,59 @@ async function findtrailComplete(img: ImgRef, autobool: boolean) {
 			alt1.overLayTextEx("Too much lag or back to back loot detected.\n\n        Autocapture has been automatically\nturned off. Manually capture this clue or turn\n         autocapture back on and try again",
 				a1lib.mixColor(255, 80, 80), 20, Math.round(alt1.rsWidth / 2), 200, 50000, "", true, true);
 		}
-		
-		lagCounter = 0
-
+		lagCounter = 0;
 		return;
 	}
 
 	try {
-		try {
-			var loc = img.findSubimage(await imgs.trailCompleteLegacy);
-			let testvalue = 0 + loc[0].x; // Tests and breaks
-			console.log("legacy window");
+		let loc;
+		const imgCaptures = [img.findSubimage(imgs.rerollWindow),
+							 img.findSubimage(imgs.trailComplete),						      
+						     img.findSubimage(imgs.rerollWindowLegacy),
+						     img.findSubimage(imgs.trailCompleteLegacy)];
+		if (imgCaptures[0][0] !== undefined) {
+			loc = imgCaptures[0];
+			if (seeConsoleLogs) console.log("reroll window");
+			return;
+		}
+		else if (imgCaptures[1][0] !== undefined) {
+			loc = imgCaptures[1];
+			if (seeConsoleLogs) console.log("Non-legacy window");
+			legacy = false;
+		}
+		else if (imgCaptures[2][0] !== undefined) {
+			loc = imgCaptures[2];
+			if (seeConsoleLogs) console.log("reroll legacy window");
+			return;
+		}
+		else if (imgCaptures[3][0] !== undefined) {
+			loc = imgCaptures[3];
+			if (seeConsoleLogs) console.log("legacy window");
 			legacy = true;
-		} catch (e) {
-			try {
-				try {
-					try {
-						//FIXME: add legacy support for reroll window checking
-						var loc = img.findSubimage(await imgs.rerollWindow/*Legacy*/);
-						let testvalue = 0 + loc[0].x; // Tests and breaks
-						console.log("reroll window");
-						reroll = false;
-					} catch (e) {
-						var loc = img.findSubimage(await imgs.rerollWindow);
-						let testvalue = 0 + loc[0].x; // Tests and breaks
-						console.log("reroll window");
-						reroll = false;
-					}
-				} catch (e) {
-					var loc = img.findSubimage(await imgs.trailComplete);
-					let testvalue = 0 + loc[0].x; // Tests and breaks
-					console.log("Non-legacy window");
-					legacy = false;
-				}
-			} catch (e) {
-				//console.log("noWindow")
-				noWindow = true;
-			}
 		}
-		if (reroll) {
-			return;
-		}
-		if (noWindow) {
+		else {
 			return;
 		}
 
-		let crops = new Array<ImageData>(9);
-		let topCrops = new Array<ImageData>(9);
-
-		// Tweak these two values below if jagex adjusts the pixel placement of the items
+		// TODO: Tweak these two values below if jagex adjusts the pixel placement of the items
 		// Values to tweak in case jagex borks the item placement on the screen
 		// x1, +1 = right, -1 = left
 		// y1, +1 = up, -1 = down
 		// Adjust top crops as well, for the x1 and y1 values for it
+		// Consider making this an option in the settings.
+		let x1;
+		let y1;
 		if (!legacy) {
-			var x1 = loc[0].x - 1;
-			var y1 = loc[0].y + 39;
+			x1 = loc[0].x - 1;
+			y1 = loc[0].y + 39;
 		}
 		else {
-			var x1 = loc[0].x - 112;
-			var y1 = loc[0].y + 39;
+			x1 = loc[0].x - 112;
+			y1 = loc[0].y + 39;
 		}
 
+		let crops = new Array<ImageData>(9);
+		let topCrops = new Array<ImageData>(9);
 		for (let i = 0; i < crops.length; i++) {
 			crops[i] = img.toData(x1, y1, 32, 32);
 			topCrops[i] = img.toData(x1, loc[0].y + 41, 32, 8);
@@ -605,40 +676,37 @@ async function findtrailComplete(img: ImgRef, autobool: boolean) {
 
 		// Give me the total value!
 		// If this breaks, value is obfuscated. Second way to scan it for validity.
+		
+		// FIXME: Try to rework this try/catch to an if/else block.
 		let value = 0;
+		let lastValueList = [];
 		try {
-			let rewardreader = new ClueRewardReader();
-			rewardreader.pos = ModalUIReader.find()[0];
+			let rewardreader = new ClueRewardReader();  // Thanks Skillbert
+			rewardreader.pos = ModalUIReader.find()[0]; // For these two functions
 			value = rewardreader.read(img).value;
-			let valueStr = value.toString()
-			var valueList = [];
+			let valueStr = value.toString();
+			let valueList = [];
 
-			for(let i = valueStr.length - 1; i > 0; i--){
-				valueList.push(valueStr)
-				valueStr = valueStr.slice(0,-1)
+			for (let i = valueStr.length - 1; i > 0; i--) {
+				valueList.push(valueStr);
+				valueStr = valueStr.slice(0,-1);
 			}
 
-			let lastValueStr = lastValue.toString()
-			var lastValueList = []
-			for(let i = lastValueStr.length - 1; i > 0; i--){
-				lastValueList.push(lastValueStr)
-				lastValueStr = lastValueStr.slice(0,-1)
+			let lastValueStr = lastValue.toString();
+			for (let i = lastValueStr.length - 1; i > 0; i--) {
+				lastValueList.push(lastValueStr);
+				lastValueStr = lastValueStr.slice(0,-1);
 			}
-			
 		} catch (e) {
 			return;
 		}
-		///console.log(value, lastValue, valueList, lastValueList)
-		///console.log("Is",value,"equal to",lastValue,"?")
-		///console.log("Is",lastValue,"located in",valueList,"?")
-		///console.log("Is",value,"located in",lastValueList,"?")
+
 		if (autobool == true) {
 			if (lastValue == 0) {
-				// Pass
-				console.log("value is zero");
+				if (seeConsoleLogs) console.log("value is zero");
 			}
-			else if (value == lastValue){
-				return
+			else if (value == lastValue) {
+				return;
 			}
 			else if (/*valueList.includes(lastValue.toString()) ||*/ lastValueList.includes(value.toString())) {
 				return;
@@ -658,21 +726,16 @@ async function findtrailComplete(img: ImgRef, autobool: boolean) {
 		let rerollVal;
 		if (!legacy) {
 			rerollVal = img.toData(loc[0].x + 231, loc[0].y + 175, 8, 9);
-			// alt1.overLayRect(a1lib.mixColor(2,255,232), loc[0].x + 231, loc[0].y + 175, 8, 9, 2000, 1);
 		}
 		else {
 			rerollVal = img.toData(loc[0].x + 231, loc[0].y + 175, 8, 9);
-			// alt1.overLayRect(a1lib.mixColor(0,255,0), loc[0].x - 400, loc[0].y - 400, 8, 9, 2000, 2);
 		}
 
-		let promises = []
 		if (localStorage.getItem("rerollToggle") == "true") {
-			promises = [];
-			promises.push(await rerollCheck(rerollVal, false));
-			await Promise.all(promises);
+			await rerollCheck(rerollVal, false);
 		}
 		else {
-			console.log("Reroll toggle is false");
+			if (seeConsoleLogs) ("Reroll toggle is false");
 		}
 
 		let prevValue = lastValue;
@@ -683,15 +746,15 @@ async function findtrailComplete(img: ImgRef, autobool: boolean) {
 			alt1.overLaySetGroup("lag");
 			alt1.overLayTextEx("Capturing rewards...", a1lib.mixColor(255, 144, 0), 20, Math.round(alt1.rsWidth / 2), 200, 60000, "", true, true);
 		}
-		var itemResults = [];
-		promises = [];
+		let itemResults = [];
+		let promises = [];
 		if (!legacy) {
-			var x1 = loc[0].x - 1;
-			var y1 = loc[0].y + 39;
+			x1 = loc[0].x - 1;
+			y1 = loc[0].y + 39;
 		}
 		else {
-			var x1 = loc[0].x - 112;
-			var y1 = loc[0].y + 39;
+			x1 = loc[0].x - 112;
+			y1 = loc[0].y + 39;
 		}
 		let notBlank = false;
 		for (let i = 0; i < 9; i++) {
@@ -736,17 +799,18 @@ async function findtrailComplete(img: ImgRef, autobool: boolean) {
 					continue;
 				}
 				else {
-					console.log(itemResults[i])
+					if (seeConsoleLogs) console.log(itemResults[i]);
 
 					let newImg = a1lib.captureHoldFullRs();
 					let x = 0;
+					let loc2;
 					if (!legacy) {
-						console.log("is not legacy")
-						var loc2 = newImg.findSubimage(await imgs.trailComplete);
+						if (seeConsoleLogs) console.log("is not legacy")
+						loc2 = newImg.findSubimage(await imgs.trailComplete);
 						x = loc2[0].x + (40 * (i));
 					}
 					else {
-						var loc2 = newImg.findSubimage(await imgs.trailCompleteLegacy);
+						loc2 = newImg.findSubimage(await imgs.trailCompleteLegacy);
 						x = loc[0].x - 112 + (40 * (i));
 					}
 
@@ -760,31 +824,45 @@ async function findtrailComplete(img: ImgRef, autobool: boolean) {
 					}
 
 					let lastcrop = newImg.toData(x - 1, loc2[0].y + 39, 32, 32);
-					let lastresult;
+					let lastresult = "";
 					let promises2 = [];
 					promises2.push(lastresult = await compareItems(lastcrop));
 					await Promise.all(promises2);
-					console.log(itemResults, i);
-					console.log("Comparing", itemResults[i], "to", lastresult);
+					if (seeConsoleLogs) console.log(itemResults, i);
+					if (seeConsoleLogs) console.log("Comparing", lastresult, "to", itemResults[i]);
 
-					let comparison = true
-					if(autobool){
-						try{
-							let lsHistory = JSON.parse(localStorage.getItem("History"))[JSON.parse(localStorage.getItem("History")).length-1][0]
-							console.log("Checking arrays for equivalence:",JSON.parse(localStorage.getItem("History"))[JSON.parse(localStorage.getItem("History")).length-1][0], itemResults)
-							for(let j = 0; j < lsHistory.length; j++){
-								console.log("Comparing these items... :",lsHistory[j],itemResults[j])
-								if(lsHistory[j] === itemResults[j]){
-									console.log("They're the same. make it false.")
-									comparison = false
+					// Consider doing a value check in here...
+					
+					// TODO: If capture issues with lag checking happen look here...
+					// I think this might be fixed, but idk
+					let comparison = true;
+					if (autobool) {
+						try {
+							let itemResultsNoBlanks = []
+							for (let i = 0; i < itemResults.length; i++) {
+								if (itemResults[i] !== "Blank") {
+									itemResultsNoBlanks.push(itemResults[i]);
+								}
+								else {
+									break;
 								}
 							}
-						} catch (e){
-							console.log(e,"Something broke.")
+							let lsHistory = JSON.parse(localStorage.getItem("History"))[JSON.parse(localStorage.getItem("History")).length-1][0];
+							if (seeConsoleLogs) console.log("Checking arrays for equivalence:",JSON.parse(localStorage.getItem("History"))[JSON.parse(localStorage.getItem("History")).length-1][0], itemResultsNoBlanks);
+							if (lsHistory.join(',') === itemResultsNoBlanks.join(',')) { // https://stackoverflow.com/a/6230314
+								if (seeConsoleLogs) console.log(lsHistory.join(','),"and",itemResultsNoBlanks.join(','),"are the same...");
+								if (seeConsoleLogs) console.log("They're the same. make it false.");
+								comparison = false;
+							}
+						} catch (e) {
+							console.log("Something broke.", e);
 						}
 					}
 
-					if (!comparison){
+					let lagDetectValue = new ClueRewardReader();
+					lagDetectValue.pos = ModalUIReader.find()[0];
+
+					if (!comparison) {
 						if (window.alt1) {
 							alt1.overLayClearGroup("overlays");
 							alt1.overLayClearGroup("lag");
@@ -796,8 +874,11 @@ async function findtrailComplete(img: ImgRef, autobool: boolean) {
 						lagCounter++;
 						capture(autobool);
 						return;
-					}
+					} // TODO: Put some console log test statements in here...
 					else if (lastresult === itemResults[i]) {
+						break;
+					}
+					else if (parseInt(lastValueList[0]) === parseInt("lagDetectValue")) {
 						break;
 					}
 					else {
@@ -820,16 +901,19 @@ async function findtrailComplete(img: ImgRef, autobool: boolean) {
 
 		lagCounter = 0
 
+		// TODO: See if this even does anything
 		//Maybe comment this out later idk
 		let equalArrays = true;
 		if (autobool) {
 			if (lastItems.length == 0) {
-				// Pass
+				if (seeConsoleLogs) console.log("last item length is 0. Pass...");
 			}
 			else {
 				for (let i = 0; i < itemResults.length; i++) {
-					if (itemResults[i] !== lastItems[i])
+					if (itemResults[i] !== lastItems[i]) {
 						equalArrays = false;
+						if (seeConsoleLogs) console.log("Equal arrays false");
+					}
 				}
 				if (prevValue == value && !equalArrays) {
 					if (window.alt1) {
@@ -839,22 +923,22 @@ async function findtrailComplete(img: ImgRef, autobool: boolean) {
 							a1lib.mixColor(255, 80, 80), 20, Math.round(alt1.rsWidth / 2), 200, 5000, "", true, true);
 					}
 					lastValue = prevValue;
+					if (seeConsoleLogs) console.log("equal arrays is false, setting last value to previous value");
 					return;
 				}
 			}
 		}
 
-		// Tweaks for Pixelmatch on TwoMatch or All Images. Don't rely on this...
+		// FIXME: Tweaks for Pixelmatch on TwoMatch or All Images. Don't rely on this...
 		// It's a hardcode. I hate it.
-		for(let i = 0; i > itemResults.length; i++){
-			if(currentTier()[0] == "medium" && itemResults[i] == "Huge plated rune salvage"){
-				itemResults[i] = "Huge plated adamant salvage"
+		for (let i = 0; i > itemResults.length; i++) {
+			if (currentTier()[0] == "medium" && itemResults[i] == "Huge plated rune salvage") {
+				itemResults[i] = "Huge plated adamant salvage";
 			}
 		}
 
-
 		// Give me the quantity of the items!
-		var quantResults = [];
+		let quantResults = [];
 		promises = [];
 		for (let i = 0; i < 9; i++) {
 			if (itemResults[i] == "Blank") {
@@ -863,50 +947,39 @@ async function findtrailComplete(img: ImgRef, autobool: boolean) {
 			promises.push(quantResults.push(await readQuantities(topCrops[i])));
 		}
 		await Promise.all(promises);
-		console.log(quantResults);
+		if (seeConsoleLogs) (quantResults);
 
 		// Send it to the LS!
 		promises = [];
-		let success = true;
-		promises.push(success = await submitToLS(itemResults, quantResults, value));
+		promises.push(await submitToLS(itemResults, quantResults, value));
 		await Promise.all(promises);
-		if (!success) {
-			var notSuccess = 1 / 0;
-		}
 
 		// Record data for last casket
 		lastItems = itemResults.slice();
 		lastQuants = quantResults.slice();
 		lastTier = currentTier();
 
-		addHistoryToLs(lastValue, lastItems, lastQuants, lastTier)
+		addHistoryToLs(lastValue, lastItems, lastQuants, lastTier);
 		
 		// Put the items and quantites on the display!
-		document.getElementById("rewards_value").textContent = value.toLocaleString("en-US");
+		(document.getElementById("rewards_value") as HTMLSpanElement).textContent = value.toLocaleString("en-US");
 		for (let i = 0; i < 9; i++) {
-			document.getElementById(rewardSlots[i]).textContent = "";
+			(document.getElementById(rewardSlots[i]) as HTMLDivElement).textContent = "";
 		}
 
 		for (let i = 0; i < quantResults.length; i++) {
 			// Displaying in Rewards Capture
-			let nodevar = document.createElement("itembox");
-			let imgvar = document.createElement("img");
-			let quantvar = document.createElement("span");
-			nodevar.setAttribute('style', 'position:relative; margin: auto; padding:auto 42px auto 2px; width:37px; height:37px; display:flex; align-items:center; text-align:center;');
-			nodevar.setAttribute('title', quantResults[i] + " x " + itemResults[i]);
-			imgvar.src = encodeURI("./images/items/" + itemResults[i] + ".png");
-			imgvar.setAttribute('style', 'margin:auto;');
-			imgvar.ondragstart = function() { return false; };
-			quantvar.textContent = quantResults[i];
-			if (!quantResults[i].includes("k")) {
-				quantvar.setAttribute('style', 'position:absolute; left:0; top:-5px; font-family:Runescape Chat Font; font-size:16px; color:rgb(255,255,0); color:rgb(255,255,0); text-shadow:1px 1px #000000;');
-			}
-			else {
-				quantvar.setAttribute('style', 'position:absolute; left:0; top:-5px; font-family:Runescape Chat Font; font-size:16px; color:rgb(255,255,0); color:rgb(255,255,255); text-shadow:1px 1px #000000;');
-			}
+			let nodevar = document.createElement("itembox") as HTMLDivElement;
+			let imgvar = document.createElement("img") as HTMLImageElement;
+			let quantvar = document.createElement("span") as HTMLSpanElement;
+
+			nodevar = nodeMaker(parseInt(quantResults[i]), itemResults[i], "recent")
+			imgvar = imgMaker(itemResults[i])
+			quantvar = quantMaker(parseInt(quantResults[i]))
+
 			nodevar.append(quantvar);
 			nodevar.append(imgvar);
-			document.getElementById(rewardSlots[i]).appendChild(nodevar);
+			(document.getElementById(rewardSlots[i]) as HTMLDivElement).appendChild(nodevar);
 		}
 
 		//Show it on the screen!
@@ -937,9 +1010,9 @@ async function findtrailComplete(img: ImgRef, autobool: boolean) {
 			alt1.overLayTextEx("        A crash occured.\n\n     Remove any obstructions, \n check tier, open a reward casket, \nreload plugin or clear database and try again",
 				a1lib.mixColor(255, 80, 80), 20, Math.round(alt1.rsWidth / 2), 200, 5000, "", true, true);
 		}
-		throw e;
-	} finally {
-
+		buttonEnabler();
+		console.log(e);
+		return;
 	}
 }
 
@@ -964,91 +1037,67 @@ async function compareItems(item: ImageData) {
 	// 	Choices are: yellow, black1, black2, black3, legacytan, rs3blue
 	// all, twoplus, orglist, orgminus
 
+	let matches = [];
 	if (!legacy) {
 		if (localStorage.getItem("ItemList") == "all") {
-			var matches = listOfItemsAllArray.slice();
-			var imgset = listOfItemsAll;
+			matches = listOfItemsAllArray.slice();
 		}
 		else if (localStorage.getItem("ItemList") == "twoplus") {
-			var matches = listOfItemsFullArray.slice();
-			var imgset = listOfItemsFull;
+			matches = listOfitemsTwoPlusArray.slice();
 		}
 		else if (localStorage.getItem("ItemList") == "orglist") {
-			var matches = listOfItemsReorgArray.slice();
-			var imgset = listOfItemsReorg;
+			matches = listOfItemsOrgListArray.slice();
 		}
 		else if (localStorage.getItem("ItemList") == "orgminus") {
-			var matches = listOfItemsReorgTwoArray.slice();
-			var imgset = listOfItemsReorgTwo;
+			matches = listOfItemsOrgMinusArray.slice();
 		}
-
 	}
-	else { // Legacy kinda janky. Need to figure it out more
+
+	else { // Legacy works. But I don't test with it often. I think its okay...
 		if (localStorage.getItem("ItemList") == "all") {
-			var matches = listOfItemsLegacyAllArray.slice();
-			var imgset = listOfItemsLegacyAll
+			matches = listOfItemsLegacyAllArray.slice();
 		}
 		else if (localStorage.getItem("ItemList") == "twoplus") {
-			var matches = listOfItemsLegacyFullArray.slice();
-			var imgset = listOfItemsLegacyFull
+			matches = listOfItemslegacyTwoPlusArray.slice();
 		}
 		else if (localStorage.getItem("ItemList") == "orglist") {
-			var matches = listOfItemsLegacyReorgArray.slice();
-			var imgset = listOfItemsLegacyReorg
+			matches = listOfItemsLegacyOrgListArray.slice();
 		}
 		else if (localStorage.getItem("ItemList") == "orgminus") {
-			var matches = listOfItemsLegacyReorgTwoArray.slice();
-			var imgset = listOfItemsLegacyReorgTwo
+			matches = listOfItemsLegacyOrgMinusArray.slice();
 		}
 	}
 
 	//Check if the item is blank first
-	var imgdata = await compareImages(item, matches[0][1], { output: {}, ignore: "less" });
+	let imgdata = await compareImages(item, matches[0][1], { output: {}, ignore: "less" });
 	matches[0][2] = imgdata.rawMisMatchPercentage;
 	if (matches[0][2] == 0.00) {
 		return "Blank";
 	}
-	matches.shift() // Remove blank from the list
+	matches.shift(); // Remove blank from the list
 
+	let found = [];
 	if (localStorage.getItem("Algorithm") == "resemblejs") {
-		var found = matches[0];
+		found = matches[0];
 		const promises = [];
 
-		// Webworkers code. Doesn't work yet
-		// var myWorker = new Worker("resembleJSCompare.ts", { type: "module" })
-		// for (let i = 0; i < matches.length; i++) {
-		// 	console.log("At item number:",i)
-		// 	if(window.Worker){
-		// 		promises.push(new Promise(resolve => {
-		// 			myWorker.postMessage([item, matches[i][1]])
-		// 			myWorker.onmessage = function(e) {
-		// 				console.log("message received from worker:", e[0])
-		// 				matches[i][2] = e[0]
-		// 				resolve(e[0]);
-		// 			}
-		// 		}))
-		// 	}
-		// }
-		// await Promise.all(promises);
-
-		// Original copy in case shit hits the fan when figuring out WebWorkers
 		for (let i = 0; i < matches.length; i++) {
 			promises.push(await compareImages(item, matches[i][1], { output: {}, ignore: "less" }).then(data => {
 				matches[i][2] = data.rawMisMatchPercentage;
 			}));
 			if (found[2] > matches[i][2]) {
-				found = matches[i]
+				found = matches[i];
 			}	
 		}
 		await Promise.all(promises);
 	}
 
 	else if (localStorage.getItem("Algorithm") == "pixelmatch") {
-		/* List of items that do not identify in PixelMatch
+		/* List of items that do not identify in pure PixelMatch
 			- Huge Plated Adamant Salvage identifies as Huge Plated Rune Salvage when using TwoPlus or All
 		*/
 
-		var found = matches[0];
+		found = matches[0];
 		const promises = [];
 		for (let i = 0; i < matches.length; i++) {
 			promises.push(matches[i][2] = pixelmatch(item.data, matches[i][3].data, null, item.width, item.height, {includeAA: true, threshold: 0.1 }));
@@ -1060,30 +1109,28 @@ async function compareItems(item: ImageData) {
 	}
 
 	else if (localStorage.getItem("Algorithm") == "hybrid") {
-
 		// First we check with Pixelmatch and get the comparison of everything to the item
 		let promises = [];
 		let total = 0;
 		for (let i = 0; i < matches.length; i++) {
 			promises.push(matches[i][2] = pixelmatch(item.data, matches[i][3].data, null, item.width, item.height, {includeAA: true, threshold: 0.1 }));
-			total += matches[i][2]
+			total += matches[i][2];
 		}
 
 		// Then we get the average so we can remove half of the items that don't match
-		let average = total / matches.length
-		let precision = parseFloat(localStorage.getItem("hybridPrecision")) //1 does nothing
-		console.log(parseFloat(localStorage.getItem("hybridPrecision")))
+		let average = total / matches.length;
+		let precision = parseFloat(localStorage.getItem("hybridPrecision")); //1 does nothing
 		await Promise.all(promises);
 		
-		for(let i = matches.length-1; i > 0; i--){
-			if(matches[i][2] > (average * precision)){
-				matches.splice(i,1)
+		for (let i = matches.length-1; i > 0; i--) {
+			if (matches[i][2] > (average * precision)) {
+				matches.splice(i,1);
 			}
 		}
 		
 		//Now we find the correct item with ResembleJS!
-		promises = []
-		var found = matches[0];
+		promises = [];
+		found = matches[0];
 		for (let i = 0; i < matches.length; i++) {
 			promises.push(await compareImages(item, matches[i][1], { output: {}, ignore: "less" }).then(data => {
 				matches[i][2] = data.rawMisMatchPercentage;
@@ -1094,28 +1141,26 @@ async function compareItems(item: ImageData) {
 		}
 		await Promise.all(promises);
 	}
-	console.log(found[0]);
 	return found[0];
 }
 
 
 async function readQuantities(item: ImageData) {
-	// Instead oif reading top to bottom individulally, 
+	// Instead of reading top to bottom individulally, 
 	// Read from left to right Read left to right with all columns together
-	// And since the height is always the same I dont have ot worry about changing
+	// And since the height is always the same I dont have to worry about changing
 	// the value of the width of the number.
 
 	// Maybe consider this for optimizations :^?
-	let itemCan = document.createElement("canvas");
+	let itemCan = document.createElement("canvas") as HTMLCanvasElement;
 	let itemCon = itemCan.getContext('2d');
 	itemCan.width = item.width;
 	itemCan.height = item.height;
 	itemCon.putImageData(item, 0, 0);
-	var itemImg = new Image();
+	let itemImg = new Image();
 	itemImg.src = itemCan.toDataURL("image/png");
-	itemCon.drawImage(itemImg, 0, 0)
+	itemCon.drawImage(itemImg, 0, 0);
 	let pixels = itemCon.getImageData(0, 0, item.width, item.height);
-	//console.log(pixels)
 	let pixarr = [];
 	let pixeldata = 0;
 	for (let i = 0; i < 8; i++) {
@@ -1134,17 +1179,17 @@ async function readQuantities(item: ImageData) {
 	let yellowInCol = false;
 	let noYellowStreak = 0;
 	let numbers = "";
-	//console.log(pixarr.length, pixarr[0].length)
+
 	for (let i = 0; i < pixarr[0].length; i++) {
 		if (noYellowStreak == 3) {
 			break;
 		}
 
 		for (let j = 0; j < pixarr.length; j++) {
-			if (pixarr[j][i].r == 255 && pixarr[j][i].g == 255 && pixarr[j][i].b == 0 	 // Yellow, Every screen has this
-				|| pixarr[j][i].r == 254 && pixarr[j][i].g == 254 && pixarr[j][i].b == 0 	 // Very slightly darker yellow, a screenie had this...
-				|| pixarr[j][i].r == 253 && pixarr[j][i].g == 253 && pixarr[j][i].b == 0 	 // Slightly darker yellow, for safety
-				|| pixarr[j][i].r == 255 && pixarr[j][i].g == 255 && pixarr[j][i].b == 255) { // White, elites and masters only
+			if (pixarr[j][i].r == 255 && pixarr[j][i].g == 255 && pixarr[j][i].b == 0 ||   // Yellow, Every screen has this
+				pixarr[j][i].r == 254 && pixarr[j][i].g == 254 && pixarr[j][i].b == 0 ||   // Very slightly darker yellow, a screenie had this...
+				pixarr[j][i].r == 253 && pixarr[j][i].g == 253 && pixarr[j][i].b == 0 ||   // Slightly darker yellow, for safety
+				pixarr[j][i].r == 255 && pixarr[j][i].g == 255 && pixarr[j][i].b == 255) { // White, elites and masters only
 				pixelCount++;
 				streak++;
 				noYellowStreak = 0;
@@ -1191,7 +1236,7 @@ async function readQuantities(item: ImageData) {
 					numbers += "9";
 				}
 				else { //if 8
-					numbers += "k";
+					numbers += "000";
 					pixelCount = 0;
 					break;
 				}
@@ -1222,1251 +1267,6 @@ async function readQuantities(item: ImageData) {
 }
 
 
-async function submitToLS(item: any[], quant: any[], value: any) {
-	//Add items to database
-	console.log("Adding to database...");
-	for (let i = 0; i < quant.length; i++) {
-		// If you get null or undefined here, check if one of your rewards doesn't exist in LocalStorage or LocalStorageInit
-		// Or maybe the name might be incorrectly written in, idk
-		//console.log("checking if in array", item[i]);
-		if (JSON.parse(localStorage.getItem(item[i])).tier.includes(currentTier()[0])) {
-			let temp = JSON.parse(localStorage.getItem(item[i]));
-			let tempQuant = quant[i].slice();
-			if (quant[i].includes('k')) {
-				tempQuant = tempQuant.slice(0, -1);
-				tempQuant += "000";
-			}
-			temp.quantity[currentTier()[0]] = parseInt(temp.quantity[currentTier()[0]]) + parseInt(tempQuant);
-			localStorage.setItem(item[i], JSON.stringify(temp));
-		}
-		else {
-			return false;
-		}
-	}
-
-	// Increase value and count
-	localStorage.setItem(currentTier()[1], JSON.stringify((JSON.parse(localStorage.getItem(currentTier()[1])) + value)));
-	localStorage.setItem(currentTier()[2], JSON.stringify(JSON.parse(localStorage.getItem(currentTier()[2])) + 1));
-
-	return true;
-}
-
-
-function lootDisplay() {
-	let current = currentTier();
-
-	//Set Number of clues and Current and Average values
-	document.getElementById("number_of_clues").textContent = JSON.parse(localStorage.getItem(currentTier()[2])).toLocaleString("en-US");
-	document.getElementById("value_of_clues").textContent = JSON.parse(localStorage.getItem(currentTier()[1])).toLocaleString("en-US");
-	if (parseInt(JSON.parse(localStorage.getItem(currentTier()[2]))) != 0) {
-		document.getElementById("average_of_clues").textContent = Math.round(parseInt(JSON.parse(localStorage.getItem(currentTier()[1]))) / parseInt(JSON.parse(localStorage.getItem(currentTier()[2])))).toLocaleString("en-US");
-	}
-	else {
-		document.getElementById("average_of_clues").textContent = "0";
-	}
-
-	//Set the icons in the tabs
-	tabDisplay(currentTier()[0]);
-}
-
-
-function tabDisplay(current: string) {
-	let keys = Object.keys(localStorage);
-	let divs = document.getElementsByClassName("loot_display");
-	for (let i = 0; i < divs.length; i++) {
-		divs[i].textContent = "";
-	}
-	for (let i = 0; i < keys.length; i++) {
-		// console.log(keys[i]) Check this in case of a break
-		if (ignorelist.includes(keys[i]) || JSON.parse(localStorage.getItem(keys[i])).quantity[current] == 0) {
-			continue;
-		}
-
-		let ele = document.getElementById(JSON.parse(localStorage.getItem(keys[i])).tab + "_loot");
-		let nodevar = document.createElement("itembox");
-		let imgvar = document.createElement("img");
-		let quantvar = document.createElement("span");
-
-		nodevar.setAttribute('style', 'position:relative; margin: 3px 7px 0px 1px; padding:auto 30px auto auto; width:37px; height:37px; display:flex; align-items:center; text-align:center; order: ' + parseInt(JSON.parse(localStorage.getItem(keys[i])).order) + ';');
-		nodevar.setAttribute('title', JSON.parse(localStorage.getItem(keys[i])).quantity[current] + " x " + keys[i])
-		imgvar.src = encodeURI("./images/items/" + keys[i] + ".png");
-		imgvar.setAttribute('style', 'margin:0 auto;');
-		imgvar.ondragstart = function() { return false; };
-		
-		// FIXME: Add the negative quantity stylings here.
-		if (parseInt(JSON.parse(localStorage.getItem(keys[i])).quantity[current]) > 9999999) {
-			quantvar.setAttribute('style', 'position:absolute; left:0px; top:-5px; font-family:Runescape Chat Font; font-size:16px; color:rgb(0,255,128); text-shadow:1px 1px #000000;');
-			quantvar.textContent = Math.trunc(parseInt(JSON.parse(localStorage.getItem(keys[i])).quantity[current]) / 1000000).toString() + "M";
-		}
-		else if (parseInt(JSON.parse(localStorage.getItem(keys[i])).quantity[current]) > 99999) {
-			quantvar.setAttribute('style', 'position:absolute; left:0px; top:-5px; font-family:Runescape Chat Font; font-size:16px; color:rgb(255,255,255); text-shadow:1px 1px #000000;');
-			quantvar.textContent = Math.trunc(parseInt(JSON.parse(localStorage.getItem(keys[i])).quantity[current]) / 1000).toString() + "k";
-		}
-		else {
-			quantvar.setAttribute('style', 'position:absolute; left:0px; top:-5px; font-family:Runescape Chat Font; font-size:16px; color:rgb(255,255,0); text-shadow:1px 1px #000000;');
-			quantvar.textContent = Math.trunc(JSON.parse(localStorage.getItem(keys[i])).quantity[current]) + "";
-		}
-
-		nodevar.append(quantvar);
-		nodevar.append(imgvar);
-		ele.append(nodevar);
-	}
-}
-
-
-function currentTier() {
-	let currButton = "";
-	for (let i = 0; i < tierlist.length; i++) {
-		if ((document.getElementById(tierlist[i]) as HTMLInputElement).checked) {
-			currButton = tierlist[i];
-			if (currButton == 'easy') {
-				return [currButton, "EValue", "ECount"];
-			}
-			else if (currButton == 'medium') {
-				return [currButton, "MValue", "MCount"];
-			}
-			else if (currButton == 'hard') {
-				return [currButton, "HValue", "HCount"];
-			}
-			else if (currButton == 'elite') {
-				return [currButton, "ElValue", "ElCount"];
-			}
-			else if (currButton == 'master') {
-				return [currButton, "MaValue", "MaCount"];
-			}
-		}
-	}
-}
-
-
-export function exporttocsv() {
-	if (window.alt1) {
-		alt1.overLayClearGroup("overlays");
-		alt1.overLaySetGroup("overlays");
-		alt1.overLayTextEx("Generating CSV...", a1lib.mixColor(255, 144, 0), 20, Math.round(alt1.rsWidth / 2), 200, 2000, "", true, true);
-	}
-
-	let csvinfo = [];
-	csvinfo.push(["Item", "Easy", "Medium", "Hard", "Elite", "Master"]);
-	let keys = Object.keys(lsdb);
-	let currOrder = 1;
-	for (let i = 0; i < keys.length; i++) {
-		if (!ignorelist.includes(keys[i])) {
-			continue;
-		}
-		let val = JSON.parse(localStorage.getItem(keys[i]));
-		if (keys[i] == "ECount") {
-			csvinfo.push(["Easy Total Count", val, "", "", "", ""]);
-		}
-		else if (keys[i] == "EValue") {
-			csvinfo.push(["Easy Total Value", val, "", "", "", ""]);
-		}
-		else if (keys[i] == "MCount") {
-			csvinfo.push(["Medium Total Count", "", val, "", "", ""]);
-		}
-		else if (keys[i] == "MValue") {
-			csvinfo.push(["Medium Total Value", "", val, "", "", ""]);
-		}
-		else if (keys[i] == "HCount") {
-			csvinfo.push(["Hard Total Count", "", "", val, "", ""]);
-		}
-		else if (keys[i] == "HValue") {
-			csvinfo.push(["Hard Total Value", "", "", val, "", ""]);
-		}
-		else if (keys[i] == "ElCount") {
-			csvinfo.push(["Elite Total Count", "", "", "", val, ""]);
-		}
-		else if (keys[i] == "ElValue") {
-			csvinfo.push(["Elite Total Value", "", "", "", val, ""]);
-		}
-		else if (keys[i] == "MaCount") {
-			csvinfo.push(["Master Total Count", "", "", "", "", val]);
-		}
-		else if (keys[i] == "MaValue") {
-			csvinfo.push(["Master Total Value", "", "", "", "", val]);
-		}
-	}
-	for (let i = 0; i < keys.length; i++) {
-		if (ignorelist.includes(keys[i])) {
-			continue;
-		}
-		for (let j = 0; j < keys.length; j++) {
-			if (ignorelist.includes(keys[j])) {
-				continue;
-			}
-			if (JSON.stringify(JSON.parse(localStorage.getItem(keys[j])).order) == currOrder.toString()) {
-				let val = JSON.parse(localStorage.getItem(keys[j]));
-				let one = val.quantity.easy.toString();
-				let two = val.quantity.medium.toString();
-				let three = val.quantity.hard.toString();
-				let four = val.quantity.elite.toString();
-				let five = val.quantity.master.toString();
-				if (one == "0") {
-					one = "";
-				}
-				if (two == "0") {
-					two = "";
-				}
-				if (three == "0") {
-					three = "";
-				}
-				if (four == "0") {
-					four = "";
-				}
-				if (five == "0") {
-					five = "";
-				}
-				csvinfo.push([keys[j], one, two, three, four, five]);
-				currOrder++;
-				break;
-			}
-		}
-	}
-
-	const d = new Date();
-	let csvContent = "";
-	csvinfo.forEach(function (i) {
-		let row = i.join(",");
-		csvContent += row + "\r\n";
-	});
-	let filename = "OpenLogger CSV " + d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate() + "_" + d.getHours() + "-" + d.getMinutes() + "-" +d.getSeconds()+ ".csv";
-	var encodedUri = "data:text/csv;charset=utf-8,%EF%BB%BF" + encodeURI(csvContent);
-	var link = document.createElement("a");
-	link.setAttribute("href", encodedUri);
-	link.setAttribute("download", filename);
-	document.body.appendChild(link); // Required for FF
-	link.click();
-	if (window.alt1) {
-		alt1.overLayClearGroup("overlays");
-		alt1.overLaySetGroup("overlays");
-		alt1.overLayTextEx("CSV Generated!", a1lib.mixColor(100, 255, 100), 20, Math.round(alt1.rsWidth / 2), 200, 2000, "", true, true);
-	}
-}
-
-
-async function addHistoryToLs(value: number, items: any, quants: any, tier: any){
-	for(let i = items.length - 1; i >= 0; i--){
-		if(items[i] == "Blank"){
-			items.splice(i, 1)
-		}
-	}
-
-	for(let i = 0; i < quants.length; i++){
-		if (quants[i].includes('k')) {
-			quants[i] = quants[i].slice(0, -1);
-			quants[i] += "000";
-		}
-	}
-	
-	let previous = [items, quants, value, tier, localStorage.getItem(tier[2]), localStorage.getItem("PrimaryKeyHistory")]
-	let temp = JSON.parse(localStorage.getItem("History"))
-	temp.push(previous)
-	localStorage.setItem("History", JSON.stringify(temp))
-	localStorage.setItem("PrimaryKeyHistory", JSON.stringify(parseInt(localStorage.getItem("PrimaryKeyHistory")) + 1))
-
-	await historyClear()
-	historyInit()
-}
-
-
-async function historyClear(){
-	removeChildNodes(document.getElementById("history_body"))
-}
-
-
-function rollbackFunc(valueClear: boolean) { // TODO: Edit this once you get the interface up and running... Consider sending in an index value...
-	let lsHistory = JSON.parse(localStorage.getItem("History"))
-	let lastRoll = lsHistory[lsHistory.length - 1]
-	//	Index 0 = Items
-	//	Index 1 = Quantities
-	//	Index 2 = Value of clue
-	// 	Index 3 = Tier of clue, value and count
-
-	//console.log("Rolling back:", lastRoll[0], lastRoll[1], lastRoll[2], lastRoll[3]);
-	for (let i = 0; i < lastRoll[0].length; i++) {
-		let temp = JSON.parse(localStorage.getItem(lastRoll[0][i]))
-		temp.quantity[lastRoll[3][0]] = temp.quantity[lastRoll[3][0]] - lastRoll[1][i];
-		localStorage.setItem(lastRoll[0][i], JSON.stringify(temp))
-	}
-
-	// Decrease value and count
-	localStorage.setItem(lastRoll[3][1], JSON.stringify(JSON.parse(localStorage.getItem(lastRoll[3][1])) - lastRoll[2]));
-	localStorage.setItem(lastRoll[3][2], JSON.stringify(JSON.parse(localStorage.getItem(lastRoll[3][2])) - 1));
-
-	//console.log("Before splice:",lsHistory,"length is:",lsHistory.length)
-	lsHistory.pop()
-	//console.log("After splice:",lsHistory)
-	localStorage.setItem("History", JSON.stringify(lsHistory))
-	
-	if (valueClear) {
-		lastValue = 0;
-	}
-}
-
-
-function historyInit(){
-	let lsHistory = JSON.parse(localStorage.getItem("History"))
-	//console.log(lsHistory)
-	let title = document.getElementById("history_tier_caps")
-	title.textContent = currentTierUpper()
-
-	let quantity = document.getElementById("history_quantity")
-	quantity.textContent = localStorage.getItem("HistoryDisplayLimit")
-
-	if(lsHistory.length == 0){
-		let ele = document.getElementById("history_body")
-		let container = document.createElement("div")
-		container.textContent = "There's nothing to display. Start scanning!"
-		container.setAttribute('style','font-size: 20px; text-align: center; margin: auto; padding: auto;')
-		ele.append(container)
-	}
-	else{
-		var index = parseInt(localStorage.getItem(currentTier()[2]));
-		var limit = 0
-		for(let i = lsHistory.length - 1; i >= 0 ; i--){ //Navigating lsHistory
-			if(limit <= parseInt(localStorage.getItem("HistoryDisplayLimit"))){
-				let temp = lsHistory[i]
-				if(temp[3][0].replace(" [C] ","") === currentTier()[0]){
-					let ele = document.getElementById("history_body")
-					let container = document.createElement("div")
-					container.setAttribute("style", /*'background: url("styles/nis/alt1-currentskin/background.png");*/'background: url(images/items/Blank.png); margin: 10px 0px; padding: 5px 5px; display:grid; grid-template-columns: repeat(10 auto); align-items:center; border: 5px solid #f0b216; border-style: ridge;')
-					container.setAttribute('id','container' + temp[5])
-
-					if(temp[3][0].includes(" [C] ")){
-						let customSpan = document.createElement("span") as HTMLSpanElement
-						customSpan.setAttribute("style", "font-size: 9px; color: red;")
-						customSpan.setAttribute("title", "Custom clue manually inserted.")
-						customSpan.textContent = " [C] "
-						let countText = currentTierUpper() + " Clue" + ": " + index
-
-						let count = document.createElement("div") as HTMLDivElement
-						count.innerHTML = countText
-						count.setAttribute('style','width: auto; margin: auto 0 0 10; text-align: left; position: relative; color: #f0b216; font-family: "trajan-pro-3"; font-size: 12px; line-height: 20px; user-select: none; word-wrap: break-all; -webkit-user-select: none; grid-column: 1 / 4; grid-row: 1; text-shadow: 1px 1px 2px #000000;')
-						count.setAttribute('class','historyCount')
-						count.append(customSpan)
-						container.append(count)
-					}
-					else{
-						let count = document.createElement("div")
-						count.textContent = (currentTierUpper()) + " Clue: " + index
-						count.setAttribute('style','width: auto; margin: auto 0 0 10; text-align: left; position: relative; color: #f0b216; font-family: "trajan-pro-3"; font-size: 12px; line-height: 20px; user-select: none; word-wrap: break-all; -webkit-user-select: none; grid-column: 1 / 4; grid-row: 1; text-shadow: 1px 1px 2px #000000;')
-						count.setAttribute('class','historyCount')
-						container.append(count)
-					}
-
-
-					let value = document.createElement("div")
-					value.textContent = "Reward Value: "+temp[2].toLocaleString("en-US")
-					value.setAttribute('style','width: auto; margin: auto 0 0 10; text-align: left; position: relative; color: #f0b216; font-family: "trajan-pro-3"; font-size: 13px; line-height: 20px; user-select: none; word-wrap: break-all; -webkit-user-select: none; grid-column: 4 / span 10; grid-row: 1; text-shadow: 1px 1px 2px #000000;')
-					container.append(value)
-
-					for(let j = 0; j < 9; j++){ // Navigating temp
-						//console.log(temp[0][j])]
-						let nodevar = document.createElement("itembox");
-						let imgvar = document.createElement("img")
-						let quantvar = document.createElement("span")
-
-						nodevar.setAttribute('style', 'position:relative; margin: auto; padding:auto; width:32px; height:32px; display:flex; align-items:center; text-align:center; grid-row: 2;'/* order: ' + parseInt(JSON.parse(localStorage.getItem(keys[i])).order) + ';'*/);
-						imgvar.setAttribute('style', 'margin: auto; padding: auto;');
-						imgvar.ondragstart = function() { return false; };
-
-						try{
-							imgvar.src = encodeURI("./images/items/" + temp[0][j] + ".png");
-							nodevar.setAttribute('title', temp[1][j] + " x " + temp[0][j])
-							quantvar = quantMaker(temp[1][j])
-						} catch (e) {
-							imgvar.src = encodeURI("./images/items/Transparent.png")
-						}
-
-						if(quantvar.textContent == "undefined"){
-							quantvar.textContent = ""
-							nodevar.removeAttribute("title");
-							imgvar.src = encodeURI("./images/items/Transparent.png")
-						}
-
-						nodevar.append(imgvar)
-						nodevar.append(quantvar)
-						container.append(nodevar)
-
-					}
-				
-					let buttonbox = document.createElement("div")
-					let button = document.createElement("div")
-					buttonbox.setAttribute('style','width: 125px; display: flex; grid-row: 1 / span 2; grid-column: 10; align-items:center; position:relative')
-					buttonbox.setAttribute('id','container'+temp[5]+'buttonbox')
-					button.setAttribute('style','width: 100%; cursor: pointer; text-align: center; color: #000; font-family: "trajan-pro-3"; font-size: 18px; line-height: 32px; user-select: none; -webkit-user-select: none;')
-					button.setAttribute('class','nisbutton')
-					button.setAttribute('id','container'+temp[5]+'button')
-					button.setAttribute('onClick','TEST.rollbackVeri("container'+temp[5]+'button")')
-					button.textContent = "Delete"
-
-					buttonbox.append(button)
-					container.append(buttonbox)
-					ele.append(container)
-					index--
-					limit++
-				}
-			}
-			else{
-				break;
-			}
-		}
-
-		if(index == parseInt(localStorage.getItem(currentTier()[2]))){
-			let ele = document.getElementById("history_body")
-			let container = document.createElement("div")
-			container.textContent = "There's nothing to display. Start scanning!"
-			container.setAttribute('style','font-size: 20px; text-align: center; margin: auto; padding: auto;')
-			ele.append(container)
-		}
-	}
-}
-
-
-export function rollbackVeri(id: any){
-	let buttonbox = document.getElementById(id+"box")
-	let button = document.getElementById(id)
-	buttonbox.removeChild(button)
-
-	let buttonYes = document.createElement("div")
-	let buttonNo = document.createElement("div")
-
-	buttonbox.setAttribute('style','display: grid; grid-template-columns: repeat(2, auto); width: 125px; grid-row: 1 / span 2; grid-column: 10;')
-
-	buttonYes.setAttribute('style',' width: 97%; cursor: pointer; text-align: center; color: #000; font-family: "trajan-pro-3"; font-size: 18px; line-height: 32px; user-select: none; -webkit-user-select: none;')
-	buttonYes.setAttribute('class','nisbutton')
-	buttonYes.setAttribute('onclick','TEST.rollbackYes("'+id+'")')
-	buttonYes.textContent = "Yes"
-
-	buttonNo.setAttribute('style',' width: 97%; cursor: pointer; text-align: center; color: #000; font-family: "trajan-pro-3"; font-size: 18px; line-height: 32px; user-select: none; -webkit-user-select: none;')
-	buttonNo.setAttribute('class','nisbuttonblue')
-	buttonNo.setAttribute('onclick','TEST.rollbackNo("'+id+'")')
-	buttonNo.textContent = "No"
-
-	buttonbox.append(buttonYes, buttonNo)
-	console.log("Made no and yes")
-}
-
-
-export function rollbackNo(id: any){
-	console.log("In no")
-
-	let buttonbox = document.getElementById(id+"box")
-	removeChildNodes(buttonbox)
-
-	buttonbox.setAttribute('style','width: 125px; display: flex; grid-row: 1 / span 2; grid-column: 10; align-items:center;')
-	
-	let button = document.createElement("div")
-	button.setAttribute('style','width: 95%; cursor: pointer; margin: auto; text-align: center; color: #000; font-family: "trajan-pro-3"; font-size: 18px; line-height: 32px; user-select: none; -webkit-user-select: none;')
-	button.setAttribute('class','nisbutton')
-	button.setAttribute('id', id)
-	button.setAttribute('onClick','TEST.rollbackVeri("'+id+'")')
-	button.textContent = "Delete"
-
-	buttonbox.append(button)
-}
-
-
-export function rollbackYes(id: any){
-	if (window.alt1) {
-		alt1.overLayClearGroup("overlays");
-		alt1.overLaySetGroup("overlays");
-		alt1.overLayTextEx("Rolling back reward...", a1lib.mixColor(255, 144, 0), 20, Math.round(alt1.rsWidth / 2), 200, 2000, "", true, true);
-	}
-
-	let container = document.getElementById(id.replace('button', ''))
-	container.remove()
-
-	let pKey = id.replace('container','')
-	pKey = parseInt(pKey.replace('button',''))
-
-	console.log(pKey)
-	let lsHistory = JSON.parse(localStorage.getItem("History"))
-	for(let i = 0; i < lsHistory.length; i++){
-		if(lsHistory[i][5] == pKey){
-			var temp = lsHistory[i]
-			lsHistory.splice(i, 1)
-			localStorage.setItem("History",JSON.stringify(lsHistory))
-			break;
-		}
-	}
-	
-	console.log(temp)
-	for (let i = 0; i < temp[0].length; i++) {
-		let item = JSON.parse(localStorage.getItem(temp[0][i]))
-		item.quantity[temp[3][0].replace(" [C] ","")] = item.quantity[temp[3][0].replace(" [C] ","")] - parseInt(temp[1][i]);
-		localStorage.setItem(temp[0][i], JSON.stringify(item))
-	}
-
-	// Decrease value and count
-	localStorage.setItem(temp[3][1], JSON.stringify(JSON.parse(localStorage.getItem(temp[3][1])) - temp[2]));
-	localStorage.setItem(temp[3][2], JSON.stringify(JSON.parse(localStorage.getItem(temp[3][2])) - 1));
-
-	console.log("Removed",pKey,"from LS")
-	if(pKey == ((parseInt(localStorage.getItem("PrimaryKeyHistory"))) - 1)){
-		document.getElementById("rewards_value").textContent = "0";
-		for (let i = 0; i < 9; i++)
-			document.getElementById(rewardSlots[i]).textContent = "";
-	}
-
-	let historyCount = document.getElementsByClassName('historyCount')
-	let index = parseInt(localStorage.getItem(currentTier()[2]))
-	for(let i = 0; i < parseInt(localStorage.getItem(currentTier()[2])); i++){
-		if(i >= parseInt(localStorage.getItem("RollbackDisplayLimit"))){
-			break;
-		}
-		console.log(i);
-		console.log(historyCount[i].textContent,"is now",(currentTierUpper()) + " Clue: " + index);
-		historyCount[i].textContent = (currentTierUpper()) + " Clue: " + index;
-		index--;
-	}
-
-
-	//for(let i = parseInt(localStorage.getItem(currentTier()[2])) - 1; i >= 0; i--){
-	//	rollbackCount[i].textContent = (currentTier()[0][0].toUpperCase() + currentTier()[0].slice(1).toLowerCase()) + " Clue: " + index
-	//	index--
-	//}
-
-	historyClear();
-	historyInit();
-
-	if (window.alt1) {
-		alt1.overLayClearGroup("overlays");
-		alt1.overLaySetGroup("overlays");
-		alt1.overLayTextEx("Previous rewards rolled back successfully!", a1lib.mixColor(100, 255, 100), 20, Math.round(alt1.rsWidth / 2), 200, 2000, "", true, true);
-	}
-
-	lootDisplay();
-}
-
-
-async function arraySetup() {
-	// Set new array of current tier
-	listOfItemsFull = itemsFull.any.concat(itemsFull[currentTier()[0]]);
-	listOfItemsReorg = itemsReorg.any.concat(itemsReorg[currentTier()[0]]);
-	listOfItemsReorgTwo = itemsReorgTwo.any.concat(itemsReorgTwo[currentTier()[0]]);
-	listOfItemsLegacyFull = itemsLegacyFull.any.concat(itemsLegacyFull[currentTier()[0]]);
-	listOfItemsLegacyReorg = itemsLegacyReorg.any.concat(itemsLegacyReorg[currentTier()[0]]);
-	listOfItemsLegacyReorgTwo = itemsLegacyReorgTwo.any.concat(itemsLegacyReorgTwo[currentTier()[0]]);
-
-	// Turning image collection into array
-	listOfItemsFullArray = [];
-	listOfItemsReorgArray = [];
-	listOfItemsReorgTwoArray = [];
-	listOfItemsLegacyFullArray = [];
-	listOfItemsLegacyReorgArray = [];
-	listOfItemsLegacyReorgTwoArray = [];
-
-	// Setting Array items and ImageData arrays
-	var promises = [];
-	for (let i = 0; i < listOfItemsFull.length; i++) {
-		if (i < listOfItemsFull.length) {
-			listOfItemsFullArray.push([listOfItemsFull[i].name, listOfItemsFull[i].base64, 0.0]);
-			if (localStorage.getItem("ItemList") == "twoplus"){
-				promises.push(await _base64ToImageData(listOfItemsFullArray[i][1], 32, 32).then(data => { 
-					listOfItemsFullArray[i].push(data) 
-				}));
-			}
-		}
-		if (i < listOfItemsReorg.length) {
-			listOfItemsReorgArray.push([listOfItemsReorg[i].name, listOfItemsReorg[i].base64, 0.0]);
-			if (localStorage.getItem("ItemList") == "orglist"){
-				promises.push(await _base64ToImageData(listOfItemsReorgArray[i][1], 32, 32).then(data => { 
-					listOfItemsReorgArray[i].push(data) 
-				}));
-
-			}
-		}
-		if (i < listOfItemsReorgTwo.length) {
-			listOfItemsReorgTwoArray.push([listOfItemsReorgTwo[i].name, listOfItemsReorgTwo[i].base64, 0.0]);
-			if (localStorage.getItem("ItemList") == "orgminus"){
-				promises.push(await _base64ToImageData(listOfItemsReorgTwoArray[i][1], 32, 32).then(data => { 
-					listOfItemsReorgTwoArray[i].push(data)
-				}));
-			}
-		}
-		if (i < listOfItemsLegacyFull.length) {
-			listOfItemsLegacyFullArray.push([listOfItemsLegacyFull[i].name, listOfItemsLegacyFull[i].base64, 0.0]);
-			if (localStorage.getItem("ItemList") == "twoplus"){
-				promises.push(await _base64ToImageData(listOfItemsLegacyFullArray[i][1], 32, 32).then(data => { 
-					listOfItemsLegacyFullArray[i].push(data)
-				}));
-			}
-		}
-		if (i < listOfItemsLegacyReorg.length) {
-			listOfItemsLegacyReorgArray.push([listOfItemsLegacyReorg[i].name, listOfItemsLegacyReorg[i].base64, 0.0]);
-			if (localStorage.getItem("ItemList") == "orglist"){
-				promises.push(await _base64ToImageData(listOfItemsLegacyReorgArray[i][1], 32, 32).then(data => { 
-					listOfItemsLegacyReorgArray[i].push(data)
-				}));
-			}
-		}
-		if (i < listOfItemsLegacyReorgTwo.length) {
-			listOfItemsLegacyReorgTwoArray.push([listOfItemsLegacyReorgTwo[i].name, listOfItemsLegacyReorgTwo[i].base64, 0.0]);
-			if (localStorage.getItem("ItemList") == "orgminus"){
-				promises.push(await _base64ToImageData(listOfItemsLegacyReorgArray[i][1], 32, 32).then(data => { 
-					listOfItemsLegacyReorgTwoArray[i].push(data)
-				}));
-			}
-		}
-	}
-	await Promise.all(promises);
-
-	listOfItemsAll = itemsFull.any.concat(itemsFull.easy).concat(itemsFull.medium).concat(itemsFull.hard).concat(itemsFull.elite).concat(itemsFull.master);
-	listOfItemsLegacyAll = itemsLegacyFull.any.concat(itemsLegacyFull.easy).concat(itemsLegacyFull.medium).concat(itemsLegacyFull.hard).concat(itemsLegacyFull.elite).concat(itemsLegacyFull.master);
-	listOfItemsAllArray = [];
-	listOfItemsLegacyAllArray = [];
-	promises = [];
-	for (let i = 0; i < listOfItemsAll.length; i++) {
-		listOfItemsAllArray.push([listOfItemsAll[i].name, listOfItemsAll[i].base64, 0.0]);
-		listOfItemsLegacyAllArray.push([listOfItemsLegacyAll[i].name, listOfItemsLegacyAll[i].base64, 0.0]);
-		if (localStorage.getItem("ItemList") == "all"){
-			promises.push(await _base64ToImageData(listOfItemsAllArray[i][1], 32, 32).then(data => { 
-				listOfItemsAllArray[i].push(data)
-			}));
-			promises.push(await _base64ToImageData(listOfItemsLegacyAllArray[i][1], 32, 32).then(data => { 
-				listOfItemsLegacyAllArray[i].push(data)
-			}));
-		}
-	}
-	await Promise.all(promises);
-	// console.log("DEBUG:",listOfItemsFullArray, listOfItemsReorgArray, listOfItemsReorgTwoArray, listOfItemsLegacyFullArray, listOfItemsLegacyReorgArray, listOfItemsLegacyReorgTwoArray, listOfItemsFullArray, listOfItemsLegacyFullArray, listOfItemsAllUint8ArrayArray)
-}
-
-
-function _base64ToImageData(buffer: string, width: any, height: any) { // https://stackoverflow.com/questions/68495924
-    return new Promise(resolve => {
-    var image = new Image();
-    image.addEventListener('load', function (e) {
-      var canvasElement = document.createElement('canvas');
-      canvasElement.width = width;
-      canvasElement.height = height;
-      var context = canvasElement.getContext('2d');
-      context.drawImage(e.target as HTMLVideoElement, 0, 0, width, height);
-      resolve(context.getImageData(0, 0, width, height));
-    });
-    image.src = buffer;
-  });
-}
-
-
-export function insertInitEx(){
-	insertInit()
-}
-
-
-async function insertInit() {
-	let title = document.getElementById("insert_tier_caps")
-	title.textContent = currentTierUpper()
-	title = document.getElementById("insert_tier_title_caps")
-	title.textContent = currentTierUpper()
-
-	let keys = Object.keys(localStorage)
-	let list = [["Blank", "~Nothing~", 0]]
-	for(let i = 0; i < keys.length; i++){
-		if (ignorelist.includes(keys[i])) {
-			continue;
-		}
-
-		if (JSON.parse(localStorage.getItem(keys[i])).tier.includes(currentTier()[0])){
-			list.push([keys[i], keys[i], JSON.parse(localStorage.getItem(keys[i])).order])
-		}
-	}
-
-	list.sort(function (a: any, b: any) { // https://stackoverflow.com/a/16097058
-		if (a[2] === b[2]) return 0;
-		else return (a[2] < b[2]) ? -1 : 1;
-	});
-
-	let itemBoxes = document.getElementsByClassName("items")
-	let quantBoxes = document.getElementsByClassName("item_quants") as HTMLCollectionOf<HTMLInputElement>
-	let valueBox = document.getElementById("value_input") as HTMLInputElement
-	valueBox.textContent = "0"
-
-	for(let i = 0; i < itemBoxes.length; i++){
-		removeChildNodes(itemBoxes[i]) 
-		quantBoxes[i].value = "0"
-
-		for(let j = 0; j < list.length; j++){
-			let option = document.createElement('option');
-			//console.log(list[j][0])
-			option.value = list[j][0].toString();
-			option.textContent = list[j][1].toString();
-			option.setAttribute('class', "insert_options")
-			itemBoxes[i].append(option)
-		}
-	}
-	//console.log(itemBoxes.length)
-	
-	
-
-	///if (window.alt1) {
-	///	alt1.overLayClearGroup("overlays");
-	///	alt1.overLaySetGroup("overlays");
-	///	alt1.overLayTextEx("Doesn't work yet...", a1lib.mixColor(255, 80, 80), 20, Math.round(alt1.rsWidth / 2), 200, 4000, "", true, true);
-	///}
-}
-
-
-export function verifyInsert(event: Event){
-	console.log("Collecting info from insert...")
-	let items = []
-	let quants = []
-	let totalPrice = parseInt((document.getElementById("value_input") as HTMLInputElement).value)
-	let itemDivs = document.getElementsByClassName("items") as HTMLCollectionOf<HTMLSelectElement>
-	let quantDivs = document.getElementsByClassName("item_quants") as HTMLCollectionOf<HTMLInputElement>
-
-	removeChildNodes(document.getElementById("value_input") as HTMLDivElement)
-
-	for(let i = 0; i < itemDivs.length; i++){
-		if(itemDivs[i].options[itemDivs[i].selectedIndex].value == "Blank"){
-			continue
-		}
-		items.push(itemDivs[i].options[itemDivs[i].selectedIndex].value)
-		quants.push(parseInt(quantDivs[i].value))
-	}
-	console.log("items are", items, "quants are", quants)
-
-	if(items.length == 0){   
-		if (window.alt1) {
-			alt1.overLayClearGroup("overlays");
-			alt1.overLaySetGroup("overlays");
-			alt1.overLayTextEx("Nothing selected to insert.\n\u200a\u200aTry selecting some items.",
-				a1lib.mixColor(255, 144, 0), 20, Math.round(alt1.rsWidth / 2), 200, 4000, "", true, true);
-		
-		}
-		console.log("No items...")
-		event.stopPropagation();
-		return
-	}
-
-	let curr = (parseInt(localStorage.getItem(currentTier()[2])) + 1).toString()
-	console.log(curr)
-	let ele = document.getElementById("insertVerif_body")
-	let container = document.createElement("div")
-	container.setAttribute("style", /*'background: url("styles/nis/alt1-currentskin/background.png");*/'background: url(images/items/Blank.png); margin: 10px 0px; padding: 5px 5px; display:grid; grid-template-columns: repeat(10 auto); align-items:center; border: 5px solid #f0b216; border-style: ridge;')
-	container.setAttribute('id','container' + curr)  
-
-	//TODO: Consider putting below into a function along with the other one from history
-	let customSpan = document.createElement("span") as HTMLSpanElement
-	customSpan.setAttribute("style", "font-size: 9px; color: red;")
-	customSpan.setAttribute("title", "Custom clue manually inserted.")
-	customSpan.textContent = " [C] "
-	let countText = currentTierUpper() + " Clue" + ": " + curr
-
-	let count = document.createElement("div") as HTMLDivElement
-	count.innerHTML = countText
-	count.setAttribute('style','width: auto; margin: auto 0 0 10; text-align: left; position: relative; color: #f0b216; font-family: "trajan-pro-3"; font-size: 12px; line-height: 20px; user-select: none; word-wrap: break-all; -webkit-user-select: none; grid-column: 1 / 4; grid-row: 1; text-shadow: 1px 1px 2px #000000;')
-	count.setAttribute('class','historyCount')
-	count.append(customSpan)
-	container.append(count)
-
-	let value = document.createElement("div")
-	value.textContent = "Reward Value: " + totalPrice.toLocaleString("en-US")
-	value.setAttribute('style','width: auto; margin: auto 0 0 10; text-align: left; position: relative; color: #f0b216; font-family: "trajan-pro-3"; font-size: 13px; line-height: 20px; user-select: none; word-wrap: break-all; -webkit-user-select: none; grid-column: 4 / span 10; grid-row: 1; text-shadow: 1px 1px 2px #000000;')
-	container.append(value)
-
-	for(let j = 0; j < 9; j++){ // Navigating temp
-		//console.log(temp[0][j])]
-		let nodevar = document.createElement("itembox") as HTMLDivElement;
-		let imgvar = document.createElement("img") as HTMLImageElement;
-		let quantvar = document.createElement("span") as HTMLSpanElement;
-
-		nodevar.setAttribute('style', 'position:relative; margin: auto; padding:auto; width:32px; height:32px; display:flex; align-items:center; text-align:center; grid-row: 2;'/* order: ' + parseInt(JSON.parse(localStorage.getItem(keys[i])).order) + ';'*/);
-		imgvar.setAttribute('style', 'margin: auto; padding: auto;');
-		imgvar.ondragstart = function() { return false; };
-
-		try{
-			imgvar.src = encodeURI("./images/items/" + items[j] + ".png");
-			nodevar.setAttribute('title', quants[j] + " x " + items[j])
-			quantvar = quantMaker(quants[j])
-		} catch (e) {
-			imgvar.src = encodeURI("./images/items/Transparent.png")
-		}
-
-		if(quantvar.textContent == "undefined"){
-			quantvar.textContent = ""
-			nodevar.removeAttribute("title");
-			imgvar.src = encodeURI("./images/items/Transparent.png")
-		}
-		nodevar.append(imgvar)
-		nodevar.append(quantvar)
-		container.append(nodevar)
-	}
-	
-	let buttonbox = document.createElement("div") as HTMLDivElement;
-	let button = document.createElement("div") as HTMLDivElement;
-	buttonbox.setAttribute('style','width: 125px; display: flex; grid-row: 1 / span 2; grid-column: 10; align-items:center; position:relative')
-	buttonbox.setAttribute('id','container'+ curr +'buttonbox')
-	button.setAttribute('style','width: 100%; cursor: pointer; text-align: center; color: #000; font-family: "trajan-pro-3"; font-size: 18px; line-height: 32px; user-select: none; -webkit-user-select: none;')
-	button.setAttribute('class','nisbutton')
-	button.setAttribute('id','container'+ curr +'button')
-	button.textContent = "Sample"
-
-	let infoDiv = document.createElement("div") as HTMLDivElement;
-
-	//FIXME: Change this for a global variable, you dunce.
-	let customTier = currentTier()
-	customTier[0] += " [C] "
-	infoDiv.id = "insert_info"
-	infoDiv.textContent = "["+items+"]/,["+quants+"]/,"+totalPrice+"/,["+customTier+"]"
-	infoDiv.setAttribute("style","visibility: hidden; width: 1px; height: 1px;")
-	console.log("["+items+"]/,["+quants+"]/,"+totalPrice+"/,["+customTier+"]")
-
-	buttonbox.append(button)
-	container.append(buttonbox)
-	container.append(infoDiv)
-	ele.append(container)
-}
-
-
-export function insertToDB(){
-	if (window.alt1) {
-		alt1.overLayClearGroup("overlays");
-		alt1.overLaySetGroup("overlays");
-		alt1.overLayTextEx("Submitting custom clue to Database...",
-			a1lib.mixColor(255, 144, 0), 20, Math.round(alt1.rsWidth / 2), 200, 40000, "", true, true);
-	}
-
-	let insertInfo = document.getElementById("insert_info") as HTMLDivElement
-	let infoArray = insertInfo.textContent.split("/,")
-	console.log(infoArray)
-
-	let temp = []
-	temp.push(infoArray[0].split(","), infoArray[1].split(","), infoArray[2].split(","), infoArray[3].split(","))
-
-	let items = []
-	let quants = []
-	let value = infoArray[2]
-	let tier = []
-
-	for(let i = 0; i < temp[0].length; i++){
-		items.push(temp[0][i].toString().replace("[","").replace("]",""))
-		quants.push(temp[1][i].toString().replace("[","").replace("]",""))
-	}
-
-	for(let i = 0; i < temp[3].length; i++){
-		if(i == 0){
-			tier.push(temp[3][i].toString().replace("[",""))
-		}
-		else{
-			tier.push(temp[3][i].toString().replace("[","").replace("]",""))
-		}
-		
-	}
-	
-	insertInit()
-	addHistoryToLs(parseInt(value), items, quants, tier)
-	submitToLS(items, quants, parseInt(value))
-	lootDisplay()
-
-	if (window.alt1) {
-		alt1.overLayClearGroup("overlays");
-		alt1.overLaySetGroup("overlays");
-		alt1.overLayTextEx("Custom " + currentTier()[0] + " clue submitted successfully!",
-			a1lib.mixColor(100, 255, 100), 20, Math.round(alt1.rsWidth / 2), 200, 4000, "", true, true);
-	}
-}
-
-
-function quantMaker(quant: number){
-	let quantvar = document.createElement("span")
-
-	if (quant > 9999999) {
-		quantvar.setAttribute('style', 'position:absolute; left:0; top:-5px; font-family:Runescape Chat Font; font-size:16px; color:rgb(0,255,128); text-shadow:1px 1px #000000;');
-		quantvar.textContent = Math.trunc(quant / 1000000).toString() + "M";
-	}
-	else if (quant > 99999) {
-		quantvar.setAttribute('style', 'position:absolute; left:0; top:-5px; font-family:Runescape Chat Font; font-size:16px; color:rgb(255,255,255); text-shadow:1px 1px #000000;');
-		quantvar.textContent = Math.trunc(quant / 1000).toString() + "k";
-	}
-	else if (quant > 9999) {
-		quantvar.setAttribute('style', 'position:absolute; left:0; top:-5px; font-family:Runescape Chat Font; font-size:16px; color:rgb(255,255,0); text-shadow:1px 1px #000000;');
-		quantvar.textContent = Math.trunc(quant / 1000).toString() + "k";
-	}
-	else if (quant <= 9999 && quant >= -9999){
-		quantvar.setAttribute('style', 'position:absolute; left:0; top:-5px; font-family:Runescape Chat Font; font-size:16px; color:rgb(255,255,0); text-shadow:1px 1px #000000;');
-		quantvar.textContent = quant + "";
-	}
-	else if (quant <= -9999999) {
-		quantvar.setAttribute('style', 'position:absolute; left:0; top:-5px; font-family:Runescape Chat Font; font-size:16px; color:rgb(0,255,128); text-shadow:1px 1px #000000;');
-		quantvar.textContent = Math.trunc(quant / 1000000).toString() + "M";
-	}
-	else if (quant <= -99999) {
-		quantvar.setAttribute('style', 'position:absolute; left:0; top:-5px; font-family:Runescape Chat Font; font-size:16px; color:rgb(255,255,255); text-shadow:1px 1px #000000;');
-		quantvar.textContent = Math.trunc(quant / 1000).toString() + "k";
-	}
-	else if (quant <= -9999) {
-		quantvar.setAttribute('style', 'position:absolute; left:0; top:-5px; font-family:Runescape Chat Font; font-size:16px; color:rgb(255,255,0); text-shadow:1px 1px #000000;');
-		quantvar.textContent = Math.trunc(quant / 1000).toString() + "k";
-	}
-	else {
-		quantvar.setAttribute('style', 'position:absolute; left:0; top:-5px; font-family:Runescape Chat Font; font-size:16px; color:rgb(255,255,0); text-shadow:1px 1px #000000;');
-		quantvar.textContent = quant + "";
-	}
-
-	return quantvar
-}
-
-
-export async function fetchFromGE(){
-	if (window.alt1) {
-		alt1.overLayClearGroup("overlays");
-		alt1.overLaySetGroup("overlays");
-		alt1.overLayTextEx("Fetching prices from GE...",
-			a1lib.mixColor(255, 144, 0), 20, Math.round(alt1.rsWidth / 2), 200, 40000, "", true, true);
-	}
-
-	let items = []
-	let quants = []
-	let itemDivs = document.getElementsByClassName("items") as HTMLCollectionOf<HTMLSelectElement>
-	let quantDivs = document.getElementsByClassName("item_quants") as HTMLCollectionOf<HTMLInputElement>
-
-	for(let i = 0; i < itemDivs.length; i++){
-		if(itemDivs[i].options[itemDivs[i].selectedIndex].value == "Blank"){
-			continue
-		}
-		if(["Saradomin page", "Guthix page", "Zamorak page", "Armadyl page", "Bandos page", "Ancient page"].includes(itemDivs[i].options[itemDivs[i].selectedIndex].value)){	
-			items.push((itemDivs[i].options[itemDivs[i].selectedIndex].value) + " 1")
-		}
-		else if(["Dragon platelegs-skirt ornament kit (or)", "Dragon platelegs-skirt ornament kit (sp)"].includes(itemDivs[i].options[itemDivs[i].selectedIndex].value)){
-			items.push((itemDivs[i].options[itemDivs[i].selectedIndex].value).replace("-","/"))
-		}
-		else{
-			items.push((itemDivs[i].options[itemDivs[i].selectedIndex].value))
-		}
-		quants.push(parseInt(quantDivs[i].value))
-	}
-	console.log("items are", items, "quants are", quants)
-
-	if(items.length == 0){
-		if (window.alt1) {
-			alt1.overLayClearGroup("overlays");
-			alt1.overLaySetGroup("overlays");
-			alt1.overLayTextEx("Nothing selected to fetch.\nTry selecting some items.",
-				a1lib.mixColor(255, 144, 0), 20, Math.round(alt1.rsWidth / 2), 200, 4000, "", true, true);
-		}
-		console.log("No items...")
-		return
-	}
-
-	let prices = []
-	for(let i = 0; i < items.length; i++){
-		try {
-			await fetch("https://api.weirdgloop.org/exchange/history/rs/latest?name=" + items[i].replace("+","%2B").replace("+","%2B"))
-  				.then(function(response) {
-  				  return response.json();
-  				})
-  				.then(function(data) {
-  				  prices.push(data[items[i]].price)
-  				});
-		} catch (e) {
-			console.log("It failed... setting to 0...", items[i], items[i].replace("+","%2B").replace("+","%2B"))
-			prices.push(0)
-    	}
-	}
-
-	let grandTotal = 0
-	for(let i = 0; i < items.length; i++){
-		if(items[i] == "Coins"){
-			grandTotal += quants[i]
-		}
-		else{
-			grandTotal += (quants[i] * prices[i])
-		}
-	}
-	let ele = document.getElementById("value_input") as HTMLInputElement
-	ele.value = grandTotal + ""
-
-	if (window.alt1) {
-		alt1.overLayClearGroup("overlays");
-		alt1.overLaySetGroup("overlays");
-		alt1.overLayTextEx("Prices fetched successfully!",
-			a1lib.mixColor(100, 255, 100), 20, Math.round(alt1.rsWidth / 2), 200, 4000, "", true, true);
-	}
-}
-
-
-function removeChildNodes(div: any){ // https://stackoverflow.com/a/40606838
-	while (div.firstChild) {
-        div.firstChild.remove();
-    }
-}
-
-
-export function settingsInit() {
-	if (localStorage.getItem("Algorithm") == null) { // Algorithim init check
-		console.log("Defaulting button to ResembleJS...");
-		var ele = document.getElementById("resemblejs") as HTMLInputElement;
-		ele.checked = true;
-		localStorage.setItem("Algorithm", "resemblejs");
-	}
-	else { // If it does, set the button and span
-		console.log("Setting previously set radio button: " + localStorage.getItem("Algorithm") + "...");
-		let temp = localStorage.getItem("Algorithm");
-		let ele = document.getElementById(temp) as HTMLInputElement;
-		ele.checked = true;
-	}
-
-	if (localStorage.getItem("ItemList") == null) { // Item Referense list init check
-		console.log("Defaulting list to Organized List...");
-		var ele = document.getElementById("orglist") as HTMLInputElement;
-		ele.checked = true;
-		localStorage.setItem("ItemList", "orglist");
-	}
-	else { // If it does, set the button and span
-		console.log("Setting previously set radio button: " + localStorage.getItem("ItemList") + "...");
-		let temp = localStorage.getItem("ItemList");
-		let ele = document.getElementById(temp) as HTMLInputElement;
-		ele.checked = true;
-	}
-
-	//Change this to rerollToggle
-	if (localStorage.getItem("rerollToggle") == null) { // Remove rerolls init check
-		console.log("Defaulting reroll toggle to on...");
-		var ele = document.getElementById("rerollon") as HTMLInputElement;
-		ele.checked = true;
-		localStorage.setItem("rerollon", "true");
-	}
-	else { // If it does, set the button and span
-		console.log("Setting previously set radio button: " + localStorage.getItem("rerollToggle") + "...");
-		if (localStorage.getItem("rerollToggle") == "true") {
-			var ele = document.getElementById("rerollon") as HTMLInputElement
-			ele.checked = true;
-		}
-		else if (localStorage.getItem("rerollToggle") == "false") {
-			var ele = document.getElementById("rerolloff") as HTMLInputElement
-			ele.checked = true;
-		}
-	}
-
-	if (localStorage.getItem("lagDetect") == null) { // Remove rerolls init check
-		console.log("Defaulting reroll toggle to on...");
-		var ele = document.getElementById("lagon") as HTMLInputElement;
-		ele.checked = true;
-		localStorage.setItem("lagon", "true");
-	}
-	else { // If it does, set the button and span
-		console.log("Setting previously set radio button: " + localStorage.getItem("lagDetect") + "...");
-		if (localStorage.getItem("lagDetect") == "true") {
-			var ele = document.getElementById("lagon") as HTMLInputElement;
-			ele.checked = true;
-		}
-		else if (localStorage.getItem("lagDetect") == "false") {
-			var ele = document.getElementById("lagoff") as HTMLInputElement;
-			ele.checked = true;
-		}
-	}
-
-	if (localStorage.getItem("multiButtonPressDetect") == null) { // Remove rerolls init check
-		console.log("Defaulting reroll toggle to on...");
-		var ele = document.getElementById("multion") as HTMLInputElement;
-		ele.checked = true;
-		localStorage.setItem("multion", "true");
-	}
-	else { // If it does, set the button and span
-		console.log("Setting previously set radio button: " + localStorage.getItem("multiButtonPressDetect") + "...");
-		if (localStorage.getItem("multiButtonPressDetect") == "true") {
-			var ele = document.getElementById("multion") as HTMLInputElement;
-			ele.checked = true;
-		}
-		else if (localStorage.getItem("multiButtonPressDetect") == "false") {
-			var ele = document.getElementById("multioff") as HTMLInputElement;
-			ele.checked = true;
-		}
-	}
-
-	if (localStorage.getItem("noMenu") == null) { // Remove rerolls init check
-		console.log("Defaulting menu toggle to on...");
-		var ele = document.getElementById("menuon") as HTMLInputElement;
-		ele.checked = true;
-		localStorage.setItem("menuon", "true");
-	}
-	else { // If it does, set the button and span
-		console.log("Setting previously set radio button: " + localStorage.getItem("noMenu") + "...");
-		if (localStorage.getItem("noMenu") == "true") {
-			var ele = document.getElementById("menuon") as HTMLInputElement;
-			ele.checked = true;
-		}
-		else if (localStorage.getItem("noMenu") == "false") {
-			var ele = document.getElementById("menuoff") as HTMLInputElement;
-			ele.checked = true;
-		}
-	}
-
-	if (localStorage.getItem("hybridPrecision") == null) {
-		console.log("Defaulting hybridPrecision to 0.3...");
-		var ele = document.getElementById("hybrid_precision") as HTMLInputElement;
-		ele.value = "0.3";
-		localStorage.setItem("hybridPrecision", "0.3");
-	}
-	else{
-		var ele = document.getElementById("hybrid_precision") as HTMLInputElement;
-		ele.value = localStorage.getItem("hybridPrecision");
-	}
-
-	if (localStorage.getItem("HistoryDisplayLimit") == null) {
-		console.log("Defaulting HistoryDisplayLimit to 25...");
-		var ele = document.getElementById("history_display_limit") as HTMLInputElement;
-		ele.value = "25";
-		localStorage.setItem("HistoryDisplayLimit", "25");
-	}
-	else{
-		var ele = document.getElementById("history_display_limit") as HTMLInputElement;
-		ele.value = localStorage.getItem("HistoryDisplayLimit");
-	}
-}
-
-
-export async function saveSettings(alg: string, list: string, reroll: string, lag: string, multi: string, menu: string, precision: string, limit: string) {
-	buttonDisabler()
-	alt1.overLayClearGroup("overlays");
-	alt1.overLaySetGroup("overlays");
-	alt1.overLayTextEx("Saving settings...", a1lib.mixColor(255, 144, 0), 20, Math.round(alt1.rsWidth / 2), 200, 50000, "", true, true);
-	localStorage.setItem("Algorithm", alg);
-	localStorage.setItem("ItemList", list);
-	localStorage.setItem("rerollToggle", reroll);
-	localStorage.setItem("lagDetect", lag);
-	localStorage.setItem("hybridPrecision", precision)
-	localStorage.setItem("HistoryDisplayLimit", limit)
-
-	if (localStorage.getItem("multiButtonPressDetect") !== multi) {
-		localStorage.setItem("multiButtonPressDetect", multi)
-		console.log("Adjusting saved values")
-		if (multi === "true") {
-			if (localStorage.getItem("autoCapture") === "true") {
-				document.getElementById("docapturebutton").setAttribute("onclick", "");
-				document.getElementById("docapturebutton").setAttribute("title", "Disable autocapture to use this button");
-				document.getElementById("docapturebuttonwords").style.setProperty("text-decoration", "line-through");
-			}
-		}
-		else if (multi === "false") {
-			if (localStorage.getItem("autoCapture") === "true") {
-				document.getElementById("docapturebutton").setAttribute("onclick", "TEST.capture(false)");
-				document.getElementById("docapturebutton").setAttribute("title", "");
-				document.getElementById("docapturebuttonwords").style.removeProperty("text-decoration");
-			}
-			else {
-				document.getElementById("docapturebutton").setAttribute("onclick", "TEST.capture(false)");
-				document.getElementById("docapturebutton").setAttribute("title", "");
-				document.getElementById("docapturebuttonwords").style.removeProperty("text-decoration");
-			}
-		}
-	}
-
-	if (localStorage.getItem("noMenu") !== menu) {
-		localStorage.setItem("noMenu", menu)
-		noMenuCheck()
-	}
-
-	historyClear()
-	historyInit()
-
-	settingsInit()
-	await arraySetup();
-	if (window.alt1) {
-		alt1.overLayClearGroup("overlays"); 
-		alt1.overLaySetGroup("overlays");
-		alt1.overLayTextEx("Settings saved!", a1lib.mixColor(100, 255, 100), 20, Math.round(alt1.rsWidth / 2), 200, 2000, "", true, true);
-	}
-	buttonDisabler()
-}
-
-
-export function autoDisableCheckAuto(event: Event){
-	if(document.getElementById("toggleunlocktrack").classList.contains("enabled")){
-		toggleCapture(event)
-	}
-}
-
-
-export function toggleCapture(event: Event) {
-	try{
-		if (document.getElementById("toggleunlocktrack").classList.contains("enabled")) {
-			document.getElementById("toggleunlocktrack").classList.remove("enabled");
-			localStorage.setItem("autoCapture", "false");
-			if (window.alt1) {
-				alt1.overLayClearGroup("overlays");
-				alt1.overLaySetGroup("overlays");
-				alt1.overLayTextEx("Autocapture disabled!", a1lib.mixColor(100, 255, 100), 20, Math.round(alt1.rsWidth / 2), 200, 2000, "", true, true);
-			}
-		}
-		else {
-			document.getElementById("toggleunlocktrack").classList.add("enabled");
-			localStorage.setItem("autoCapture", "true");
-			if (window.alt1) {
-				alt1.overLayClearGroup("overlays");
-				alt1.overLaySetGroup("overlays");
-				alt1.overLayTextEx("Autocapture enabled!", a1lib.mixColor(100, 255, 100), 20, Math.round(alt1.rsWidth / 2), 200, 2000, "", true, true);
-			}
-		}
-		autoCheck();
-		event.stopPropagation();
-	} catch (e){
-		console.log("Clear Options Menu, Settings, or lagCounter auto-disabling autocapture. In the event of bugfixing and getting this message in this function, try re-enabling this throw.")
-		//throw(e)
-	}
-}
-
-
-function autoCheck() {
-	if (localStorage.getItem("autoCapture") === "true") {
-		if (localStorage.getItem("multiButtonPressDetect") === "true") {
-			document.getElementById("docapturebutton").setAttribute("onclick", "");
-			document.getElementById("docapturebutton").setAttribute("title", "Disable autocapture to use this button");
-			document.getElementById("docapturebuttonwords").style.setProperty("text-decoration", "line-through");
-		}
-		autoCaptureInterval = window.setInterval(async function () {
-			let promises = [];
-			promises.push(await autoCallCapture());
-			await Promise.all(promises);
-		}, 1000);
-	}
-	else {
-		if (localStorage.getItem("multiButtonPressDetect") === "true") {
-			document.getElementById("docapturebutton").setAttribute("onclick", "TEST.capture(false)");
-			document.getElementById("docapturebutton").setAttribute("title", "");
-			document.getElementById("docapturebuttonwords").style.removeProperty("text-decoration");
-		}
-		window.clearInterval(autoCaptureInterval);
-		autoCaptureInterval = null;
-	}
-}
-
-
-function autoCallCapture() {
-	capture(true);
-}
-
-
-function noMenuCheck(){
-	if (localStorage.getItem("noMenu") === "true") {
-		noMenuInterval = window.setInterval(async function () {
-			alt1.overLayClearGroup("nomenu");
-			alt1.overLaySetGroup("nomenu");
-			var img = a1lib.captureHoldFullRs();
-			var loc = img.findSubimage(await imgs.trailComplete);
-
-			let rewardreader = new ClueRewardReader();
-			rewardreader.pos = ModalUIReader.find()[0];
-			let value = rewardreader.read(img).value;
-			let length = value.toString().length
-			let comma = Math.floor(length / 3)
-			console.log("Highlighting value...")
-			
-			alt1.overLayRect(a1lib.mixColor(255, 50, 50), loc[0].x + 246 - (5 * length) + (1 * comma), loc[0].y + 94, 0 + (8 * length) + (4 * comma), await imgs.trailComplete.height + 6, 60000, 2);
-			alt1.overLayTextEx("NO MENUS HERE", a1lib.mixColor(255, 50, 50), 10, loc[0].x + 245, loc[0].y + 118, 50000, "", true, true);
-			
-		}, 1000);
-	}
-	else {
-		alt1.overLayClearGroup("nomenu");
-		window.clearInterval(noMenuInterval);
-		noMenuInterval = null;
-	}
-}
-
-
 async function rerollCheck(value: ImageData, valueClear: boolean) {
 
 	/*
@@ -2482,22 +1282,22 @@ async function rerollCheck(value: ImageData, valueClear: boolean) {
 	var rerollList = [[0, 0], [1, 41], [2, 31], [3, 28], [4, 33], [5, 30]]
 	*/
 
-	let valueCan = document.createElement("canvas");
+	let valueCan = document.createElement("canvas") as HTMLCanvasElement;
 	let valueCon = valueCan.getContext('2d');
 	valueCan.width = value.width;
 	valueCan.height = value.height;
 	valueCon.putImageData(value, 0, 0);
-	var valueImg = new Image();
+	let valueImg = new Image();
 	valueImg.src = valueCan.toDataURL("image/png");
 	valueCon.drawImage(valueImg, 0, 0);
 	let pixels = valueCon.getImageData(0, 0, value.width, value.height);
 
-	let pixarr = []
-	let pixeldata = 0
+	let pixarr = [];
+	let pixeldata = 0;
 	for (let i = 0; i < 8; i++) {
-		let arr2 = []
+		let arr2 = [];
 		for (let j = 0; j < 32; j++) {
-			let vals = { r: pixels.data[pixeldata], g: pixels.data[pixeldata + 1], b: pixels.data[pixeldata + 2], a: pixels.data[pixeldata + 3] }
+			let vals = { r: pixels.data[pixeldata], g: pixels.data[pixeldata + 1], b: pixels.data[pixeldata + 2], a: pixels.data[pixeldata + 3] };
 			pixeldata += 4;
 			arr2.push(vals);
 		}
@@ -2536,9 +1336,6 @@ async function rerollCheck(value: ImageData, valueClear: boolean) {
 		tempReroll[0] = 5;
 	}
 
-	//console.log("tempReroll:", tempReroll)
-	//console.log("lastReroll:", lastReroll)
-
 	if (lastReroll[0] < tempReroll[0]) {
 		lastReroll[0] = tempReroll[0];
 		lastReroll[1] = tempReroll[1];
@@ -2548,7 +1345,1047 @@ async function rerollCheck(value: ImageData, valueClear: boolean) {
 		lastReroll[0] = tempReroll[0];
 		lastReroll[1] = tempReroll[1];
 	}
+}
 
+
+async function submitToLS(item: any[], quant: any[], value: any) {
+	//Add items to database
+	if (seeConsoleLogs) console.log("Adding to database...");
+	for (let i = 0; i < quant.length; i++) {
+		// If you get null or undefined here, check if one of your rewards doesn't exist in LocalStorage or LocalStorageInit
+		// Or maybe the name might be incorrectly written in, idk
+		// console.log("checking if in array", item[i]);
+		if (items[item[i]].tier.includes(currentTier()[0])) {
+			let tempQuant = quant[i].slice();
+			if (quant[i].includes('k')) {
+				tempQuant = tempQuant.slice(0, -1);
+				tempQuant += "000";
+			}
+
+			items[item[i]].quantity[currentTier()[0]] = parseInt(items[item[i]].quantity[currentTier()[0]]) + parseInt(tempQuant);
+			updateItems();
+		}
+		else {
+			return false;
+		}
+	}
+
+	// Increase value and count
+	localStorage.setItem(currentTier()[1], JSON.stringify((JSON.parse(localStorage.getItem(currentTier()[1])) + value)));
+	localStorage.setItem(currentTier()[2], JSON.stringify(JSON.parse(localStorage.getItem(currentTier()[2])) + 1));
+
+	return true;
+}
+
+
+async function addHistoryToLs(value: number, items: any, quants: any, tier: any) {
+	// The order of how History items are logged
+	// Index 1: Items (Array)
+	// Index 2: Quantities (Array)
+	// Index 3: Value
+	// Index 4: Tier info (Array)
+	// Index 5: Tier casket count
+	// Index 6: History Primary Key
+
+	for (let i = items.length - 1; i >= 0; i--) {
+		if (items[i] == "Blank") {
+			items.splice(i, 1);
+		}
+	}
+
+	for (let i = 0; i < quants.length; i++) {
+		if (quants[i].includes('k')) {
+			quants[i] = quants[i].slice(0, -1);
+			quants[i] += "000";
+		}
+	}
+	
+	let previous = [items, quants, value, tier, localStorage.getItem(tier[2]), localStorage.getItem("PrimaryKeyHistory")];
+	let temp = JSON.parse(localStorage.getItem("History"))
+	temp.push(previous);
+
+	localStorage.setItem("History", JSON.stringify(temp));
+	localStorage.setItem("PrimaryKeyHistory", JSON.stringify(parseInt(localStorage.getItem("PrimaryKeyHistory")) + 1));
+
+	await historyClear();
+	historyInit();
+}
+
+
+function lootDisplay() {
+	//Set Number of clues and Current and Average values
+	(document.getElementById("number_of_clues") as HTMLSpanElement).textContent = parseInt(JSON.parse(localStorage.getItem(currentTier()[2]))).toLocaleString("en-US");
+	(document.getElementById("value_of_clues") as HTMLSpanElement).textContent = parseInt(JSON.parse(localStorage.getItem(currentTier()[1]))).toLocaleString("en-US");
+	if (parseInt(JSON.parse(localStorage.getItem(currentTier()[2]))) != 0) {
+		(document.getElementById("average_of_clues") as HTMLSpanElement).textContent = Math.round(parseInt(JSON.parse(localStorage.getItem(currentTier()[1]))) / parseInt(JSON.parse(localStorage.getItem(currentTier()[2])))).toLocaleString("en-US");
+	}
+	else {
+		(document.getElementById("average_of_clues") as HTMLSpanElement).textContent = "0";
+	}
+
+	//Set the icons in the tabs
+	tabDisplay();
+}
+
+
+function tabDisplay() {
+	let keys = Object.keys(items);
+	let divs = document.getElementsByClassName("loot_display") as HTMLCollectionOf<HTMLDivElement>;
+	for (let i = 0; i < divs.length; i++) {
+		divs[i].textContent = "";
+	}
+	for (let i = 0; i < keys.length; i++) {
+		// Interesting tidbit: Comment out this if block to display every item, 
+		// but quantities will be undefined for the given tier if it doesn't exist in it.
+		if (items[keys[i]].quantity[currentTier()[0]] == undefined || items[keys[i]].quantity[currentTier()[0]] == 0) {
+			continue;
+		}
+
+		let ele = document.getElementById(items[keys[i]].tab + "_loot") as HTMLDivElement;
+		let nodevar = document.createElement("itembox");
+		let imgvar = document.createElement("img");
+		let quantvar = document.createElement("span");
+
+		nodevar = nodeMaker(parseInt(items[keys[i]].quantity[currentTier()[0]]), keys[i], "tab");
+		nodevar.style.order = orderChecker(parseInt(items[keys[i]].order), keys[i]).toString();
+		imgvar = imgMaker(keys[i]);
+		
+		// This if else only exists for when I comment out the above if block.
+		// Nice for viewing all of the loot.
+		if (items[keys[i]].quantity[currentTier()[0]] == undefined) {
+			quantvar = quantMaker(0);
+		}
+		else {
+			quantvar = quantMaker(items[keys[i]].quantity[currentTier()[0]]);
+		}
+
+		nodevar.append(quantvar);
+		nodevar.append(imgvar);
+		ele.append(nodevar);
+	}
+}
+
+
+async function historyClear() {
+	removeChildNodes(document.getElementById("history_body") as HTMLDivElement);
+}
+
+
+function rollbackFunc(valueClear: boolean) { // TODO: Edit this once you get the interface up and running... Consider sending in an index value...
+	let lsHistory = JSON.parse(localStorage.getItem("History"));
+	let lastRoll = lsHistory[lsHistory.length - 1];
+	//	Index 0 = Items
+	//	Index 1 = Quantities
+	//	Index 2 = Value of clue
+	// 	Index 3 = Tier of clue, value and count
+
+	if (seeConsoleLogs) console.log("Rolling back:", lastRoll[0], lastRoll[1], lastRoll[2], lastRoll[3]);
+	for (let i = 0; i < lastRoll[0].length; i++) {
+		items[lastRoll[0][i]].quantity[lastRoll[3][0]] = items[lastRoll[0][i]].quantity[lastRoll[3][0]] - lastRoll[1][i];
+		updateItems();
+	}
+
+	// Decrease value and count
+	localStorage.setItem(lastRoll[3][1], JSON.stringify(JSON.parse(localStorage.getItem(lastRoll[3][1])) - lastRoll[2]));
+	localStorage.setItem(lastRoll[3][2], JSON.stringify(JSON.parse(localStorage.getItem(lastRoll[3][2])) - 1));
+
+	lsHistory.pop();
+	localStorage.setItem("History", JSON.stringify(lsHistory));
+	
+	if (valueClear) {
+		lastValue = 0;
+	}
+}
+
+
+function historyInit() {
+	let lsHistory = JSON.parse(localStorage.getItem("History"))
+	
+	let title = document.getElementById("history_tier_caps") as HTMLDivElement;
+	title.textContent = currentTierUpper();
+
+	let quantity = document.getElementById("history_quantity") as HTMLDivElement;
+	quantity.textContent = localStorage.getItem("HistoryDisplayLimit");
+
+	if (lsHistory.length == 0) {
+		let ele = document.getElementById("history_body");
+		let container = document.createElement("div") as HTMLDivElement;
+		container.textContent = "There's nothing to display. Start scanning!"
+		container.setAttribute('class','nothingToDisplayContainer')
+		ele.append(container);
+	}
+	else {
+		let index = parseInt(localStorage.getItem(currentTier()[2]));
+		let limit = 0;
+		for (let i = lsHistory.length - 1; i >= 0 ; i--) { //Navigating lsHistory
+			if (limit <= parseInt(localStorage.getItem("HistoryDisplayLimit"))) {
+				let temp = lsHistory[i];
+				if (temp[3][0].replace(" [C] ","") === currentTier()[0]) {
+					let ele = document.getElementById("history_body") as HTMLDivElement;
+					let container = document.createElement("div") as HTMLDivElement;
+					container.setAttribute("class", "historyDisplayContainer");
+					container.setAttribute('id','container' + temp[5]);
+
+					if (temp[3][0].includes(" [C] ")) {
+						let customSpan = document.createElement("span") as HTMLSpanElement;
+						customSpan.setAttribute("class", "customSpan");
+						customSpan.setAttribute("title", "Custom clue manually inserted.");
+						customSpan.textContent = " [C] ";
+						let countText = currentTierUpper() + " Clue" + ": " + index;
+
+						let count = document.createElement("div") as HTMLDivElement;
+						count.innerHTML = countText;
+						count.setAttribute('class', 'historyCount');
+						count.append(customSpan);
+						container.append(count);
+					}
+					else {
+						let count = document.createElement("div") as HTMLDivElement;
+						count.textContent = (currentTierUpper()) + " Clue: " + index;
+						count.setAttribute('class', 'historyCount');
+						container.append(count);
+					}
+
+					let value = document.createElement("div") as HTMLDivElement;
+					value.textContent = "Reward Value: "+temp[2].toLocaleString("en-US");
+					value.setAttribute('class','historyValue');
+					container.append(value);
+
+					for (let j = 0; j < 9; j++) { // Navigating temp
+						let nodevar = document.createElement("itembox") as HTMLDivElement;
+						let imgvar = document.createElement("img") as HTMLImageElement;
+						let quantvar = document.createElement("span") as HTMLSpanElement;
+						
+						if (temp[1][j] !== undefined) {
+							imgvar = imgMaker(temp[0][j]);
+							nodevar = nodeMaker(parseInt(temp[1][j]), temp[0][j], "history");
+							quantvar = quantMaker(temp[1][j]);
+						}
+						else {
+							imgvar = imgMaker("Transparent");
+							nodevar.setAttribute("class", "node_history");
+							nodevar.removeAttribute("title");
+							quantvar.textContent = "";
+						}
+
+						nodevar.append(imgvar);
+						nodevar.append(quantvar);
+						container.append(nodevar);
+					}
+				
+					let buttonbox = document.createElement("div") as HTMLDivElement;
+					let button = document.createElement("div") as HTMLDivElement;
+					buttonbox.setAttribute('class','buttonboxHistory');
+					buttonbox.setAttribute('id','container'+temp[5]+'buttonbox');
+					button.setAttribute('class','nisbutton historyButtonStyle');
+					button.setAttribute('id','container'+temp[5]+'button');
+					button.setAttribute('onClick','TEST.rollbackVeri("container'+temp[5]+'button")');
+					button.textContent = "Delete";
+
+					buttonbox.append(button);
+					container.append(buttonbox);
+					ele.append(container);
+					index--;
+					limit++;
+				}
+			}
+			else {
+				break;
+			}
+		}
+
+		if (index == parseInt(localStorage.getItem(currentTier()[2]))) {
+			let ele = document.getElementById("history_body") as HTMLDivElement;
+			let container = document.createElement("div") as HTMLDivElement;
+			container.textContent = "There's nothing to display. Start scanning!";
+			container.setAttribute('class','nothingToDisplayContainer');
+			ele.append(container);
+		}
+	}
+}
+
+
+export function rollbackVeri(id: any) {
+	let buttonbox = document.getElementById(id+"box") as HTMLDivElement;
+	let button = document.getElementById(id) as HTMLDivElement;
+	buttonbox.removeChild(button);
+
+	let buttonYes = document.createElement("div") as HTMLDivElement;
+	let buttonNo = document.createElement("div") as HTMLDivElement;
+
+	buttonbox.setAttribute('class','buttonBoxHistoryVerify');
+
+	buttonYes.setAttribute('class','nisbutton buttonVerif');
+	buttonYes.setAttribute('onclick','TEST.rollbackYes("'+id+'")');
+	buttonYes.textContent = "Yes";
+
+	buttonNo.setAttribute('class','nisbuttonblue buttonVerif');
+	buttonNo.setAttribute('onclick','TEST.rollbackNo("'+id+'")');
+	buttonNo.textContent = "No";
+
+	buttonbox.append(buttonYes, buttonNo);
+}
+
+
+export function rollbackYes(id: any) {
+	if (window.alt1) {
+		alt1.overLayClearGroup("overlays");
+		alt1.overLaySetGroup("overlays");
+		alt1.overLayTextEx("Rolling back reward...", a1lib.mixColor(255, 144, 0), 20, Math.round(alt1.rsWidth / 2), 200, 2000, "", true, true);
+	}
+	if (seeConsoleLogs) console.log("Rolling back reward from history...");
+
+	let container = document.getElementById(id.replace('button', '')) as HTMLDivElement;
+	container.remove();
+
+	let pKey = parseInt(id.replace('container','').replace('button',''));
+
+	let lsHistory = JSON.parse(localStorage.getItem("History"));
+	let temp = [];
+	for (let i = 0; i < lsHistory.length; i++) {
+		if (lsHistory[i][5] == pKey) {
+			temp = lsHistory[i];
+			lsHistory.splice(i, 1);
+			localStorage.setItem("History",JSON.stringify(lsHistory));
+			break;
+		}
+	}
+	
+	for (let i = 0; i < temp[0].length; i++) {
+		items[temp[0][i]].quantity[temp[3][0].replace(" [C] ","")] = items[temp[0][i]].quantity[temp[3][0].replace(" [C] ","")] - parseInt(temp[1][i]);
+		updateItems();
+	}
+
+	// Decrease value and count
+	localStorage.setItem(temp[3][1], JSON.stringify(JSON.parse(localStorage.getItem(temp[3][1])) - temp[2]));
+	localStorage.setItem(temp[3][2], JSON.stringify(JSON.parse(localStorage.getItem(temp[3][2])) - 1));
+
+	if (seeConsoleLogs) console.log("Removed",temp,":",pKey,"from LS");
+	if (pKey == ((parseInt(localStorage.getItem("PrimaryKeyHistory"))) - 1)) {
+		(document.getElementById("rewards_value") as HTMLDivElement).textContent = "0";
+		for (let i = 0; i < 9; i++) {
+			(document.getElementById(rewardSlots[i]) as HTMLDivElement).textContent = "";
+		}
+	}
+
+	let historyCount = document.getElementsByClassName('historyCount') as HTMLCollectionOf<HTMLDivElement>;
+	let index = parseInt(localStorage.getItem(currentTier()[2]));
+	for (let i = 0; i < parseInt(localStorage.getItem(currentTier()[2])); i++) {
+		if (i >= parseInt(localStorage.getItem("RollbackDisplayLimit"))) {
+			break;
+		}
+		if (historyCount[i] == undefined) {
+			continue;
+		}
+		historyCount[i].textContent = (currentTierUpper()) + " Clue: " + index;
+		index--;
+	}
+
+	historyClear();
+	historyInit();
+	lootDisplay();
+
+	if (window.alt1) {
+		alt1.overLayClearGroup("overlays");
+		alt1.overLaySetGroup("overlays");
+		alt1.overLayTextEx("Previous rewards rolled back successfully!", a1lib.mixColor(100, 255, 100), 20, Math.round(alt1.rsWidth / 2), 200, 2000, "", true, true);
+	}
+}
+
+
+export function rollbackNo(id: any) {
+	let buttonbox = document.getElementById(id+"box") as HTMLDivElement;
+	removeChildNodes(buttonbox);
+	buttonbox.setAttribute('class','buttonboxHistory');
+	
+	let button = document.createElement("div") as HTMLDivElement;
+	button.setAttribute('class','nisbutton historyButtonStyle');
+	button.setAttribute('id', id);
+	button.setAttribute('onClick','TEST.rollbackVeri("'+id+'")');
+	button.textContent = "Delete";
+
+	buttonbox.append(button);
+}
+
+
+export function insertInitEx() {
+	insertInit();
+}
+
+
+async function insertInit() {
+	let title = document.getElementById("insert_tier_caps") as HTMLDivElement;
+	title.textContent = currentTierUpper();
+	title = document.getElementById("insert_tier_title_caps") as HTMLDivElement;
+	title.textContent = currentTierUpper();
+
+	let keys = Object.keys(items);
+	let list = [["Blank", "~Nothing~", 0]];
+	for (let i = 0; i < keys.length; i++) {
+		if (items[keys[i]].tier.includes(currentTier()[0])) {
+			list.push([keys[i], keys[i], items[keys[i]].order]);
+		}
+	}
+
+	list.sort(function (a: any, b: any) { // https://stackoverflow.com/a/16097058
+		if (a[2] === b[2]) return 0;
+		else return (a[2] < b[2]) ? -1 : 1;
+	});
+
+	let itemBoxes = document.getElementsByClassName("items") as HTMLCollectionOf<HTMLSelectElement>;
+	let quantBoxes = document.getElementsByClassName("item_quants") as HTMLCollectionOf<HTMLInputElement>;
+	let valueBox = document.getElementById("value_input") as HTMLInputElement;
+	valueBox.value = "0";
+
+	for (let i = 0; i < itemBoxes.length; i++) {
+		removeChildNodes(itemBoxes[i]) ;
+		quantBoxes[i].value = "0";
+
+		for (let j = 0; j < list.length; j++) {
+			let option = document.createElement('option') as HTMLOptionElement;
+			option.value = list[j][0].toString();
+			option.textContent = list[j][1].toString();
+			option.setAttribute('class', "insert_options");
+			itemBoxes[i].append(option);
+		}
+	}
+}
+
+
+export async function fetchFromGE() {
+	if (window.alt1) {
+		alt1.overLayClearGroup("overlays");
+		alt1.overLaySetGroup("overlays");
+		alt1.overLayTextEx("Fetching prices from GE...",a1lib.mixColor(255, 144, 0), 20, Math.round(alt1.rsWidth / 2), 200, 40000, "", true, true);
+	}
+
+	let items = []
+	let quants = []
+	let itemDivs = document.getElementsByClassName("items") as HTMLCollectionOf<HTMLSelectElement>
+	let quantDivs = document.getElementsByClassName("item_quants") as HTMLCollectionOf<HTMLInputElement>
+
+	for (let i = 0; i < itemDivs.length; i++) {
+		if (itemDivs[i].options[itemDivs[i].selectedIndex].value == "Blank") {
+			continue;
+		}
+		if (["Saradomin page", "Guthix page", "Zamorak page", "Armadyl page", "Bandos page", "Ancient page"].includes(itemDivs[i].options[itemDivs[i].selectedIndex].value)) {	
+			items.push((itemDivs[i].options[itemDivs[i].selectedIndex].value) + " 1");
+		}
+		else if (["Dragon platelegs-skirt ornament kit (or)", "Dragon platelegs-skirt ornament kit (sp)"].includes(itemDivs[i].options[itemDivs[i].selectedIndex].value)) {
+			items.push((itemDivs[i].options[itemDivs[i].selectedIndex].value).replace("-","/"));
+		}
+		else {
+			items.push((itemDivs[i].options[itemDivs[i].selectedIndex].value));
+		}
+		quants.push(parseInt(quantDivs[i].value));
+	}
+	if (seeConsoleLogs) console.log("Fetched items from GE are", items, "quants are", quants);
+
+	if (items.length == 0) {
+		if (window.alt1) {
+			alt1.overLayClearGroup("overlays");
+			alt1.overLaySetGroup("overlays");
+			alt1.overLayTextEx("Nothing selected to fetch.\nTry selecting some items.",
+				a1lib.mixColor(255, 144, 0), 20, Math.round(alt1.rsWidth / 2), 200, 4000, "", true, true);
+		}
+		if (seeConsoleLogs) console.log("No items...");
+		return;
+	}
+
+	let prices = [];
+	for (let i = 0; i < items.length; i++) {
+		try {
+			await fetch("https://api.weirdgloop.org/exchange/history/rs/latest?name=" + items[i].replace("+","%2B").replace("+","%2B"))
+  				.then(function(response) {
+  				  return response.json();
+  				})
+  				.then(function(data) {
+  				  prices.push(data[items[i]].price);
+  				});
+		} catch (e) {
+			if (seeConsoleLogs) console.log("It failed... setting to 0...", items[i], items[i].replace("+","%2B").replace("+","%2B"));
+			prices.push(0);
+    	}
+	}
+
+	let grandTotal = 0;
+	for (let i = 0; i < items.length; i++) {
+		if (items[i] == "Coins") {
+			grandTotal += quants[i];
+		}
+		else {
+			grandTotal += (quants[i] * prices[i]);
+		}
+	}
+	let ele = document.getElementById("value_input") as HTMLInputElement;
+	ele.value = grandTotal + "";
+
+	if (window.alt1) {
+		alt1.overLayClearGroup("overlays");
+		alt1.overLaySetGroup("overlays");
+		alt1.overLayTextEx("Prices fetched successfully!",
+			a1lib.mixColor(100, 255, 100), 20, Math.round(alt1.rsWidth / 2), 200, 4000, "", true, true);
+	}
+}
+
+
+export function verifyInsert(event: Event) {
+	if (seeConsoleLogs) console.log("Collecting info from insert...");
+	let items = [];
+	let quants = [];
+	let totalPrice = parseInt((document.getElementById("value_input") as HTMLInputElement).value);
+	let itemDivs = document.getElementsByClassName("items") as HTMLCollectionOf<HTMLSelectElement>;
+	let quantDivs = document.getElementsByClassName("item_quants") as HTMLCollectionOf<HTMLInputElement>;
+
+	removeChildNodes(document.getElementById("value_input") as HTMLDivElement);
+
+	for (let i = 0; i < itemDivs.length; i++) {
+		if (itemDivs[i].options[itemDivs[i].selectedIndex].value == "Blank") {
+			continue;
+		}
+		items.push(itemDivs[i].options[itemDivs[i].selectedIndex].value);
+		quants.push(parseInt(quantDivs[i].value));
+	}
+	if (seeConsoleLogs) console.log("items verifying are", items, "quants are", quants);
+
+	if (items.length == 0) {   
+		if (window.alt1) {
+			alt1.overLayClearGroup("overlays");
+			alt1.overLaySetGroup("overlays");
+			alt1.overLayTextEx("Nothing selected to insert.\n\u200a\u200aTry selecting some items.",
+				a1lib.mixColor(255, 144, 0), 20, Math.round(alt1.rsWidth / 2), 200, 4000, "", true, true);
+		}
+		if (seeConsoleLogs) console.log("No items...");
+		event.stopPropagation();
+		return;
+	}
+
+	let curr = (parseInt(localStorage.getItem(currentTier()[2])) + 1).toString();
+	let ele = document.getElementById("insertVerif_body") as HTMLDivElement;
+	let container = document.createElement("div") as HTMLDivElement;
+	container.setAttribute("class", 'historyDisplayContainer');
+	container.setAttribute('id','container' + curr);
+
+	let customSpan = document.createElement("span") as HTMLSpanElement;
+	customSpan.setAttribute("class", "customSpan");
+	customSpan.setAttribute("title", "Custom clue manually inserted.");
+	customSpan.textContent = " [C] ";
+
+	let countText = currentTierUpper() + " Clue" + ": " + curr;
+	let count = document.createElement("div") as HTMLDivElement;
+	count.innerHTML = countText;
+	count.setAttribute('class','historyCount');
+	count.append(customSpan);
+	container.append(count);
+
+	let value = document.createElement("div") as HTMLDivElement;
+	value.textContent = "Reward Value: " + totalPrice.toLocaleString("en-US");
+	value.setAttribute('class','historyValue');
+	container.append(value);
+
+	for (let j = 0; j < 9; j++) { // Navigating temp
+		let nodevar = document.createElement("itembox") as HTMLDivElement;
+		let imgvar = document.createElement("img") as HTMLImageElement;
+		let quantvar = document.createElement("span") as HTMLSpanElement;
+
+		if (quants[j] !== undefined) {
+			imgvar = imgMaker(items[j]);
+			nodevar = nodeMaker(parseInt(quants[j]), items[j], "history");
+			quantvar = quantMaker(quants[j]);
+		}
+		else {
+			imgvar = imgMaker("Transparent");
+			nodevar.setAttribute("class", "node_history");
+			nodevar.removeAttribute("title");;
+			quantvar.textContent = "";
+		}
+
+		nodevar.append(imgvar);
+		nodevar.append(quantvar);
+		container.append(nodevar);
+	}
+	
+	let buttonbox = document.createElement("div") as HTMLDivElement;
+	let button = document.createElement("div") as HTMLDivElement;
+	buttonbox.setAttribute('class','buttonboxHistory');
+	buttonbox.setAttribute('id','container'+ curr +'buttonbox');
+	button.setAttribute('class','nisbutton historyButtonStyle');
+	button.setAttribute('id','container'+ curr +'button');
+	button.textContent = "Sample";
+
+	let customTier = currentTier();
+	customTier[0] += " [C] ";
+	insertVerif = [items, quants, totalPrice, customTier];
+
+	buttonbox.append(button);
+	container.append(buttonbox);
+	ele.append(container);
+
+	if (seeConsoleLogs) console.log("Insert collected");
+}
+
+
+export function insertToDB() {
+	if (window.alt1) {
+		alt1.overLayClearGroup("overlays");
+		alt1.overLaySetGroup("overlays");
+		alt1.overLayTextEx("Submitting custom clue to Database...",
+			a1lib.mixColor(255, 144, 0), 20, Math.round(alt1.rsWidth / 2), 200, 40000, "", true, true);
+	}
+	
+	let items = insertVerif[0];
+	let quants = [];
+	for (let i = 0; i < insertVerif[1].length; i++) {
+		quants.push(insertVerif[1][i].toString());
+	}
+	let value = insertVerif[2];
+	let tier = insertVerif[3];
+	
+	insertInit();
+	submitToLS(items, quants, parseInt(value));
+	addHistoryToLs(parseInt(value), items, quants, tier);
+	lootDisplay();
+
+	if (window.alt1) {
+		alt1.overLayClearGroup("overlays");
+		alt1.overLaySetGroup("overlays");
+		alt1.overLayTextEx("Custom " + currentTier()[0] + " clue submitted successfully!",
+			a1lib.mixColor(100, 255, 100), 20, Math.round(alt1.rsWidth / 2), 200, 4000, "", true, true);
+	}
+}
+
+
+export function settingsInit() {
+	if (seeConsoleLogs) console.log("Initializing settings...");
+
+	if (seeConsoleLogs) console.log("Setting previously set radio button for Algorithm: " + localStorage.getItem("Algorithm") + "...");
+	let temp = localStorage.getItem("Algorithm");
+	let ele = document.getElementById(temp) as HTMLInputElement;
+	ele.checked = true;
+
+	if (seeConsoleLogs) console.log("Setting previously set radio button for ItemList: " + localStorage.getItem("ItemList") + "...");
+	temp = localStorage.getItem("ItemList");
+	ele = document.getElementById(temp) as HTMLInputElement;
+	ele.checked = true;
+
+	if (seeConsoleLogs) console.log("Setting previously set radio button for rerollToggle: " + localStorage.getItem("rerollToggle") + "...");
+	if (localStorage.getItem("rerollToggle") == "true") {
+		ele = document.getElementById("rerollon") as HTMLInputElement;
+		ele.checked = true;
+	}
+	else if (localStorage.getItem("rerollToggle") == "false") {
+		ele = document.getElementById("rerolloff") as HTMLInputElement;
+		ele.checked = true;
+	}
+
+	if (seeConsoleLogs) console.log("Setting previously set radio button for lagDetect: " + localStorage.getItem("lagDetect") + "...");
+	if (localStorage.getItem("lagDetect") == "true") {
+		ele = document.getElementById("lagon") as HTMLInputElement;
+		ele.checked = true;
+	}
+	else if (localStorage.getItem("lagDetect") == "false") {
+		ele = document.getElementById("lagoff") as HTMLInputElement;
+		ele.checked = true;
+	}
+
+	if (seeConsoleLogs) console.log("Setting previously set radio button for MultiButtonPressDetect: " + localStorage.getItem("multiButtonPressDetect") + "...");
+	if (localStorage.getItem("multiButtonPressDetect") == "true") {
+		ele = document.getElementById("multion") as HTMLInputElement;
+		ele.checked = true;
+	}
+	else if (localStorage.getItem("multiButtonPressDetect") == "false") {
+		ele = document.getElementById("multioff") as HTMLInputElement;
+		ele.checked = true;
+	}
+
+	if (seeConsoleLogs) console.log("Setting previously set radio button for noMenu: " + localStorage.getItem("noMenu") + "...");
+	if (localStorage.getItem("noMenu") == "true") {
+		ele = document.getElementById("menuon") as HTMLInputElement;
+		ele.checked = true;
+	}
+	else if (localStorage.getItem("noMenu") == "false") {
+		ele = document.getElementById("menuoff") as HTMLInputElement;
+		ele.checked = true;
+	}
+	
+	if (seeConsoleLogs) console.log("Setting previously set radio button for hybridPrecision: " + localStorage.getItem("hybridPrecision") + "...");
+	ele = document.getElementById("hybrid_precision") as HTMLInputElement;
+	ele.value = localStorage.getItem("hybridPrecision");
+	
+	if (seeConsoleLogs) console.log("Setting previously set radio button for HistoryDisplayLimit: " + localStorage.getItem("HistoryDisplayLimit") + "...");
+	ele = document.getElementById("history_display_limit") as HTMLInputElement;
+	ele.value = localStorage.getItem("HistoryDisplayLimit");
+
+	if (seeConsoleLogs) console.log("Settings initialized!");
+}
+
+
+export async function saveSettings(alg: string, list: string, reroll: string, lag: string, multi: string, menu: string, precision: string, limit: string) {
+	buttonDisabler();
+	if (seeConsoleLogs) console.log("Saving settings...");
+	if (window.alt1) {
+		alt1.overLayClearGroup("overlays");
+		alt1.overLaySetGroup("overlays");
+		alt1.overLayTextEx("Saving settings...", a1lib.mixColor(255, 144, 0), 20, Math.round(alt1.rsWidth / 2), 200, 50000, "", true, true);
+	}
+	localStorage.setItem("Algorithm", alg);
+	localStorage.setItem("ItemList", list);
+	localStorage.setItem("rerollToggle", reroll);
+	localStorage.setItem("lagDetect", lag);
+	localStorage.setItem("hybridPrecision", precision);
+	localStorage.setItem("HistoryDisplayLimit", limit);
+
+	if (localStorage.getItem("multiButtonPressDetect") !== multi) {
+		localStorage.setItem("multiButtonPressDetect", multi);
+		if (seeConsoleLogs) console.log("Adjusting saved values")
+		if (multi === "true") {
+			if (localStorage.getItem("autoCapture") === "true") {
+				(document.getElementById("docapturebutton") as HTMLDivElement).setAttribute("onclick", "");
+				(document.getElementById("docapturebutton") as HTMLDivElement).setAttribute("title", "Disable autocapture to use this button");
+				(document.getElementById("docapturebuttonwords") as HTMLDivElement).style.setProperty("text-decoration", "line-through");
+			}
+		}
+		else if (multi === "false") {
+			if (localStorage.getItem("autoCapture") === "true") {
+				(document.getElementById("docapturebutton") as HTMLDivElement).setAttribute("onclick", "TEST.capture(false)");
+				(document.getElementById("docapturebutton") as HTMLDivElement).setAttribute("title", "");
+				(document.getElementById("docapturebuttonwords") as HTMLDivElement).style.removeProperty("text-decoration");
+			}
+			else {
+				(document.getElementById("docapturebutton") as HTMLDivElement).setAttribute("onclick", "TEST.capture(false)");
+				(document.getElementById("docapturebutton") as HTMLDivElement).setAttribute("title", "");
+				(document.getElementById("docapturebuttonwords") as HTMLDivElement).style.removeProperty("text-decoration");
+			}
+		}
+	}
+
+	if (localStorage.getItem("noMenu") !== menu) {
+		localStorage.setItem("noMenu", menu);
+		noMenuCheck();
+	}
+
+	historyClear();
+	historyInit();
+	settingsInit();
+	await arraySetup();
+	buttonEnabler()
+	
+	if (window.alt1) {
+		alt1.overLayClearGroup("overlays"); 
+		alt1.overLaySetGroup("overlays");
+		alt1.overLayTextEx("Settings saved!", a1lib.mixColor(100, 255, 100), 20, Math.round(alt1.rsWidth / 2), 200, 2000, "", true, true);
+	}
+	if (seeConsoleLogs) console.log("Settings saved!");
+}
+
+
+export function autoDisableCheckAuto(event: Event) {
+	if ((document.getElementById("toggleunlocktrack") as HTMLDivElement).classList.contains("enabled")) {
+		toggleCapture(event);
+	}
+}
+
+
+export function toggleCapture(event: Event) {
+	if ((document.getElementById("toggleunlocktrack") as HTMLDivElement).classList.contains("enabled")) {
+		(document.getElementById("toggleunlocktrack") as HTMLDivElement).classList.remove("enabled");
+		localStorage.setItem("autoCapture", "false");
+		if (window.alt1) {
+			alt1.overLayClearGroup("overlays");
+			alt1.overLaySetGroup("overlays");
+			alt1.overLayTextEx("Autocapture disabled!", a1lib.mixColor(100, 255, 100), 20, Math.round(alt1.rsWidth / 2), 200, 2000, "", true, true);
+		}
+	}
+	else {
+		(document.getElementById("toggleunlocktrack") as HTMLDivElement).classList.add("enabled");
+		localStorage.setItem("autoCapture", "true");
+		if (window.alt1) {
+			alt1.overLayClearGroup("overlays");
+			alt1.overLaySetGroup("overlays");
+			alt1.overLayTextEx("Autocapture enabled!", a1lib.mixColor(100, 255, 100), 20, Math.round(alt1.rsWidth / 2), 200, 2000, "", true, true);
+		}
+	}
+	autoCheck();
+
+	if (event != undefined) {
+		event.stopPropagation();
+	}
+}
+
+
+function autoCheck() {
+	if (localStorage.getItem("autoCapture") === "true") {
+		if (localStorage.getItem("multiButtonPressDetect") === "true") {
+			(document.getElementById("docapturebutton") as HTMLDivElement).setAttribute("onclick", "");
+			(document.getElementById("docapturebutton") as HTMLDivElement).setAttribute("title", "Disable autocapture to use this button");
+			(document.getElementById("docapturebuttonwords") as HTMLDivElement).style.setProperty("text-decoration", "line-through");
+		}
+		autoCaptureInterval = window.setInterval(async function () {
+			let promises = [];
+			promises.push(await autoCallCapture());
+			await Promise.all(promises);
+		}, 1000);
+	}
+	else {
+		if (localStorage.getItem("multiButtonPressDetect") === "true") {
+			(document.getElementById("docapturebutton") as HTMLDivElement).setAttribute("onclick", "TEST.capture(false)");
+			(document.getElementById("docapturebutton") as HTMLDivElement).setAttribute("title", "");
+			(document.getElementById("docapturebuttonwords") as HTMLDivElement).style.removeProperty("text-decoration");
+		}
+		window.clearInterval(autoCaptureInterval);
+		autoCaptureInterval = null;
+	}
+}
+
+
+function autoCallCapture() {
+	capture(true);
+}
+
+
+function noMenuCheck() {
+	if (localStorage.getItem("noMenu") === "true") {
+		noMenuInterval = window.setInterval(async function () {
+			let img = a1lib.captureHoldFullRs();
+			let loc = img.findSubimage(imgs.trailComplete);
+
+			let rewardreader = new ClueRewardReader();
+			rewardreader.pos = ModalUIReader.find()[0];
+			let value = rewardreader.read(img).value;
+			let length = value.toString().length
+			let comma = Math.floor(length / 3)
+			if (seeConsoleLogs) console.log("Highlighting value...")
+			
+			if (window.alt1) {
+				alt1.overLayClearGroup("nomenu");
+				alt1.overLaySetGroup("nomenu");
+				alt1.overLayRect(a1lib.mixColor(255, 50, 50), loc[0].x + 246 - (5 * length) + (1 * comma), loc[0].y + 94, 0 + (8 * length) + (4 * comma), await imgs.trailComplete.height + 6, 60000, 2);
+				alt1.overLayTextEx("NO MENUS HERE", a1lib.mixColor(255, 50, 50), 10, loc[0].x + 245, loc[0].y + 118, 50000, "", true, true);
+			}
+			
+		}, 1000);
+	}
+	else {
+		if (window.alt1) {
+			alt1.overLayClearGroup("nomenu");
+		}
+		window.clearInterval(noMenuInterval);
+		noMenuInterval = null;
+	}
+}
+
+
+export function exporttocsv() {
+	if (window.alt1) {
+		alt1.overLayClearGroup("overlays");
+		alt1.overLaySetGroup("overlays");
+		alt1.overLayTextEx("Generating CSV...", a1lib.mixColor(255, 144, 0), 20, Math.round(alt1.rsWidth / 2), 200, 2000, "", true, true);
+	}
+
+	let csvinfo = [];
+	csvinfo.push(["Item", "Easy", "Medium", "Hard", "Elite", "Master"]);
+	
+	let lsHistory = JSON.parse(localStorage.getItem("History"))
+	let keys = Object.keys(items);
+	let currOrder = 1;
+	if (seeConsoleLogs) console.log("Generating CSV...");
+	if (seeConsoleLogs) console.log("Getting values and counts...");
+
+	let eCount = localStorage.getItem("ECount")
+	let eValue = localStorage.getItem("EValue")
+	let mCount = localStorage.getItem("MCount")
+	let mValue = localStorage.getItem("MValue")
+	let hCount = localStorage.getItem("HCount")
+	let hValue = localStorage.getItem("HValue")
+	let elCount = localStorage.getItem("ElCount")
+	let elValue = localStorage.getItem("ElValue")
+	let maCount = localStorage.getItem("MaCount")
+	let maValue = localStorage.getItem("MaValue")
+	csvinfo.push(["Total Count", eCount, mCount, hCount, elCount, maCount]);
+	csvinfo.push(["Total Value", eValue, mValue, hValue, elValue, maValue]);
+
+	if (seeConsoleLogs) console.log("Getting item quantities...")
+	for (let i = 0; i < keys.length; i++) {
+		for (let j = 0; j < keys.length; j++) {
+			if (items[keys[j]].order == currOrder.toString()) {
+				let val = items[keys[j]];
+				let one = val.quantity.easy;
+				let two = val.quantity.medium;
+				let three = val.quantity.hard;
+				let four = val.quantity.elite;
+				let five = val.quantity.master;
+				if (one == undefined || one == "0") { // .toLocaleString("en-US")
+					one = "";
+				} 
+				else { 
+					one = one.toLocaleString("en-US")
+				}
+				if (two == undefined || two == "0") {
+					two = "";
+				} 
+				else { 
+					two = two.toLocaleString("en-US")
+				}
+				if (three == undefined || three == "0") {
+					three = "";
+				} 
+				else { 
+					three = three.toLocaleString("en-US")
+				}
+				if (four == undefined || four == "0") {
+					four = "";
+				} else { 
+					four = four.toLocaleString("en-US")
+				}
+				if (five == undefined || five == "0") {
+					five = "";
+				} 
+				else { 
+					five = five.toLocaleString("en-US")
+				}
+				csvinfo.push([keys[j], one, two, three, four, five]);
+				currOrder++;
+				break;
+			}
+		}
+	}
+	csvinfo.push([])
+	csvinfo.push([])
+	csvinfo.push(["Captured Clue History", 'Parse tier at " : " and " [C] "','Parse items at " x "'])
+	csvinfo.push(["Clue Tier & Count", "Clue Value", "Item 1", "Item 2", "Item 3", "Item 4", "Item 5", "Item 6", "Item 7", "Item 8", "Item 9"])
+
+	if (seeConsoleLogs) console.log("Setting history in csv...")
+	for (let i = 0; i < lsHistory.length; i++) {
+		let temp = [lsHistory[i][3][0] + " : " + lsHistory[i][4], lsHistory[i][2]]
+		for (let j = 0; j < 9; j++) {
+			if (lsHistory[i][0][j] != undefined) {
+				temp.push(lsHistory[i][1][j] + " x " + lsHistory[i][0][j])
+			}
+			else {
+				temp.push("")
+			}
+		}
+		csvinfo.push(temp)
+	}
+
+	const d = new Date();
+	let csvContent = "";
+	csvinfo.forEach(function (i) {
+		let row = i.join(",");
+		csvContent += row + "\r\n";
+	});
+
+	let filename = "OpenLogger CSV " + d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate() + "_" + d.getHours() + "-" + d.getMinutes() + "-" +d.getSeconds()+ ".csv";
+	let encodedUri = "data:text/csv;charset=utf-8,%EF%BB%BF" + encodeURI(csvContent);
+	let link = document.createElement("a") as HTMLAnchorElement;
+	link.setAttribute("href", encodedUri);
+	link.setAttribute("download", filename);
+	document.body.appendChild(link); // Required for FF
+	link.click();
+	if (window.alt1) {
+		alt1.overLayClearGroup("overlays");
+		alt1.overLaySetGroup("overlays");
+		alt1.overLayTextEx("CSV Generated!", a1lib.mixColor(100, 255, 100), 20, Math.round(alt1.rsWidth / 2), 200, 2000, "", true, true);
+	}
+}
+
+
+function nodeMaker(quant: number, item: string, attribute:string) {
+	let nodevar = document.createElement("itembox") as HTMLDivElement
+	if (attribute === "tab") {
+		nodevar.setAttribute("class", "node_tab")
+		nodevar.setAttribute('style', 'order: ' + orderChecker(parseInt(items[item].order), item) + ';');
+	}
+	else if (attribute === "history") {
+		nodevar.setAttribute("class", "node_history")
+	}
+	else if (attribute === "recent") {
+		nodevar.setAttribute("class", "node_recent")
+	}
+	nodevar.setAttribute('title', quant.toLocaleString("en-US") + " x " + item)
+	return nodevar
+
+}
+
+
+function imgMaker(item: string) {
+	let imgvar = document.createElement("img") as HTMLImageElement;
+	imgvar.src = encodeURI("./images/items/" + item + ".png");
+	imgvar.setAttribute('style', 'margin:auto;');
+	imgvar.ondragstart = function() { return false; };
+	return imgvar
+}
+
+
+function quantMaker(quant: number) {
+	let quantvar = document.createElement("span") as HTMLSpanElement
+
+	if (quant > 9999999 || quant < -9999999) {
+		quantvar.setAttribute('class', 'quant_green_text');
+		quantvar.textContent = Math.trunc(quant / 1000000).toString() + "M";
+	}
+	else if (quant > 99999 || quant > 9999 || quant < -9999 || quant < -99999) {
+		quantvar.setAttribute('class', 'quant_white_text');
+		quantvar.textContent = Math.trunc(quant / 1000).toString() + "k";
+	}
+	else {
+		quantvar.setAttribute('class', 'quant_yellow_text');
+		quantvar.textContent = quant + "";
+	}
+	return quantvar
+}
+
+
+function currentTier() {
+	let currButton = "";
+	for (let i = 0; i < tierlist.length; i++) {
+		if ((document.getElementById(tierlist[i]) as HTMLInputElement).checked) {
+			currButton = tierlist[i];
+			if (currButton == 'easy') {
+				return [currButton, "EValue", "ECount"];
+			}
+			else if (currButton == 'medium') {
+				return [currButton, "MValue", "MCount"];
+			}
+			else if (currButton == 'hard') {
+				return [currButton, "HValue", "HCount"];
+			}
+			else if (currButton == 'elite') {
+				return [currButton, "ElValue", "ElCount"];
+			}
+			else if (currButton == 'master') {
+				return [currButton, "MaValue", "MaCount"];
+			}
+		}
+	}
+}
+
+
+function currentTierUpper() {
+	return (currentTier()[0][0].toUpperCase() + currentTier()[0].slice(1).toLowerCase())
+}
+
+
+function removeChildNodes(div: any) { // https://stackoverflow.com/a/40606838
+	while (div.firstChild) {
+        div.firstChild.remove();
+    }
+}
+
+
+function _base64ToImageData(buffer: string, width: any, height: any) { // https://stackoverflow.com/questions/68495924
+    return new Promise(resolve => {
+  	  	let image = new Image();
+  	  	image.addEventListener('load', function (e) {
+  	  	  	let canvasElement = document.createElement('canvas') as HTMLCanvasElement;
+  	  	  	canvasElement.width = width;
+  	  	  	canvasElement.height = height;
+  	  	  	let context = canvasElement.getContext('2d');
+  	  	  	context.drawImage(e.target as HTMLVideoElement, 0, 0, width, height);
+  	  	  	resolve(context.getImageData(0, 0, width, height));
+  	  	});
+  	  	image.src = buffer;
+  	});
 }
 
 
@@ -2556,7 +2393,6 @@ export function toggleLootDisplay(id: string) {
 	let lootdisplay = Array.from(document.getElementsByClassName('loot_display') as HTMLCollectionOf<HTMLElement>);
 	let tab = document.getElementById(id) as HTMLInputElement;
 
-	// FIXME: Figure out why General, Common, and Rare don't switch to "show rewards" text.
 	if (id == "broadcasts_rewards") {
 		lootdisplay[0].style.display = (lootdisplay[0].style.display == 'flex') ? 'none' : 'flex';
 		tab.style.textDecoration = (lootdisplay[0].style.display == 'flex') ? 'none' : 'line-through';
@@ -2566,22 +2402,22 @@ export function toggleLootDisplay(id: string) {
 	else if (id == "general_rewards") {
 		lootdisplay[1].style.display = (lootdisplay[1].style.display == 'flex') ? 'none' : 'flex';
 		tab.style.textDecoration = (lootdisplay[1].style.display == 'flex') ? 'none' : 'line-through';
-		tab.title = (lootdisplay[0].style.display == 'flex') ? 'Click here to hide general rewards' : 'Click here to show general rewards';
+		tab.title = (lootdisplay[1].style.display == 'flex') ? 'Click here to hide general rewards' : 'Click here to show general rewards';
 		opentabs[1] = (lootdisplay[1].style.display == 'flex') ? true : false;
 	}
 	else if (id == "common_rewards") {
 		lootdisplay[2].style.display = (lootdisplay[2].style.display == 'flex') ? 'none' : 'flex';
 		tab.style.textDecoration = (lootdisplay[2].style.display == 'flex') ? 'none' : 'line-through';
-		tab.title = (lootdisplay[0].style.display == 'flex') ? 'Click here to hide common rewards' : 'Click here to show common rewards';
+		tab.title = (lootdisplay[2].style.display == 'flex') ? 'Click here to hide common rewards' : 'Click here to show common rewards';
 		opentabs[2] = (lootdisplay[2].style.display == 'flex') ? true : false;
 	}
 	else if (id == "rare_rewards") {
 		lootdisplay[3].style.display = (lootdisplay[3].style.display == 'flex') ? 'none' : 'flex';
 		tab.style.textDecoration = (lootdisplay[3].style.display == 'flex') ? 'none' : 'line-through';
-		tab.title = (lootdisplay[0].style.display == 'flex') ? 'Click here to hide rare rewards' : 'Click here to show rare rewards';
+		tab.title = (lootdisplay[3].style.display == 'flex') ? 'Click here to hide rare rewards' : 'Click here to show rare rewards';
 		opentabs[3] = (lootdisplay[3].style.display == 'flex') ? true : false;
 	}
-	console.log(opentabs)
+	if (seeConsoleLogs) console.log(opentabs)
 
 	let truecount = 0;
 	for (let i = 0; i < opentabs.length; i++) {
@@ -2589,11 +2425,15 @@ export function toggleLootDisplay(id: string) {
 			truecount++;
 		}
 	}
-	console.log(truecount)
+	if (seeConsoleLogs) console.log(truecount)
+
 	let minH = 0;
 	if (truecount == 4) {
 		minH = 25;
 	}
+	// Tinker with this. 
+	// If you want to change the min heights for each thing, 
+	// change variables starting below here
 	if (truecount == 3) {
 		minH = 29;
 	}
@@ -2634,53 +2474,108 @@ export function toggleLootDisplay(id: string) {
 }
 
 
-function currentTierUpper(){
-	let tier = currentTier()[0]
-	return (tier[0].toUpperCase() + tier.slice(1).toLowerCase())
+function updateItems() {
+	localStorage.setItem("items", JSON.stringify(items))
 }
 
 
-function buttonDisabler(){
-	if (toggle == true) {
-		if(localStorage.getItem("autoCapture") !== "true"){
-			document.getElementById("docapturebutton").setAttribute("title", "Currently disabled to due initialization, settings being saved, or autocapture");
-			document.getElementById("docapturebuttonwords").style.setProperty("text-decoration", "line-through");
-			document.getElementById("docapturebutton").setAttribute("onclick", "");
-		}
-		document.getElementById("toggleunlocktrack").setAttribute("onclick", "");
-		document.getElementById("easy").setAttribute("onclick", "");
-		document.getElementById("medium").setAttribute("onclick", "");
-		document.getElementById("hard").setAttribute("onclick", "");
-		document.getElementById("elite").setAttribute("onclick", "");
-		document.getElementById("master").setAttribute("onclick", "");
-		document.getElementById("label_easy").setAttribute("onclick", "");
-		document.getElementById("label_medium").setAttribute("onclick", "");
-		document.getElementById("label_hard").setAttribute("onclick", "");
-		document.getElementById("label_elite").setAttribute("onclick", "");
-		document.getElementById("label_master").setAttribute("onclick", "");
-		toggle = false
+function orderChecker(order: number, item: string) {
+	if (item == "Court summons") {
+		order = 988
 	}
-	else {
-		if(localStorage.getItem("autoCapture") !== "true"){
-			document.getElementById("docapturebutton").setAttribute("title", "");
-			document.getElementById("docapturebuttonwords").style.removeProperty("text-decoration");
-			document.getElementById("docapturebutton").setAttribute("onclick", "TEST.capture(false)");
-		}
-		document.getElementById("toggleunlocktrack").setAttribute("onclick", "TEST.toggleCapture(event)");
-		document.getElementById("easy").setAttribute("onclick", "TEST.changeClueTierSpan('easy', event);");
-		document.getElementById("medium").setAttribute("onclick", "TEST.changeClueTierSpan('medium', event);");
-		document.getElementById("hard").setAttribute("onclick", "TEST.changeClueTierSpan('hard', event);");
-		document.getElementById("elite").setAttribute("onclick", "TEST.changeClueTierSpan('elite', event);");
-		document.getElementById("master").setAttribute("onclick", "TEST.changeClueTierSpan('master', event);");
-		document.getElementById("label_easy").setAttribute("onclick", "TEST.changeClueTierSpan('easy', event);");
-		document.getElementById("label_medium").setAttribute("onclick", "TEST.changeClueTierSpan('medium', event);");
-		document.getElementById("label_hard").setAttribute("onclick", "TEST.changeClueTierSpan('hard', event);");
-		document.getElementById("label_elite").setAttribute("onclick", "TEST.changeClueTierSpan('elite', event);");
-		document.getElementById("label_master").setAttribute("onclick", "TEST.changeClueTierSpan('master', event);");
-		toggle = true
+	else if (item == "Guido's bonfire in a bottle") {
+		order = 989
 	}
+	else if (item == "Bonus XP star (small)") {
+		order = 990
+	}
+	else if (item == "Bonus XP star (medium)") {
+		order = 991
+	}
+	else if (item == "Bonus XP star (large)") {
+		order = 992
+	}
+	else if (item == "Bonus XP star (huge)") {
+		order = 993
+	}
+	else if (item == "Re-roll token (easy)") {
+		order = 994
+	}
+	else if (item == "Re-roll token (medium)") {
+		order = 995
+	}
+	else if (item == "Re-roll token (hard)") {
+		order = 996
+	}
+	else if (item == "Re-roll token (elite)") {
+		order = 997
+	}
+	else if (item == "Re-roll token (master)") {
+		order = 998
+	}
+	else if (item == "Sealed clue scroll (master)") {
+		order = 999
+	}
+	else if (item == "Reward casket (easy)") {
+		order = 1000
+	}
+	else if (item == "Reward casket (medium)") {
+		order = 1001
+	}
+	else if (item == "Reward casket (hard)") {
+		order = 1002
+	}
+	else if (item == "Reward casket (elite)") {
+		order = 1003
+	}
+	else if (item == "Golden compass") {
+		order = 1004
+	}
+
+	return order
 }
 
+
+function buttonDisabler() {
+		if (localStorage.getItem("autoCapture") !== "true") {
+			(document.getElementById("docapturebutton") as HTMLDivElement).setAttribute("title", "Currently disabled to due initialization, settings being saved, or autocapture");
+			(document.getElementById("docapturebuttonwords") as HTMLDivElement).style.setProperty("text-decoration", "line-through");
+			(document.getElementById("docapturebutton") as HTMLDivElement).setAttribute("onclick", "");
+		}
+		(document.getElementById("toggleunlocktrack") as HTMLDivElement).setAttribute("onclick", "");
+		(document.getElementById("easy") as HTMLDivElement).setAttribute("onclick", "");
+		(document.getElementById("medium") as HTMLDivElement).setAttribute("onclick", "");
+		(document.getElementById("hard") as HTMLDivElement).setAttribute("onclick", "");
+		(document.getElementById("elite") as HTMLDivElement).setAttribute("onclick", "");
+		(document.getElementById("master") as HTMLDivElement).setAttribute("onclick", "");
+		(document.getElementById("label_easy") as HTMLDivElement).setAttribute("onclick", "");
+		(document.getElementById("label_medium") as HTMLDivElement).setAttribute("onclick", "");
+		(document.getElementById("label_hard") as HTMLDivElement).setAttribute("onclick", "");
+		(document.getElementById("label_elite") as HTMLDivElement).setAttribute("onclick", "");
+		(document.getElementById("label_master") as HTMLDivElement).setAttribute("onclick", "");
+		buttonDisabletoggle = false
+}
+
+
+function buttonEnabler() {
+	if (localStorage.getItem("autoCapture") !== "true") {
+		(document.getElementById("docapturebutton") as HTMLDivElement).setAttribute("title", "");
+		(document.getElementById("docapturebuttonwords") as HTMLDivElement).style.removeProperty("text-decoration");
+		(document.getElementById("docapturebutton") as HTMLDivElement).setAttribute("onclick", "TEST.capture(false)");
+	}
+	(document.getElementById("toggleunlocktrack") as HTMLDivElement).setAttribute("onclick", "TEST.toggleCapture(event)");
+	(document.getElementById("easy") as HTMLDivElement).setAttribute("onclick", "TEST.changeClueTierSpan('easy', event);");
+	(document.getElementById("medium") as HTMLDivElement).setAttribute("onclick", "TEST.changeClueTierSpan('medium', event);");
+	(document.getElementById("hard") as HTMLDivElement).setAttribute("onclick", "TEST.changeClueTierSpan('hard', event);");
+	(document.getElementById("elite") as HTMLDivElement).setAttribute("onclick", "TEST.changeClueTierSpan('elite', event);");
+	(document.getElementById("master") as HTMLDivElement).setAttribute("onclick", "TEST.changeClueTierSpan('master', event);");
+	(document.getElementById("label_easy") as HTMLDivElement).setAttribute("onclick", "TEST.changeClueTierSpan('easy', event);");
+	(document.getElementById("label_medium") as HTMLDivElement).setAttribute("onclick", "TEST.changeClueTierSpan('medium', event);");
+	(document.getElementById("label_hard") as HTMLDivElement).setAttribute("onclick", "TEST.changeClueTierSpan('hard', event);");
+	(document.getElementById("label_elite") as HTMLDivElement).setAttribute("onclick", "TEST.changeClueTierSpan('elite', event);");
+	(document.getElementById("label_master") as HTMLDivElement).setAttribute("onclick", "TEST.changeClueTierSpan('master', event);");
+	buttonDisabletoggle = true
+}
 
 //print text world
 //also the worst possible example of how to use global exposed exports as described in webpack.config.json
@@ -2697,4 +2592,3 @@ if (window.alt1) {
 	//also updates app settings if they are changed
 	alt1.identifyAppUrl("./appconfig.json");
 }
-
