@@ -40,12 +40,12 @@ This application was created to provide players with a way to easily record thei
 OpenLogger works out of the box, so you don't have to adjust any settings if you don't want to. Select the tier of clue you're opening and manually capture or press the lock to autocapture clue rewards to begin logging! <br><br>
 
 ### How to install
-#### Copy and paste this link in your browser to install OpenLogger to Alt1 automatically
-#### `alt1://addapp/https://redx1000.github.io/OpenLogger/appconfig.json` <br><br>
+ Copy and paste this link in your browser to install OpenLogger to Alt1 automatically <br>
+`alt1://addapp/https://redx1000.github.io/OpenLogger/appconfig.json` <br>
 
-### Or use direct link
-#### https://redx1000.github.io/OpenLogger <br>
-#### To install with the direct link
+ Or use direct link <br>
+ https://redx1000.github.io/OpenLogger <br><br>
+To install with the direct link
 1. Copy the direct link.
 2. Open Alt1 applications and open the browser.
 3. Paste link in URL bar and press enter.
