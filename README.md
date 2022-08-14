@@ -3,11 +3,11 @@
 #### Report bugs or questions, message me 🙂 -> Discord: RedX1000#3655
 #### RuneApps forum page: https://runeapps.org/forums/viewtopic.php?pid=4751
 
-* *NOTE: This project is currently in maintence mode. There are plans for new features but are not a priority. If something breaks due to jagex updates or if there are bugs, message me on Discord..*
+* *NOTE: This project is currently in maintenance mode as it is feature complete. There are some plans for new features but they are not a priority for now. If something breaks due to RuneScape updates or if there are bugs, message me on Discord.*
 
 * *NOTE: Legacy Interface mode works, but I don't test with it often, so use at your own risk, and report any crashes and bugs.* <br>
 
-* *NOTE: When reporting a crash, please take a screenshot of the loot window and send it to me. Use Windows Key + Shift + S, Lightshot, or Gyazo to take the screenshot to avoid distortion.*
+* *NOTE: When reporting a crash, please take a screenshot of the loot window and clue capture history send it to me. Use Windows Key + Shift + S, Lightshot, or Gyazo to take the screenshot to avoid distortion.*
 <br><br>
 
 ### Table of Contents
@@ -37,7 +37,7 @@
 ### Description
 This application was created to provide players with a way to easily record their clue scroll rewards in bulk, or over the course of their clue runs, and to allow users to share their clue data with others. <br><br>
 
-OpenLogger works out of the box, so you don't have to adjust any settings if you don't want to. Select the tier of clue you're opening and manually capture or press the lock to autocapture clue rewards to begin logging! <br><br>
+__OpenLogger works out of the box, so you don't have to adjust any settings if you don't want to.__ Select the tier of clue you're opening and manually capture or press the lock to autocapture clue rewards to begin logging! <br><br>
 
 ### How to install
  Copy and paste this link in your browser to install OpenLogger to Alt1 automatically <br>
