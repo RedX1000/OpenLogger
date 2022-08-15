@@ -500,12 +500,12 @@ header {
 }
 
 #settings_button{
-  width: 53px;
+  width: 60px;
   margin-left: auto;
 }
 
 #settings_cog{
-  width:100%;
+  width:85%;
 }
 
 .header_box {
@@ -759,7 +759,7 @@ mainsection {
 .common,
 .rare {
   display: block;
-  min-height:25%;
+  min-height: 25%;
   padding: 5px 0px 0px 0px;
   background: url(alt1-currentskin/background.png)
 }
@@ -830,6 +830,7 @@ mainsection {
 
 footer {
   position: relative;
+  text-align: center;
   font-size: 16px;
   font-weight: 600;
   padding: 0px 0px 5px 0px;
@@ -842,6 +843,11 @@ footer {
   border-bottom-width: 2px;
   margin-bottom: 2px;
   border-image: url(alt1-currentskin/borderB.png) 5 0 20 0 repeat;
+}
+
+#info_button{
+  margin: 8px auto auto;
+  width: 82.35%;
 }
 
 /* #githublink a:link {
@@ -981,7 +987,7 @@ label{
   border: solid;
   border-width: 4px;
   border-radius: 50%;
-  border-color:rgb(236,182,48);
+  border-color:rgb(236, 182, 48);
   background: rgb(10, 31, 41);
   cursor: default;
 }
@@ -1019,8 +1025,8 @@ label{
   margin: 40px auto;
 }
 
-#db_return_button{
-  width: 80%;
+.return_button{
+  width: 90%;
   cursor: pointer;
   color: #000;
   font-family: "trajan-pro-3";

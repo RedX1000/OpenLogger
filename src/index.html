@@ -115,11 +115,7 @@
 		</mainsection>
 		<footer>
 			<div class="footer_bar"></div>
-			<div class="copyright">
-				&nbsp;&nbsp;<span style="color: rgb(216, 196, 21); font-size: 12px;">08/11/2022: OpenLogger project is now in Maintenance Mode<br>&nbsp;&nbsp;I will do bugfixes, tweaks, and adjustments for whenever issues or RS updates happen.<br>&nbsp;&nbsp;New features may be introduced at a later date, but its not planned when.<br></span>
-				&nbsp;&nbsp;Reach out on Discord for bug reports and inquiries @ RedX1000#3655<br>
-				&nbsp;&nbsp;Instructions and troubleshooting on the <a id="githublink" href="alt1://browser/https://github.com/RedX1000/OpenLogger">GitHub Page</a>
-			</div>
+			<div id="info_button" class="nisbutton" data-toggle="modal" data-target="#info" onclick="">&nbsp;Information & Updates&nbsp;</div>
 		</footer>
 		
 		<!-- SETTINGS MODAL -->
@@ -367,7 +363,7 @@
 					<div class="modal-body" id="history_body">
 					</div>
 					<div class="modal-footer">
-						<div id="db_return_button" class="nisbuttonblue" data-dismiss="modal" onclick="">Return</div>
+						<div class="nisbuttonblue return_button" data-dismiss="modal" onclick="">Return</div>
 					</div>
 			  	</div>
 			</div>
@@ -486,6 +482,74 @@
 			</div>
 		</div>
 		<!-- END INSERT VERIFICATION MODAL -->
+
+		<!-- INFORMATION VERIFICATION MODAL -->
+		<div class="modal fade " id="info" tabindex="-1" role="dialog" aria-labelledby="important-msg-label" aria-hidden="true">
+			<div class="modal-dialog">
+			  	<div class="modal-content">
+					<div class="modal-header">
+				  		<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true" class="close_x">&times;</span><span class="sr-only">Close</span></button>
+				  		<h1 class="modal-title" id="important-msg-label">Information and Updates<span id="hovertip" title="Hover over the options to learn more!&#013;&#013;Explore the Github link in the footer for more details.">&hairsp;&hairsp;&nbsp;?&nbsp;&hairsp;&hairsp;</span></h1>
+					</div>
+					<div class="modal-body" style="user-select: text;">
+						<h2><u>Latest update</u></h2>
+						<h3>
+							<span style="color: rgb(236, 170, 27);">
+								08/15/2022: This page now exists!<br>
+								This page takes up less space on the main page.<br>
+							</span><br>
+							<span style="color: rgb(216, 196, 21);">
+								08/11/2022: OpenLogger project is now in Maintenance Mode.<br>
+								I will do bugfixes, tweaks, and adjustments for whenever issues or RS updates happen.<br>
+								New features may be introduced at a later date, but its not planned when.<br>
+							</span>
+						</h3><br style='line-height: 1px; content: " "; display: block; margin: 40px 0;'>
+						
+						<h2><u>Github & Discord</u></h2>
+						<h3>
+							This is OpenLogger Github page!<br>
+							<a id="githublink" style="cursor: pointer" onclick="openGithub()">
+								Click here for the OpenLogger Github page
+							</a><br>
+							The Github page contains:
+							<ul>
+								<li>Detailed instructions for how to use OpenLogger.</li>
+								<li>Troubleshooting tips for OpenLogger.</li>
+								<li>The host page that allows acces to OpenLogger.</li>
+								<li>All of the source code.</li>
+								<li>Special thanks.</li>
+								<li>Other projects I may be working on.</li>
+							</ul>
+						</h3>
+						<h3>
+							This is my Discord profile! @ <span style="user-select: all;">RedX1000#3655</span><br>
+							Feel free to reach out to me for any of the following reasons:<br>
+							<ul>
+								<li>Bug reports with OpenLogger.</li>
+								<li>Runescape updates breaking OpenLogger.</li>
+								<li>Suggestions & Compliments.</li>
+								<li>Literally anything else within reason.</li>
+							</ul>
+						</h3><br style='line-height: 1px; content: " "; display: block; margin: 35px 0;'>
+
+						<h2><u>Donation link</u></h2>
+						<h3>
+							OpenLogger is a passion project and I have future plans to use this plugin as a base for other loggers.<br>
+							Consider sending a small donation in this direction 🙂.<br>
+							<br style='line-height: 1px; content: " "; display: block; margin: 10px 0;'>
+							<script type='text/javascript' src='https://storage.ko-fi.com/cdn/widget/Widget_2.js'></script><script type='text/javascript'>kofiwidget2.init('Support Me on Ko-fi', '#e0a62a', 'L4L7EERT9');kofiwidget2.draw();</script> 
+						</h3>
+					</div>
+					<div class="modal-footer">
+						<div id="clear_db_buttons">
+							<div class="nisbuttonblue return_button" data-dismiss="modal" data-toggle="modal" onclick="" title="">Cancel</div>
+						</div>
+					</div>
+			  	</div>
+			</div>
+		</div>
+		<!-- END INFORMATION VERIFICATION MODAL -->
+
     	<script src="./scripts/bootstrap.min.js"></script>
 		<script>
 			$('.modal').on('show.bs.modal', function () {
@@ -582,6 +646,12 @@
     			    bodybox.removeChild(bodybox.firstChild);
     			}
 			}
-  		</script>
+  		
+			function openGithub(){
+				window.open("https://github.com/RedX1000/OpenLogger")
+			}
+
+
+		</script>
 	</body>
 </html>
