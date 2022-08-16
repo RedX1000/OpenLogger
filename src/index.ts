@@ -125,6 +125,16 @@ export async function initOnLoad() {
 export async function init() {
 	buttonDisabler();
 
+	// TODO: This is a fix for when the buttons are clicked once.
+	// When clicked once, it does nothing but when clicked a second
+	// time, it closes and works properly.
+	// Figure out in toggleLootDisplay how to fix it. Might worry
+	// about it in the next logger project...
+	toggleLootDisplay("boardcasts_rewards")
+	toggleLootDisplay("general_rewards")
+	toggleLootDisplay("common_rewards")
+	toggleLootDisplay("rare_rewards")
+
 	// Initializing LocalStorage items
 	if (seeConsoleLogs) console.log("Initializing LocalStorage items...");
 
