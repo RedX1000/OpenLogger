@@ -803,21 +803,25 @@ mainsection {
 #broadcasts_rewards {
   user-select: none;
   padding-left: 21px;
+  text-decoration: none;
 }
 
 #general_rewards {
   user-select: none;
   padding-left: 29px;
+  text-decoration: none;
 }
 
 #common_rewards {
   user-select: none;
   padding-left: 25px;
+  text-decoration: none;
 }
 
 #rare_rewards {
   user-select: none;
   padding-left: 40px;
+  text-decoration: none;
 }
 
 .loot_display {
