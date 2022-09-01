@@ -1132,6 +1132,7 @@ async function compareItems(item: ImageData) {
 		let precision = parseFloat(localStorage.getItem("hybridPrecision")); //1 does nothing
 		await Promise.all(promises);
 		
+		// TODO: Consider combining this and the next for loop.
 		for (let i = matches.length-1; i > 0; i--) {
 			if (matches[i][2] > (average * precision)) {
 				matches.splice(i,1);
@@ -2201,20 +2202,30 @@ export function exporttocsv() {
 	if (seeConsoleLogs) console.log("Generating CSV...");
 	if (seeConsoleLogs) console.log("Getting values and counts...");
 
-	let eCount = localStorage.getItem("ECount")
-	let eValue = localStorage.getItem("EValue")
-	let mCount = localStorage.getItem("MCount")
-	let mValue = localStorage.getItem("MValue")
-	let hCount = localStorage.getItem("HCount")
-	let hValue = localStorage.getItem("HValue")
-	let elCount = localStorage.getItem("ElCount")
-	let elValue = localStorage.getItem("ElValue")
-	let maCount = localStorage.getItem("MaCount")
-	let maValue = localStorage.getItem("MaValue")
-	csvinfo.push(["Total Count", eCount, mCount, hCount, elCount, maCount]);
-	csvinfo.push(["Total Value", eValue, mValue, hValue, elValue, maValue]);
+	let eCount = parseInt(localStorage.getItem("ECount"))
+	let eValue = parseInt(localStorage.getItem("EValue"))
+	let mCount = parseInt(localStorage.getItem("MCount"))
+	let mValue = parseInt(localStorage.getItem("MValue"))
+	let hCount = parseInt(localStorage.getItem("HCount"))
+	let hValue = parseInt(localStorage.getItem("HValue"))
+	let elCount = parseInt(localStorage.getItem("ElCount"))
+	let elValue = parseInt(localStorage.getItem("ElValue"))
+	let maCount = parseInt(localStorage.getItem("MaCount"))
+	let maValue = parseInt(localStorage.getItem("MaValue"))
 
-	if (seeConsoleLogs) console.log("Getting item quantities...")
+	csvinfo.push(["Total Count", "\"" + eCount.toLocaleString("en-US") + "\"", 
+								 "\"" + mCount.toLocaleString("en-US") + "\"", 
+								 "\"" + hCount.toLocaleString("en-US") + "\"", 
+								 "\"" + elCount.toLocaleString("en-US") + "\"", 
+								 "\"" + maCount.toLocaleString("en-US") + "\""]);
+
+	csvinfo.push(["Total Value", "\"" + eValue.toLocaleString("en-US") + "\"", 
+								 "\"" + mValue.toLocaleString("en-US") + "\"", 
+								 "\"" + hValue.toLocaleString("en-US") + "\"", 
+								 "\"" + elValue.toLocaleString("en-US") + "\"", 
+								 "\"" + maValue.toLocaleString("en-US") + "\""]);
+
+	if (seeConsoleLogs) console.log("Getting item quantities...");
 	for (let i = 0; i < keys.length; i++) {
 		for (let j = 0; j < keys.length; j++) {
 			if (items[keys[j]].order == currOrder.toString()) {
@@ -2228,31 +2239,31 @@ export function exporttocsv() {
 					one = "";
 				} 
 				else { 
-					one = one.toLocaleString("en-US")
+					one = "\"" + one.toLocaleString("en-US") + "\""
 				}
 				if (two == undefined || two == "0") {
 					two = "";
 				} 
 				else { 
-					two = two.toLocaleString("en-US")
+					two = "\"" + two.toLocaleString("en-US") + "\""
 				}
 				if (three == undefined || three == "0") {
 					three = "";
 				} 
 				else { 
-					three = three.toLocaleString("en-US")
+					three = "\"" + three.toLocaleString("en-US") + "\""
 				}
 				if (four == undefined || four == "0") {
 					four = "";
 				} else { 
-					four = four.toLocaleString("en-US")
+					four = "\"" + four.toLocaleString("en-US") + "\""
 				}
 				if (five == undefined || five == "0") {
 					five = "";
 				} 
 				else { 
-					five = five.toLocaleString("en-US")
-				}
+					five = "\"" + five.toLocaleString("en-US") + "\""
+				} 
 				csvinfo.push([keys[j], one, two, three, four, five]);
 				currOrder++;
 				break;
