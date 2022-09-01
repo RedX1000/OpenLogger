@@ -2270,17 +2270,17 @@ export function exporttocsv() {
 			}
 		}
 	}
-	csvinfo.push([])
-	csvinfo.push([])
+	csvinfo.push(["--------","--------","--------","--------","--------","--------","--------","--------","--------","--------","--------"])
+	csvinfo.push(["--------","--------","--------","--------","--------","--------","--------","--------","--------","--------","--------"])
 	csvinfo.push(["Captured Clue History", 'Parse tier at " : " and " [C] "','Parse items at " x "'])
 	csvinfo.push(["Clue Tier & Count", "Clue Value", "Item 1", "Item 2", "Item 3", "Item 4", "Item 5", "Item 6", "Item 7", "Item 8", "Item 9"])
 
 	if (seeConsoleLogs) console.log("Setting history in csv...")
 	for (let i = 0; i < lsHistory.length; i++) {
-		let temp = [lsHistory[i][3][0] + " : " + lsHistory[i][4], lsHistory[i][2]]
+		let temp = [lsHistory[i][3][0] + " : " + lsHistory[i][4], "\"" + lsHistory[i][2].toLocaleString("en-US") + "\""]
 		for (let j = 0; j < 9; j++) {
 			if (lsHistory[i][0][j] != undefined) {
-				temp.push(lsHistory[i][1][j] + " x " + lsHistory[i][0][j])
+				temp.push("\"" + parseInt(lsHistory[i][1][j]).toLocaleString("en-US") + " x " + lsHistory[i][0][j] + "\"")
 			}
 			else {
 				temp.push("")
