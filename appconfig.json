@@ -1,6 +1,6 @@
 {
-    "appName": "OpenLogger",
-    "description": "A free, open-source clue logger",
+    "appName": "ClueLogger",
+    "description": "OpenLogger: A open-source clue logger",
     "appUrl": "./index.html",
     "configUrl": "./appconfig.json",
     "iconUrl": "./images/Treasure_Trail_collection_log.png",
