@@ -471,8 +471,8 @@ header {
   text-align: center;
   font-size: 28px;
   padding: 0px 12px;
-  line-height: 3px;
-  white-space: nowrap;
+  white-space: normal;
+  margin:0;
 }
 
 #top_buttons{
