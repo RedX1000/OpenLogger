@@ -117,6 +117,10 @@ export async function initOnLoad() {
 	}
 
 	if (seeConsoleLogs) console.log("Initializing plugin...");
+	toggleLootDisplay("broadcasts_rewards")
+	toggleLootDisplay("general_rewards")
+	toggleLootDisplay("common_rewards")
+	toggleLootDisplay("rare_rewards")
 	await init();
 	if (seeConsoleLogs) console.log("\nInitialization complete!");
 }
@@ -130,10 +134,6 @@ export async function init() {
 	// time, it closes and works properly.
 	// Figure out in toggleLootDisplay how to fix it. Might worry
 	// about it in the next logger project...
-	toggleLootDisplay("boardcasts_rewards")
-	toggleLootDisplay("general_rewards")
-	toggleLootDisplay("common_rewards")
-	toggleLootDisplay("rare_rewards")
 
 	// Initializing LocalStorage items
 	if (seeConsoleLogs) console.log("Initializing LocalStorage items...");
@@ -293,7 +293,7 @@ export async function changeClueTierSpan(id: string, event: Event) {
 	if (window.alt1) {
 		alt1.overLayClearGroup("overlays");
 		alt1.overLaySetGroup("overlays");
-		alt1.overLayTextEx("Loading " + (id[0] + id.slice(1).toLowerCase()) + " clues...", a1lib.mixColor(255, 144, 0), 20, Math.round(alt1.rsWidth / 2), 200, 5000, "", true, true);
+		alt1.overLayTextEx("Loading " + (id[0] + id.slice(1).toLowerCase()) + " clues...", a1lib.mixColor(255, 144, 0), 20, Math.round(alt1.rsWidth / 2), 200, 10000, "", true, true);
 	}
 
 	if (seeConsoleLogs) console.log("Setting button to " + (id[0].toUpperCase() + id.slice(1).toLowerCase()) + "...");
