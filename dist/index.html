@@ -39,7 +39,7 @@
 								<input type="radio" id="master" name="clue_scroll_level" class="clue_scroll_level" value="master" onclick="TEST.changeClueTierSpan('master', event);">
 							</div>
 						</div>
-						<h3 class="clue_scrolls_button_footer">09/01/2022: See below</h3> <!--style="color: rgb(255, 94, 0)"-->
+						<h3 class="clue_scrolls_button_footer" style="color:rgb(42,221,198);"><u>09/07/2022</u>: See below</h3> <!--style="color: rgb(255, 94, 0)"-->
 					</div>
 					<div class="main_buttons" id="top">
 						<div id="bottom_buttons">
@@ -202,15 +202,15 @@
 		                            <input type="radio" id="multioff" name="multi" class="maintoggles_buttons" value="multioff" title="Prevents the user from accidentally capturing a clue while its being logged to prevent double-logging.">
 		                        </div>
 		                    </div>
-							<label class="title_labels" title="Shows the area to keep any menus away from to prevent a double-capture.&#013;&#013;Double captures like this cannot be rolled back, so try hard to avoid this area">No Menu Highlighter:<br></label>
+							<label class="title_labels" title="Shows the area to keep any menus away from to prevent a double-capture.">No Menu Highlighter:<br></label>
 		                    <div id="menu_buttons">
 		                        <div class="main_divs">
-		                            <label for="menuon" id="img_label" title="Shows the area to keep any menus away from to prevent a double-capture.&#013;&#013;Double captures like this cannot be rolled back, so try hard to avoid this area">On&ast;</label>
-		                            <input type="radio" id="menuon" name="menu" class="maintoggles_buttons" value="menuon" title="Shows the area to keep any menus away from to prevent a double-capture.&#013;&#013;Double captures like this cannot be rolled back, so try hard to avoid this area">
+		                            <label for="menuon" id="img_label" title="Shows the area to keep any menus away from to prevent a double-capture.">On&ast;</label>
+		                            <input type="radio" id="menuon" name="menu" class="maintoggles_buttons" value="menuon" title="Shows the area to keep any menus away from to prevent a double-capture.">
 		                        </div>
 		                        <div class="main_divs">
-		                            <label for="menuoff" id="img_label" title="Shows the area to keep any menus away from to prevent a double-capture.&#013;&#013;Double captures like this cannot be rolled back, so try hard to avoid this area">Off</label>
-		                            <input type="radio" id="menuoff" name="menu" class="maintoggles_buttons" value="menuoff" title="Shows the area to keep any menus away from to prevent a double-capture.&#013;&#013;Double captures like this cannot be rolled back, so try hard to avoid this area">
+		                            <label for="menuoff" id="img_label" title="Shows the area to keep any menus away from to prevent a double-capture.">Off</label>
+		                            <input type="radio" id="menuoff" name="menu" class="maintoggles_buttons" value="menuoff" title="Shows the area to keep any menus away from to prevent a double-capture.">
 		                        </div>
 		                    </div>
 		                    <label class="title_labels" title="Determines the level of precision for the Hybrid Algorithm.&#013;&#013;Lower: More precise & faster, Higher: Less precise & slower.&#013;&#013;Default is 0.3, lowest value is 0.1 and highest value is 1.0">Hybrid Alg Precision:<br></label>
@@ -493,9 +493,10 @@
 					<div class="modal-body" style="user-select: text;">
 						<h2><u>Latest update</u></h2>
 						<h3>
-							<span style="color: rgb(60, 137, 226);">
-								09/01/2022: Fixed a bug where commas in numbers would seperate values when Exporting a CSV.<br>
-								For the programmers handling OL CSVs, keep track of quotation marks around values when parsing data.<br>
+							<span style="color: rgb(42,221,198);">
+								<u>09/07/2022</u>: When rolling out BarrowsLogger, I discovered that LocalStorage saves data per domain and not per location, so owning both will break the other.<br><br>
+								Due to this, I will need to update LS keys to reflect this. I'll try to design something to save your data, but I cannot promise this will happen.<br><br>
+								I strongly recommend exporting your CSV this week as the changes will be happening very soon, and once these updates take effect, BarrowsLogger will be available!<br>
 							</span>
 						</h3><br style='line-height: 1px; content: " "; display: block; margin: 40px 0;'>
 						
