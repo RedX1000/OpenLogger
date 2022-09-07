@@ -630,7 +630,7 @@ async function findtrailComplete(img: ImgRef, autobool: boolean) {
 	}
 
 	try {
-		let loc;
+		let loc: any;
 		const imgCaptures = [img.findSubimage(imgs.rerollWindow),
 							 img.findSubimage(imgs.trailComplete),						      
 						     img.findSubimage(imgs.rerollWindowLegacy),
@@ -665,16 +665,25 @@ async function findtrailComplete(img: ImgRef, autobool: boolean) {
 		// y1, +1 = up, -1 = down
 		// Adjust top crops as well, for the x1 and y1 values for it
 		// Consider making this an option in the settings.
-		let x1;
-		let y1;
+		let xdefault: number
+		let ydefault: number
+		let xRect: number
+		let yRect: number
 		if (!legacy) {
-			x1 = loc[0].x - 1;
-			y1 = loc[0].y + 39;
+			xdefault = loc[0].x - 1;
+			ydefault = loc[0].y + 39;
+			xRect = loc[0].x - 27;
+			yRect = loc[0].y - 13;
 		}
 		else {
-			x1 = loc[0].x - 112;
-			y1 = loc[0].y + 39;
+			xdefault = loc[0].x - 112;
+			ydefault = loc[0].y + 39;
+			xRect = loc[0].x - 139;
+			yRect = loc[0].y - 12;
 		}
+
+		let x1 = xdefault
+		let y1 = ydefault
 
 		let crops = new Array<ImageData>(9);
 		let topCrops = new Array<ImageData>(9);
@@ -725,21 +734,10 @@ async function findtrailComplete(img: ImgRef, autobool: boolean) {
 
 		alt1.overLayClearGroup("overlays");
 		alt1.overLaySetGroup("rect");
-		if (!legacy) {
-			alt1.overLayRect(a1lib.mixColor(255, 144, 0), loc[0].x - 27, loc[0].y - 13, await imgs.trailComplete.width + 278, await imgs.trailComplete.height + 213, 60000, 2);
-		}
-		else {
-			alt1.overLayRect(a1lib.mixColor(255, 144, 0), loc[0].x - 138, loc[0].y - 13, await imgs.trailCompleteLegacy.width + 278, await imgs.trailCompleteLegacy.height + 213, 60000, 2);
-		}
+		alt1.overLayRect(a1lib.mixColor(255, 144, 0), xRect, yRect, imgs.trailComplete.width + 278, imgs.trailComplete.height + 213, 60000, 2);
 
 		// Check if this is a reroll
-		let rerollVal;
-		if (!legacy) {
-			rerollVal = img.toData(loc[0].x + 231, loc[0].y + 175, 8, 9);
-		}
-		else {
-			rerollVal = img.toData(loc[0].x + 231, loc[0].y + 175, 8, 9);
-		}
+		let rerollVal = img.toData(loc[0].x + 231, loc[0].y + 175, 8, 9);
 
 		if (localStorage.getItem("rerollToggle") == "true") {
 			await rerollCheck(rerollVal, false);
@@ -758,14 +756,10 @@ async function findtrailComplete(img: ImgRef, autobool: boolean) {
 		}
 		let itemResults = [];
 		let promises = [];
-		if (!legacy) {
-			x1 = loc[0].x - 1;
-			y1 = loc[0].y + 39;
-		}
-		else {
-			x1 = loc[0].x - 112;
-			y1 = loc[0].y + 39;
-		}
+
+		x1 = xdefault
+		y1 = ydefault
+
 		let notBlank = false;
 		for (let i = 0; i < 9; i++) {
 			if (window.alt1) {
@@ -816,12 +810,12 @@ async function findtrailComplete(img: ImgRef, autobool: boolean) {
 					let loc2;
 					if (!legacy) {
 						if (seeConsoleLogs) console.log("is not legacy")
-						loc2 = newImg.findSubimage(await imgs.trailComplete);
+						loc2 = newImg.findSubimage(imgs.trailComplete);
 						x = loc2[0].x + (40 * (i));
 					}
 					else {
-						loc2 = newImg.findSubimage(await imgs.trailCompleteLegacy);
-						x = loc[0].x - 112 + (40 * (i));
+						loc2 = newImg.findSubimage(imgs.trailCompleteLegacy);
+						x = loc2[0].x - 112 + (40 * (i));
 					}
 
 					if (window.alt1) {
@@ -1003,12 +997,7 @@ async function findtrailComplete(img: ImgRef, autobool: boolean) {
 			alt1.overLaySetGroup("overlays");
 			alt1.overLayTextEx((currentTier()[0][0].toUpperCase() + (currentTier()[0].slice(1)).toLowerCase()) + " rewards captured successfully!",
 				a1lib.mixColor(100, 255, 100), 20, Math.round(alt1.rsWidth / 2), 200, 4000, "", true, true);
-			if (!legacy) {
-				alt1.overLayRect(a1lib.mixColor(0, 255, 0), loc[0].x - 27, loc[0].y - 13, await imgs.trailComplete.width + 278, await imgs.trailComplete.height + 213, 1000, 2);
-			}
-			else {
-				alt1.overLayRect(a1lib.mixColor(0, 255, 0), loc[0].x - 138, loc[0].y - 13, await imgs.trailCompleteLegacy.width + 278, await imgs.trailCompleteLegacy.height + 213, 1000, 2);
-			}
+			alt1.overLayRect(a1lib.mixColor(0, 255, 0), xRect, yRect, imgs.trailComplete.width + 278, imgs.trailComplete.height + 213, 1000, 2);
 		}
 		lagDetected = false;
 	} catch (e) {
@@ -1529,7 +1518,7 @@ function historyInit() {
 		let index = parseInt(localStorage.getItem(currentTier()[2]));
 		let limit = 0;
 		for (let i = lsHistory.length - 1; i >= 0 ; i--) { //Navigating lsHistory
-			if (limit <= parseInt(localStorage.getItem("HistoryDisplayLimit"))) {
+			if (limit < parseInt(localStorage.getItem("HistoryDisplayLimit"))) {
 				let temp = lsHistory[i];
 				if (temp[3][0].replace(" [C] ","") === currentTier()[0]) {
 					let ele = document.getElementById("history_body") as HTMLDivElement;
@@ -2133,7 +2122,7 @@ function autoCheck() {
 		}
 		autoCaptureInterval = window.setInterval(async function () {
 			let promises = [];
-			promises.push(await autoCallCapture());
+			promises.push(autoCallCapture());
 			await Promise.all(promises);
 		}, 1000);
 	}
@@ -2170,7 +2159,7 @@ function noMenuCheck() {
 			if (window.alt1) {
 				alt1.overLayClearGroup("nomenu");
 				alt1.overLaySetGroup("nomenu");
-				alt1.overLayRect(a1lib.mixColor(255, 50, 50), loc[0].x + 246 - (5 * length) + (1 * comma), loc[0].y + 94, 0 + (8 * length) + (4 * comma), await imgs.trailComplete.height + 6, 60000, 2);
+				alt1.overLayRect(a1lib.mixColor(255, 50, 50), loc[0].x + 246 - (5 * length) + (1 * comma), loc[0].y + 94, 0 + (8 * length) + (4 * comma), imgs.trailComplete.height + 6, 60000, 2);
 				alt1.overLayTextEx("NO MENUS HERE", a1lib.mixColor(255, 50, 50), 10, loc[0].x + 245, loc[0].y + 118, 50000, "", true, true);
 			}
 			
