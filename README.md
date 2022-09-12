@@ -1,7 +1,7 @@
 # OpenLogger
 ### An open-source Alt1 Plugin designed for tracking clue rewards.
 #### Report bugs or questions, message me 🙂 -> Discord: RedX1000#3655
-#### RuneApps forum page: https://runeapps.org/forums/viewtopic.php?pid=4751
+#### RuneApps forum page: https://runeapps.org/forums/viewtopic.php?id=1442
 
 * *NOTE: This project is currently in maintenance mode as it is feature complete. There are some plans for new features but they are not a priority for now. If something breaks due to RuneScape updates or if there are bugs, message me on Discord.*
 
@@ -59,7 +59,7 @@ To install with the direct link
 # Instructions on how to use
 
 ### Selecting Clue Tier
-* By selecting one of the radio buttons corresponding to the clue tier you're opening or wanting to see the [history](#history-rollback) of, it will tune OpenLogger to that specific tier.
+* By selecting one of the radio buttons corresponding to the clue tier you're opening, it will tune OpenLogger to that specific tier.
 * By default, Easy is selected, but OpenLogger remembers the last selected tier.
 * There is only support for Easy, Medium, Hard, Elite, and Master tiers of clues.
 * OpenLogger currently does not support Sandy clues, CS Week clues, or Oyster rewards.
@@ -208,7 +208,6 @@ To install with the direct link
 
 ### Potential or planned updates
 * Better legacy interface support; I don't test with it much. Legacy interface can log clues and perform lag detection checks, but I do not have a reroll window detection set for legacy mode, and I would need to iron out any bugs or kinks that appear. Use at your own risk.
-* Allowing the user to deposit or withdraw a reward or value into or out of `localStorage` directly in case of a misread.
 * Allowing download of last clue reward captured. <br><br>
 
 ### Special thanks
