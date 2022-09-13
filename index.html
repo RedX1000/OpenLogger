@@ -553,6 +553,10 @@
         	        $(this).modal('hide');
         	    });
         	});
+			
+			// https://stackoverflow.com/a/24914782
+			$(document).on('hidden.bs.modal', '.modal',
+  				() => $('.modal:visible').length && $(document.body).addClass('modal-open'));
 
     		function getSaveDetails(){
     		    let alg;
