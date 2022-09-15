@@ -854,6 +854,14 @@ footer {
   left: -7px;
 }
 
+#home_button :hover {
+  filter: brightness(130%);
+}
+
+#home_button :active {
+  filter: brightness(160%);
+}
+
 #home_button_img {
   width: 65%;
 }
