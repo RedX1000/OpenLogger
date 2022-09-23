@@ -2238,17 +2238,17 @@ export function exporttocsv() {
 	let maCount = parseInt(localStorage.getItem("OpenLogger/MaCount"))
 	let maValue = parseInt(localStorage.getItem("OpenLogger/MaValue"))
 
-	csvinfo.push(["Total Count", "\"" + eCount.toLocaleString("en-US") + "\"", 
-								 "\"" + mCount.toLocaleString("en-US") + "\"", 
-								 "\"" + hCount.toLocaleString("en-US") + "\"", 
-								 "\"" + elCount.toLocaleString("en-US") + "\"", 
-								 "\"" + maCount.toLocaleString("en-US") + "\""]);
+	csvinfo.push(["Total Count", eCount.toString(), 
+								 mCount.toString(), 
+								 hCount.toString(), 
+								 elCount.toString(), 
+								 maCount.toString()]);
 
-	csvinfo.push(["Total Value", "\"" + eValue.toLocaleString("en-US") + "\"", 
-								 "\"" + mValue.toLocaleString("en-US") + "\"", 
-								 "\"" + hValue.toLocaleString("en-US") + "\"", 
-								 "\"" + elValue.toLocaleString("en-US") + "\"", 
-								 "\"" + maValue.toLocaleString("en-US") + "\""]);
+	csvinfo.push(["Total Value", eValue.toString(), 
+								 mValue.toString(), 
+								 hValue.toString(), 
+								 elValue.toString(), 
+								 maValue.toString()]);
 
 	if (seeConsoleLogs) console.log("Getting item quantities...");
 	for (let i = 0; i < keys.length; i++) {
@@ -2264,30 +2264,30 @@ export function exporttocsv() {
 					one = "";
 				} 
 				else { 
-					one = "\"" + one.toLocaleString("en-US") + "\""
+					one = one.toString()
 				}
 				if (two == undefined || two == "0") {
 					two = "";
 				} 
 				else { 
-					two = "\"" + two.toLocaleString("en-US") + "\""
+					two = two.toString()
 				}
 				if (three == undefined || three == "0") {
 					three = "";
 				} 
 				else { 
-					three = "\"" + three.toLocaleString("en-US") + "\""
+					three = three.toString()
 				}
 				if (four == undefined || four == "0") {
 					four = "";
 				} else { 
-					four = "\"" + four.toLocaleString("en-US") + "\""
+					four = four.toString()
 				}
 				if (five == undefined || five == "0") {
 					five = "";
 				} 
 				else { 
-					five = "\"" + five.toLocaleString("en-US") + "\""
+					five = five.toString()
 				} 
 				csvinfo.push([keys[j], one, two, three, four, five]);
 				currOrder++;
@@ -2302,10 +2302,10 @@ export function exporttocsv() {
 
 	if (seeConsoleLogs) console.log("Setting history in csv...")
 	for (let i = 0; i < lsHistory.length; i++) {
-		let temp = [lsHistory[i][3][0] + " : " + lsHistory[i][4], "\"" + lsHistory[i][2].toLocaleString("en-US") + "\""]
+		let temp = [lsHistory[i][3][0] + " : " + lsHistory[i][4], lsHistory[i][2].toString()]
 		for (let j = 0; j < 9; j++) {
 			if (lsHistory[i][0][j] != undefined) {
-				temp.push("\"" + parseInt(lsHistory[i][1][j]).toLocaleString("en-US") + " x " + lsHistory[i][0][j] + "\"")
+				temp.push(parseInt(lsHistory[i][1][j]).toString() + " x " + lsHistory[i][0][j].toString())
 			}
 			else {
 				temp.push("")
