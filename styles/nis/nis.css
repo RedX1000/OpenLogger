@@ -469,8 +469,8 @@ header {
 .title {
   position: relative;
   text-align: center;
-  font-size: 22px;
-  padding: 0px 12px;
+  font-size: 18px;
+  padding: 5px 12px 0px 12px;
   white-space: normal;
   margin:0;
 }
@@ -486,6 +486,13 @@ header {
   -webkit-user-select: none;
   display:inline;
   grid-template-columns: repeat(2, auto);
+}
+
+#csv_button,
+#settings_button,
+#clear_button,
+#docapturebutton {
+  margin: 0px 0%
 }
 
 #csv_button,
@@ -547,22 +554,22 @@ header {
   position: relative;
   display: inline-block;
   text-align: center;
-  margin-top: 10px;
   height:auto;
-  padding: 5px 0px 0px 0px;
+  /* padding: 5px 0px 0px 0px; */
   line-height: 35px;
 }
 
 .clue_scroll_level_label {
-  font-size: 17px;
+  font-size: 14px;
   position:center;
   text-align: center;
+  font-weight: 600;
 }
 
 .clue_scrolls_button_box {
   position: center;
   display: grid;
-  text-align: left;
+  align-items: center;
   padding: 0px 12px;
   grid-template-columns: repeat(3, auto);
 }
@@ -571,55 +578,41 @@ header {
   position: center;
   width: 100%;
   user-select: none;
+  margin: auto;
 }
 
 .clue_scrolls_button_header {
   position: center;
   grid-row: 1;
   grid-column: span 3;
-  font-size: 18px;
+  font-size: 15px;
   line-height: 1px;
   text-align: center;
 }
 
 #clue_easy {
-  position: center;
   grid-row: 2;
   grid-column: 1;
-  text-align: center;
-  font-weight: 600;
 }
 
 #clue_medium {
-  position: center;
   grid-row: 2;
   grid-column: 2;
-  text-align: center;
-  font-weight: 600;
 }
 
 #clue_hard {
-  position: center;
   grid-row: 2;
   grid-column: 3;
-  text-align: center;
-  font-weight: 600;
 }
 
 #clue_elite {
-  position: relative;
   grid-row: 3;
   grid-column: 1;
-  text-align: center;
-  font-weight: 600;
 }
 
 #clue_master {
-  position: center;
   grid-row: 3;
   grid-column: 2;
-  text-align: center;
-  font-weight: 600;
 }
 
 .clue_scrolls_button_footer{
@@ -635,7 +628,7 @@ header {
   display: grid;
   position: relative;
   text-align: center;
-  padding: 5px 0px 0px 0px;
+  padding: 0px 0px 0px 0px;
   line-height: 32px;
   font-weight: 600;
 }
@@ -652,6 +645,7 @@ header {
   line-height: 32px;
   user-select: none;
   -webkit-user-select: none;
+  margin-top: 8px;
 }
 
 #toggleunlocktrack.enabled {
@@ -667,6 +661,7 @@ header {
   top: 5px;
 }
 
+#top_buttons,
 #bottom_buttons{
   width: 100%;
   cursor: pointer;
@@ -699,23 +694,23 @@ header {
 }
 
 .capture_box_elements,
-#number_of_clues,
-#value_of_clues,
-#average_of_clues {
-  font-size: 17px;
+#number_of_rewards,
+#value_of_rewards,
+#average_of_rewards {
+  font-size: 16px;
   font-weight: 600;
-  margin: 5px;
   padding: auto;
   text-align: center;
 }
 
-#number_of_clues{
-  font-size: 19px;
+.capture_box_elements {
+  margin: 5px;
 }
 
 .captured_rewards {
   display: grid;
   position: center;
+  align-items: center;
 }
 
 #captured_rewards_title {
@@ -734,10 +729,23 @@ header {
   justify-content: center;
 }
 
+#captured_rewards_grid_box {
+  display: block;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
 #captured_rewards_grid{
+  width: 82%;
   display:grid;
   grid-template-columns: repeat(3, auto);
   text-align: center;
+  border: 2px ridge #f0b216;
+  background: url(../../images/items/Blank.png) repeat;
+  margin: auto auto 4px auto;
+  padding: 3px;
 }
 
 mainsection {

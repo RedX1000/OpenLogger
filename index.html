@@ -16,7 +16,7 @@
 			<div class="header_box">
 				<div class="button_box">
 					<div class="clue_scrolls_buttons" id="top">
-						<h3 class="clue_scrolls_button_header">Select clue tier</h3>
+						<h3 class="clue_scrolls_button_header">Select Clue Tier</h3>
 						<div class="clue_scrolls_button_box">
 							<div class="clue_button_label_holder" id="clue_easy">
 								<label class="clue_scroll_level_label" id="label_easy" onclick="TEST.changeClueTierSpan('easy', event);">Easy</label>
@@ -39,10 +39,9 @@
 								<input type="radio" id="master" name="clue_scroll_level" class="clue_scroll_level" value="master" onclick="TEST.changeClueTierSpan('master', event);">
 							</div>
 						</div>
-						<h3 class="clue_scrolls_button_footer" style="color:rgb(42,221,198);"><u>09/07/2022</u>: See below</h3> <!--style="color: rgb(255, 94, 0)"-->
 					</div>
 					<div class="main_buttons" id="top">
-						<div id="bottom_buttons">
+						<div id="top_buttons">
 							<div id="csv_button" class="nisbutton" onclick="TEST.exporttocsv();">Export to CSV</div>
 							<div id="settings_button" class="nisbutton" title="Settings" data-toggle="modal" data-target="#settings" onclick="TEST.autoDisableCheckAuto()"><img id="settings_cog" src="images/SettingsCog.png"></div>
 						</div>
@@ -54,19 +53,6 @@
 					</div>
 				</div>
 				<div class="value_box">
-					<div class="capture_info" id="top">
-						<div class="capture_box_elements" id="math_box_count">
-							<span id="clue_tier"></span> clues logged: <span id="number_of_clues">0</span>
-						</div>
-						<div class="capture_box_elements" id="math_box_total">
-							<u>Total value of logged clues</u>
-							<div><span id="value_of_clues">0</span></div>
-						</div>
-						<div class="capture_box_elements" id="math_box_average">
-							<u>Average value of logged clues</u>
-							<div><span id="average_of_clues">0</span></div>
-						</div>
-					</div>
 					<div class="captured_rewards" id="top">
 						<div id="captured_rewards_title">
 							Rewards Capture Value: <span id="rewards_value">0</span>
@@ -81,6 +67,17 @@
 							<div id="seventh_item" class="rewards"></div>
 							<div id="eigth_item" class="rewards"></div>
 							<div id="ninth_item" class="rewards"></div>
+						</div>
+					</div>
+					<div class="capture_info" id="top">
+						<div class="capture_box_elements" id="math_box_count">
+							<u><span id="clue_tier"></span> Clues Logged</u>: <span id="number_of_rewards">0</span>
+						</div>
+						<div class="capture_box_elements" id="math_box_total">
+							<u>Total Value</u>: <span id="value_of_rewards">0</span>
+						</div>
+						<div class="capture_box_elements" id="math_box_average">
+							<u>Average Value</u>: <span id="average_of_rewards">0</span>
 						</div>
 						<div id="bottom_buttons">
 							<div id="history_button" class="nisbutton" data-toggle="modal" data-target="#history">History</div>
@@ -497,10 +494,10 @@
 						<h2><u>Latest update</u></h2>
 						<h3>
 							<span style="color: rgb(42,221,198);">
-								<u>09/07/2022</u>: When rolling out BarrowsLogger, I discovered that LocalStorage saves data per domain and not per location, so owning both will break the other.<br><br>
-								Due to this, I will need to update LS keys to reflect this. I'll try to design something to save your data, but I cannot promise this will happen.<br><br>
-								I strongly recommend exporting your CSV this week as the changes will be happening very soon, and once these updates take effect, BarrowsLogger will be available!<br><br>
-								GMT 19:30, Update has been pushed. If you experience any issues with displaying ot exporting CSVs let me know and I can help transfer the info over to the new keys.<br>
+								Note for people who installed the plugin between April and End of June:  <br>
+								Considering all of the updates that have happened in that timeframe and now, there may be some plugin-breaking side effects, such as incorrect scans or history logs. <br>
+								I strongly recommend going to Clear Options Menu and selecting Completely Reset OpenLogger to have a fresh experience. <br>
+								It may be worth exporting your CSV if you haven't done so yet.
 							</span>
 						</h3><br style='line-height: 1px; content: " "; display: block; margin: 40px 0;'>
 						
