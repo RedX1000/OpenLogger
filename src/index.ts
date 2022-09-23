@@ -1503,9 +1503,7 @@ function tabDisplay() {
 
 
 async function historyClear() {
-	console.log("DEBUG: clearing...")
 	removeChildNodes(document.getElementById("history_body") as HTMLDivElement);
-	console.log(document.getElementById("history_body") as HTMLDivElement)
 }
 
 
