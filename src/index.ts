@@ -316,9 +316,9 @@ export async function init() {
 
 export async function changeClueTierSpan(id: string, event: Event) {
 	// Set the clue_tier span for the checked box
-	(document.getElementById("number_of_clues") as HTMLDivElement).textContent = "0";
-	(document.getElementById("value_of_clues") as HTMLDivElement).textContent = "Loading...";
-	(document.getElementById("average_of_clues") as HTMLDivElement).textContent = "Loading...";
+	(document.getElementById("number_of_rewards") as HTMLDivElement).textContent = "0";
+	(document.getElementById("value_of_rewards") as HTMLDivElement).textContent = "Loading...";
+	(document.getElementById("average_of_rewards") as HTMLDivElement).textContent = "Loading...";
 
 	buttonDisabler();
 	if (window.alt1) {
@@ -353,6 +353,7 @@ export async function changeClueTierSpan(id: string, event: Event) {
 	settingsInit();
 
 	//Set up history window
+	historyClear();
 	historyInit();
 
 	//Set up insert window
@@ -471,9 +472,9 @@ export async function cleardb(choice: any) {
 	await historyClear();
 	historyInit();
 
-	(document.getElementById("number_of_clues") as HTMLSpanElement).textContent = "0";
-	(document.getElementById("value_of_clues") as HTMLSpanElement).textContent = "0";
-	(document.getElementById("average_of_clues") as HTMLSpanElement).textContent = "0";
+	(document.getElementById("number_of_rewards") as HTMLSpanElement).textContent = "0";
+	(document.getElementById("value_of_rewards") as HTMLSpanElement).textContent = "0";
+	(document.getElementById("average_of_rewards") as HTMLSpanElement).textContent = "0";
 	let divs = document.getElementsByClassName("loot_display") as HTMLCollectionOf<HTMLDivElement>;
 	for (let i = 0; i < divs.length; i++) {
 		divs[i].textContent = "";
@@ -763,9 +764,11 @@ async function findtrailComplete(img: ImgRef, autobool: boolean) {
 			}
 		}
 
-		alt1.overLayClearGroup("overlays");
-		alt1.overLaySetGroup("rect");
-		alt1.overLayRect(a1lib.mixColor(255, 144, 0), xRect, yRect, imgs.trailComplete.width + 278, imgs.trailComplete.height + 213, 60000, 2);
+		if (window.alt1) {
+			alt1.overLayClearGroup("overlays");
+			alt1.overLaySetGroup("rect");
+			alt1.overLayRect(a1lib.mixColor(255, 144, 0), xRect, yRect, imgs.trailComplete.width + 278, imgs.trailComplete.height + 213, 60000, 2);
+		}
 
 		// Check if this is a reroll
 		let rerollVal = img.toData(loc[0].x + 231, loc[0].y + 175, 8, 9);
@@ -780,10 +783,12 @@ async function findtrailComplete(img: ImgRef, autobool: boolean) {
 		let prevValue = lastValue;
 		lastValue = value;
 		if (!lagDetected) {
-			alt1.overLayClearGroup("overlays");
-			alt1.overLayClearGroup("lag");
-			alt1.overLaySetGroup("lag");
-			alt1.overLayTextEx("Capturing rewards...", a1lib.mixColor(255, 144, 0), 20, Math.round(alt1.rsWidth / 2), 200, 60000, "", true, true);
+			if (window.alt1) {
+				alt1.overLayClearGroup("overlays");
+				alt1.overLayClearGroup("lag");
+				alt1.overLaySetGroup("lag");
+				alt1.overLayTextEx("Capturing rewards...", a1lib.mixColor(255, 144, 0), 20, Math.round(alt1.rsWidth / 2), 200, 60000, "", true, true);
+			}
 		}
 		let itemResults = [];
 		let promises = [];
@@ -1445,13 +1450,13 @@ async function addHistoryToLs(value: number, items: any, quants: any, tier: any)
 
 function lootDisplay() {
 	//Set Number of clues and Current and Average values
-	(document.getElementById("number_of_clues") as HTMLSpanElement).textContent = parseInt(JSON.parse(localStorage.getItem(currentTier()[2]))).toLocaleString("en-US");
-	(document.getElementById("value_of_clues") as HTMLSpanElement).textContent = parseInt(JSON.parse(localStorage.getItem(currentTier()[1]))).toLocaleString("en-US");
+	(document.getElementById("number_of_rewards") as HTMLSpanElement).textContent = parseInt(JSON.parse(localStorage.getItem(currentTier()[2]))).toLocaleString("en-US");
+	(document.getElementById("value_of_rewards") as HTMLSpanElement).textContent = parseInt(JSON.parse(localStorage.getItem(currentTier()[1]))).toLocaleString("en-US");
 	if (parseInt(JSON.parse(localStorage.getItem(currentTier()[2]))) != 0) {
-		(document.getElementById("average_of_clues") as HTMLSpanElement).textContent = Math.round(parseInt(JSON.parse(localStorage.getItem(currentTier()[1]))) / parseInt(JSON.parse(localStorage.getItem(currentTier()[2])))).toLocaleString("en-US");
+		(document.getElementById("average_of_rewards") as HTMLSpanElement).textContent = Math.round(parseInt(JSON.parse(localStorage.getItem(currentTier()[1]))) / parseInt(JSON.parse(localStorage.getItem(currentTier()[2])))).toLocaleString("en-US");
 	}
 	else {
-		(document.getElementById("average_of_clues") as HTMLSpanElement).textContent = "0";
+		(document.getElementById("average_of_rewards") as HTMLSpanElement).textContent = "0";
 	}
 
 	//Set the icons in the tabs
@@ -1498,7 +1503,9 @@ function tabDisplay() {
 
 
 async function historyClear() {
+	console.log("DEBUG: clearing...")
 	removeChildNodes(document.getElementById("history_body") as HTMLDivElement);
+	console.log(document.getElementById("history_body") as HTMLDivElement)
 }
 
 
