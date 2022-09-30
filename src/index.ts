@@ -106,6 +106,7 @@ var imgs = a1lib.ImageDetect.webpackImages({
 
 
 export async function initOnLoad() {
+	buttonDisabletoggle = true;
 	if (window.alt1) {
 		alt1.overLayClearGroup("overlays");
 		alt1.overLayClearGroup("icon");
