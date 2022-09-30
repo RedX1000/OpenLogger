@@ -158,7 +158,7 @@ async function keytransfer(){
 
 
 export async function init() {
-	buttonDisabler();
+	await buttonDisabler();
 
 	// TODO: This is a fix for when the buttons are clicked once.
 	// When clicked once, it does nothing but when clicked a second
@@ -364,7 +364,7 @@ export async function changeClueTierSpan(id: string, event: Event) {
 		alt1.overLaySetGroup("overlays");
 		alt1.overLayTextEx((id[0].toUpperCase() + id.slice(1).toLowerCase()) + " tier rewards & images loaded!", a1lib.mixColor(100, 255, 100), 20, Math.round(alt1.rsWidth / 2), 200, 2000, "", true, true)
 	}
-	buttonEnabler();
+	await buttonEnabler();
 	lastReroll = [0, 0];
 }
 
@@ -2582,7 +2582,8 @@ function orderChecker(order: number, item: string) {
 }
 
 
-function buttonDisabler() {
+async function buttonDisabler() {
+		if (seeConsoleLogs) console.log("Disabling Buttons")
 		if (localStorage.getItem("OpenLogger/autoCapture") !== "true") {
 			(document.getElementById("docapturebutton") as HTMLDivElement).setAttribute("title", "Currently disabled to due initialization, settings being saved, or autocapture");
 			(document.getElementById("docapturebuttonwords") as HTMLDivElement).style.setProperty("text-decoration", "line-through");
@@ -2603,7 +2604,8 @@ function buttonDisabler() {
 }
 
 
-function buttonEnabler() {
+async function buttonEnabler() {
+	if (seeConsoleLogs) console.log("Enabling Buttons")
 	if (localStorage.getItem("autoCapture") !== "true") {
 		(document.getElementById("docapturebutton") as HTMLDivElement).setAttribute("title", "");
 		(document.getElementById("docapturebuttonwords") as HTMLDivElement).style.removeProperty("text-decoration");
