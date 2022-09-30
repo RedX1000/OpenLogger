@@ -117,6 +117,8 @@ export async function initOnLoad() {
 		alt1.overLayTextEx("Initializing OpenLogger...", a1lib.mixColor(255, 144, 0), 20, Math.round(alt1.rsWidth / 2), 200, 50000, "", true, true);
 	}
 
+
+
 	// 09/07/2022: This function exists to attempt to preserve data when changing naming conventions over
 	// due to singular domain, and localstorage overwriting itself.
 	// Remove this later down the line or if youre making your own plugin
@@ -159,6 +161,7 @@ async function keytransfer(){
 
 
 export async function init() {
+	//await new Promise(resolve => setTimeout(resolve, 5000));
 	await buttonDisabler();
 
 	// TODO: This is a fix for when the buttons are clicked once.
@@ -2591,6 +2594,10 @@ async function buttonDisabler() {
 			(document.getElementById("docapturebutton") as HTMLDivElement).setAttribute("onclick", "");
 		}
 		(document.getElementById("toggleunlocktrack") as HTMLDivElement).setAttribute("onclick", "");
+		let radiobuttons = document.getElementsByClassName("clue_scroll_level") as HTMLCollectionOf<HTMLInputElement>;
+		for(let i = 0; i < radiobuttons.length; i++){
+			radiobuttons[i].disabled = true
+		}
 		(document.getElementById("easy") as HTMLDivElement).setAttribute("onclick", "");
 		(document.getElementById("medium") as HTMLDivElement).setAttribute("onclick", "");
 		(document.getElementById("hard") as HTMLDivElement).setAttribute("onclick", "");
@@ -2618,6 +2625,10 @@ async function buttonEnabler() {
 	(document.getElementById("hard") as HTMLDivElement).setAttribute("onclick", "TEST.changeClueTierSpan('hard', event);");
 	(document.getElementById("elite") as HTMLDivElement).setAttribute("onclick", "TEST.changeClueTierSpan('elite', event);");
 	(document.getElementById("master") as HTMLDivElement).setAttribute("onclick", "TEST.changeClueTierSpan('master', event);");
+	let radiobuttons = document.getElementsByClassName("clue_scroll_level") as HTMLCollectionOf<HTMLInputElement>;
+	for(let i = 0; i < radiobuttons.length; i++){
+		radiobuttons[i].disabled = false
+	}
 	(document.getElementById("label_easy") as HTMLDivElement).setAttribute("onclick", "TEST.changeClueTierSpan('easy', event);");
 	(document.getElementById("label_medium") as HTMLDivElement).setAttribute("onclick", "TEST.changeClueTierSpan('medium', event);");
 	(document.getElementById("label_hard") as HTMLDivElement).setAttribute("onclick", "TEST.changeClueTierSpan('hard', event);");

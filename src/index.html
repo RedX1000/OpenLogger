@@ -12,6 +12,25 @@
 	</head>
 	<body class="nis" onload="TEST.initOnLoad()"></body>
 		<header>
+			<!--
+				Note on how to fix radio buttons being clickable during init
+				IGNORE THIS IT'S FIXED YAY
+				============================================================
+
+				Remove the command from the buttons within the HTML script, and assign
+				the values later in the TS script
+
+				Also set booleans for buttonenabler and disabler
+				
+				initbuttons = false
+				then initbuttons = true
+
+				maybe? 🤔🤔🤔🤔🤔🤔🤔🤔🤔🤔🤔🤔🤔🤔🤔🤔🤔🤔🤔🤔🤔🤔🤔
+
+				Or maybe just display none and redisplay at the end
+				Ez fix
+
+			-->
 			<h1 class="title">OpenLogger, an open-source clue logger</h1>
 			<div class="header_box">
 				<div class="button_box">
@@ -493,6 +512,10 @@
 					<div class="modal-body" style="user-select: text;">
 						<h2><u>Latest update</u></h2>
 						<h3>
+							<span style="color: rgb(221, 188, 42);">
+								If there is anyone having an issue regarding radio buttons not aligning properly with the currently selected tier <br>
+								(i.e. radio button says easy but value says hard), send me a DM.
+							</span>
 							<span style="color: rgb(42,221,198);">
 								Note for people who installed the plugin between April and End of June:  <br>
 								Considering all of the updates that have happened in that timeframe and now, there may be some plugin-breaking side effects, such as incorrect scans or history logs. <br>
