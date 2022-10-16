@@ -1799,7 +1799,7 @@ export async function fetchFromGE() {
 		alt1.overLayTextEx("Fetching prices from GE...",a1lib.mixColor(255, 144, 0), 20, Math.round(alt1.rsWidth / 2), 200, 40000, "", true, true);
 	}
 
-	let items = []
+	let itemsList = []
 	let quants = []
 	let itemDivs = document.getElementsByClassName("items") as HTMLCollectionOf<HTMLSelectElement>
 	let quantDivs = document.getElementsByClassName("item_quants") as HTMLCollectionOf<HTMLInputElement>
@@ -1809,19 +1809,19 @@ export async function fetchFromGE() {
 			continue;
 		}
 		if (["Saradomin page", "Guthix page", "Zamorak page", "Armadyl page", "Bandos page", "Ancient page"].includes(itemDivs[i].options[itemDivs[i].selectedIndex].value)) {	
-			items.push((itemDivs[i].options[itemDivs[i].selectedIndex].value) + " 1");
+			itemsList.push((itemDivs[i].options[itemDivs[i].selectedIndex].value) + " 1");
 		}
 		else if (["Dragon platelegs-skirt ornament kit (or)", "Dragon platelegs-skirt ornament kit (sp)"].includes(itemDivs[i].options[itemDivs[i].selectedIndex].value)) {
-			items.push((itemDivs[i].options[itemDivs[i].selectedIndex].value).replace("-","/"));
+			itemsList.push((itemDivs[i].options[itemDivs[i].selectedIndex].value).replace("-","/"));
 		}
 		else {
-			items.push((itemDivs[i].options[itemDivs[i].selectedIndex].value));
+			itemsList.push((itemDivs[i].options[itemDivs[i].selectedIndex].value));
 		}
 		quants.push(parseInt(quantDivs[i].value));
 	}
-	if (seeConsoleLogs) console.log("Fetched items from GE are", items, "quants are", quants);
+	if (seeConsoleLogs) console.log("Fetched items from GE are", itemsList, "quants are", quants);
 
-	if (items.length == 0) {
+	if (itemsList.length == 0) {
 		if (window.alt1) {
 			alt1.overLayClearGroup("overlays");
 			alt1.overLaySetGroup("overlays");
@@ -1833,24 +1833,24 @@ export async function fetchFromGE() {
 	}
 
 	let prices = [];
-	for (let i = 0; i < items.length; i++) {
+	for (let i = 0; i < itemsList.length; i++) {
 		try {
-			await fetch("https://api.weirdgloop.org/exchange/history/rs/latest?name=" + items[i].replace("+","%2B").replace("+","%2B"))
+			await fetch("https://api.weirdgloop.org/exchange/history/rs/latest?name=" + itemsList[i].replace("+","%2B").replace("+","%2B"))
   				.then(function(response) {
   				  return response.json();
   				})
   				.then(function(data) {
-  				  prices.push(data[items[i]].price);
+  				  prices.push(data[itemsList[i]].price);
   				});
 		} catch (e) {
-			if (seeConsoleLogs) console.log("It failed... setting to 0...", items[i], items[i].replace("+","%2B").replace("+","%2B"));
+			if (seeConsoleLogs) console.log("It failed... setting to 0...", itemsList[i], itemsList[i].replace("+","%2B").replace("+","%2B"));
 			prices.push(0);
     	}
 	}
 
 	let grandTotal = 0;
-	for (let i = 0; i < items.length; i++) {
-		if (items[i] == "Coins") {
+	for (let i = 0; i < itemsList.length; i++) {
+		if (itemsList[i] == "Coins") {
 			grandTotal += quants[i];
 		}
 		else {
@@ -1871,7 +1871,7 @@ export async function fetchFromGE() {
 
 export function verifyInsert(event: Event) {
 	if (seeConsoleLogs) console.log("Collecting info from insert...");
-	let items = [];
+	let itemsList = [];
 	let quants = [];
 	let totalPrice = parseInt((document.getElementById("value_input") as HTMLInputElement).value);
 	let itemDivs = document.getElementsByClassName("items") as HTMLCollectionOf<HTMLSelectElement>;
@@ -1883,12 +1883,12 @@ export function verifyInsert(event: Event) {
 		if (itemDivs[i].options[itemDivs[i].selectedIndex].value == "Blank") {
 			continue;
 		}
-		items.push(itemDivs[i].options[itemDivs[i].selectedIndex].value);
+		itemsList.push(itemDivs[i].options[itemDivs[i].selectedIndex].value);
 		quants.push(parseInt(quantDivs[i].value));
 	}
-	if (seeConsoleLogs) console.log("items verifying are", items, "quants are", quants);
+	if (seeConsoleLogs) console.log("items verifying are", itemsList, "quants are", quants);
 
-	if (items.length == 0) {   
+	if (itemsList.length == 0) {   
 		if (window.alt1) {
 			alt1.overLayClearGroup("overlays");
 			alt1.overLaySetGroup("overlays");
@@ -1929,8 +1929,8 @@ export function verifyInsert(event: Event) {
 		let quantvar = document.createElement("span") as HTMLSpanElement;
 
 		if (quants[j] !== undefined) {
-			imgvar = imgMaker(items[j]);
-			nodevar = nodeMaker(parseInt(quants[j]), items[j], "history");
+			imgvar = imgMaker(itemsList[j]);
+			nodevar = nodeMaker(parseInt(quants[j]), itemsList[j], "history");
 			quantvar = quantMaker(quants[j]);
 		}
 		else {
@@ -1955,7 +1955,7 @@ export function verifyInsert(event: Event) {
 
 	let customTier = currentTier();
 	customTier[0] += " [C] ";
-	insertVerif = [items, quants, totalPrice, customTier];
+	insertVerif = [itemsList, quants, totalPrice, customTier];
 
 	buttonbox.append(button);
 	container.append(buttonbox);
@@ -1973,7 +1973,7 @@ export function insertToDB() {
 			a1lib.mixColor(255, 144, 0), 20, Math.round(alt1.rsWidth / 2), 200, 40000, "", true, true);
 	}
 	
-	let items = insertVerif[0];
+	let itemsList = insertVerif[0];
 	let quants = [];
 	for (let i = 0; i < insertVerif[1].length; i++) {
 		quants.push(insertVerif[1][i].toString());
@@ -1982,8 +1982,8 @@ export function insertToDB() {
 	let tier = insertVerif[3];
 	
 	insertInit();
-	submitToLS(items, quants, parseInt(value));
-	addHistoryToLs(parseInt(value), items, quants, tier);
+	submitToLS(itemsList, quants, parseInt(value));
+	addHistoryToLs(parseInt(value), itemsList, quants, tier);
 	lootDisplay();
 
 	if (window.alt1) {
@@ -2620,15 +2620,15 @@ async function buttonEnabler() {
 		(document.getElementById("docapturebutton") as HTMLDivElement).setAttribute("onclick", "TEST.capture(false)");
 	}
 	(document.getElementById("toggleunlocktrack") as HTMLDivElement).setAttribute("onclick", "TEST.toggleCapture(event)");
+	let radiobuttons = document.getElementsByClassName("clue_scroll_level") as HTMLCollectionOf<HTMLInputElement>;
+	for(let i = 0; i < radiobuttons.length; i++){
+		radiobuttons[i].disabled = false
+	}
 	(document.getElementById("easy") as HTMLDivElement).setAttribute("onclick", "TEST.changeClueTierSpan('easy', event);");
 	(document.getElementById("medium") as HTMLDivElement).setAttribute("onclick", "TEST.changeClueTierSpan('medium', event);");
 	(document.getElementById("hard") as HTMLDivElement).setAttribute("onclick", "TEST.changeClueTierSpan('hard', event);");
 	(document.getElementById("elite") as HTMLDivElement).setAttribute("onclick", "TEST.changeClueTierSpan('elite', event);");
 	(document.getElementById("master") as HTMLDivElement).setAttribute("onclick", "TEST.changeClueTierSpan('master', event);");
-	let radiobuttons = document.getElementsByClassName("clue_scroll_level") as HTMLCollectionOf<HTMLInputElement>;
-	for(let i = 0; i < radiobuttons.length; i++){
-		radiobuttons[i].disabled = false
-	}
 	(document.getElementById("label_easy") as HTMLDivElement).setAttribute("onclick", "TEST.changeClueTierSpan('easy', event);");
 	(document.getElementById("label_medium") as HTMLDivElement).setAttribute("onclick", "TEST.changeClueTierSpan('medium', event);");
 	(document.getElementById("label_hard") as HTMLDivElement).setAttribute("onclick", "TEST.changeClueTierSpan('hard', event);");
