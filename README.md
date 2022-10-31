@@ -27,7 +27,7 @@
     * [Reference Image Collection](#reference-image-collection)
     * [Miscellaneous Toggles](#miscellaneous-toggles)
 * [Additional Information](#additional-information)
-    * [Treasure trail log can disable OpenLogger](#treasure-trail-log-can-be-open-during-casket-openings-but-it-cannot-be-above-or-more-to-the-right-of-the-casket-window-otherwise-it-will-not-scan)
+    * [Treasure trail log can disable OpenLogger](#treasure-trail-log-can-be-open-during-casket-openings-but-it-cannot-be-above-or-more-to-the-left-of-the-casket-window-otherwise-it-will-not-scan)
     * [Things to avoid accidentally covering when scanning](#when-scanning-clues-do-not-cover-these-spots-on-a-casket-open-screen)
     * [Avoiding menus causing multi-capturing](#avoiding-menus-causing-multi-capturing-a-few-tips-on-where-to-avoid-having-menus-appearing-over-the-value)
     * [Accessing `localStorage`](#this-plugin-stores-data-using-localstorage-within-alt1-therefore-it-can-remember-all-of-the-loot-you-have-gotten-between-sessions-unless-it-is-cleared-to-access-it)
@@ -166,7 +166,7 @@ To install with the direct link
 6. History Display Limit: Limits the number of latest clues displayed within the History menu. Default value is 25, minimum value is 0. <br><br>
 
 # Additional information
-* ### Treasure trail log can be open during casket openings but it cannot be above or more to the right of the casket window, otherwise it <i><b>WILL NOT</b></i> scan.
+* ### Treasure trail log can be open during casket openings but it cannot be above or more to the left of the casket window, otherwise it <i><b>WILL NOT</b></i> scan.
     * This <i><b>IS NOT</b></i> an okay placement of the log window: <br>![Bad log display](/Readme%20Images/bad%20log%20placement.png "Bad log placement")
     * This <i><b>IS</b></i> an okay placement of the log window: <br>![Correct lo display](/Readme%20Images/good%20log%20placement.png "Good log placement")
 
