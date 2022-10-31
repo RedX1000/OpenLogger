@@ -167,8 +167,8 @@ To install with the direct link
 
 # Additional information
 * ### Treasure trail log can be open during casket openings but it cannot be above or more to the right of the casket window, otherwise it will not scan.
-    * This <b><u>is not</u></b> an okay placement of the log window: <br>![Bad log display](/Readme%20Images/bad%20log%20placement.png "Bad log placement")
-    * This <b><u>is</u></b> an okay placement of the log window: <br>![Correct lo display](/Readme%20Images/good%20log%20placement.png "Good log placement")
+    * This <u><b>is not</b></u> an okay placement of the log window: <br>![Bad log display](/Readme%20Images/bad%20log%20placement.png "Bad log placement")
+    * This <u><b>is</b></u> an okay placement of the log window: <br>![Correct lo display](/Readme%20Images/good%20log%20placement.png "Good log placement")
 
 * ### When scanning clues, do not cover these spots on a casket open screen.
     * EOC rewards display: <br>![EOC rewards display](/Readme%20Images/rewardsample.png "EOC Rewards")
