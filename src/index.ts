@@ -113,6 +113,8 @@ export async function initOnLoad() {
 		alt1.overLayClearGroup("lag");
 		alt1.overLayClearGroup("nomenu");
 		
+		// TODO: Learn Refreshgroup and Freezegroup
+
 		alt1.overLaySetGroup("overlays");
 		alt1.overLayTextEx("Initializing OpenLogger...", a1lib.mixColor(255, 144, 0), 20, Math.round(alt1.rsWidth / 2), 200, 50000, "", true, true);
 	}
