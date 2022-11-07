@@ -203,8 +203,8 @@ To install with the direct link
     4. On the left-hand side, under "Storage", click "Local Storage" <br>
     5. Click the link under "Local Storage" <br>
         - To Clear `localStorage` completely it can be done in one of two ways: <br>   
-            1. Select "Completely Reset OpenLogger" in the Clear Options Menu and select       "Reset Everything" (Easiest best choice). <br>
-            2. Right click the link under Local Storage and select "Clear". <br><br>
+            1. Select "Completely Reset OpenLogger" in the Clear Options Menu and select "Reset Everything" (Easiest best choice). <br>
+            2. Within `localStorage`, filter by "OpenLogger" and remove every entry that starts with "OpenLogger". <br><br>
 
 * ### OpenLogger can be stretched out widthwise to display more of the loot in its display, as the top is flexy, and if you compress the bottom, you can have a minimal box for only seeing scanned items: 
     ![OpenLogger Tall Top](/Readme%20Images/OpenLogger%20Tall%20Top.png "OpenLogger Tall Top") <br>
