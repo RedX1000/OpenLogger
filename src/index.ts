@@ -2307,7 +2307,35 @@ export function exporttocsv() {
 	csvinfo.push(["Clue Tier & Count", "Clue Value", "Item 1", "Item 2", "Item 3", "Item 4", "Item 5", "Item 6", "Item 7", "Item 8", "Item 9"])
 
 	if (seeConsoleLogs) console.log("Setting history in csv...")
+
+	let easy = 1
+	let medium = 1
+	let hard = 1
+	let elite = 1
+	let master = 1
 	for (let i = 0; i < lsHistory.length; i++) {
+		if(lsHistory[i][3][0].replace(" [C] ", "") == ("easy")){
+			lsHistory[i][4] = easy;
+			easy++;
+		}
+		else if(lsHistory[i][3][0].replace(" [C] ", "") == ("medium")){
+			lsHistory[i][4] = medium;
+			medium++;
+		}
+		else if(lsHistory[i][3][0].replace(" [C] ", "") == ("hard")){
+			lsHistory[i][4] = hard;
+			hard++;
+		}
+		else if(lsHistory[i][3][0].replace(" [C] ", "") == ("elite")){
+			lsHistory[i][4] = elite;
+			elite++;
+		}
+		else if(lsHistory[i][3][0].replace(" [C] ", "") == ("master")){
+			lsHistory[i][4] = master;
+			master++;
+		}
+		console.log(lsHistory[i][3][0] + " : " + lsHistory[i][4], lsHistory[i][2].toString())
+
 		let temp = [lsHistory[i][3][0] + " : " + lsHistory[i][4], lsHistory[i][2].toString()]
 		for (let j = 0; j < 9; j++) {
 			if (lsHistory[i][0][j] != undefined) {
