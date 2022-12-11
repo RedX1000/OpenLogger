@@ -46,32 +46,32 @@ var rewardSlots = ["first_item", "second_item", "third_item", "fourth_item", "fi
 					"sixth_item", "seventh_item", "eigth_item", "ninth_item"];
 					
 
-var listOfItemsAll = [];
-var listOfitemsTwoPlus = [];
-var listOfItemsOrgList = [];
-var listOfItemsOrgMinus = [];
-var listOfItemsLegacyAll = [];
-var listOfItemslegacyTwoPlus = [];
-var listOfItemsLegacyOrgList = [];
-var listOfItemsLegacyOrgMinus = [];
+var listOfItemsAll: any[];
+var listOfitemsTwoPlus: any[];
+var listOfItemsOrgList: any[];
+var listOfItemsOrgMinus: any[];
+var listOfItemsLegacyAll: any[];
+var listOfItemslegacyTwoPlus: any[];
+var listOfItemsLegacyOrgList: any[];
+var listOfItemsLegacyOrgMinus: any[];
 
-var listOfItemsAllArray = [];
-var listOfitemsTwoPlusArray = [];
-var listOfItemsOrgListArray = [];
-var listOfItemsOrgMinusArray = [];
-var listOfItemsLegacyAllArray = [];
-var listOfItemslegacyTwoPlusArray = [];
-var listOfItemsLegacyOrgListArray = [];
-var listOfItemsLegacyOrgMinusArray = [];
+var listOfItemsAllArray: any[];
+var listOfitemsTwoPlusArray: any[];
+var listOfItemsOrgListArray: any[];
+var listOfItemsOrgMinusArray: any[];
+var listOfItemsLegacyAllArray: any[];
+var listOfItemslegacyTwoPlusArray: any[];
+var listOfItemsLegacyOrgListArray: any[];
+var listOfItemsLegacyOrgMinusArray: any[];
 
 var items = JSON;
 
 var legacy = false;
 var displaybox = true;
 
-var lastItems = [];
-var lastQuants = [];
-var lastTier = [];
+var lastItems: any[];
+var lastQuants: any[];
+var lastTier: any[];
 var lastValue = 0;
 
 var lastReroll = [0, 0];
@@ -88,7 +88,7 @@ var buttonDisabletoggle = true;
 
 var lagCounter = 0;
 
-var insertVerif = [];
+var insertVerif: any[];
 
 var imgs = a1lib.ImageDetect.webpackImages({
 	trailComplete: require("./images/TrailComplete.data.png"),
@@ -203,8 +203,8 @@ export async function init() {
 		}
 	}
 
-
 	if (seeConsoleLogs) console.log("LocalStorage items initialized.");
+
 
 	if (seeConsoleLogs) console.log("Initializing radio buttons...");
 	if (localStorage.getItem("OpenLogger/Checked button") == null) { // Checked button init check
@@ -279,6 +279,17 @@ export async function init() {
 		if (seeConsoleLogs) console.log("Creating history");
 		localStorage.setItem("OpenLogger/History",JSON.stringify([]));
 	}
+
+	// This code should add the current date to your history log if it does not exist.
+	// This snippet can be removed a few months in the future or for future projects with this code.
+	// ~ 11/21/2022
+	let history = JSON.parse(localStorage.getItem("OpenLogger/History"))
+	for(let i = 0; i < history.length; i++){
+		if(history[i][6] == undefined){
+			history[i].push(await dateGetter())
+		}
+	}
+	localStorage.setItem("OpenLogger/History",JSON.stringify(history))
 
 	
 	if (localStorage.getItem("OpenLogger/PrimaryKeyHistory") == null) { // Initialize primary key for history
@@ -385,7 +396,14 @@ export async function cleardb(choice: any) {
 			alt1.overLayTextEx("Resetting OpenLogger...", a1lib.mixColor(255, 144, 0), 20, Math.round(alt1.rsWidth / 2), 200, 4000, "", true, true);
 		}
 
-		localStorage.clear();
+		let ls = Object.keys(localStorage)
+		for(const i of ls){
+			if(i.includes("OpenLogger")){
+				console.log("Removing all OpenLogger stuff...")
+				localStorage.removeItem(i)
+			}
+		}
+
 
 		if (window.alt1) {
 			alt1.overLayClearGroup("overlays");
@@ -1020,7 +1038,7 @@ async function findtrailComplete(img: ImgRef, autobool: boolean) {
 			let quantvar = document.createElement("span") as HTMLSpanElement;
 
 			nodevar = nodeMaker(parseInt(quantResults[i]), itemResults[i], "recent")
-			imgvar = imgMaker(itemResults[i])
+			imgvar = imgMaker(itemResults[i], parseInt(quantResults[i]))
 			quantvar = quantMaker(parseInt(quantResults[i]))
 
 			nodevar.append(quantvar);
@@ -1422,12 +1440,13 @@ async function submitToLS(item: any[], quant: any[], value: any) {
 
 async function addHistoryToLs(value: number, items: any, quants: any, tier: any) {
 	// The order of how History items are logged
-	// Index 1: Items (Array)
-	// Index 2: Quantities (Array)
-	// Index 3: Value
-	// Index 4: Tier info (Array)
-	// Index 5: Tier casket count
-	// Index 6: History Primary Key
+	// Index 0: Items (Array)
+	// Index 1: Quantities (Array)
+	// Index 2: Value
+	// Index 3: Tier info (Array)
+	// Index 4: Tier casket count
+	// Index 5: History Primary Key
+	// Index 6: Date and time captured 
 
 	for (let i = items.length - 1; i >= 0; i--) {
 		if (items[i] == "Blank") {
@@ -1441,8 +1460,10 @@ async function addHistoryToLs(value: number, items: any, quants: any, tier: any)
 			quants[i] += "000";
 		}
 	}
-	
-	let previous = [items, quants, value, tier, localStorage.getItem(tier[2]), localStorage.getItem("OpenLogger/PrimaryKeyHistory")];
+
+	let currentDateTime = await dateGetter()
+
+	let previous = [items, quants, value, tier, localStorage.getItem(tier[2]), localStorage.getItem("OpenLogger/PrimaryKeyHistory"), currentDateTime];
 	let temp = JSON.parse(localStorage.getItem("OpenLogger/History"))
 	temp.push(previous);
 
@@ -1477,7 +1498,7 @@ function tabDisplay() {
 		divs[i].textContent = "";
 	}
 	for (let i = 0; i < keys.length; i++) {
-		// Interesting tidbit: Comment out this if block to display every item, 
+		// TODO: Interesting tidbit: Comment out this if block to display every item, 
 		// but quantities will be undefined for the given tier if it doesn't exist in it.
 		if (items[keys[i]].quantity[currentTier()[0]] == undefined || items[keys[i]].quantity[currentTier()[0]] == 0) {
 			continue;
@@ -1490,15 +1511,17 @@ function tabDisplay() {
 
 		nodevar = nodeMaker(parseInt(items[keys[i]].quantity[currentTier()[0]]), keys[i], "tab");
 		nodevar.style.order = orderChecker(parseInt(items[keys[i]].order), keys[i]).toString();
-		imgvar = imgMaker(keys[i]);
 		
 		// This if else only exists for when I comment out the above if block.
 		// Nice for viewing all of the loot.
 		if (items[keys[i]].quantity[currentTier()[0]] == undefined) {
 			quantvar = quantMaker(0);
+			imgvar = imgMaker(keys[i], 0);
+
 		}
 		else {
 			quantvar = quantMaker(items[keys[i]].quantity[currentTier()[0]]);
+			imgvar = imgMaker(keys[i], items[keys[i]].quantity[currentTier()[0]]);
 		}
 
 		nodevar.append(quantvar);
@@ -1516,10 +1539,14 @@ async function historyClear() {
 function rollbackFunc(valueClear: boolean) { // TODO: Edit this once you get the interface up and running... Consider sending in an index value...
 	let lsHistory = JSON.parse(localStorage.getItem("OpenLogger/History"));
 	let lastRoll = lsHistory[lsHistory.length - 1];
-	//	Index 0 = Items
-	//	Index 1 = Quantities
-	//	Index 2 = Value of clue
-	// 	Index 3 = Tier of clue, value and count
+	// The order of how History items are logged
+	// Index 0: Items (Array)
+	// Index 1: Quantities (Array)
+	// Index 2: Value
+	// Index 3: Tier info (Array)
+	// Index 4: Tier casket count
+	// Index 5: History Primary Key
+	// Index 6: Date and time captured 
 
 	if (seeConsoleLogs) console.log("Rolling back:", lastRoll[0], lastRoll[1], lastRoll[2], lastRoll[3]);
 	for (let i = 0; i < lastRoll[0].length; i++) {
@@ -1568,6 +1595,16 @@ function historyInit() {
 					container.setAttribute("class", "historyDisplayContainer");
 					container.setAttribute('id','container' + temp[5]);
 
+					let dateBox = document.createElement("div") as HTMLDivElement;
+					let dateImg = document.createElement("div") as HTMLDivElement;
+					
+					dateBox.setAttribute('class', 'dateBox')
+					dateImg.setAttribute('class', 'dateImage')
+					dateImg.setAttribute('title', 'Date Captured: ' + temp[6])
+
+					dateBox.append(dateImg)
+					container.append(dateBox)
+
 					if (temp[3][0].includes(" [C] ")) {
 						let customSpan = document.createElement("span") as HTMLSpanElement;
 						customSpan.setAttribute("class", "customSpan");
@@ -1589,7 +1626,7 @@ function historyInit() {
 					}
 
 					let value = document.createElement("div") as HTMLDivElement;
-					value.textContent = "Reward Value: "+temp[2].toLocaleString("en-US");
+					value.textContent = "Reward Value: " + temp[2].toLocaleString("en-US");
 					value.setAttribute('class','historyValue');
 					container.append(value);
 
@@ -1599,12 +1636,12 @@ function historyInit() {
 						let quantvar = document.createElement("span") as HTMLSpanElement;
 						
 						if (temp[1][j] !== undefined) {
-							imgvar = imgMaker(temp[0][j]);
+							imgvar = imgMaker(temp[0][j], temp[1][j]);
 							nodevar = nodeMaker(parseInt(temp[1][j]), temp[0][j], "history");
 							quantvar = quantMaker(temp[1][j]);
 						}
 						else {
-							imgvar = imgMaker("Transparent");
+							imgvar = imgMaker("Transparent", temp[1][j]);
 							nodevar.setAttribute("class", "node_history");
 							nodevar.removeAttribute("title");
 							quantvar.textContent = "";
@@ -1871,7 +1908,7 @@ export async function fetchFromGE() {
 }
 
 
-export function verifyInsert(event: Event) {
+export async function verifyInsert(event: Event) {
 	if (seeConsoleLogs) console.log("Collecting info from insert...");
 	let itemsList = [];
 	let quants = [];
@@ -1908,6 +1945,16 @@ export function verifyInsert(event: Event) {
 	container.setAttribute("class", 'historyDisplayContainer');
 	container.setAttribute('id','container' + curr);
 
+	let dateBox = document.createElement("div") as HTMLDivElement;
+	let dateImg = document.createElement("div") as HTMLDivElement;
+	
+	dateBox.setAttribute('class', 'dateBox')
+	dateImg.setAttribute('class', 'dateImage')
+	dateImg.setAttribute('title', 'Date Captured: ' + (await dateGetter()))
+
+	dateBox.append(dateImg)
+	container.append(dateBox)
+
 	let customSpan = document.createElement("span") as HTMLSpanElement;
 	customSpan.setAttribute("class", "customSpan");
 	customSpan.setAttribute("title", "Custom clue manually inserted.");
@@ -1931,12 +1978,12 @@ export function verifyInsert(event: Event) {
 		let quantvar = document.createElement("span") as HTMLSpanElement;
 
 		if (quants[j] !== undefined) {
-			imgvar = imgMaker(itemsList[j]);
+			imgvar = imgMaker(itemsList[j], quants[j]);
 			nodevar = nodeMaker(parseInt(quants[j]), itemsList[j], "history");
 			quantvar = quantMaker(quants[j]);
 		}
 		else {
-			imgvar = imgMaker("Transparent");
+			imgvar = imgMaker("Transparent", quants[j]);
 			nodevar.setAttribute("class", "node_history");
 			nodevar.removeAttribute("title");;
 			quantvar.textContent = "";
@@ -2301,10 +2348,10 @@ export function exporttocsv() {
 			}
 		}
 	}
-	csvinfo.push(["--------","--------","--------","--------","--------","--------","--------","--------","--------","--------","--------"])
-	csvinfo.push(["--------","--------","--------","--------","--------","--------","--------","--------","--------","--------","--------"])
-	csvinfo.push(["Captured Clue History", 'Parse tier at " : " and " [C] "','Parse items at " x "'])
-	csvinfo.push(["Clue Tier & Count", "Clue Value", "Item 1", "Item 2", "Item 3", "Item 4", "Item 5", "Item 6", "Item 7", "Item 8", "Item 9"])
+	csvinfo.push([])
+	csvinfo.push([])
+	csvinfo.push(["Captured Clue History", 'Parse tier at " : " and " [C] "', '"Parse date and time at "", " "' , 'Parse items at " x "'])
+	csvinfo.push(["Clue Tier & Count", "Clue Value", "Date and Time recorded", "Item 1", "Item 2", "Item 3", "Item 4", "Item 5", "Item 6", "Item 7", "Item 8", "Item 9"])
 
 	if (seeConsoleLogs) console.log("Setting history in csv...")
 
@@ -2315,28 +2362,28 @@ export function exporttocsv() {
 	let master = 1
 	for (let i = 0; i < lsHistory.length; i++) {
 		if(lsHistory[i][3][0].replace(" [C] ", "") == ("easy")){
-			lsHistory[i][4] = easy;
+			lsHistory[i][4] = "" + easy;
 			easy++;
 		}
 		else if(lsHistory[i][3][0].replace(" [C] ", "") == ("medium")){
-			lsHistory[i][4] = medium;
+			lsHistory[i][4] = "" + medium;
 			medium++;
 		}
 		else if(lsHistory[i][3][0].replace(" [C] ", "") == ("hard")){
-			lsHistory[i][4] = hard;
+			lsHistory[i][4] = "" + hard;
 			hard++;
 		}
 		else if(lsHistory[i][3][0].replace(" [C] ", "") == ("elite")){
-			lsHistory[i][4] = elite;
+			lsHistory[i][4] = "" + elite;
 			elite++;
 		}
 		else if(lsHistory[i][3][0].replace(" [C] ", "") == ("master")){
-			lsHistory[i][4] = master;
+			lsHistory[i][4] = "" + master;
 			master++;
 		}
-		console.log(lsHistory[i][3][0] + " : " + lsHistory[i][4], lsHistory[i][2].toString())
+		
+		let temp = [lsHistory[i][3][0] + " : " + lsHistory[i][4], lsHistory[i][2].toString(), '"' + lsHistory[i][6].toString() + '"']
 
-		let temp = [lsHistory[i][3][0] + " : " + lsHistory[i][4], lsHistory[i][2].toString()]
 		for (let j = 0; j < 9; j++) {
 			if (lsHistory[i][0][j] != undefined) {
 				temp.push(parseInt(lsHistory[i][1][j]).toString() + " x " + lsHistory[i][0][j].toString())
@@ -2347,15 +2394,21 @@ export function exporttocsv() {
 		}
 		csvinfo.push(temp)
 	}
+	localStorage.setItem("OpenLogger/History", JSON.stringify(lsHistory))
 
 	const d = new Date();
+	let hour = "0" + d.getHours().toString()
+	let minute = "0" + d.getMinutes().toString()
+	let second = "0" + d.getSeconds().toString()
+	let month = "0" + (d.getMonth() + 1).toString()
+	let day = "0" + d.getDate().toString()
 	let csvContent = "";
 	csvinfo.forEach(function (i) {
 		let row = i.join(",");
 		csvContent += row + "\r\n";
 	});
 
-	let filename = "OpenLogger CSV " + d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate() + "_" + d.getHours() + "-" + d.getMinutes() + "-" +d.getSeconds()+ ".csv";
+	let filename = "OpenLogger CSV " + (d.getFullYear() + "-" + month.slice(-2) + "-" + day.slice(-2) + "--" + hour.slice(-2) + "-" + minute.slice(-2) + "-" + second.slice(-2)) + ".csv";
 	let encodedUri = "data:text/csv;charset=utf-8,%EF%BB%BF" + encodeURI(csvContent);
 	let link = document.createElement("a") as HTMLAnchorElement;
 	link.setAttribute("href", encodedUri);
@@ -2388,9 +2441,54 @@ function nodeMaker(quant: number, item: string, attribute:string) {
 }
 
 
-function imgMaker(item: string) {
+function imgMaker(item: string, quant: number) {
 	let imgvar = document.createElement("img") as HTMLImageElement;
-	imgvar.src = encodeURI("./images/items/" + item + ".png");
+
+	if(item === "Coins"){
+		if(quant >= 1000 && quant <= 9999)
+			imgvar.src = encodeURI("./images/items/Coins_1000.png");
+		else
+			imgvar.src = encodeURI("./images/items/" + item + ".png");
+	}
+	else if(["Purple sweets", "Holy biscuits"].includes(item)){
+		if(quant == 1)
+			imgvar.src = encodeURI("./images/items/" + item.replace(" ", "_") + "_1.png");
+		else if(quant == 2)
+			imgvar.src = encodeURI("./images/items/" + item.replace(" ", "_") + "_2.png");
+		else if(quant == 3)
+			imgvar.src = encodeURI("./images/items/" + item.replace(" ", "_") + "_3.png");
+		else if(quant == 4)
+			imgvar.src = encodeURI("./images/items/" + item.replace(" ", "_") + "_4.png");
+		else if(quant >= 5 && quant <= 9)
+			imgvar.src = encodeURI("./images/items/" + item.replace(" ", "_") + "_5.png");
+		else if(quant >= 10 && quant <= 24)
+			imgvar.src = encodeURI("./images/items/" + item.replace(" ", "_") + "_10.png");
+		else if(quant >= 25 && quant <= 99)
+			imgvar.src = encodeURI("./images/items/" + item.replace(" ", "_") + "_25.png");
+		else if(quant >= 100)
+			imgvar.src = encodeURI("./images/items/" + item.replace(" ", "_") + "_100.png");
+		else
+			imgvar.src = encodeURI("./images/items/" + item + ".png");
+	}
+	else if(["Papaya tree seed", "Yew seed", "Dragonfruit seed",
+			 "Mango seed", "Lychee seed", "Guarana seed", "Palm tree seed",
+			 "Golden dragonfruit seed", "Carambola seed"].includes(item)){
+		if(quant == 1)
+			imgvar.src = encodeURI("./images/items/" + item.replace(" ", "_").replace(" ", "_") + "_1.png");
+		else if(quant == 2)
+			imgvar.src = encodeURI("./images/items/" + item.replace(" ", "_").replace(" ", "_") + "_2.png");
+		else if(quant == 3)
+			imgvar.src = encodeURI("./images/items/" + item.replace(" ", "_").replace(" ", "_") + "_3.png");
+		else if(quant == 4)
+			imgvar.src = encodeURI("./images/items/" + item.replace(" ", "_").replace(" ", "_") + "_4.png");
+		else if(quant >= 5)
+			imgvar.src = encodeURI("./images/items/" + item.replace(" ", "_").replace(" ", "_") + "_5.png");
+		else
+			imgvar.src = encodeURI("./images/items/" + item + ".png");
+	}
+	else
+		imgvar.src = encodeURI("./images/items/" + item + ".png");
+
 	imgvar.setAttribute('style', 'margin:auto;');
 	imgvar.ondragstart = function() { return false; };
 	return imgvar
@@ -2443,6 +2541,18 @@ function currentTier() {
 
 function currentTierUpper() {
 	return (currentTier()[0][0].toUpperCase() + currentTier()[0].slice(1).toLowerCase())
+}
+
+
+async function dateGetter(){
+	const d = new Date();
+	let hour = "0" + d.getUTCHours().toString()
+	let minute = "0" + d.getUTCMinutes().toString()
+	let second = "0" + d.getUTCSeconds().toString()
+	let month = "0" + (d.getUTCMonth() + 1).toString()
+	let day = "0" + d.getUTCDate().toString()
+	let currentDate = hour.slice(-2) + ":" + minute.slice(-2) + ":" + second.slice(-2) + ", " + d.getUTCFullYear() + "/" + month.slice(-2) + "/" + day.slice(-2) + " UTC"
+	return currentDate
 }
 
 
@@ -2524,29 +2634,34 @@ export function toggleLootDisplay(id: string) {
 		minH = 45;
 	}
 
+	let minHval = (minH + "%").toString()
+
+	// Currently circumventing truecount checker
+	minHval = "80px"
+
 	if (opentabs[0]) {
-		Array.from(document.getElementsByClassName('broadcasts') as HTMLCollectionOf<HTMLElement>)[0].style.minHeight = minH + "%";
+		Array.from(document.getElementsByClassName('broadcasts') as HTMLCollectionOf<HTMLElement>)[0].style.minHeight = minHval;
 	}
 	else {
 		Array.from(document.getElementsByClassName('broadcasts') as HTMLCollectionOf<HTMLElement>)[0].style.minHeight = "8%";
 	}
 
 	if (opentabs[1]) {
-		Array.from(document.getElementsByClassName('general') as HTMLCollectionOf<HTMLElement>)[0].style.minHeight = minH + "%";
+		Array.from(document.getElementsByClassName('general') as HTMLCollectionOf<HTMLElement>)[0].style.minHeight = minHval;
 	}
 	else {
 		Array.from(document.getElementsByClassName('general') as HTMLCollectionOf<HTMLElement>)[0].style.minHeight = "8%";
 	}
 
 	if (opentabs[2]) {
-		Array.from(document.getElementsByClassName('common') as HTMLCollectionOf<HTMLElement>)[0].style.minHeight = minH + "%";
+		Array.from(document.getElementsByClassName('common') as HTMLCollectionOf<HTMLElement>)[0].style.minHeight = minHval;
 	}
 	else {
 		Array.from(document.getElementsByClassName('common') as HTMLCollectionOf<HTMLElement>)[0].style.minHeight = "8%";
 	}
 
 	if (opentabs[3]) {
-		Array.from(document.getElementsByClassName('rare') as HTMLCollectionOf<HTMLElement>)[0].style.minHeight = minH + "%";
+		Array.from(document.getElementsByClassName('rare') as HTMLCollectionOf<HTMLElement>)[0].style.minHeight = minHval;
 	}
 	else {
 		Array.from(document.getElementsByClassName('rare') as HTMLCollectionOf<HTMLElement>)[0].style.minHeight = "8%";
