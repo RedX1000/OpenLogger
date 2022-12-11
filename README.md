@@ -13,6 +13,7 @@
 ### Table of Contents
 * [Description](#description)
 * [How to install](#how-to-install)
+* [Consider sending a donation!](#consider-sending-a-donation)
 * [Instructions on how to use](#instructions-on-how-to-use)
     * [Selecting clue tier](#selecting-clue-tier)
     * [Capture Rewards](#capture-rewards)
@@ -22,6 +23,7 @@
     * [Insert](#insert)
     * [Clear Options menu](#clear-options-menu)
     * [Toggleable loot tabs](#toggleable-loot-tabs)
+    * [Information & Updates](#information--updates)
 * [Settings](#settings) 
     * [Image Searching Algorithm](#image-searching-algorithm)
     * [Reference Image Collection](#reference-image-collection)
@@ -55,7 +57,11 @@ To install with the direct link
 
 ![OpenLogger Tall](/Readme%20Images/OpenLogger%20Tall.png "OpenLogger Tall") <br><br>
 
+### Consider sending a donation!
+The Logger projects are passion project and I have future plans to use these plugins as a base for future loggers<br>
+Consider sending a small donation in this direction🙂.<br>
 
+<script type='text/javascript' src='https://storage.ko-fi.com/cdn/widget/Widget_2.js'></script><script type='text/javascript'>kofiwidget2.init('Support Me on Ko-fi', '#e0a62a', 'L4L7EERT9');kofiwidget2.draw();</script>  <br><br>
 
 # Instructions on how to use
 
@@ -118,6 +124,14 @@ To install with the direct link
     * Set the value manually or by selecting the "Fetch GE" button.
     * Click confirm and review the verification page.
     * Click confirm to add it into `localStorage`. <br><br>
+
+### Information & Updates
+* Information & Updates displays the following:
+    * The latest news about the plugin.
+    * OpenLogger's repository link.
+    * My discord information.
+    * My Ko-fi donation link.
+* I recommend checking here occasionally if anything gets updated regarding OpenLogger.<br><br>
 
 ### Clear Options Menu
 * Clear Options Menu has multiple choices that determine the scope of how much you want to delete from the database of items.
