@@ -24,3 +24,28 @@
     font-display: swap;
 }
 
+@font-face {
+    font-family: 'RuneScape Plain 11';
+    src: url('RuneScape-Plain-11.eot');
+    src: url('RuneScape-Plain-11.eot?#iefix') format('embedded-opentype'),
+        url('RuneScape-Plain-11.woff2') format('woff2'),
+        url('RuneScape-Plain-11.woff') format('woff'),
+        url('RuneScape-Plain-11.ttf') format('truetype'),
+        url('RuneScape-Plain-11.svg#RuneScape-Plain-11') format('svg');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'RuneScape Plain 12';
+    src: url('RuneScape-Plain-12.eot');
+    src: url('RuneScape-Plain-12.eot?#iefix') format('embedded-opentype'),
+        url('RuneScape-Plain-12.woff2') format('woff2'),
+        url('RuneScape-Plain-12.woff') format('woff'),
+        url('RuneScape-Plain-12.ttf') format('truetype'),
+        url('RuneScape-Plain-12.svg#RuneScape-Plain-12') format('svg');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
