@@ -125,14 +125,6 @@ Consider sending a small donation in this direction🙂.<br>
     * Click confirm and review the verification page.
     * Click confirm to add it into `localStorage`. <br><br>
 
-### Information & Updates
-* Information & Updates displays the following:
-    * The latest news about the plugin.
-    * OpenLogger's repository link.
-    * My discord information.
-    * My Ko-fi donation link.
-* I recommend checking here occasionally if anything gets updated regarding OpenLogger.<br><br>
-
 ### Clear Options Menu
 * Clear Options Menu has multiple choices that determine the scope of how much you want to delete from the database of items.
 * There are confirm windows for each option except Refresh page.
@@ -146,6 +138,14 @@ Consider sending a small donation in this direction🙂.<br>
 * Click on the loot tab title to hide the loot, and click it again to show the loot.
 * Hidden tabs will be strikethroughed, and the space below it will be hidden.
 * Hovering over it will give a tooltip on whether you can hide or show the loot. <br><br>
+
+### Information & Updates
+* Information & Updates displays the following:
+    * The latest news about the plugin.
+    * OpenLogger's repository link.
+    * My discord information.
+    * My Ko-fi donation link.
+* I recommend checking here occasionally if anything gets updated regarding OpenLogger.<br><br>
 
 ## Settings
 * Settings allow for user choice of Algorithm for icon recognition, list of reference images used for icon recognition, and for miscellaneous settings toggles.
