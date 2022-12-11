@@ -61,7 +61,7 @@ To install with the direct link
 The Logger projects are passion project and I have future plans to use these plugins as a base for future loggers<br>
 Consider sending a small donation in this direction🙂.<br>
 
-<script type='text/javascript' src='https://storage.ko-fi.com/cdn/widget/Widget_2.js'></script><script type='text/javascript'>kofiwidget2.init('Support Me on Ko-fi', '#e0a62a', 'L4L7EERT9');kofiwidget2.draw();</script>  <br><br>
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/L4L7EERT9)  <br><br>
 
 # Instructions on how to use
 
