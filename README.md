@@ -147,6 +147,11 @@ Consider sending a small donation in this direction🙂.<br>
     * My Ko-fi donation link.
 * I recommend checking here occasionally if anything gets updated regarding OpenLogger.<br><br>
 
+### Home button
+* The Home button takes you to the LoggerSuite homepage.
+* LoggerSuite is the all-in-one plugin homepage for the other loggers including this one.
+* There's an install link on the page, feel free to add it!<br><br>
+
 ## Settings
 * Settings allow for user choice of Algorithm for icon recognition, list of reference images used for icon recognition, and for miscellaneous settings toggles.
 * Hover over the corresponding buttons title to learn more about what it does. <br><br>
