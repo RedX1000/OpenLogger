@@ -24,6 +24,7 @@
     * [Clear Options menu](#clear-options-menu)
     * [Toggleable loot tabs](#toggleable-loot-tabs)
     * [Information & Updates](#information--updates)
+    * [Home button](#home-button)
 * [Settings](#settings) 
     * [Image Searching Algorithm](#image-searching-algorithm)
     * [Reference Image Collection](#reference-image-collection)
