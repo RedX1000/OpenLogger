@@ -432,6 +432,14 @@ body.scrollreset * {
   overflow: hidden !important;
 }
 
+/*
+  =========================================================================
+  Start of personal code excluding fontface at the bottom.
+  There is some custom code above such as nisbluebutton and nissmallbutton.
+  Just tweaked nisbutton classes. (nisbuttonblue, nisbuttonsmall)
+  =========================================================================
+*/
+
 html,
 body{
   height: 100%;
@@ -442,20 +450,15 @@ body{
   Absolute savior*/
 }
 
-html{
-  min-height: 840;
-  min-width: 630;
-}
-
-/*body {
-  min-height: 100%;
-  display: flex;
-  flex-flow: column;
-}*/
-
 body > *{
   flex-shrink: 0;
 }
+
+/*
+  ==========================
+  Beginning of header styles
+  ==========================
+*/
 
 header {
   display:grid;
@@ -466,13 +469,121 @@ header {
   user-select: none;
 }
 
-.title {
+#title {
   position: relative;
   text-align: center;
   font-size: 18px;
   padding: 5px 12px 0px 12px;
   white-space: normal;
   margin:0;
+}
+
+#header_box {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: auto;
+  height: 100%;
+}
+
+#button_box,
+#value_box {
+  text-align: center;
+  position: center;
+  display: grid;
+  grid-gap: 0.1em;
+  grid-template-columns: repeat(2, auto);
+  padding: 3px 7px;
+}
+
+#button_box{
+  padding: 3px 3px 0px 0px;
+  height:auto;
+}
+
+#clue_scrolls_buttons,
+#main_buttons,
+#capture_info,
+#captured_rewards{
+  width:220px;
+  text-align: center
+}
+
+#clue_scrolls_buttons {
+  position: relative;
+  display: inline-block;
+  text-align: center;
+  height:auto;
+  /* padding: 5px 0px 0px 0px; */
+  line-height: 32px;
+}
+
+#clue_scrolls_button_header {
+  position: center;
+  grid-row: 1;
+  grid-column: span 3;
+  font-size: 15px;
+  line-height: 0.5px;
+  text-align: center;
+  margin: 15px auto 10px;
+}
+
+#clue_scrolls_button_box {
+  position: center;
+  display: grid;
+  align-items: center;
+  padding: 0px 12px;
+  grid-template-columns: repeat(3, auto);
+}
+
+.clue_button_label_holder {
+  position: center;
+  width: 100%;
+  user-select: none;
+  margin: auto;
+}
+
+.clue_scroll_level_label {
+  font-size: 14px;
+  position:center;
+  text-align: center;
+  font-weight: 600;
+}
+
+#captured_rewards_title {
+  font-size: 14px;
+  font-weight: 700;
+  margin:auto;
+  padding:0px 0px 4px 0px;
+  line-height: 20px;
+}
+
+#rewards_value{
+  color:#FFC000;
+}
+
+#main_buttons {
+  display: grid;
+  position: relative;
+  text-align: center;
+  padding: 0px 0px 0px 0px;
+  line-height: 32px;
+  font-weight: 600;
+}
+
+#top_buttons,
+#bottom_buttons{
+  width: 100%;
+  cursor: pointer;
+  color: #000;
+  font-family: "trajan-pro-3";
+  font-size: 18px;
+  line-height: 32px;
+  user-select: none;
+  margin: auto;
+  -webkit-user-select: none;
+  display:grid;
+  grid-template-columns: repeat(2, auto);
 }
 
 #csv_button,
@@ -514,125 +625,6 @@ header {
   z-index: 1;
 }
 
-.header_box {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  width: auto;
-  height: 100%;
-}
-
-.button_box,
-.value_box {
-  text-align: center;
-  position: center;
-  display: grid;
-  grid-gap: 0.1em;
-  grid-template-columns: repeat(2, auto);
-  padding: 3px 7px;
-}
-
-.button_box{
-  padding: 3px 3px 0px 0px;
-  height:auto;
-}
-
-.value_box {
-  padding: 0px 3px;
-}
-
-.clue_scrolls_buttons,
-.main_buttons,
-.capture_info,
-.captured_rewards{
-  width:220px;
-  text-align: center
-}
-
-.clue_scrolls_buttons {
-  position: relative;
-  display: inline-block;
-  text-align: center;
-  height:auto;
-  /* padding: 5px 0px 0px 0px; */
-  line-height: 32px;
-}
-
-.clue_scroll_level_label {
-  font-size: 14px;
-  position:center;
-  text-align: center;
-  font-weight: 600;
-}
-
-.clue_scrolls_button_box {
-  position: center;
-  display: grid;
-  align-items: center;
-  padding: 0px 12px;
-  grid-template-columns: repeat(3, auto);
-}
-
-.clue_button_label_holder {
-  position: center;
-  width: 100%;
-  user-select: none;
-  margin: auto;
-}
-
-.clue_scrolls_button_header {
-  position: center;
-  grid-row: 1;
-  grid-column: span 3;
-  font-size: 15px;
-  line-height: 0.5px;
-  text-align: center;
-  margin: 15px auto 10px;
-}
-
-#clue_easy {
-  grid-row: 2;
-  grid-column: 1;
-}
-
-#clue_medium {
-  grid-row: 2;
-  grid-column: 2;
-}
-
-#clue_hard {
-  grid-row: 2;
-  grid-column: 3;
-}
-
-#clue_elite {
-  grid-row: 3;
-  grid-column: 1;
-}
-
-#clue_master {
-  grid-row: 3;
-  grid-column: 2;
-}
-
-.clue_scrolls_button_footer{
-  position: center;
-  grid-row: 4;
-  grid-column: span 3;
-  font-size: 16px;
-  line-height: 1px;
-  text-align: center;
-}
-
-.main_buttons {
-  display: grid;
-  position: relative;
-  text-align: center;
-  padding: 0px 0px 0px 0px;
-  line-height: 32px;
-  font-weight: 600;
-}
-
 #clear_button,
 #docapturebutton {
   width: 100%;
@@ -648,8 +640,12 @@ header {
   margin-top: 5px;
 }
 
-#toggleunlocktrack.enabled {
-  background-position: right;
+#clear_button {
+  font-size: 16px;
+}
+
+#docapturebutton{
+  margin-top: -2px;
 }
 
 #toggleunlocktrack {
@@ -662,34 +658,38 @@ header {
   left: 8px;
 }
 
-#top_buttons,
-#bottom_buttons{
-  width: 100%;
-  cursor: pointer;
-  color: #000;
-  font-family: "trajan-pro-3";
-  font-size: 18px;
-  line-height: 32px;
-  user-select: none;
-  margin: auto;
-  -webkit-user-select: none;
+#toggleunlocktrack.enabled {
+  background-position: right;
+}
+
+#value_box {
+  padding: 0px 3px;
+}
+
+.captured_rewards {
+  display: grid;
+  position: center;
+  align-items: center;
+}
+
+#captured_rewards_grid{
+  width: 82%;
   display:grid;
-  grid-template-columns: repeat(2, auto);
+  grid-template-columns: repeat(3, auto);
+  text-align: center;
+  border: 2px ridge #f0b216;
+  background: url(../../images/items/Blank.png) repeat;
+  margin: auto auto auto auto;
+  padding: 3px;
 }
 
-#history_button,
-#insert_button{
+.rewards {
+  width:37px;
+  height:37px;
+  border-width: 3;
+  display: inline-block;
   margin: auto;
-  width: 95%;
-  font-size: 18px;
-}
-
-#clear_button {
-  font-size: 16px;
-}
-
-#docapturebutton{
-  margin-top: -2px;
+  justify-content: center;
 }
 
 .capture_info {
@@ -720,53 +720,20 @@ header {
   font-size: 14px;
 }
 
-.captured_rewards {
-  display: grid;
-  position: center;
-  align-items: center;
-}
-
-#captured_rewards_title {
-  font-size: 14px;
-  font-weight: 700;
-  margin:auto;
-  padding:0px 0px 4px 0px;
-  line-height: 20px;
-}
-
-#rewards_value{
-  color:#FFC000;
-}
-
-.rewards {
-  width:37px;
-  height:37px;
-  border-width: 3;
-  display: inline-block;
+#history_button,
+#insert_button{
   margin: auto;
-  justify-content: center;
+  width: 95%;
+  font-size: 18px;
 }
 
-#captured_rewards_grid_box {
-  display: block;
-  width: 100%;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
+/*
+  ===============================
+  Beginning of mainsection styles
+  ===============================
+*/
 
-#captured_rewards_grid{
-  width: 82%;
-  display:grid;
-  grid-template-columns: repeat(3, auto);
-  text-align: center;
-  border: 2px ridge #f0b216;
-  background: url(../../images/items/Blank.png) repeat;
-  margin: auto auto auto auto;
-  padding: 3px;
-}
-
-mainsection {
+#mainsection {
   border: solid;
   border-bottom-width: 0px;
   border-image: url(alt1-currentskin/borderB.png) 5 0 20 0 repeat;
@@ -779,42 +746,42 @@ mainsection {
   user-select: none;
 }
 
-.broadcasts,
-.general,
-.common,
-.rare {
+#broadcasts,
+#general,
+#common,
+#rare {
   display: block;
   min-height: 80px;
   padding: 5px 0px 0px 0px;
   background: url(alt1-currentskin/background.png)
 }
 
-.rare{
+#rare{
   padding-bottom: 10px;
 }
 
-.general_title,
-.common_title,
-.rare_title,
-.broadcasts_title {
+#general_title,
+#common_title,
+#rare_title,
+#broadcasts_title {
   background: url(alt1-currentskin/tabbackV23.png) no-repeat;
   font-size: 15px;
   padding: 2px;
   font-weight: 600;
 }
 
-.general_title :hover,
-.common_title :hover,
-.rare_title :hover,
-.broadcasts_title :hover {
+#general_title :hover,
+#common_title :hover,
+#rare_title :hover,
+#broadcasts_title :hover {
   color:#f0b216;
   cursor: pointer;
 }
 
-.general_title :active,
-.common_title :active,
-.rare_title :active,
-.broadcasts_title :active {
+#general_title :active,
+#common_title :active,
+#rare_title :active,
+#broadcasts_title :active {
   color: rgb(238, 211, 142);
   cursor: pointer;
 }
@@ -857,6 +824,12 @@ mainsection {
   word-wrap: normal;
 }
 
+/*
+  ==========================
+  Beginning of footer styles
+  ==========================
+*/
+
 footer {
   position: relative;
   text-align: center;
@@ -867,7 +840,7 @@ footer {
   user-select: none;
 }
 
-.footer_bar{
+#footer_bar{
   border: solid;
   border-bottom-width: 2px;
   margin-bottom: 2px;
@@ -897,19 +870,26 @@ footer {
   width: 80%;
 }
 
-/* #githublink a:link {
-  color: #f9c037;
+/*
+  =====================
+  Start of modal styles
+  =====================
+*/
+
+.modal-header{
+  background: url("alt1-currentskin/background.png") #171e24;
+  border-bottom: 0 none;
+  user-select: none;
 }
 
-#githublink a:hover {
-  color: #ecdb3a;
-} */
+.close{
+  padding: auto;
+  line-height: 0.8;
+}
 
-.modal-title{
-  font-size: 18px;
-  margin: auto;
-  grid-column: 1;
-  grid-row: 1 / span 2;
+.close_x{
+  font-size:55px;
+  color:#ffffff;
 }
 
 .modal-header-title{
@@ -919,13 +899,15 @@ footer {
   /* margin: auto; */
 }
 
-.modal-header{
-  background: url("alt1-currentskin/background.png") #171e24;
-  border-bottom: 0 none;
-  user-select: none;
+.modal-title{
+  font-size: 18px;
+  margin: auto;
+  grid-column: 1;
+  grid-row: 1 / span 2;
 }
 
-#hovertip{
+/* Non-Bootstrap class */
+.hovertip{
   font-size: 20px;
   color:rgb(236,182,48);
   border: solid;
@@ -942,142 +924,19 @@ footer {
   grid-row: 1 / span 2;
 }
 
-#hovertip:hover{
+.hovertip:hover{
   filter: brightness(120%);
 }
 
-.close{
-  padding: auto;
-  line-height: 0.8;
-}
-
-.close_x{
-  font-size:55px;
-  color:#ffffff;
-}
-
-#h2settings{
-    margin: auto;
-    font-family:"trajan-pro-3";
-    color:#f9c037;
-    font-size:20px;
-    padding: 30px 5px 5px 5px;
-    user-select: none;
-    text-align: center;
-    text-decoration: underline;
-}
-
-#settings-body{
-  display: block;
-  grid-template-columns: repeat(2, auto);
-}
-
-mainalgs,
-mainimgs,
-maintoggles{
-  height:100%;
-  width: 96%;
-  padding: 7px 10px;
-  margin:0;
-  display: grid;
-  grid-template-columns: repeat(2, auto);
-  text-align: center;
-  align-items: center;
-  justify-items: center;
-}
-
-
-maintoggles{
-  width: 105%;
-}
-
-.mainimgs_buttons,
-.mainalgs_buttons,
-.maintoggles_buttons{
-  padding: 0px 5px;
-  margin:auto;
-}
-
-.maintoggles_buttons{
-  padding: 0px 5px;
-  margin:auto;
-}
-
-#reroll_buttons,
-#lag_buttons,
-#multi_buttons,
-#menu_buttons{
-  display: grid;
-  margin: auto;
-  grid-template-columns: repeat(2, auto);
-}
-
-.main_divs{
-  display: grid;
-  grid-template-columns: repeat(2, auto);
-  margin: auto;
-}
-
-label{
-  color:white
-}
-
-.title_labels{ 
-  font-family:"trajan-pro-3";
-  color:#c5c5c5;
-  padding:10px 0px;
-  margin: auto;
+/* Non-Bootstrap class */
+.modal_title_details{
+  line-height: 14px;
   font-size: 14px;
-}
-
-#algorithm_label,
-#img_label,
-#misc_label,
-#menu_label{
-    color:#f9c037;
-    margin: 0 10px 0 7px;
-    font-size: 13px;
-    font-family: "trajan-pro-3";
-}
-
-#hybrid_precision,
-#history_display_limit{
-  font-size: 15px;
-  font-weight: 700;
-  color:#000;
-  background-color: #d6d6d6;
-  padding-left: 5px;
-  width: 80px;
-}
-
-#choice_buttons{
+  font-weight: 550;
+  text-align: center;
+  grid-column: 1;
+  grid-row: 2;
   width: 100%;
-  cursor: pointer;
-  color: #000;
-  font-family: "trajan-pro-3";
-  font-size: 18px;
-  line-height: 32px;
-  user-select: none;
-  display:inline;
-  grid-template-columns: repeat(2, auto);
-  float:inline-end;
-}
-
-#cancel_button,
-#confirm_button{
-  position:relative;
-  font-size: 18px;
-  width: 47%;
-}
-
-#cancel_button{
-  float: right;
-  margin-right: 4px;
-}
-
-#confirm_button{
-  float: left;
-  margin-left: 4px;
 }
 
 .modal-body{
@@ -1097,6 +956,131 @@ label{
   user-select: none;
 }
 
+/* 
+  =====================
+  Settings modal styles
+  =====================
+*/
+
+#settings_body{
+  display: block;
+  grid-template-columns: repeat(2, auto);
+}
+
+.title_of_section{
+    margin: auto;
+    font-family:"trajan-pro-3";
+    color:#f9c037;
+    font-size:20px;
+    padding: 30px 5px 5px 5px;
+    user-select: none;
+    text-align: center;
+    text-decoration: underline;
+}
+
+#algs_settings,
+#imgs_settings,
+#misc_settings{
+  height:100%;
+  width: 100%;
+  padding: 7px 10px;
+  margin:0;
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+  text-align: center;
+  align-items: center;
+  justify-items: center;
+}
+
+.title_labels{ 
+  font-family:"trajan-pro-3";
+  color:#c5c5c5;
+  padding:10px 0px;
+  margin: auto;
+  font-size: 14px;
+}
+
+.settings_radio_divs{
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+  margin: auto;
+}
+
+label{
+  color:white
+}
+
+.algs_label,
+.imgs_label,
+.misc_label{
+    color:#f9c037;
+    margin: 0 10px 0 7px;
+    font-size: 13px;
+    font-family: "trajan-pro-3";
+}
+
+.algs_settings_buttons,
+.imgs_settings_buttons,
+.misc_settings_buttons{
+  padding: 0px 5px;
+  margin:auto;
+}
+
+#reroll_buttons,
+#lag_buttons,
+#multi_buttons,
+#menu_buttons{
+  display: grid;
+  margin: auto;
+  grid-template-columns: repeat(2, auto);
+}
+
+#hybrid_precision,
+#history_display_limit{
+  font-size: 15px;
+  font-weight: 700;
+  color:#000;
+  background-color: #d6d6d6;
+  padding-left: 5px;
+  width: 80px;
+}
+
+.choice_buttons{
+  width: 100%;
+  cursor: pointer;
+  color: #000;
+  font-family: "trajan-pro-3";
+  font-size: 18px;
+  line-height: 32px;
+  user-select: none;
+  display:inline;
+  grid-template-columns: repeat(2, auto);
+  float:inline-end;
+}
+
+.confirm_button,
+.cancel_button{
+  position:relative;
+  font-size: 18px;
+  width: 47%;
+}
+
+.confirm_button{
+  float: left;
+  margin-left: 4px;
+}
+
+.cancel_button{
+  float: right;
+  margin-right: 4px;
+}
+
+/* 
+  ==========================================
+  Clear Options Menu and child modals styles
+  ==========================================
+*/
+
 .db_confirm_button{
   width: 80%;
   cursor: pointer;
@@ -1106,6 +1090,17 @@ label{
   line-height: 32px;
   user-select: none;
   margin: 25px auto;
+}
+
+/* 
+  ====================
+  History modal styles
+  ====================
+*/
+
+.history_title{
+  grid-column: 1;
+  grid-row: 1;
 }
 
 .return_button{
@@ -1119,29 +1114,11 @@ label{
   margin: auto auto;
 }
 
-.history_title{
-  grid-column: 1;
-  grid-row: 1;
-}
-
-.insert_title{
-  grid-column: 1;
-  grid-row: 1;
-}
-
-.modal_title_details{
-  line-height: 14px;
-  font-size: 14px;
-  font-weight: 550;
-  text-align: center;
-  grid-column: 1;
-  grid-row: 2;
-  width: 100%;
-}
-
-#insert_reward_value{
-  text-align: center;
-}
+/* 
+  ===================
+  Insert modal styles
+  ===================
+*/
 
 #insert_value{
   display:grid;
@@ -1150,45 +1127,7 @@ label{
   align-items: center;
 }
 
-#insert_items{
-  display: grid;
-  grid-template-columns: repeat(1, auto);
-  width: auto;
-}
-
-.insert_text,
-.insert_options{
-  font-size: 15px;
-  font-weight: 700;
-  color:#000;
-  background-color: #d6d6d6;
-  padding-left: 5px;
-}
-
-.insert_text{
-  width: 80px;
-  align-items: center;
-}
-
-.insert_options{
-  width: 90%;
-  word-wrap: normal;
-  font-size: 13px;
-  padding-left: 0px;
-  margin-right: 15px;
-}
-
-#value_input{
-  width: 90%;
-}
-
-.insert_items_divs{
-  display:grid;
-  grid-template-columns: repeat(3, auto);
-  padding: 15px 0px;
-}
-
-.insert_title_labels,
+#insert_value_label,
 .insert_items_labels{
   font-family:"trajan-pro-3";
   color:#f9c037;
@@ -1197,10 +1136,59 @@ label{
   width: 95px;
 }
 
+#insert_value_label {
+  text-align: center;
+}
+
+#value_input{
+  width: 90%;
+}
+
+#value_input,
+.insert_text,
+.items{
+  font-size: 15px;
+  font-weight: 700;
+  color:#000;
+  background-color: #d6d6d6;
+  padding-left: 5px;
+}   
+
+.insert_text{
+  width: 80px;
+  align-items: center;
+}
+
 #fetchge_button{
   width: 125px;
   font-size: 18px;
 }
+
+#insert_items{
+  display: grid;
+  grid-template-columns: repeat(1, auto);
+  width: auto;
+}
+
+.insert_items_divs{
+  display:grid;
+  grid-template-columns: repeat(3, auto);
+  padding: 15px 0px;
+}
+
+.items{
+  width: 90%;
+  word-wrap: normal;
+  font-size: 13px;
+  padding-left: 0px;
+  margin-right: 15px;
+}
+
+/* 
+  =======================
+  Typescript class styles
+  =======================
+*/
 
 .quant_yellow_text,
 .quant_white_text,
@@ -1225,6 +1213,14 @@ label{
   color:rgb(0,255,128); 
 }
 
+.insert_quant{
+  font-size: 13px;
+  font-weight: 700;
+  color: #000;
+  background-color: #d6d6d6;
+  padding-left: 5px;
+}
+
 .node_tab{
   position: relative; 
   margin: 3px 0px 0px 5px; 
@@ -1233,17 +1229,6 @@ label{
   height: 37px; 
   display: flex; 
   align-items: center; 
-  text-align: center;
-}
-
-.nodevarTabStyle{
-  position: relative;
-  margin: 3px 7px 0px 1px;
-  padding: auto 30px auto auto;
-  width: 37px;
-  height: 37px;
-  display: flex;
-  align-items: center;
   text-align: center;
 }
 
@@ -1270,23 +1255,6 @@ label{
   text-align: center;
 }
 
-.historyCount{
-  width: auto;
-  margin: auto 0 0 10;
-  text-align: left;
-  position: relative;
-  color: #f0b216;
-  font-family: "trajan-pro-3";
-  font-size: 12px;
-  line-height: 20px;
-  user-select: none;
-  word-wrap: break-all;
-  -webkit-user-select: none;
-  grid-column: 1 / span 9;
-  grid-row: 1;
-  text-shadow: 1px 1px 2px #000000;
-}
-
 .nothingToDisplayContainer{
   font-size: 20px;
   text-align: center;
@@ -1305,9 +1273,56 @@ label{
   border-style: ridge;
 }
 
+.dateBox{
+  grid-row: 1 / span 2; 
+  grid-column: 6; 
+  width: 36px;
+  height: 36px;
+  margin: auto 3px 4px auto;
+  z-index: 1; /* https://stackoverflow.com/a/15782135 */
+  position:relative; /* Setting z-index to 1 worked */
+  backface-visibility: hidden; /* https://stackoverflow.com/a/3921870 */
+}
+
+.dateImage{
+  background: url(../../images/calendar-no-glass.png);
+  background-size: 36px 36px;
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 36px;
+  cursor: help;
+  transition: 0.1s;
+}
+
+.dateImage:hover {
+  background: url(../../images/calendar-glass.png);
+  background-size: 36px 36px;
+  width: 100%;
+  height: 36px;
+  background-repeat: no-repeat;
+  filter: brightness(1.3)
+}
+
 .customSpan{
   font-size: 9px; 
   color: red;
+}
+
+.historyCount{
+  width: auto;
+  margin: auto 0 0 10;
+  text-align: left;
+  position: relative;
+  color: #f0b216;
+  font-family: "trajan-pro-3";
+  font-size: 12px;
+  line-height: 20px;
+  user-select: none;
+  word-wrap: break-all;
+  -webkit-user-select: none;
+  grid-column: 1 / span 9;
+  grid-row: 1;
+  text-shadow: 1px 1px 2px #000000;
 }
 
 .historyValue{
@@ -1368,41 +1383,6 @@ label{
   line-height: 32px;
   user-select: none;
   -webkit-user-select: none;
-}
-
-.imgvarMPAuto{
-  margin: auto; 
-  padding: auto;
-}
-
-.dateBox{
-  grid-row: 1 / span 2; 
-  grid-column: 6; 
-  width: 36px;
-  height: 36px;
-  margin: auto 3px 4px auto;
-  z-index: 1; /* https://stackoverflow.com/a/15782135 */
-  position:relative; /* Setting z-index to 1 worked */
-  backface-visibility: hidden; /* https://stackoverflow.com/a/3921870 */
-}
-
-.dateImage{
-  background: url(../../images/calendar-no-glass.png);
-  background-size: 36px 36px;
-  background-repeat: no-repeat;
-  width: 100%;
-  height: 36px;
-  cursor: help;
-  transition: 0.1s;
-}
-
-.dateImage:hover {
-  background: url(../../images/calendar-glass.png);
-  background-size: 36px 36px;
-  width: 100%;
-  height: 36px;
-  background-repeat: no-repeat;
-  filter: brightness(1.3)
 }
 
 /*font stolen from jagex*/
