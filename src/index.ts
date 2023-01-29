@@ -1,7 +1,7 @@
 //alt1 base libs, provides all the commonly used methods for image matching and capture
 //also gives your editor info about the window.alt1 api
 import * as a1lib from "@alt1/base";
-import { ImgRef } from "@alt1/base";
+import { decodeImageString, ImgRef } from "@alt1/base";
 
 import compareImages from "resemblejs/compareImages"
 import pixelmatch from "pixelmatch";
@@ -9,13 +9,13 @@ import pixelmatch from "pixelmatch";
 import ClueRewardReader from "./scripts/rewardreader";
 import { ModalUIReader } from "./scripts/modeluireader";
 
-import * as lsdb from './JSONs/LocalStorageInit.json';
-import * as itemsTwoPlus from './JSONs/ItemsAndImagesAll.json';
-import * as itemsOrgList from './JSONs/ItemsAndImagesOrgList.json';
-import * as itemsOrgMinus from './JSONs/ItemsAndImagesOrgMinus.json';
-import * as itemslegacyTwoPlus from './JSONs/ItemsAndImagesLegacyAll.json';
-import * as itemsLegacyOrgList from './JSONs/ItemsAndImagesLegacyOrgList.json';
-import * as itemsLegacyOrgMinus from './JSONs/ItemsAndImagesLegacyOrgMinus.json';
+import * as lsdb from "./JSONs/LocalStorageInit.json";
+import * as itemsTwoPlus from "./JSONs/ItemsAndImagesAll.json";
+import * as itemsOrgList from "./JSONs/ItemsAndImagesOrgList.json";
+import * as itemsOrgMinus from "./JSONs/ItemsAndImagesOrgMinus.json";
+import * as itemslegacyTwoPlus from "./JSONs/ItemsAndImagesLegacyAll.json";
+import * as itemsLegacyOrgList from "./JSONs/ItemsAndImagesLegacyOrgList.json";
+import * as itemsLegacyOrgMinus from "./JSONs/ItemsAndImagesLegacyOrgMinus.json";
 
 /* 
 A couple of notes for development
@@ -211,25 +211,27 @@ export async function init() {
 		if (seeConsoleLogs) console.log("Defaulting button to easy...");
 		let ele = document.getElementById("easy") as HTMLInputElement;
 		ele.checked = true;
-		(document.getElementById('clue_tier') as HTMLSpanElement).textContent = "Easy";
+		let tierSpans = document.getElementsByClassName("current_tier_button") as HTMLCollectionOf<HTMLSpanElement>;
+		for (let i = 0; i < tierSpans.length; i++) {
+			if (seeConsoleLogs) console.log("Setting tier spans to Easy");
+			tierSpans[i].textContent = "Easy";
+		}
 		localStorage.setItem("OpenLogger/Checked button", "easy");
 	}
 	else { // If it does, set the button and span
 		if (seeConsoleLogs) console.log("Setting previously set radio button: " + localStorage.getItem("OpenLogger/Checked button") + "...");
 		let temp = localStorage.getItem("OpenLogger/Checked button");
 		let ele = document.getElementById(temp) as HTMLInputElement;
-		ele.checked = true;
-		(document.getElementById('clue_tier') as HTMLSpanElement).textContent = temp[0].toUpperCase() + temp.slice(1).toLowerCase();
+		ele.checked = true;	
+		let tierSpans = document.getElementsByClassName("current_tier_button") as HTMLCollectionOf<HTMLSpanElement>;
+		for (let i = 0; i < tierSpans.length; i++) {
+			if (seeConsoleLogs) console.log("Setting tier spans to", currentTier()[0]);
+			tierSpans[i].textContent = currentTierUpper();
+		}
 	}
 
 	if (seeConsoleLogs) console.log("Radio buttons initialized.");
 
-
-	let tierSpans = document.getElementsByClassName("current_tier_button") as HTMLCollectionOf<HTMLSpanElement>;
-	for (let i = 0; i < tierSpans.length; i++) {
-		if (seeConsoleLogs) console.log("Setting tier spans to", currentTier()[0]);
-		tierSpans[i].textContent = currentTier()[0];
-	}
 
 	if (localStorage.getItem("OpenLogger/Algorithm") == null) { // Algorithim init check
 		if (seeConsoleLogs) console.log("Defaulting Algorithm button to Hybrid...");
@@ -263,7 +265,7 @@ export async function init() {
 
 	if (localStorage.getItem("OpenLogger/noMenu") == null) { // No hover display box
 		if (seeConsoleLogs) console.log("Defaulting no menu box to true");
-		localStorage.setItem("OpenLogger/noMenu","false");
+		localStorage.setItem("OpenLogger/noMenu", "false");
 	}
 	else if (localStorage.getItem("OpenLogger/noMenu") == "true") {
 		if (seeConsoleLogs) console.log("Enabling no menu box");
@@ -345,13 +347,12 @@ export async function changeClueTierSpan(id: string, event: Event) {
 	}
 
 	if (seeConsoleLogs) console.log("Setting button to " + (id[0].toUpperCase() + id.slice(1).toLowerCase()) + "...");
-	(document.getElementById('clue_tier') as HTMLSpanElement).textContent = (id[0].toUpperCase() + id.slice(1).toLowerCase());
 	(document.getElementById(id) as HTMLInputElement).checked = true;
 	localStorage.setItem("OpenLogger/Checked button", id);
 
 	let tierSpans = document.getElementsByClassName("current_tier_button") as HTMLCollectionOf<HTMLSpanElement>;
 	for (let i = 0; i < tierSpans.length; i++) {
-		tierSpans[i].textContent = currentTier()[0];
+		tierSpans[i].textContent = currentTierUpper();
 	}
 
 	// Clear reward slots and value
@@ -490,7 +491,7 @@ export async function cleardb(choice: any) {
 	let ele = document.getElementById("history_body") as HTMLDivElement;
 	let container = document.createElement("div") as HTMLDivElement;
 	container.textContent = "There's nothing here to display. Start scanning!";
-	container.setAttribute('class','nothingToDisplayContainer');
+	container.setAttribute("class", "nothingToDisplayContainer");
 	ele.append(container);
 
 	await historyClear();
@@ -896,9 +897,11 @@ async function findtrailComplete(img: ImgRef, autobool: boolean) {
 					if (seeConsoleLogs) console.log("Comparing", lastresult, "to", itemResults[i]);
 
 					// Consider doing a value check in here...
-					
+
 					// TODO: If capture issues with lag checking happen look here...
-					// I think this might be fixed, but idk
+					// 		 I think this might be fixed, but idk
+					// FIXME: Figure out if I even use this anymore. 
+					// 		  I feel like this is useless code...
 					let comparison = true;
 					if (autobool) {
 						try {
@@ -913,9 +916,9 @@ async function findtrailComplete(img: ImgRef, autobool: boolean) {
 							}
 							let lsHistory = JSON.parse(localStorage.getItem("OpenLogger/History"))[JSON.parse(localStorage.getItem("OpenLogger/History")).length-1][0];
 							if (seeConsoleLogs) console.log("Checking arrays for equivalence:",JSON.parse(localStorage.getItem("OpenLogger/History"))[JSON.parse(localStorage.getItem("OpenLogger/History")).length-1][0], itemResultsNoBlanks);
-							if (lsHistory.join(',') === itemResultsNoBlanks.join(',')) { // https://stackoverflow.com/a/6230314
-								if (seeConsoleLogs) console.log(lsHistory.join(','),"and",itemResultsNoBlanks.join(','),"are the same...");
-								if (seeConsoleLogs) console.log("They're the same. make it false.");
+							if (lsHistory.join(",") === itemResultsNoBlanks.join(",")) { // https://stackoverflow.com/a/6230314
+								if (seeConsoleLogs) console.log(lsHistory.join(","), "and",itemResultsNoBlanks.join(","), "are the same...");
+								if (seeConsoleLogs) console.log("They're the same. Make it false.");
 								comparison = false;
 							}
 						} catch (e) {
@@ -1206,14 +1209,14 @@ async function compareItems(item: ImageData) {
 
 
 async function readQuantities(item: ImageData) {
-	// Instead of reading top to bottom individulally, 
+	// Instead of reading top to bottom individually,
 	// Read from left to right Read left to right with all columns together
 	// And since the height is always the same I dont have to worry about changing
 	// the value of the width of the number.
 
 	// Maybe consider this for optimizations :^?
 	let itemCan = document.createElement("canvas") as HTMLCanvasElement;
-	let itemCon = itemCan.getContext('2d');
+	let itemCon = itemCan.getContext("2d");
 	itemCan.width = item.width;
 	itemCan.height = item.height;
 	itemCon.putImageData(item, 0, 0);
@@ -1343,7 +1346,7 @@ async function rerollCheck(value: ImageData, valueClear: boolean) {
 	*/
 
 	let valueCan = document.createElement("canvas") as HTMLCanvasElement;
-	let valueCon = valueCan.getContext('2d');
+	let valueCon = valueCan.getContext("2d");
 	valueCan.width = value.width;
 	valueCan.height = value.height;
 	valueCon.putImageData(value, 0, 0);
@@ -1412,12 +1415,12 @@ async function submitToLS(item: any[], quant: any[], value: any) {
 	//Add items to database
 	if (seeConsoleLogs) console.log("Adding to database...");
 	for (let i = 0; i < quant.length; i++) {
-		// If you get null or undefined here, check if one of your rewards doesn't exist in LocalStorage or LocalStorageInit
+		// If you get null or undefined here, check if one of your rewards doesn"t exist in LocalStorage or LocalStorageInit
 		// Or maybe the name might be incorrectly written in, idk
 		// console.log("checking if in array", item[i]);
 		if (items[item[i]].tier.includes(currentTier()[0])) {
 			let tempQuant = quant[i].slice();
-			if (quant[i].includes('k')) {
+			if (quant[i].includes("k")) {
 				tempQuant = tempQuant.slice(0, -1);
 				tempQuant += "000";
 			}
@@ -1455,7 +1458,7 @@ async function addHistoryToLs(value: number, items: any, quants: any, tier: any)
 	}
 
 	for (let i = 0; i < quants.length; i++) {
-		if (quants[i].includes('k')) {
+		if (quants[i].includes("k")) {
 			quants[i] = quants[i].slice(0, -1);
 			quants[i] += "000";
 		}
@@ -1580,7 +1583,7 @@ function historyInit() {
 		let ele = document.getElementById("history_body");
 		let container = document.createElement("div") as HTMLDivElement;
 		container.textContent = "There's nothing to display. Start scanning!"
-		container.setAttribute('class','nothingToDisplayContainer')
+		container.setAttribute("class", "nothingToDisplayContainer")
 		ele.append(container);
 	}
 	else {
@@ -1589,18 +1592,18 @@ function historyInit() {
 		for (let i = lsHistory.length - 1; i >= 0 ; i--) { //Navigating lsHistory
 			if (limit < parseInt(localStorage.getItem("OpenLogger/HistoryDisplayLimit"))) {
 				let temp = lsHistory[i];
-				if (temp[3][0].replace(" [C] ","") === currentTier()[0]) {
+				if (temp[3][0].replace(" [C] ", "") === currentTier()[0]) {
 					let ele = document.getElementById("history_body") as HTMLDivElement;
 					let container = document.createElement("div") as HTMLDivElement;
 					container.setAttribute("class", "historyDisplayContainer");
-					container.setAttribute('id','container' + temp[5]);
+					container.setAttribute("id", "container" + temp[5]);
 
 					let dateBox = document.createElement("div") as HTMLDivElement;
 					let dateImg = document.createElement("div") as HTMLDivElement;
 					
-					dateBox.setAttribute('class', 'dateBox')
-					dateImg.setAttribute('class', 'dateImage')
-					dateImg.setAttribute('title', 'Date Captured: ' + temp[6])
+					dateBox.setAttribute("class", "dateBox")
+					dateImg.setAttribute("class", "dateImage")
+					dateImg.setAttribute("title", "Date Captured: " + temp[6])
 
 					dateBox.append(dateImg)
 					container.append(dateBox)
@@ -1614,20 +1617,20 @@ function historyInit() {
 
 						let count = document.createElement("div") as HTMLDivElement;
 						count.innerHTML = countText;
-						count.setAttribute('class', 'historyCount');
+						count.setAttribute("class", "historyCount");
 						count.append(customSpan);
 						container.append(count);
 					}
 					else {
 						let count = document.createElement("div") as HTMLDivElement;
 						count.textContent = (currentTierUpper()) + " Clue: " + index;
-						count.setAttribute('class', 'historyCount');
+						count.setAttribute("class", "historyCount");
 						container.append(count);
 					}
 
 					let value = document.createElement("div") as HTMLDivElement;
 					value.textContent = "Reward Value: " + temp[2].toLocaleString("en-US");
-					value.setAttribute('class','historyValue');
+					value.setAttribute("class", "historyValue");
 					container.append(value);
 
 					for (let j = 0; j < 9; j++) { // Navigating temp
@@ -1654,11 +1657,11 @@ function historyInit() {
 				
 					let buttonbox = document.createElement("div") as HTMLDivElement;
 					let button = document.createElement("div") as HTMLDivElement;
-					buttonbox.setAttribute('class','buttonboxHistory');
-					buttonbox.setAttribute('id','container'+temp[5]+'buttonbox');
-					button.setAttribute('class','nisbutton historyButtonStyle');
-					button.setAttribute('id','container'+temp[5]+'button');
-					button.setAttribute('onClick','TEST.rollbackVeri("container'+temp[5]+'button")');
+					buttonbox.setAttribute("class", "buttonboxHistory");
+					buttonbox.setAttribute("id", "container"+temp[5]+"buttonbox");
+					button.setAttribute("class", "nisbutton historyButtonStyle");
+					button.setAttribute("id", "container"+temp[5]+"button");
+					button.setAttribute("onClick", "TEST.rollbackVeri(\"container"+temp[5]+"button\")");
 					button.textContent = "Delete";
 
 					buttonbox.append(button);
@@ -1677,7 +1680,7 @@ function historyInit() {
 			let ele = document.getElementById("history_body") as HTMLDivElement;
 			let container = document.createElement("div") as HTMLDivElement;
 			container.textContent = "There's nothing to display. Start scanning!";
-			container.setAttribute('class','nothingToDisplayContainer');
+			container.setAttribute("class", "nothingToDisplayContainer");
 			ele.append(container);
 		}
 	}
@@ -1692,14 +1695,14 @@ export function rollbackVeri(id: any) {
 	let buttonYes = document.createElement("div") as HTMLDivElement;
 	let buttonNo = document.createElement("div") as HTMLDivElement;
 
-	buttonbox.setAttribute('class','buttonBoxHistoryVerify');
+	buttonbox.setAttribute("class", "buttonBoxHistoryVerify");
 
-	buttonYes.setAttribute('class','nisbutton buttonVerif');
-	buttonYes.setAttribute('onclick','TEST.rollbackYes("'+id+'")');
+	buttonYes.setAttribute("class", "nisbutton buttonVerif");
+	buttonYes.setAttribute("onclick", "TEST.rollbackYes(\""+id+"\")");
 	buttonYes.textContent = "Yes";
 
-	buttonNo.setAttribute('class','nisbuttonblue buttonVerif');
-	buttonNo.setAttribute('onclick','TEST.rollbackNo("'+id+'")');
+	buttonNo.setAttribute("class", "nisbuttonblue buttonVerif");
+	buttonNo.setAttribute("onclick", "TEST.rollbackNo(\""+id+"\")");
 	buttonNo.textContent = "No";
 
 	buttonbox.append(buttonYes, buttonNo);
@@ -1714,10 +1717,10 @@ export function rollbackYes(id: any) {
 	}
 	if (seeConsoleLogs) console.log("Rolling back reward from history...");
 
-	let container = document.getElementById(id.replace('button', '')) as HTMLDivElement;
+	let container = document.getElementById(id.replace("button", "")) as HTMLDivElement;
 	container.remove();
 
-	let pKey = parseInt(id.replace('container','').replace('button',''));
+	let pKey = parseInt(id.replace("container", "").replace("button", ""));
 
 	let lsHistory = JSON.parse(localStorage.getItem("OpenLogger/History"));
 	let temp = [];
@@ -1731,7 +1734,7 @@ export function rollbackYes(id: any) {
 	}
 	
 	for (let i = 0; i < temp[0].length; i++) {
-		items[temp[0][i]].quantity[temp[3][0].replace(" [C] ","")] = items[temp[0][i]].quantity[temp[3][0].replace(" [C] ","")] - parseInt(temp[1][i]);
+		items[temp[0][i]].quantity[temp[3][0].replace(" [C] ", "")] = items[temp[0][i]].quantity[temp[3][0].replace(" [C] ", "")] - parseInt(temp[1][i]);
 		updateItems();
 	}
 
@@ -1739,7 +1742,7 @@ export function rollbackYes(id: any) {
 	localStorage.setItem(temp[3][1], JSON.stringify(JSON.parse(localStorage.getItem(temp[3][1])) - temp[2]));
 	localStorage.setItem(temp[3][2], JSON.stringify(JSON.parse(localStorage.getItem(temp[3][2])) - 1));
 
-	if (seeConsoleLogs) console.log("Removed",temp,":",pKey,"from LS");
+	if (seeConsoleLogs) console.log("Removed",temp, ":",pKey, "from LS");
 	if (pKey == ((parseInt(localStorage.getItem("OpenLogger/PrimaryKeyHistory"))) - 1)) {
 		(document.getElementById("rewards_value") as HTMLDivElement).textContent = "0";
 		for (let i = 0; i < 9; i++) {
@@ -1747,7 +1750,7 @@ export function rollbackYes(id: any) {
 		}
 	}
 
-	let historyCount = document.getElementsByClassName('historyCount') as HTMLCollectionOf<HTMLDivElement>;
+	let historyCount = document.getElementsByClassName("historyCount") as HTMLCollectionOf<HTMLDivElement>;
 	let index = parseInt(localStorage.getItem(currentTier()[2]));
 	for (let i = 0; i < parseInt(localStorage.getItem(currentTier()[2])); i++) {
 		if (i >= parseInt(localStorage.getItem("OpenLogger/RollbackDisplayLimit"))) {
@@ -1775,12 +1778,12 @@ export function rollbackYes(id: any) {
 export function rollbackNo(id: any) {
 	let buttonbox = document.getElementById(id+"box") as HTMLDivElement;
 	removeChildNodes(buttonbox);
-	buttonbox.setAttribute('class','buttonboxHistory');
+	buttonbox.setAttribute("class", "buttonboxHistory");
 	
 	let button = document.createElement("div") as HTMLDivElement;
-	button.setAttribute('class','nisbutton historyButtonStyle');
-	button.setAttribute('id', id);
-	button.setAttribute('onClick','TEST.rollbackVeri("'+id+'")');
+	button.setAttribute("class", "nisbutton historyButtonStyle");
+	button.setAttribute("id", id);
+	button.setAttribute("onClick", "TEST.rollbackVeri(\""+id+"\")");
 	button.textContent = "Delete";
 
 	buttonbox.append(button);
@@ -1793,9 +1796,7 @@ export function insertInitEx() {
 
 
 async function insertInit() {
-	let title = document.getElementById("insert_tier_caps") as HTMLDivElement;
-	title.textContent = currentTierUpper();
-	title = document.getElementById("insert_tier_title_caps") as HTMLDivElement;
+	let title = document.getElementById("insert_tier_title_caps") as HTMLDivElement;
 	title.textContent = currentTierUpper();
 
 	let keys = Object.keys(items);
@@ -1812,19 +1813,21 @@ async function insertInit() {
 	});
 
 	let itemBoxes = document.getElementsByClassName("items") as HTMLCollectionOf<HTMLSelectElement>;
-	let quantBoxes = document.getElementsByClassName("item_quants") as HTMLCollectionOf<HTMLInputElement>;
+	let quantBoxes = document.getElementsByClassName("insert_text") as HTMLCollectionOf<HTMLInputElement>;
 	let valueBox = document.getElementById("value_input") as HTMLInputElement;
 	valueBox.value = "0";
-
+	// TODO: Tomorrow, figure out why quantboxes is undefined...
+	console.log(quantBoxes)
+	
 	for (let i = 0; i < itemBoxes.length; i++) {
 		removeChildNodes(itemBoxes[i]) ;
 		quantBoxes[i].value = "0";
 
 		for (let j = 0; j < list.length; j++) {
-			let option = document.createElement('option') as HTMLOptionElement;
+			let option = document.createElement("option") as HTMLOptionElement;
 			option.value = list[j][0].toString();
 			option.textContent = list[j][1].toString();
-			option.setAttribute('class', "insert_options");
+			option.setAttribute("class", "insert_quant");
 			itemBoxes[i].append(option);
 		}
 	}
@@ -1841,7 +1844,7 @@ export async function fetchFromGE() {
 	let itemsList = []
 	let quants = []
 	let itemDivs = document.getElementsByClassName("items") as HTMLCollectionOf<HTMLSelectElement>
-	let quantDivs = document.getElementsByClassName("item_quants") as HTMLCollectionOf<HTMLInputElement>
+	let quantDivs = document.getElementsByClassName("insert_text") as HTMLCollectionOf<HTMLInputElement>
 
 	for (let i = 0; i < itemDivs.length; i++) {
 		if (itemDivs[i].options[itemDivs[i].selectedIndex].value == "Blank") {
@@ -1851,7 +1854,7 @@ export async function fetchFromGE() {
 			itemsList.push((itemDivs[i].options[itemDivs[i].selectedIndex].value) + " 1");
 		}
 		else if (["Dragon platelegs-skirt ornament kit (or)", "Dragon platelegs-skirt ornament kit (sp)"].includes(itemDivs[i].options[itemDivs[i].selectedIndex].value)) {
-			itemsList.push((itemDivs[i].options[itemDivs[i].selectedIndex].value).replace("-","/"));
+			itemsList.push((itemDivs[i].options[itemDivs[i].selectedIndex].value).replace("-", "/"));
 		}
 		else {
 			itemsList.push((itemDivs[i].options[itemDivs[i].selectedIndex].value));
@@ -1874,7 +1877,7 @@ export async function fetchFromGE() {
 	let prices = [];
 	for (let i = 0; i < itemsList.length; i++) {
 		try {
-			await fetch("https://api.weirdgloop.org/exchange/history/rs/latest?name=" + itemsList[i].replace("+","%2B").replace("+","%2B"))
+			await fetch("https://api.weirdgloop.org/exchange/history/rs/latest?name=" + itemsList[i].replace("+", "%2B").replace("+", "%2B"))
   				.then(function(response) {
   				  return response.json();
   				})
@@ -1882,7 +1885,7 @@ export async function fetchFromGE() {
   				  prices.push(data[itemsList[i]].price);
   				});
 		} catch (e) {
-			if (seeConsoleLogs) console.log("It failed... setting to 0...", itemsList[i], itemsList[i].replace("+","%2B").replace("+","%2B"));
+			if (seeConsoleLogs) console.log("It failed... setting to 0...", itemsList[i], itemsList[i].replace("+", "%2B").replace("+", "%2B"));
 			prices.push(0);
     	}
 	}
@@ -1914,7 +1917,7 @@ export async function verifyInsert(event: Event) {
 	let quants = [];
 	let totalPrice = parseInt((document.getElementById("value_input") as HTMLInputElement).value);
 	let itemDivs = document.getElementsByClassName("items") as HTMLCollectionOf<HTMLSelectElement>;
-	let quantDivs = document.getElementsByClassName("item_quants") as HTMLCollectionOf<HTMLInputElement>;
+	let quantDivs = document.getElementsByClassName("insert_text") as HTMLCollectionOf<HTMLInputElement>;
 
 	removeChildNodes(document.getElementById("value_input") as HTMLDivElement);
 
@@ -1942,15 +1945,15 @@ export async function verifyInsert(event: Event) {
 	let curr = (parseInt(localStorage.getItem(currentTier()[2])) + 1).toString();
 	let ele = document.getElementById("insertVerif_body") as HTMLDivElement;
 	let container = document.createElement("div") as HTMLDivElement;
-	container.setAttribute("class", 'historyDisplayContainer');
-	container.setAttribute('id','container' + curr);
+	container.setAttribute("class", "historyDisplayContainer");
+	container.setAttribute("id", "container" + curr);
 
 	let dateBox = document.createElement("div") as HTMLDivElement;
 	let dateImg = document.createElement("div") as HTMLDivElement;
 	
-	dateBox.setAttribute('class', 'dateBox')
-	dateImg.setAttribute('class', 'dateImage')
-	dateImg.setAttribute('title', 'Date Captured: ' + (await dateGetter()))
+	dateBox.setAttribute("class", "dateBox")
+	dateImg.setAttribute("class", "dateImage")
+	dateImg.setAttribute("title", "Date Captured: " + (await dateGetter()))
 
 	dateBox.append(dateImg)
 	container.append(dateBox)
@@ -1963,13 +1966,13 @@ export async function verifyInsert(event: Event) {
 	let countText = currentTierUpper() + " Clue" + ": " + curr;
 	let count = document.createElement("div") as HTMLDivElement;
 	count.innerHTML = countText;
-	count.setAttribute('class','historyCount');
+	count.setAttribute("class", "historyCount");
 	count.append(customSpan);
 	container.append(count);
 
 	let value = document.createElement("div") as HTMLDivElement;
 	value.textContent = "Reward Value: " + totalPrice.toLocaleString("en-US");
-	value.setAttribute('class','historyValue');
+	value.setAttribute("class", "historyValue");
 	container.append(value);
 
 	for (let j = 0; j < 9; j++) { // Navigating temp
@@ -1996,10 +1999,10 @@ export async function verifyInsert(event: Event) {
 	
 	let buttonbox = document.createElement("div") as HTMLDivElement;
 	let button = document.createElement("div") as HTMLDivElement;
-	buttonbox.setAttribute('class','buttonboxHistory');
-	buttonbox.setAttribute('id','container'+ curr +'buttonbox');
-	button.setAttribute('class','nisbutton historyButtonStyle');
-	button.setAttribute('id','container'+ curr +'button');
+	buttonbox.setAttribute("class", "buttonboxHistory");
+	buttonbox.setAttribute("id", "container"+ curr +"buttonbox");
+	button.setAttribute("class", "nisbutton historyButtonStyle");
+	button.setAttribute("id", "container"+ curr +"button");
 	button.textContent = "Sample";
 
 	let customTier = currentTier();
@@ -2350,7 +2353,7 @@ export function exporttocsv() {
 	}
 	csvinfo.push([])
 	csvinfo.push([])
-	csvinfo.push(["Captured Clue History", 'Parse tier at " : " and " [C] "', '"Parse date and time at "", " "' , 'Parse items at " x "'])
+	csvinfo.push(["Captured Clue History", "Parse tier at \" : \" and \" [C] \"", "\"Parse date and time at \"\", \" \"" , "Parse items at \" x \""])
 	csvinfo.push(["Clue Tier & Count", "Clue Value", "Date and Time recorded", "Item 1", "Item 2", "Item 3", "Item 4", "Item 5", "Item 6", "Item 7", "Item 8", "Item 9"])
 
 	if (seeConsoleLogs) console.log("Setting history in csv...")
@@ -2382,7 +2385,7 @@ export function exporttocsv() {
 			master++;
 		}
 		
-		let temp = [lsHistory[i][3][0] + " : " + lsHistory[i][4], lsHistory[i][2].toString(), '"' + lsHistory[i][6].toString() + '"']
+		let temp = [lsHistory[i][3][0] + " : " + lsHistory[i][4], lsHistory[i][2].toString(), "\"" + lsHistory[i][6].toString() + "\""]
 
 		for (let j = 0; j < 9; j++) {
 			if (lsHistory[i][0][j] != undefined) {
@@ -2427,7 +2430,7 @@ function nodeMaker(quant: number, item: string, attribute:string) {
 	let nodevar = document.createElement("itembox") as HTMLDivElement
 	if (attribute === "tab") {
 		nodevar.setAttribute("class", "node_tab")
-		nodevar.setAttribute('style', 'order: ' + orderChecker(parseInt(items[item].order), item) + ';');
+		nodevar.setAttribute("style", "order: " + orderChecker(parseInt(items[item].order), item) + ";");
 	}
 	else if (attribute === "history") {
 		nodevar.setAttribute("class", "node_history")
@@ -2435,7 +2438,7 @@ function nodeMaker(quant: number, item: string, attribute:string) {
 	else if (attribute === "recent") {
 		nodevar.setAttribute("class", "node_recent")
 	}
-	nodevar.setAttribute('title', quant.toLocaleString("en-US") + " x " + item)
+	nodevar.setAttribute("title", quant.toLocaleString("en-US") + " x " + item)
 	return nodevar
 
 }
@@ -2489,7 +2492,7 @@ function imgMaker(item: string, quant: number) {
 	else
 		imgvar.src = encodeURI("./images/items/" + item + ".png");
 
-	imgvar.setAttribute('style', 'margin:auto;');
+	imgvar.setAttribute("style", "margin:auto;");
 	imgvar.ondragstart = function() { return false; };
 	return imgvar
 }
@@ -2499,15 +2502,15 @@ function quantMaker(quant: number) {
 	let quantvar = document.createElement("span") as HTMLSpanElement
 
 	if (quant > 9999999 || quant < -9999999) {
-		quantvar.setAttribute('class', 'quant_green_text');
+		quantvar.setAttribute("class", "quant_green_text");
 		quantvar.textContent = Math.trunc(quant / 1000000).toString() + "M";
 	}
 	else if (quant > 99999 || quant > 9999 || quant < -9999 || quant < -99999) {
-		quantvar.setAttribute('class', 'quant_white_text');
+		quantvar.setAttribute("class", "quant_white_text");
 		quantvar.textContent = Math.trunc(quant / 1000).toString() + "k";
 	}
 	else {
-		quantvar.setAttribute('class', 'quant_yellow_text');
+		quantvar.setAttribute("class", "quant_yellow_text");
 		quantvar.textContent = quant + "";
 	}
 	return quantvar
@@ -2519,19 +2522,19 @@ function currentTier() {
 	for (let i = 0; i < tierlist.length; i++) {
 		if ((document.getElementById(tierlist[i]) as HTMLInputElement).checked) {
 			currButton = tierlist[i];
-			if (currButton == 'easy') {
+			if (currButton == "easy") {
 				return [currButton, "OpenLogger/EValue", "OpenLogger/ECount"];
 			}
-			else if (currButton == 'medium') {
+			else if (currButton == "medium") {
 				return [currButton, "OpenLogger/MValue", "OpenLogger/MCount"];
 			}
-			else if (currButton == 'hard') {
+			else if (currButton == "hard") {
 				return [currButton, "OpenLogger/HValue", "OpenLogger/HCount"];
 			}
-			else if (currButton == 'elite') {
+			else if (currButton == "elite") {
 				return [currButton, "OpenLogger/ElValue", "OpenLogger/ElCount"];
 			}
-			else if (currButton == 'master') {
+			else if (currButton == "master") {
 				return [currButton, "OpenLogger/MaValue", "OpenLogger/MaCount"];
 			}
 		}
@@ -2566,11 +2569,11 @@ function removeChildNodes(div: any) { // https://stackoverflow.com/a/40606838
 function _base64ToImageData(buffer: string, width: any, height: any) { // https://stackoverflow.com/questions/68495924
     return new Promise(resolve => {
   	  	let image = new Image();
-  	  	image.addEventListener('load', function (e) {
-  	  	  	let canvasElement = document.createElement('canvas') as HTMLCanvasElement;
+  	  	image.addEventListener("load", function (e) {
+  	  	  	let canvasElement = document.createElement("canvas") as HTMLCanvasElement;
   	  	  	canvasElement.width = width;
   	  	  	canvasElement.height = height;
-  	  	  	let context = canvasElement.getContext('2d');
+  	  	  	let context = canvasElement.getContext("2d");
   	  	  	context.drawImage(e.target as HTMLVideoElement, 0, 0, width, height);
   	  	  	resolve(context.getImageData(0, 0, width, height));
   	  	});
@@ -2580,32 +2583,32 @@ function _base64ToImageData(buffer: string, width: any, height: any) { // https:
 
 
 export function toggleLootDisplay(id: string) {
-	let lootdisplay = Array.from(document.getElementsByClassName('loot_display') as HTMLCollectionOf<HTMLElement>);
+	let lootdisplay = Array.from(document.getElementsByClassName("loot_display") as HTMLCollectionOf<HTMLElement>);
 	let tab = document.getElementById(id) as HTMLInputElement;
 
 	if (id == "broadcasts_rewards") {
-		lootdisplay[0].style.display = (lootdisplay[0].style.display == 'flex') ? 'none' : 'flex';
-		tab.style.textDecoration = (lootdisplay[0].style.display == 'flex') ? 'none' : 'line-through';
-		tab.title = (lootdisplay[0].style.display == 'flex') ? 'Click here to hide broadcast rewards' : 'Click here to show broadcast rewards';
-		opentabs[0] = (lootdisplay[0].style.display == 'flex') ? true : false;
+		lootdisplay[0].style.display = (lootdisplay[0].style.display == "flex") ? "none" : "flex";
+		tab.style.textDecoration = (lootdisplay[0].style.display == "flex") ? "none" : "line-through";
+		tab.title = (lootdisplay[0].style.display == "flex") ? "Click here to hide broadcast rewards" : "Click here to show broadcast rewards";
+		opentabs[0] = (lootdisplay[0].style.display == "flex") ? true : false;
 	}
 	else if (id == "general_rewards") {
-		lootdisplay[1].style.display = (lootdisplay[1].style.display == 'flex') ? 'none' : 'flex';
-		tab.style.textDecoration = (lootdisplay[1].style.display == 'flex') ? 'none' : 'line-through';
-		tab.title = (lootdisplay[1].style.display == 'flex') ? 'Click here to hide general rewards' : 'Click here to show general rewards';
-		opentabs[1] = (lootdisplay[1].style.display == 'flex') ? true : false;
+		lootdisplay[1].style.display = (lootdisplay[1].style.display == "flex") ? "none" : "flex";
+		tab.style.textDecoration = (lootdisplay[1].style.display == "flex") ? "none" : "line-through";
+		tab.title = (lootdisplay[1].style.display == "flex") ? "Click here to hide general rewards" : "Click here to show general rewards";
+		opentabs[1] = (lootdisplay[1].style.display == "flex") ? true : false;
 	}
 	else if (id == "common_rewards") {
-		lootdisplay[2].style.display = (lootdisplay[2].style.display == 'flex') ? 'none' : 'flex';
-		tab.style.textDecoration = (lootdisplay[2].style.display == 'flex') ? 'none' : 'line-through';
-		tab.title = (lootdisplay[2].style.display == 'flex') ? 'Click here to hide common rewards' : 'Click here to show common rewards';
-		opentabs[2] = (lootdisplay[2].style.display == 'flex') ? true : false;
+		lootdisplay[2].style.display = (lootdisplay[2].style.display == "flex") ? "none" : "flex";
+		tab.style.textDecoration = (lootdisplay[2].style.display == "flex") ? "none" : "line-through";
+		tab.title = (lootdisplay[2].style.display == "flex") ? "Click here to hide common rewards" : "Click here to show common rewards";
+		opentabs[2] = (lootdisplay[2].style.display == "flex") ? true : false;
 	}
 	else if (id == "rare_rewards") {
-		lootdisplay[3].style.display = (lootdisplay[3].style.display == 'flex') ? 'none' : 'flex';
-		tab.style.textDecoration = (lootdisplay[3].style.display == 'flex') ? 'none' : 'line-through';
-		tab.title = (lootdisplay[3].style.display == 'flex') ? 'Click here to hide rare rewards' : 'Click here to show rare rewards';
-		opentabs[3] = (lootdisplay[3].style.display == 'flex') ? true : false;
+		lootdisplay[3].style.display = (lootdisplay[3].style.display == "flex") ? "none" : "flex";
+		tab.style.textDecoration = (lootdisplay[3].style.display == "flex") ? "none" : "line-through";
+		tab.title = (lootdisplay[3].style.display == "flex") ? "Click here to hide rare rewards" : "Click here to show rare rewards";
+		opentabs[3] = (lootdisplay[3].style.display == "flex") ? true : false;
 	}
 	if (seeConsoleLogs) console.log(opentabs)
 
@@ -2640,31 +2643,31 @@ export function toggleLootDisplay(id: string) {
 	minHval = "80px"
 
 	if (opentabs[0]) {
-		Array.from(document.getElementsByClassName('broadcasts') as HTMLCollectionOf<HTMLElement>)[0].style.minHeight = minHval;
+		(document.getElementById("broadcasts") as HTMLElement).style.minHeight = minHval;
 	}
 	else {
-		Array.from(document.getElementsByClassName('broadcasts') as HTMLCollectionOf<HTMLElement>)[0].style.minHeight = "8%";
+		(document.getElementById("broadcasts") as HTMLElement).style.minHeight = "8%";
 	}
 
 	if (opentabs[1]) {
-		Array.from(document.getElementsByClassName('general') as HTMLCollectionOf<HTMLElement>)[0].style.minHeight = minHval;
+		(document.getElementById("general") as HTMLElement).style.minHeight = minHval;
 	}
 	else {
-		Array.from(document.getElementsByClassName('general') as HTMLCollectionOf<HTMLElement>)[0].style.minHeight = "8%";
+		(document.getElementById("general") as HTMLElement).style.minHeight = "8%";
 	}
 
 	if (opentabs[2]) {
-		Array.from(document.getElementsByClassName('common') as HTMLCollectionOf<HTMLElement>)[0].style.minHeight = minHval;
+		(document.getElementById("common") as HTMLElement).style.minHeight = minHval;
 	}
 	else {
-		Array.from(document.getElementsByClassName('common') as HTMLCollectionOf<HTMLElement>)[0].style.minHeight = "8%";
+		(document.getElementById("common") as HTMLElement).style.minHeight = "8%";
 	}
 
 	if (opentabs[3]) {
-		Array.from(document.getElementsByClassName('rare') as HTMLCollectionOf<HTMLElement>)[0].style.minHeight = minHval;
+		(document.getElementById("rare") as HTMLElement).style.minHeight = minHval;
 	}
 	else {
-		Array.from(document.getElementsByClassName('rare') as HTMLCollectionOf<HTMLElement>)[0].style.minHeight = "8%";
+		(document.getElementById("rare") as HTMLElement).style.minHeight = "8%";
 	}
 }
 
@@ -2769,16 +2772,16 @@ async function buttonEnabler() {
 	for(let i = 0; i < radiobuttons.length; i++){
 		radiobuttons[i].disabled = false
 	}
-	(document.getElementById("easy") as HTMLDivElement).setAttribute("onclick", "TEST.changeClueTierSpan('easy', event);");
-	(document.getElementById("medium") as HTMLDivElement).setAttribute("onclick", "TEST.changeClueTierSpan('medium', event);");
-	(document.getElementById("hard") as HTMLDivElement).setAttribute("onclick", "TEST.changeClueTierSpan('hard', event);");
-	(document.getElementById("elite") as HTMLDivElement).setAttribute("onclick", "TEST.changeClueTierSpan('elite', event);");
-	(document.getElementById("master") as HTMLDivElement).setAttribute("onclick", "TEST.changeClueTierSpan('master', event);");
-	(document.getElementById("label_easy") as HTMLDivElement).setAttribute("onclick", "TEST.changeClueTierSpan('easy', event);");
-	(document.getElementById("label_medium") as HTMLDivElement).setAttribute("onclick", "TEST.changeClueTierSpan('medium', event);");
-	(document.getElementById("label_hard") as HTMLDivElement).setAttribute("onclick", "TEST.changeClueTierSpan('hard', event);");
-	(document.getElementById("label_elite") as HTMLDivElement).setAttribute("onclick", "TEST.changeClueTierSpan('elite', event);");
-	(document.getElementById("label_master") as HTMLDivElement).setAttribute("onclick", "TEST.changeClueTierSpan('master', event);");
+	(document.getElementById("easy") as HTMLDivElement).setAttribute("onclick", "TEST.changeClueTierSpan(\"easy\", event);");
+	(document.getElementById("medium") as HTMLDivElement).setAttribute("onclick", "TEST.changeClueTierSpan(\"medium\", event);");
+	(document.getElementById("hard") as HTMLDivElement).setAttribute("onclick", "TEST.changeClueTierSpan(\"hard\", event);");
+	(document.getElementById("elite") as HTMLDivElement).setAttribute("onclick", "TEST.changeClueTierSpan(\"elite\", event);");
+	(document.getElementById("master") as HTMLDivElement).setAttribute("onclick", "TEST.changeClueTierSpan(\"master\", event);");
+	(document.getElementById("label_easy") as HTMLDivElement).setAttribute("onclick", "TEST.changeClueTierSpan(\"easy\", event);");
+	(document.getElementById("label_medium") as HTMLDivElement).setAttribute("onclick", "TEST.changeClueTierSpan(\"medium\", event);");
+	(document.getElementById("label_hard") as HTMLDivElement).setAttribute("onclick", "TEST.changeClueTierSpan(\"hard\", event);");
+	(document.getElementById("label_elite") as HTMLDivElement).setAttribute("onclick", "TEST.changeClueTierSpan(\"elite\", event);");
+	(document.getElementById("label_master") as HTMLDivElement).setAttribute("onclick", "TEST.changeClueTierSpan(\"master\", event);");
 	buttonDisabletoggle = true
 }
 
@@ -2787,7 +2790,7 @@ async function buttonEnabler() {
 
 //output.insertAdjacentHTML("beforeend", `
 //	<div>paste an image of rs with homeport button (or not)</div>
-//	<div onclick='TEST.capture()'>Click to capture if on alt1</div>`
+//	<div onclick="TEST.capture()">Click to capture if on alt1</div>`
 //);
 
 //check if we are running inside alt1 by checking if the alt1 global exists
