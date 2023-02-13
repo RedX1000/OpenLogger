@@ -222,13 +222,13 @@
 		                    <label class="title_labels" title="Determines the level of precision for the Hybrid Algorithm.&#10;&#10;Lower: More precise & faster, Higher: Less precise & slower.&#10;&#10;Default is 0.3, lowest value is 0.1 and highest value is 1.0">Hybrid Alg Precision:<br></label>
 		                    <div id="hybrid_precision_field">
 		                        <div class="settings_radio_divs">
-		                            <input type="number" min="0" max="2" step="0.1" value="0.3" id="hybrid_precision" name="precision" class="hybrid_precision_text" title="Determines the level of precision for the Hybrid Algorithm.&#10;&#10;Lower: More precise & faster, Higher: Less precise & slower.&#10;&#10;Default is 0.3, lowest value is 0.1 and highest value is 1.0">
+		                            <input type="number" min="0" max="2" step="0.1" value="0.3" id="hybrid_precision" name="precision" title="Determines the level of precision for the Hybrid Algorithm.&#10;&#10;Lower: More precise & faster, Higher: Less precise & slower.&#10;&#10;Default is 0.3, lowest value is 0.1 and highest value is 1.0">
 		                        </div>
 		                    </div>
 							<label class="title_labels" title="Determines how many previous clues will display in the History menu at one time.&#10;&#10;Default value is 25.">History Display Limit:<br></label>
 		                    <div id="history_display_field">
 		                        <div class="settings_radio_divs">
-		                            <input type="number" min="0" step="1" value="25" id="history_display_limit" name="historylimit" class="history_display_text" title="Determines how many previous clues will display in the History menu at one time.&#10;&#10;Default value is 25.">
+		                            <input type="number" min="0" step="1" value="25" id="history_display_limit" name="historylimit" title="Determines how many previous clues will display in the History menu at one time.&#10;&#10;Default value is 25.">
 		                        </div>
 		                    </div>
 		                    <label class="title_labels" title="Determines whether clues are automatically captured or not. The lock on the capture button toggles this.">Autocapture:<br></label>
@@ -504,8 +504,8 @@
 					</div>
 					<div class="modal-footer">
 						<div class="clear_db_buttons">
-							<div id="confirm_button" class="nisbutton" data-dismiss="modal" onclick="TEST.insertToDB(), clearVerify()" title="">Confirm</div>
-							<div id="cancel_button" class="nisbuttonblue" data-dismiss="modal" data-toggle="modal" data-target="#insert" onclick="" title="">Cancel</div>
+							<div class="confirm_button nisbutton" data-dismiss="modal" onclick="TEST.insertToDB(), clearVerify()" title="">Confirm</div>
+							<div class="cancel_button nisbuttonblue" data-dismiss="modal" data-toggle="modal" data-target="#insert" onclick="" title="">Cancel</div>
 						</div>
 					</div>
 			  	</div>
@@ -527,6 +527,14 @@
 					<div class="modal-body" style="user-select: text;">
 						<h2><u>Latest updates</u></h2>
 						<div style="font-size: 15px; font-weight: 600;">
+							<span style="color: rgb(224, 228, 18);">
+								<u>(2023/02/23)</u> <br>
+								For the developers, I've applied an MIT license on this project to more clearly state my stance on this project.<br>
+							</span><br>
+							<span style="color: rgb(241, 145, 36);">
+								<u>(2023/01/29)</u> <br>
+								For the developers, I've made my HTML more compliant, especially with classes and IDs. I've also reorganized my CSS sheet.<br>
+							</span><br>
 							<span style="color: rgb(45, 164, 201);">
 								<u>(2022/12/11)</u> <br>
 								Greatly tweaked the UI and functions for OpenLogger.<br>
