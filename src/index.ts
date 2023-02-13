@@ -1816,8 +1816,6 @@ async function insertInit() {
 	let quantBoxes = document.getElementsByClassName("insert_text") as HTMLCollectionOf<HTMLInputElement>;
 	let valueBox = document.getElementById("value_input") as HTMLInputElement;
 	valueBox.value = "0";
-	// TODO: Tomorrow, figure out why quantboxes is undefined...
-	console.log(quantBoxes)
 	
 	for (let i = 0; i < itemBoxes.length; i++) {
 		removeChildNodes(itemBoxes[i]) ;
