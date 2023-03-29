@@ -1549,7 +1549,9 @@ function rollbackFunc(valueClear: boolean) { // TODO: Edit this once you get the
 	// Index 3: Tier info (Array)
 	// Index 4: Tier casket count
 	// Index 5: History Primary Key
-	// Index 6: Date and time captured 
+	// Index 6: Date and time captured
+
+	// TODO: Check this in case this might be causing an issue with CSV stuff
 
 	if (seeConsoleLogs) console.log("Rolling back:", lastRoll[0], lastRoll[1], lastRoll[2], lastRoll[3]);
 	for (let i = 0; i < lastRoll[0].length; i++) {
@@ -1558,6 +1560,8 @@ function rollbackFunc(valueClear: boolean) { // TODO: Edit this once you get the
 	}
 
 	// Decrease value and count
+
+	//TODO: Check this next line in case this is borked. I think the index for lastroll might be wrong.
 	localStorage.setItem(lastRoll[3][1], JSON.stringify(JSON.parse(localStorage.getItem(lastRoll[3][1])) - lastRoll[2]));
 	localStorage.setItem(lastRoll[3][2], JSON.stringify(JSON.parse(localStorage.getItem(lastRoll[3][2])) - 1));
 
