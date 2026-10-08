@@ -10,12 +10,7 @@ import ClueRewardReader from "./scripts/rewardreader";
 import { ModalUIReader } from "./scripts/modeluireader";
 
 import * as lsdb from "./JSONs/LocalStorageInit.json";
-import * as itemsTwoPlus from "./JSONs/ItemsAndImagesAll.json";
-import * as itemsOrgList from "./JSONs/ItemsAndImagesOrgList.json";
-import * as itemsOrgMinus from "./JSONs/ItemsAndImagesOrgMinus.json";
-import * as itemslegacyTwoPlus from "./JSONs/ItemsAndImagesLegacyAll.json";
-import * as itemsLegacyOrgList from "./JSONs/ItemsAndImagesLegacyOrgList.json";
-import * as itemsLegacyOrgMinus from "./JSONs/ItemsAndImagesLegacyOrgMinus.json";
+import * as itemsAll from "./JSONs/ItemsAndImagesReorganizedNewUI.json";
 
 /* 
 A couple of notes for development
@@ -26,47 +21,30 @@ A couple of notes for development
 - Value reader is also from the Clue Solver, so I'm not sure how it works, it may break.
 */
 
-//tell webpack to add index.html and appconfig.json to output
-require("!file-loader?name=[name].[ext]!./index.html");
-require("!file-loader?name=[name].[ext]!./appconfig.json");
-
 // TODO: FOR THE PROGRAMMERS AND DEBUGGERS
 // Set this value to true or false to enable console log messages
-var seeConsoleLogs = true;
+const lsdbDict = (lsdb as any).default
+const lsdbKeys = Object.keys((lsdb as any).default ?? {})
 
-var tierlist = ["easy", "medium", "hard", "elite", "master"]
+const seeConsoleLogs = true;
 
-var settingslist = ["OpenLogger/Checked button", "OpenLogger/Algorithm", "OpenLogger/ItemList", "OpenLogger/rerollToggle", "OpenLogger/lagDetect", 
+const tierlist = ["easy", "medium", "hard", "elite", "master"]
+
+const settingslist = ["OpenLogger/Checked button", "OpenLogger/Algorithm", "OpenLogger/rerollToggle", "OpenLogger/lagDetect", 
 					"OpenLogger/multiButtonPressDetect",  "OpenLogger/hybridPrecision", "OpenLogger/noMenu", "OpenLogger/RollbackDisplayLimit"]
 
-var valuesAndCounts = ["OpenLogger/EValue", "OpenLogger/ECount", "OpenLogger/MValue", "OpenLogger/MCount", "OpenLogger/HValue", 
+const valuesAndCounts = ["OpenLogger/EValue", "OpenLogger/ECount", "OpenLogger/MValue", "OpenLogger/MCount", "OpenLogger/HValue", 
  					   "OpenLogger/HCount", "OpenLogger/ElValue", "OpenLogger/ElCount", "OpenLogger/MaValue", "OpenLogger/MaCount"]
 
-var rewardSlots = ["first_item", "second_item", "third_item", "fourth_item", "fifth_item", 
+const rewardSlots = ["first_item", "second_item", "third_item", "fourth_item", "fifth_item", 
 					"sixth_item", "seventh_item", "eigth_item", "ninth_item"];
-					
 
-var listOfItemsAll: any[];
-var listOfitemsTwoPlus: any[];
-var listOfItemsOrgList: any[];
-var listOfItemsOrgMinus: any[];
-var listOfItemsLegacyAll: any[];
-var listOfItemslegacyTwoPlus: any[];
-var listOfItemsLegacyOrgList: any[];
-var listOfItemsLegacyOrgMinus: any[];
+var listOfItems: any[];
 
-var listOfItemsAllArray: any[];
-var listOfitemsTwoPlusArray: any[];
-var listOfItemsOrgListArray: any[];
-var listOfItemsOrgMinusArray: any[];
-var listOfItemsLegacyAllArray: any[];
-var listOfItemslegacyTwoPlusArray: any[];
-var listOfItemsLegacyOrgListArray: any[];
-var listOfItemsLegacyOrgMinusArray: any[];
+var listOfItemsArray: any[];
 
 var items = JSON;
 
-var legacy = false;
 var displaybox = true;
 
 var lastItems: any[];
@@ -76,9 +54,9 @@ var lastValue = 0;
 
 var lastReroll = [0, 0];
 
-var autoCaptureInterval;
+var autoCaptureInterval: any;
 
-var noMenuInterval;
+var noMenuInterval: any;
 
 var opentabs = [true, true, true, true];
 
@@ -92,11 +70,8 @@ var insertVerif: any[];
 
 var imgs = a1lib.ImageDetect.webpackImages({
 	trailComplete: require("./images/TrailComplete.data.png"),
-	trailCompleteLegacy: require("./images/TrailCompleteLegacy.data.png"),
 	rewardValue: require("./images/RewardValue.data.png"),
-	rewardValueLegacy: require("./images/RewardValueLegacy.data.png"),
 	rerollWindow: require("./images/rerollWindow.data.png"),
-	rerollWindowLegacy: require("./images/rerollWindowLegacy.data.png")
 });
 
 // TODO: Consider adding an update price for all clues within history, current tier value
@@ -116,15 +91,8 @@ export async function initOnLoad() {
 		// TODO: Learn Refreshgroup and Freezegroup
 
 		alt1.overLaySetGroup("overlays");
-		alt1.overLayTextEx("Initializing OpenLogger...", a1lib.mixColor(255, 144, 0), 20, Math.round(alt1.rsWidth / 2), 200, 50000, "", true, true);
+		alt1.overLayTextEx("Initializing OpenLogger...", a1lib.mixColor(255, 144, 0), 20, Math.round(alt1.rsWidth / 2), 200, 100000, "", true, true);
 	}
-
-
-
-	// 09/07/2022: This function exists to attempt to preserve data when changing naming conventions over
-	// due to singular domain, and localstorage overwriting itself.
-	// Remove this later down the line or if youre making your own plugin
-	await keytransfer()
 
 	if (seeConsoleLogs) console.log("Initializing plugin...");
 	toggleLootDisplay("broadcasts_rewards")
@@ -135,32 +103,22 @@ export async function initOnLoad() {
 	if (seeConsoleLogs) console.log("\nInitialization complete!");
 }
 
-
-async function keytransfer(){
-	let oldKeys = ["Checked button", "Algorithm", "ItemList", "rerollToggle", 
-				   "lagDetect", "multiButtonPressDetect",  "hybridPrecision", 
-				   "noMenu", "RollbackDisplayLimit", "EValue", "ECount", 
-				   "MValue", "MCount", "HValue", "HCount", "ElValue", "ElCount", 
-				   "MaValue", "MaCount", "autoCapture", "HistoryDisplayLimit", 
-				   "PrimaryKeyHistory", "History", "items", "autoCapture"]
-	
-	let newKeys = ["OpenLogger/Checked button", "OpenLogger/Algorithm", "OpenLogger/ItemList", 
-				   "OpenLogger/rerollToggle", "OpenLogger/lagDetect", "OpenLogger/multiButtonPressDetect",  
-				   "OpenLogger/hybridPrecision", "OpenLogger/noMenu", "OpenLogger/RollbackDisplayLimit", 
-				   "OpenLogger/EValue", "OpenLogger/ECount", "OpenLogger/MValue", "OpenLogger/MCount", 
-				   "OpenLogger/HValue", "OpenLogger/HCount", "OpenLogger/ElValue", "OpenLogger/ElCount", 
-				   "OpenLogger/MaValue", "OpenLogger/MaCount", "OpenLogger/autoCapture", 
-				   "OpenLogger/HistoryDisplayLimit", "OpenLogger/PrimaryKeyHistory", "OpenLogger/History", 
-				   "OpenLogger/items", "OpenLogger/autoCapture"]
-	
-	for(let i = 0; i < oldKeys.length; i++){
-		if(localStorage.getItem(oldKeys[i]) != null){
-			localStorage.setItem(newKeys[i], localStorage.getItem(oldKeys[i]))
-			localStorage.removeItem(oldKeys[i])
+function furniture_plan_patch() {
+	for (let i = 0; i < lsdbKeys.length; i++) {
+		let item = lsdbKeys[i]
+		if (!(item in JSON.parse(localStorage.getItem("OpenLogger/items")!))) {
+			let lscopy = JSON.parse(localStorage.getItem("OpenLogger/items")!)
+			lscopy[item] = lsdbDict[item]
+			localStorage.setItem("OpenLogger/items", JSON.stringify(lscopy))
 		}
 	}
+	for (let i = 0; i < lsdbKeys.length; i++){
+		let item_name = lsdbKeys[i]
+		let lscopy = JSON.parse(localStorage.getItem("OpenLogger/items")!)
+		lscopy[item_name].order = lsdbDict[item_name].order
+		localStorage.setItem("OpenLogger/items", JSON.stringify(lscopy))
+	}
 }
-
 
 export async function init() {
 	//await new Promise(resolve => setTimeout(resolve, 5000));
@@ -176,8 +134,11 @@ export async function init() {
 	if (seeConsoleLogs) console.log("Initializing LocalStorage items...");
 
 	if (localStorage.getItem("OpenLogger/items") == null) {
-		localStorage.setItem("OpenLogger/items", JSON.stringify(lsdb))
+		localStorage.setItem("OpenLogger/items", JSON.stringify(lsdbDict))
 	}
+
+	// 2026/10/01: New furniture plans...
+	await furniture_plan_patch()
 
 	for (let i = 0; i < valuesAndCounts.length; i++) {
 		if (localStorage.getItem(valuesAndCounts[i]) == null) {
@@ -185,23 +146,7 @@ export async function init() {
 		}
 	}
 
-	items = JSON.parse(localStorage.getItem("OpenLogger/items"));
-
-
-	// This code should be able to save your data after the optimization update.
-	// This snippet can be removed a few months in the future or for future projects with this code.
-	// ~ 08/10/2022
-	let keys = Object.keys(lsdb);
-	for (let i = 0; i < keys.length; i++) {
-		if (localStorage.getItem(keys[i]) != null) {
-			for (let j = 0; j < items[keys[i]].tier.length; j++) {
-				let itemsQuant = parseInt(items[keys[i]].quantity[items[keys[i]].tier[j]]);
-				let lsItemQuant = parseInt(JSON.parse(localStorage.getItem(keys[i])).quantity[items[keys[i]].tier[j]]);
-				items[keys[i]].quantity[items[keys[i]].tier[j]] = itemsQuant + lsItemQuant;
-			}
-			localStorage.removeItem(keys[i]);
-		}
-	}
+	items = JSON.parse(localStorage.getItem("OpenLogger/items")!);
 
 	if (seeConsoleLogs) console.log("LocalStorage items initialized.");
 
@@ -221,11 +166,11 @@ export async function init() {
 	else { // If it does, set the button and span
 		if (seeConsoleLogs) console.log("Setting previously set radio button: " + localStorage.getItem("OpenLogger/Checked button") + "...");
 		let temp = localStorage.getItem("OpenLogger/Checked button");
-		let ele = document.getElementById(temp) as HTMLInputElement;
+		let ele = document.getElementById(temp!) as HTMLInputElement;
 		ele.checked = true;	
 		let tierSpans = document.getElementsByClassName("current_tier_button") as HTMLCollectionOf<HTMLSpanElement>;
 		for (let i = 0; i < tierSpans.length; i++) {
-			if (seeConsoleLogs) console.log("Setting tier spans to", currentTier()[0]);
+			if (seeConsoleLogs) console.log("Setting tier spans to", currentTier()![0]);
 			tierSpans[i].textContent = currentTierUpper();
 		}
 	}
@@ -236,11 +181,6 @@ export async function init() {
 	if (localStorage.getItem("OpenLogger/Algorithm") == null) { // Algorithim init check
 		if (seeConsoleLogs) console.log("Defaulting Algorithm button to Hybrid...");
 		localStorage.setItem("OpenLogger/Algorithm", "hybrid");
-	}
-
-	if (localStorage.getItem("OpenLogger/ItemList") == null) { // Item Referense list init check
-		if (seeConsoleLogs) console.log("Defaulting ItemList to Organized List...");
-		localStorage.setItem("OpenLogger/ItemList", "orglist");
 	}
 
 	if (localStorage.getItem("OpenLogger/autoCapture") == null) { // Autocapture check
@@ -273,25 +213,14 @@ export async function init() {
 	}
 
 	if (localStorage.getItem("OpenLogger/hybridPrecision") == null) { // Hybrid precision value
-		if (seeConsoleLogs) console.log("Defaulting hybridPrecision to 0.3...");
-		localStorage.setItem("OpenLogger/hybridPrecision", "0.3");
+		if (seeConsoleLogs) console.log("Defaulting hybridPrecision to 0.5...");
+		localStorage.setItem("OpenLogger/hybridPrecision", "0.5");
 	}
 
 	if (localStorage.getItem("OpenLogger/History") == null) { // History initializer
 		if (seeConsoleLogs) console.log("Creating history");
 		localStorage.setItem("OpenLogger/History",JSON.stringify([]));
 	}
-
-	// This code should add the current date to your history log if it does not exist.
-	// This snippet can be removed a few months in the future or for future projects with this code.
-	// ~ 11/21/2022
-	let history = JSON.parse(localStorage.getItem("OpenLogger/History"))
-	for(let i = 0; i < history.length; i++){
-		if(history[i][6] == undefined){
-			history[i].push(await dateGetter())
-		}
-	}
-	localStorage.setItem("OpenLogger/History",JSON.stringify(history))
 
 	
 	if (localStorage.getItem("OpenLogger/PrimaryKeyHistory") == null) { // Initialize primary key for history
@@ -461,20 +390,20 @@ export async function cleardb(choice: any) {
 		if (window.alt1) {
 			alt1.overLayClearGroup("overlays");
 			alt1.overLaySetGroup("overlays");
-			alt1.overLayTextEx("Clearing " + (currentTier()[0][0].toUpperCase() + (currentTier()[0].slice(1)).toLowerCase()) + " reward database...",
+			alt1.overLayTextEx("Clearing " + (currentTier()![0][0].toUpperCase() + (currentTier()![0].slice(1)).toLowerCase()) + " reward database...",
 				a1lib.mixColor(255, 144, 0), 20, Math.round(alt1.rsWidth / 2), 200, 4000, "", true, true);
 		}
 
-		localStorage.setItem(currentTier()[1], "0");
-		localStorage.setItem(currentTier()[2], "0");
+		localStorage.setItem(currentTier()![1], "0");
+		localStorage.setItem(currentTier()![2], "0");
 		for (let i = 0; i < keys.length; i++) {
-			items[keys[i]].quantity[currentTier()[0]] = 0;
+			items[keys[i]].quantity[currentTier()![0]] = 0;
 		}
 		updateItems()
 
-		let lsHistory = JSON.parse(localStorage.getItem("OpenLogger/History"));
+		let lsHistory = JSON.parse(localStorage.getItem("OpenLogger/History")!);
 		for (let i = lsHistory.length - 1; i >= 0; i--) {
-			if (lsHistory[i][3][0] == currentTier()[0] || lsHistory[i][3][0] == currentTier()[0] + " [C] ") {
+			if (lsHistory[i][3][0] == currentTier()![0] || lsHistory[i][3][0] == currentTier()![0] + " [C] ") {
 				lsHistory.splice(i, 1);
 			}
 		}
@@ -483,7 +412,7 @@ export async function cleardb(choice: any) {
 		if (window.alt1) {
 			alt1.overLayClearGroup("overlays");
 			alt1.overLaySetGroup("overlays");
-			alt1.overLayTextEx((currentTier()[0][0].toUpperCase() + (currentTier()[0].slice(1)).toLowerCase()) + " cleared successfully!",
+			alt1.overLayTextEx((currentTier()![0][0].toUpperCase() + (currentTier()![0].slice(1)).toLowerCase()) + " cleared successfully!",
 				a1lib.mixColor(100, 255, 100), 20, Math.round(alt1.rsWidth / 2), 200, 4000, "", true, true);
 		}
 	}
@@ -521,98 +450,22 @@ async function arraySetup() {
 	// Set new array of current tier
 	// Turning image collection into array
 	let arrayLength = 0;
-	if (localStorage.getItem("OpenLogger/ItemList") == "twoplus") {
-		listOfitemsTwoPlus = itemsTwoPlus.any.concat(itemsTwoPlus[currentTier()[0]]);
-		listOfItemslegacyTwoPlus = itemslegacyTwoPlus.any.concat(itemslegacyTwoPlus[currentTier()[0]]);
-		listOfitemsTwoPlusArray = [];
-		listOfItemslegacyTwoPlusArray = [];
-		arrayLength = listOfitemsTwoPlus.length;
-	}
-	else if (localStorage.getItem("OpenLogger/ItemList") == "orglist") {
-		listOfItemsOrgList = itemsOrgList.any.concat(itemsOrgList[currentTier()[0]]);
-		listOfItemsLegacyOrgList = itemsLegacyOrgList.any.concat(itemsLegacyOrgList[currentTier()[0]]);
-		listOfItemsOrgListArray = [];
-		listOfItemsLegacyOrgListArray = [];
-		arrayLength = listOfItemsOrgList.length;
-	}
-	else if (localStorage.getItem("OpenLogger/ItemList") == "orgminus") {
-		listOfItemsOrgMinus = itemsOrgMinus.any.concat(itemsOrgMinus[currentTier()[0]]);
-		listOfItemsLegacyOrgMinus = itemsLegacyOrgMinus.any.concat(itemsLegacyOrgMinus[currentTier()[0]]);
-		listOfItemsOrgMinusArray = [];
-		listOfItemsLegacyOrgMinusArray = [];
-		arrayLength = listOfItemsOrgMinus.length;
-	}
+	listOfItems = itemsAll.any.concat(itemsAll[currentTier()![0]])
+	listOfItemsArray = []
+	arrayLength = listOfItems.length
 
 
 	// Setting Array items and ImageData arrays
 	let promises = [];
 	for (let i = 0; i < arrayLength; i++) {
-		if (localStorage.getItem("OpenLogger/ItemList") == "twoplus") {
-			if (i < listOfitemsTwoPlus.length) {
-				listOfitemsTwoPlusArray.push([listOfitemsTwoPlus[i].name, listOfitemsTwoPlus[i].base64, 0.0]);
-				promises.push(await _base64ToImageData(listOfitemsTwoPlusArray[i][1], 32, 32).then(data => { 
-					listOfitemsTwoPlusArray[i].push(data);
-				}));
-			}
-			if (i < listOfItemslegacyTwoPlus.length) {
-				listOfItemslegacyTwoPlusArray.push([listOfItemslegacyTwoPlus[i].name, listOfItemslegacyTwoPlus[i].base64, 0.0]);
-				promises.push(await _base64ToImageData(listOfItemslegacyTwoPlusArray[i][1], 32, 32).then(data => { 
-					listOfItemslegacyTwoPlusArray[i].push(data);
-				}));
-			}
-		}
-
-		else if (localStorage.getItem("OpenLogger/ItemList") == "orglist") {
-			if (i < listOfItemsOrgList.length) {
-				listOfItemsOrgListArray.push([listOfItemsOrgList[i].name, listOfItemsOrgList[i].base64, 0.0]);
-				promises.push(await _base64ToImageData(listOfItemsOrgListArray[i][1], 32, 32).then(data => { 
-					listOfItemsOrgListArray[i].push(data);
-				}));
-			}
-			if (i < listOfItemsLegacyOrgList.length) {
-				listOfItemsLegacyOrgListArray.push([listOfItemsLegacyOrgList[i].name, listOfItemsLegacyOrgList[i].base64, 0.0]);
-					promises.push(await _base64ToImageData(listOfItemsLegacyOrgListArray[i][1], 32, 32).then(data => { 
-					listOfItemsLegacyOrgListArray[i].push(data);
-				}));
-			}
-		}
-
-		else if (localStorage.getItem("OpenLogger/ItemList") == "orgminus") {
-			if (i < listOfItemsOrgMinus.length) {
-				listOfItemsOrgMinusArray.push([listOfItemsOrgMinus[i].name, listOfItemsOrgMinus[i].base64, 0.0]);
-				promises.push(await _base64ToImageData(listOfItemsOrgMinusArray[i][1], 32, 32).then(data => { 
-					listOfItemsOrgMinusArray[i].push(data);
-				}));
-			}
-			if (i < listOfItemsLegacyOrgMinus.length) {
-				listOfItemsLegacyOrgMinusArray.push([listOfItemsLegacyOrgMinus[i].name, listOfItemsLegacyOrgMinus[i].base64, 0.0]);
-				promises.push(await _base64ToImageData(listOfItemsLegacyOrgListArray[i][1], 32, 32).then(data => { 
-					listOfItemsLegacyOrgMinusArray[i].push(data);
-				}));
-			}
+		if (i < listOfItems.length) {
+			listOfItemsArray.push([listOfItems[i].name, listOfItems[i].base64, 0.0]);
+			promises.push(await _base64ToImageData(listOfItemsArray[i][1], 32, 32).then(data => { 
+				listOfItemsArray[i].push(data);
+			}));
 		}
 	}
 	await Promise.all(promises);
-
-
-	if (localStorage.getItem("OpenLogger/ItemList") == "all") {
-		listOfItemsAll = itemsTwoPlus.any.concat(itemsTwoPlus.easy).concat(itemsTwoPlus.medium).concat(itemsTwoPlus.hard).concat(itemsTwoPlus.elite).concat(itemsTwoPlus.master);
-		listOfItemsLegacyAll = itemslegacyTwoPlus.any.concat(itemslegacyTwoPlus.easy).concat(itemslegacyTwoPlus.medium).concat(itemslegacyTwoPlus.hard).concat(itemslegacyTwoPlus.elite).concat(itemslegacyTwoPlus.master);
-		listOfItemsAllArray = [];
-		listOfItemsLegacyAllArray = [];
-		promises = [];
-		for (let i = 0; i < listOfItemsAll.length; i++) {
-			listOfItemsAllArray.push([listOfItemsAll[i].name, listOfItemsAll[i].base64, 0.0]);
-			listOfItemsLegacyAllArray.push([listOfItemsLegacyAll[i].name, listOfItemsLegacyAll[i].base64, 0.0]);
-			promises.push(await _base64ToImageData(listOfItemsAllArray[i][1], 32, 32).then(data => { 
-				listOfItemsAllArray[i].push(data);
-			}));
-			promises.push(await _base64ToImageData(listOfItemsLegacyAllArray[i][1], 32, 32).then(data => { 
-				listOfItemsLegacyAllArray[i].push(data);
-			}));
-		}
-		await Promise.all(promises);
-	}
 }
 
 
@@ -689,9 +542,7 @@ async function findtrailComplete(img: ImgRef, autobool: boolean) {
 	try {
 		let loc: any;
 		const imgCaptures = [img.findSubimage(imgs.rerollWindow),
-							 img.findSubimage(imgs.trailComplete),						      
-						     img.findSubimage(imgs.rerollWindowLegacy),
-						     img.findSubimage(imgs.trailCompleteLegacy)];
+							 img.findSubimage(imgs.trailComplete)];
 		if (imgCaptures[0][0] !== undefined) {
 			loc = imgCaptures[0];
 			if (seeConsoleLogs) console.log("reroll window");
@@ -699,49 +550,28 @@ async function findtrailComplete(img: ImgRef, autobool: boolean) {
 		}
 		else if (imgCaptures[1][0] !== undefined) {
 			loc = imgCaptures[1];
-			if (seeConsoleLogs) console.log("Non-legacy window");
-			legacy = false;
-		}
-		else if (imgCaptures[2][0] !== undefined) {
-			loc = imgCaptures[2];
-			if (seeConsoleLogs) console.log("reroll legacy window");
-			return;
-		}
-		else if (imgCaptures[3][0] !== undefined) {
-			loc = imgCaptures[3];
-			if (seeConsoleLogs) console.log("legacy window");
-			legacy = true;
 		}
 		else {
 			return;
 		}
-
+		
+		console.log("found sub image")
 		// TODO: Tweak these two values below if jagex adjusts the pixel placement of the items
 		// Values to tweak in case jagex borks the item placement on the screen
 		// x1, +1 = right, -1 = left
 		// y1, +1 = up, -1 = down
 		// Adjust top crops as well, for the x1 and y1 values for it
 		// Consider making this an option in the settings.
-		let xdefault: number
-		let ydefault: number
-		let xRect: number
-		let yRect: number
-		if (!legacy) {
-			xdefault = loc[0].x - 1;
-			ydefault = loc[0].y + 39;
-			xRect = loc[0].x - 27;
-			yRect = loc[0].y - 13;
-		}
-		else {
-			xdefault = loc[0].x - 112;
-			ydefault = loc[0].y + 39;
-			xRect = loc[0].x - 139;
-			yRect = loc[0].y - 12;
-		}
+		
+		let xdefault = loc[0].x - 112;
+		let ydefault = loc[0].y + 39;
+		let xRect = loc[0].x - 139;
+		let yRect = loc[0].y - 12;
 
 		let x1 = xdefault
 		let y1 = ydefault
 
+		console.log("made coords")
 		let crops = new Array<ImageData>(9);
 		let topCrops = new Array<ImageData>(9);
 		for (let i = 0; i < crops.length; i++) {
@@ -749,8 +579,8 @@ async function findtrailComplete(img: ImgRef, autobool: boolean) {
 			topCrops[i] = img.toData(x1, loc[0].y + 41, 32, 8);
 			x1 += 40;
 		}
-
-		// Give me the total value!
+		
+		// Value getter
 		// If this breaks, value is obfuscated. Second way to scan it for validity.
 		
 		// FIXME: Try to rework this try/catch to an if/else block.
@@ -774,9 +604,13 @@ async function findtrailComplete(img: ImgRef, autobool: boolean) {
 				lastValueStr = lastValueStr.slice(0,-1);
 			}
 		} catch (e) {
+			console.log(e)
+			alt1.overLayTextEx("Failure to read value",
+				a1lib.mixColor(255, 80, 80), 20, Math.round(alt1.rsWidth / 2), 200, 5000, "", true, true);
 			return;
 		}
-
+		
+		console.log("got total value")
 		if (autobool == true) {
 			if (lastValue == 0) {
 				if (seeConsoleLogs) console.log("value is zero");
@@ -867,17 +701,8 @@ async function findtrailComplete(img: ImgRef, autobool: boolean) {
 					if (seeConsoleLogs) console.log(itemResults[i]);
 
 					let newImg = a1lib.captureHoldFullRs();
-					let x = 0;
-					let loc2;
-					if (!legacy) {
-						if (seeConsoleLogs) console.log("is not legacy")
-						loc2 = newImg.findSubimage(imgs.trailComplete);
-						x = loc2[0].x + (40 * (i));
-					}
-					else {
-						loc2 = newImg.findSubimage(imgs.trailCompleteLegacy);
-						x = loc2[0].x - 112 + (40 * (i));
-					}
+					let loc2 = newImg.findSubimage(imgs.trailComplete);
+					let x = loc2[0].x - 81 + (40 * (i));
 
 					if (window.alt1) {
 						alt1.overLayClearGroup("overlays");
@@ -885,15 +710,19 @@ async function findtrailComplete(img: ImgRef, autobool: boolean) {
 						alt1.overLayTextEx("Checking last item for lag...", a1lib.mixColor(255, 144, 0), 20, Math.round(alt1.rsWidth / 2), 170, 1000, "", true, true);
 						alt1.overLayClearGroup("icon");
 						alt1.overLaySetGroup("icon");
-						alt1.overLayRect(a1lib.mixColor(125, 194, 33), x - 1, loc2[0].y + 39, 32, 32, 2000, 1);
+						alt1.overLayRect(a1lib.mixColor(125, 194, 33), x - 32, loc2[0].y + 39, 32, 32, 2000, 1);
 					}
 
-					let lastcrop = newImg.toData(x - 1, loc2[0].y + 39, 32, 32);
+					let lastcrop = newImg.toData(x - 32, loc2[0].y + 39, 32, 32);
+					// lastcrop.show()
+					
 					let lastresult = "";
 					let promises2 = [];
 					promises2.push(lastresult = await compareItems(lastcrop));
 					await Promise.all(promises2);
-					if (seeConsoleLogs) console.log(itemResults, i);
+					if (seeConsoleLogs) console.log("Last result and index", lastresult, i);
+					if (seeConsoleLogs) console.log("Item result and index", itemResults, i);
+					if (seeConsoleLogs) console.log("Item promise and index", promises2, i);
 					if (seeConsoleLogs) console.log("Comparing", lastresult, "to", itemResults[i]);
 
 					// Consider doing a value check in here...
@@ -914,7 +743,7 @@ async function findtrailComplete(img: ImgRef, autobool: boolean) {
 									break;
 								}
 							}
-							let lsHistory = JSON.parse(localStorage.getItem("OpenLogger/History"))[JSON.parse(localStorage.getItem("OpenLogger/History")).length-1][0];
+							let lsHistory = JSON.parse(localStorage.getItem("OpenLogger/History")!)[JSON.parse(localStorage.getItem("OpenLogger/History")!).length-1][0];
 							if (seeConsoleLogs) console.log("Checking arrays for equivalence:",JSON.parse(localStorage.getItem("OpenLogger/History"))[JSON.parse(localStorage.getItem("OpenLogger/History")).length-1][0], itemResultsNoBlanks);
 							if (lsHistory.join(",") === itemResultsNoBlanks.join(",")) { // https://stackoverflow.com/a/6230314
 								if (seeConsoleLogs) console.log(lsHistory.join(","), "and",itemResultsNoBlanks.join(","), "are the same...");
@@ -996,14 +825,6 @@ async function findtrailComplete(img: ImgRef, autobool: boolean) {
 			}
 		}
 
-		// FIXME: Tweaks for Pixelmatch on TwoMatch or All Images. Don't rely on this...
-		// It's a hardcode. I hate it.
-		for (let i = 0; i > itemResults.length; i++) {
-			if (currentTier()[0] == "medium" && itemResults[i] == "Huge plated rune salvage") {
-				itemResults[i] = "Huge plated adamant salvage";
-			}
-		}
-
 		// Give me the quantity of the items!
 		let quantResults = [];
 		promises = [];
@@ -1016,7 +837,7 @@ async function findtrailComplete(img: ImgRef, autobool: boolean) {
 		await Promise.all(promises);
 		if (seeConsoleLogs) (quantResults);
 
-		// Send it to the LS!
+		// Send data to the LocalStorage
 		promises = [];
 		promises.push(await submitToLS(itemResults, quantResults, value));
 		await Promise.all(promises);
@@ -1028,7 +849,7 @@ async function findtrailComplete(img: ImgRef, autobool: boolean) {
 
 		addHistoryToLs(lastValue, lastItems, lastQuants, lastTier);
 		
-		// Put the items and quantites on the display!
+		// Put the items and quantites in the display
 		(document.getElementById("rewards_value") as HTMLSpanElement).textContent = value.toLocaleString("en-US");
 		for (let i = 0; i < 9; i++) {
 			(document.getElementById(rewardSlots[i]) as HTMLDivElement).textContent = "";
@@ -1049,16 +870,16 @@ async function findtrailComplete(img: ImgRef, autobool: boolean) {
 			(document.getElementById(rewardSlots[i]) as HTMLDivElement).appendChild(nodevar);
 		}
 
-		//Show it on the screen!
+		//Show the loot in the display
 		lootDisplay();
 
-		//Display the victory screen!!!
+		//Display the victory text :)
 		if (window.alt1) {
 			alt1.overLayClearGroup("overlays");
 			alt1.overLayClearGroup("rect");
 			alt1.overLayClearGroup("lag");
 			alt1.overLaySetGroup("overlays");
-			alt1.overLayTextEx((currentTier()[0][0].toUpperCase() + (currentTier()[0].slice(1)).toLowerCase()) + " rewards captured successfully!",
+			alt1.overLayTextEx((currentTier()![0][0].toUpperCase() + (currentTier()![0].slice(1)).toLowerCase()) + " rewards captured successfully!",
 				a1lib.mixColor(100, 255, 100), 20, Math.round(alt1.rsWidth / 2), 200, 4000, "", true, true);
 			alt1.overLayRect(a1lib.mixColor(0, 255, 0), xRect, yRect, imgs.trailComplete.width + 278, imgs.trailComplete.height + 213, 1000, 2);
 		}
@@ -1080,55 +901,22 @@ async function findtrailComplete(img: ImgRef, autobool: boolean) {
 
 
 async function compareItems(item: ImageData) {
-	//TODO: Try to get Legacy to work better
-	//Legacy works, but I don't have a lot of testing materials
-
 	// Can't use all at once. Can only do one color at a time.
 	// const yellow = { r: 255, g: 0, b: 0, a: 255};
 	// const black1 = { r: 0, g: 0, b: 0, a: 255};
 	// const black2 = { r: 0, g: 0, b: 1, a: 255};
 	// const black3 = { r: 0, g: 0, b: 2, a: 255};
-	// const legacytan = { r: 62, g: 53, b: 40, a: 255};
-	// const rs3blue = { r: 10, g: 31, b: 41, a: 255};
+	// const new_interface_tan = { r: 50, g: 46, b: 40, a: 255};
 
 	// let colors = [yellow, black1, black2, black3]
 	// Just hold this for now just in case...
 
 	// Remove blank if not blank
 	//	{output: {ignoreAreasColoredWith: colors}}
-	// 	Choices are: yellow, black1, black2, black3, legacytan, rs3blue
-	// all, twoplus, orglist, orgminus
+	// 	Choices are: yellow, black1, black2, black3, new_interface_tan
 
 	let matches = [];
-	if (!legacy) {
-		if (localStorage.getItem("OpenLogger/ItemList") == "all") {
-			matches = listOfItemsAllArray.slice();
-		}
-		else if (localStorage.getItem("OpenLogger/ItemList") == "twoplus") {
-			matches = listOfitemsTwoPlusArray.slice();
-		}
-		else if (localStorage.getItem("OpenLogger/ItemList") == "orglist") {
-			matches = listOfItemsOrgListArray.slice();
-		}
-		else if (localStorage.getItem("OpenLogger/ItemList") == "orgminus") {
-			matches = listOfItemsOrgMinusArray.slice();
-		}
-	}
-
-	else { // Legacy works. But I don't test with it often. I think its okay...
-		if (localStorage.getItem("OpenLogger/ItemList") == "all") {
-			matches = listOfItemsLegacyAllArray.slice();
-		}
-		else if (localStorage.getItem("OpenLogger/ItemList") == "twoplus") {
-			matches = listOfItemslegacyTwoPlusArray.slice();
-		}
-		else if (localStorage.getItem("OpenLogger/ItemList") == "orglist") {
-			matches = listOfItemsLegacyOrgListArray.slice();
-		}
-		else if (localStorage.getItem("OpenLogger/ItemList") == "orgminus") {
-			matches = listOfItemsLegacyOrgMinusArray.slice();
-		}
-	}
+	matches = listOfItemsArray.slice()
 
 	//Check if the item is blank first
 	let imgdata = await compareImages(item, matches[0][1], { output: {}, ignore: "less" });
@@ -1155,10 +943,6 @@ async function compareItems(item: ImageData) {
 	}
 
 	else if (localStorage.getItem("OpenLogger/Algorithm") == "pixelmatch") {
-		/* List of items that do not identify in pure PixelMatch
-			- Huge Plated Adamant Salvage identifies as Huge Plated Rune Salvage when using TwoPlus or All
-		*/
-
 		found = matches[0];
 		const promises = [];
 		for (let i = 0; i < matches.length; i++) {
@@ -1178,10 +962,9 @@ async function compareItems(item: ImageData) {
 			promises.push(matches[i][2] = pixelmatch(item.data, matches[i][3].data, null, item.width, item.height, {includeAA: true, threshold: 0.1 }));
 			total += matches[i][2];
 		}
-
 		// Then we get the average so we can remove half of the items that don't match
 		let average = total / matches.length;
-		let precision = parseFloat(localStorage.getItem("OpenLogger/hybridPrecision")); //1 does nothing
+		let precision = parseFloat(localStorage.getItem("OpenLogger/hybridPrecision")!); //1 does nothing
 		await Promise.all(promises);
 		
 		// TODO: Consider combining this and the next for loop.
@@ -1219,11 +1002,11 @@ async function readQuantities(item: ImageData) {
 	let itemCon = itemCan.getContext("2d");
 	itemCan.width = item.width;
 	itemCan.height = item.height;
-	itemCon.putImageData(item, 0, 0);
+	itemCon!.putImageData(item, 0, 0);
 	let itemImg = new Image();
 	itemImg.src = itemCan.toDataURL("image/png");
-	itemCon.drawImage(itemImg, 0, 0);
-	let pixels = itemCon.getImageData(0, 0, item.width, item.height);
+	itemCon!.drawImage(itemImg, 0, 0);
+	let pixels = itemCon!.getImageData(0, 0, item.width, item.height);
 	let pixarr = [];
 	let pixeldata = 0;
 	for (let i = 0; i < 8; i++) {
@@ -1349,11 +1132,11 @@ async function rerollCheck(value: ImageData, valueClear: boolean) {
 	let valueCon = valueCan.getContext("2d");
 	valueCan.width = value.width;
 	valueCan.height = value.height;
-	valueCon.putImageData(value, 0, 0);
+	valueCon!.putImageData(value, 0, 0);
 	let valueImg = new Image();
 	valueImg.src = valueCan.toDataURL("image/png");
-	valueCon.drawImage(valueImg, 0, 0);
-	let pixels = valueCon.getImageData(0, 0, value.width, value.height);
+	valueCon!.drawImage(valueImg, 0, 0);
+	let pixels = valueCon!.getImageData(0, 0, value.width, value.height);
 
 	let pixarr = [];
 	let pixeldata = 0;
@@ -1418,14 +1201,15 @@ async function submitToLS(item: any[], quant: any[], value: any) {
 		// If you get null or undefined here, check if one of your rewards doesn"t exist in LocalStorage or LocalStorageInit
 		// Or maybe the name might be incorrectly written in, idk
 		// console.log("checking if in array", item[i]);
-		if (items[item[i]].tier.includes(currentTier()[0])) {
+		console.log(items[item[i]].tier.includes(currentTier()![0]))
+		if (items[item[i]].tier.includes(currentTier()![0])) {
 			let tempQuant = quant[i].slice();
 			if (quant[i].includes("k")) {
 				tempQuant = tempQuant.slice(0, -1);
 				tempQuant += "000";
 			}
 
-			items[item[i]].quantity[currentTier()[0]] = parseInt(items[item[i]].quantity[currentTier()[0]]) + parseInt(tempQuant);
+			items[item[i]].quantity[currentTier()![0]] = parseInt(items[item[i]].quantity[currentTier()![0]]) + parseInt(tempQuant);
 			updateItems();
 		}
 		else {
@@ -1434,8 +1218,8 @@ async function submitToLS(item: any[], quant: any[], value: any) {
 	}
 
 	// Increase value and count
-	localStorage.setItem(currentTier()[1], JSON.stringify((JSON.parse(localStorage.getItem(currentTier()[1])) + value)));
-	localStorage.setItem(currentTier()[2], JSON.stringify(JSON.parse(localStorage.getItem(currentTier()[2])) + 1));
+	localStorage.setItem(currentTier()![1], JSON.stringify((JSON.parse(localStorage.getItem(currentTier()![1])) + value)));
+	localStorage.setItem(currentTier()![2], JSON.stringify(JSON.parse(localStorage.getItem(currentTier()![2])) + 1));
 
 	return true;
 }
@@ -1467,7 +1251,7 @@ async function addHistoryToLs(value: number, items: any, quants: any, tier: any)
 	let currentDateTime = await dateGetter()
 
 	let previous = [items, quants, value, tier, localStorage.getItem(tier[2]), localStorage.getItem("OpenLogger/PrimaryKeyHistory"), currentDateTime];
-	let temp = JSON.parse(localStorage.getItem("OpenLogger/History"))
+	let temp = JSON.parse(localStorage.getItem("OpenLogger/History")!)
 	temp.push(previous);
 
 	localStorage.setItem("OpenLogger/History", JSON.stringify(temp));
@@ -1480,10 +1264,10 @@ async function addHistoryToLs(value: number, items: any, quants: any, tier: any)
 
 function lootDisplay() {
 	//Set Number of clues and Current and Average values
-	(document.getElementById("number_of_rewards") as HTMLSpanElement).textContent = parseInt(JSON.parse(localStorage.getItem(currentTier()[2]))).toLocaleString("en-US");
-	(document.getElementById("value_of_rewards") as HTMLSpanElement).textContent = parseInt(JSON.parse(localStorage.getItem(currentTier()[1]))).toLocaleString("en-US");
-	if (parseInt(JSON.parse(localStorage.getItem(currentTier()[2]))) != 0) {
-		(document.getElementById("average_of_rewards") as HTMLSpanElement).textContent = Math.round(parseInt(JSON.parse(localStorage.getItem(currentTier()[1]))) / parseInt(JSON.parse(localStorage.getItem(currentTier()[2])))).toLocaleString("en-US");
+	(document.getElementById("number_of_rewards") as HTMLSpanElement).textContent = parseInt(JSON.parse(localStorage.getItem(currentTier()![2]))).toLocaleString("en-US");
+	(document.getElementById("value_of_rewards") as HTMLSpanElement).textContent = parseInt(JSON.parse(localStorage.getItem(currentTier()![1]))).toLocaleString("en-US");
+	if (parseInt(JSON.parse(localStorage.getItem(currentTier()![2])!)) != 0) {
+		(document.getElementById("average_of_rewards") as HTMLSpanElement).textContent = Math.round(parseInt(JSON.parse(localStorage.getItem(currentTier()![1]))) / parseInt(JSON.parse(localStorage.getItem(currentTier()![2])))).toLocaleString("en-US");
 	}
 	else {
 		(document.getElementById("average_of_rewards") as HTMLSpanElement).textContent = "0";
@@ -1503,7 +1287,7 @@ function tabDisplay() {
 	for (let i = 0; i < keys.length; i++) {
 		// TODO: Interesting tidbit: Comment out this if block to display every item, 
 		// but quantities will be undefined for the given tier if it doesn't exist in it.
-		if (items[keys[i]].quantity[currentTier()[0]] == undefined || items[keys[i]].quantity[currentTier()[0]] == 0) {
+		if (items[keys[i]].quantity[currentTier()![0]] == undefined || items[keys[i]].quantity[currentTier()![0]] == 0) {
 			continue;
 		}
 
@@ -1512,19 +1296,19 @@ function tabDisplay() {
 		let imgvar = document.createElement("img");
 		let quantvar = document.createElement("span");
 
-		nodevar = nodeMaker(parseInt(items[keys[i]].quantity[currentTier()[0]]), keys[i], "tab");
+		nodevar = nodeMaker(parseInt(items[keys[i]].quantity[currentTier()![0]]), keys[i], "tab");
 		nodevar.style.order = orderChecker(parseInt(items[keys[i]].order), keys[i]).toString();
 		
 		// This if else only exists for when I comment out the above if block.
 		// Nice for viewing all of the loot.
-		if (items[keys[i]].quantity[currentTier()[0]] == undefined) {
+		if (items[keys[i]].quantity[currentTier()![0]] == undefined) {
 			quantvar = quantMaker(0);
 			imgvar = imgMaker(keys[i], 0);
 
 		}
 		else {
-			quantvar = quantMaker(items[keys[i]].quantity[currentTier()[0]]);
-			imgvar = imgMaker(keys[i], items[keys[i]].quantity[currentTier()[0]]);
+			quantvar = quantMaker(items[keys[i]].quantity[currentTier()![0]]);
+			imgvar = imgMaker(keys[i], items[keys[i]].quantity[currentTier()![0]]);
 		}
 
 		nodevar.append(quantvar);
@@ -1540,7 +1324,7 @@ async function historyClear() {
 
 
 function rollbackFunc(valueClear: boolean) { // TODO: Edit this once you get the interface up and running... Consider sending in an index value...
-	let lsHistory = JSON.parse(localStorage.getItem("OpenLogger/History"));
+	let lsHistory = JSON.parse(localStorage.getItem("OpenLogger/History")!);
 	let lastRoll = lsHistory[lsHistory.length - 1];
 	// The order of how History items are logged
 	// Index 0: Items (Array)
@@ -1562,8 +1346,8 @@ function rollbackFunc(valueClear: boolean) { // TODO: Edit this once you get the
 	// Decrease value and count
 
 	//TODO: Check this next line in case this is borked. I think the index for lastroll might be wrong.
-	localStorage.setItem(lastRoll[3][1], JSON.stringify(JSON.parse(localStorage.getItem(lastRoll[3][1])) - lastRoll[2]));
-	localStorage.setItem(lastRoll[3][2], JSON.stringify(JSON.parse(localStorage.getItem(lastRoll[3][2])) - 1));
+	localStorage.setItem(lastRoll[3][1], JSON.stringify(JSON.parse(localStorage.getItem(lastRoll[3][1])!) - lastRoll[2]));
+	localStorage.setItem(lastRoll[3][2], JSON.stringify(JSON.parse(localStorage.getItem(lastRoll[3][2])!) - 1));
 
 	lsHistory.pop();
 	localStorage.setItem("OpenLogger/History", JSON.stringify(lsHistory));
@@ -1575,7 +1359,7 @@ function rollbackFunc(valueClear: boolean) { // TODO: Edit this once you get the
 
 
 function historyInit() {
-	let lsHistory = JSON.parse(localStorage.getItem("OpenLogger/History"))
+	let lsHistory = JSON.parse(localStorage.getItem("OpenLogger/History")!)
 	
 	let title = document.getElementById("history_tier_caps") as HTMLDivElement;
 	title.textContent = currentTierUpper();
@@ -1588,15 +1372,15 @@ function historyInit() {
 		let container = document.createElement("div") as HTMLDivElement;
 		container.textContent = "There's nothing to display. Start scanning!"
 		container.setAttribute("class", "nothingToDisplayContainer")
-		ele.append(container);
+		ele!.append(container);
 	}
 	else {
-		let index = parseInt(localStorage.getItem(currentTier()[2]));
+		let index = parseInt(localStorage.getItem(currentTier()![2])!);
 		let limit = 0;
 		for (let i = lsHistory.length - 1; i >= 0 ; i--) { //Navigating lsHistory
-			if (limit < parseInt(localStorage.getItem("OpenLogger/HistoryDisplayLimit"))) {
+			if (limit < parseInt(localStorage.getItem("OpenLogger/HistoryDisplayLimit")!)) {
 				let temp = lsHistory[i];
-				if (temp[3][0].replace(" [C] ", "") === currentTier()[0]) {
+				if (temp[3][0].replace(" [C] ", "") === currentTier()![0]) {
 					let ele = document.getElementById("history_body") as HTMLDivElement;
 					let container = document.createElement("div") as HTMLDivElement;
 					container.setAttribute("class", "historyDisplayContainer");
@@ -1680,7 +1464,7 @@ function historyInit() {
 			}
 		}
 
-		if (index == parseInt(localStorage.getItem(currentTier()[2]))) {
+		if (index == parseInt(localStorage.getItem(currentTier()![2])!)) {
 			let ele = document.getElementById("history_body") as HTMLDivElement;
 			let container = document.createElement("div") as HTMLDivElement;
 			container.textContent = "There's nothing to display. Start scanning!";
@@ -1726,7 +1510,7 @@ export function rollbackYes(id: any) {
 
 	let pKey = parseInt(id.replace("container", "").replace("button", ""));
 
-	let lsHistory = JSON.parse(localStorage.getItem("OpenLogger/History"));
+	let lsHistory = JSON.parse(localStorage.getItem("OpenLogger/History")!);
 	let temp = [];
 	for (let i = 0; i < lsHistory.length; i++) {
 		if (lsHistory[i][5] == pKey) {
@@ -1743,11 +1527,11 @@ export function rollbackYes(id: any) {
 	}
 
 	// Decrease value and count
-	localStorage.setItem(temp[3][1], JSON.stringify(JSON.parse(localStorage.getItem(temp[3][1])) - temp[2]));
-	localStorage.setItem(temp[3][2], JSON.stringify(JSON.parse(localStorage.getItem(temp[3][2])) - 1));
+	localStorage.setItem(temp[3][1], JSON.stringify(JSON.parse(localStorage.getItem(temp[3][1])!) - temp[2]));
+	localStorage.setItem(temp[3][2], JSON.stringify(JSON.parse(localStorage.getItem(temp[3][2])!) - 1));
 
 	if (seeConsoleLogs) console.log("Removed",temp, ":",pKey, "from LS");
-	if (pKey == ((parseInt(localStorage.getItem("OpenLogger/PrimaryKeyHistory"))) - 1)) {
+	if (pKey == ((parseInt(localStorage.getItem("OpenLogger/PrimaryKeyHistory")!)) - 1)) {
 		(document.getElementById("rewards_value") as HTMLDivElement).textContent = "0";
 		for (let i = 0; i < 9; i++) {
 			(document.getElementById(rewardSlots[i]) as HTMLDivElement).textContent = "";
@@ -1755,9 +1539,9 @@ export function rollbackYes(id: any) {
 	}
 
 	let historyCount = document.getElementsByClassName("historyCount") as HTMLCollectionOf<HTMLDivElement>;
-	let index = parseInt(localStorage.getItem(currentTier()[2]));
-	for (let i = 0; i < parseInt(localStorage.getItem(currentTier()[2])); i++) {
-		if (i >= parseInt(localStorage.getItem("OpenLogger/RollbackDisplayLimit"))) {
+	let index = parseInt(localStorage.getItem(currentTier()![2])!);
+	for (let i = 0; i < parseInt(localStorage.getItem(currentTier()![2])!); i++) {
+		if (i >= parseInt(localStorage.getItem("OpenLogger/RollbackDisplayLimit")!)) {
 			break;
 		}
 		if (historyCount[i] == undefined) {
@@ -1806,7 +1590,7 @@ async function insertInit() {
 	let keys = Object.keys(items);
 	let list = [["Blank", "~Nothing~", 0]];
 	for (let i = 0; i < keys.length; i++) {
-		if (items[keys[i]].tier.includes(currentTier()[0])) {
+		if (items[keys[i]].tier.includes(currentTier()![0])) {
 			list.push([keys[i], keys[i], items[keys[i]].order]);
 		}
 	}
@@ -1857,6 +1641,20 @@ export async function fetchFromGE() {
 		}
 		else if (["Dragon platelegs-skirt ornament kit (or)", "Dragon platelegs-skirt ornament kit (sp)"].includes(itemDivs[i].options[itemDivs[i].selectedIndex].value)) {
 			itemsList.push((itemDivs[i].options[itemDivs[i].selectedIndex].value).replace("-", "/"));
+		}
+		else if (["Furniture plans- Tiny gold pile",
+				  "Furniture plans- Decorative black rug",
+				  "Furniture plans- Small gold pile",
+				  "Furniture plans- Decorative blue rug",
+				  "Furniture plans- Decorative green rug",
+				  "Furniture plans- Medium gold pile",
+				  "Furniture plans- Decorative red rug",
+				  "Furniture plans- Decorative purple rug",
+				  "Furniture plans- Large gold pile",
+				  "Furniture plans- Decorative yellow rug",
+				  "Furniture plans- Huge gold pile"
+				].includes(itemDivs[i].options[itemDivs[i].selectedIndex].value)) {
+			itemsList.push((itemDivs[i].options[itemDivs[i].selectedIndex].value).replace("-", ":"));		
 		}
 		else {
 			itemsList.push((itemDivs[i].options[itemDivs[i].selectedIndex].value));
@@ -1944,7 +1742,7 @@ export async function verifyInsert(event: Event) {
 		return;
 	}
 
-	let curr = (parseInt(localStorage.getItem(currentTier()[2])) + 1).toString();
+	let curr = (parseInt(localStorage.getItem(currentTier()![2])!) + 1).toString();
 	let ele = document.getElementById("insertVerif_body") as HTMLDivElement;
 	let container = document.createElement("div") as HTMLDivElement;
 	container.setAttribute("class", "historyDisplayContainer");
@@ -2008,7 +1806,7 @@ export async function verifyInsert(event: Event) {
 	button.textContent = "Sample";
 
 	let customTier = currentTier();
-	customTier[0] += " [C] ";
+	customTier![0] += " [C] ";
 	insertVerif = [itemsList, quants, totalPrice, customTier];
 
 	buttonbox.append(button);
@@ -2043,7 +1841,7 @@ export function insertToDB() {
 	if (window.alt1) {
 		alt1.overLayClearGroup("overlays");
 		alt1.overLaySetGroup("overlays");
-		alt1.overLayTextEx("Custom " + currentTier()[0] + " clue submitted successfully!",
+		alt1.overLayTextEx("Custom " + currentTier()![0] + " clue submitted successfully!",
 			a1lib.mixColor(100, 255, 100), 20, Math.round(alt1.rsWidth / 2), 200, 4000, "", true, true);
 	}
 }
@@ -2055,11 +1853,6 @@ export function settingsInit() {
 	if (seeConsoleLogs) console.log("Setting previously set radio button for Algorithm: " + localStorage.getItem("OpenLogger/Algorithm") + "...");
 	let temp = localStorage.getItem("OpenLogger/Algorithm");
 	let ele = document.getElementById(temp) as HTMLInputElement;
-	ele.checked = true;
-
-	if (seeConsoleLogs) console.log("Setting previously set radio button for ItemList: " + localStorage.getItem("OpenLogger/ItemList") + "...");
-	temp = localStorage.getItem("OpenLogger/ItemList");
-	ele = document.getElementById(temp) as HTMLInputElement;
 	ele.checked = true;
 
 	if (seeConsoleLogs) console.log("Setting previously set radio button for rerollToggle: " + localStorage.getItem("OpenLogger/rerollToggle") + "...");
@@ -2114,7 +1907,7 @@ export function settingsInit() {
 }
 
 
-export async function saveSettings(alg: string, list: string, reroll: string, lag: string, multi: string, menu: string, precision: string, limit: string) {
+export async function saveSettings(alg: string, reroll: string, lag: string, multi: string, menu: string, precision: string, limit: string) {
 	buttonDisabler();
 	if (seeConsoleLogs) console.log("Saving settings...");
 	if (window.alt1) {
@@ -2123,7 +1916,6 @@ export async function saveSettings(alg: string, list: string, reroll: string, la
 		alt1.overLayTextEx("Saving settings...", a1lib.mixColor(255, 144, 0), 20, Math.round(alt1.rsWidth / 2), 200, 50000, "", true, true);
 	}
 	localStorage.setItem("OpenLogger/Algorithm", alg);
-	localStorage.setItem("OpenLogger/ItemList", list);
 	localStorage.setItem("OpenLogger/rerollToggle", reroll);
 	localStorage.setItem("OpenLogger/lagDetect", lag);
 	localStorage.setItem("OpenLogger/hybridPrecision", precision);
@@ -2245,7 +2037,7 @@ function noMenuCheck() {
 
 			let rewardreader = new ClueRewardReader();
 			rewardreader.pos = ModalUIReader.find()[0];
-			let value = rewardreader.read(img).value;
+			let value = rewardreader.read(img)!.value;
 			let length = value.toString().length
 			let comma = Math.floor(length / 3)
 			if (seeConsoleLogs) console.log("Highlighting value...")
@@ -2279,22 +2071,22 @@ export function exporttocsv() {
 	let csvinfo = [];
 	csvinfo.push(["Item", "Easy", "Medium", "Hard", "Elite", "Master"]);
 	
-	let lsHistory = JSON.parse(localStorage.getItem("OpenLogger/History"))
+	let lsHistory = JSON.parse(localStorage.getItem("OpenLogger/History")!)
 	let keys = Object.keys(items);
 	let currOrder = 1;
 	if (seeConsoleLogs) console.log("Generating CSV...");
 	if (seeConsoleLogs) console.log("Getting values and counts...");
 
-	let eCount = parseInt(localStorage.getItem("OpenLogger/ECount"))
-	let eValue = parseInt(localStorage.getItem("OpenLogger/EValue"))
-	let mCount = parseInt(localStorage.getItem("OpenLogger/MCount"))
-	let mValue = parseInt(localStorage.getItem("OpenLogger/MValue"))
-	let hCount = parseInt(localStorage.getItem("OpenLogger/HCount"))
-	let hValue = parseInt(localStorage.getItem("OpenLogger/HValue"))
-	let elCount = parseInt(localStorage.getItem("OpenLogger/ElCount"))
-	let elValue = parseInt(localStorage.getItem("OpenLogger/ElValue"))
-	let maCount = parseInt(localStorage.getItem("OpenLogger/MaCount"))
-	let maValue = parseInt(localStorage.getItem("OpenLogger/MaValue"))
+	let eCount = parseInt(localStorage.getItem("OpenLogger/ECount")!)
+	let eValue = parseInt(localStorage.getItem("OpenLogger/EValue")!)
+	let mCount = parseInt(localStorage.getItem("OpenLogger/MCount")!)
+	let mValue = parseInt(localStorage.getItem("OpenLogger/MValue")!)
+	let hCount = parseInt(localStorage.getItem("OpenLogger/HCount")!)
+	let hValue = parseInt(localStorage.getItem("OpenLogger/HValue")!)
+	let elCount = parseInt(localStorage.getItem("OpenLogger/ElCount")!)
+	let elValue = parseInt(localStorage.getItem("OpenLogger/ElValue")!)
+	let maCount = parseInt(localStorage.getItem("OpenLogger/MaCount")!)
+	let maValue = parseInt(localStorage.getItem("OpenLogger/MaValue")!)
 
 	csvinfo.push(["Total Count", eCount.toString(), 
 								 mCount.toString(), 
@@ -2545,7 +2337,7 @@ function currentTier() {
 
 
 function currentTierUpper() {
-	return (currentTier()[0][0].toUpperCase() + currentTier()[0].slice(1).toLowerCase())
+	return (currentTier()![0][0].toUpperCase() + currentTier()![0].slice(1).toLowerCase())
 }
 
 
@@ -2576,8 +2368,8 @@ function _base64ToImageData(buffer: string, width: any, height: any) { // https:
   	  	  	canvasElement.width = width;
   	  	  	canvasElement.height = height;
   	  	  	let context = canvasElement.getContext("2d");
-  	  	  	context.drawImage(e.target as HTMLVideoElement, 0, 0, width, height);
-  	  	  	resolve(context.getImageData(0, 0, width, height));
+  	  	  	context!.drawImage(e.target as HTMLVideoElement, 0, 0, width, height);
+  	  	  	resolve(context!.getImageData(0, 0, width, height));
   	  	});
   	  	image.src = buffer;
   	});
