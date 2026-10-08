@@ -2,9 +2,10 @@
 	"compilerOptions": {
 		"moduleResolution": "bundler",
         "module": "CommonJS",
-        "target": "ES2022",
+        "target": "es2022",
 		"resolveJsonModule": true,
-		"esModuleInterop": true
+		"esModuleInterop": true,
+		"noImplicitAny": false
 	},
 	"allowTsInNodeModules": true
 }

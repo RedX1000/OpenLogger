@@ -17,6 +17,14 @@ const Alt1Builder = (alt1chainClass as any).default || alt1chainClass
 //the wrapper gives decent webpack defaults for everything alt1/typescript/react related
 var config = new Alt1Builder(srcdir, { ugly: false });
 
+config.chain.module
+  .rule("typescript")
+  .use("ts-loader")
+  .tap((options = {}) => ({
+    ...options,
+    transpileOnly: true,
+  }));
+
 //exposes all root level exports as UMD (as named package "testpackage" or "TEST" in global scope)
 config.makeUmd("testpackage", "TEST");
 
@@ -43,5 +51,14 @@ config.chain.plugin("copy-assets").use(CopyPlugin, [{
         }    
     ]
 }]);
+
+config.chain.performance.hints(false);
+
+config.chain.externals({
+  sharp: "commonjs sharp",
+  canvas: "commonjs canvas",
+  electron: "commonjs electron",
+  "electron/common": "commonjs electron/common",
+});
 
 export default config.toConfig();
