@@ -2,6 +2,7 @@
 
 ## Known Issues
 
+- First scan needs to be done manually, unsure why.
 - Reroll detection doesn't work. Not sure why, but it's most likely related to some coordinate based changed in the new UI.
 - Opening caskets too fast may cause it to be unread or trigger a lag check.
 - An item that fails to load in in time at the end of a set of rewards cause cause a misread and leave out that item
