@@ -1,8 +1,8 @@
 {
 	"compilerOptions": {
-		"moduleResolution": "Node",
+		"moduleResolution": "bundler",
         "module": "CommonJS",
-        "target": "ES6",
+        "target": "ES2022",
 		"resolveJsonModule": true,
 		"esModuleInterop": true
 	},
