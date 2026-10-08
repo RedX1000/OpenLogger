@@ -92,22 +92,22 @@
 		</header>
 		<div id="mainsection">
 			<div id="broadcasts">
-				<div id="broadcasts_title"><span id="broadcasts_rewards" onclick="TEST.toggleLootDisplay(this.id)" title="Click here to hide broadcast rewards">&nbsp;Broadcast Rewards&nbsp;</span></div>
+				<div class="tab_titles" id="broadcasts_title"><span id="broadcasts_rewards" onclick="TEST.toggleLootDisplay(this.id)" title="Click here to hide broadcast rewards">&nbsp;Broadcast Rewards&nbsp;</span></div>
 				<div class="bottom_border"></div>
 				<div class="loot_display" id="broadcasts_loot"></div>
 			</div>
 			<div id="general">
-				<div id="general_title"><span id="general_rewards" onclick="TEST.toggleLootDisplay(this.id)" title="Click here to hide general rewards">&nbsp;General Rewards&nbsp;</span></div>
+				<div class="tab_titles" id="general_title"><span id="general_rewards" onclick="TEST.toggleLootDisplay(this.id)" title="Click here to hide general rewards">&nbsp;General Rewards&nbsp;</span></div>
 				<div class="bottom_border"></div>
 				<div class="loot_display" id="general_loot"></div>
 			</div>
 			<div id="common">
-				<div id="common_title"><span id="common_rewards" onclick="TEST.toggleLootDisplay(this.id)" title="Click here to hide common rewards">&nbsp;Common Rewards&nbsp;</span></div>
+				<div class="tab_titles" id="common_title"><span id="common_rewards" onclick="TEST.toggleLootDisplay(this.id)" title="Click here to hide common rewards">&nbsp;Common Rewards&nbsp;</span></div>
 				<div class="bottom_border"></div>
 				<div class="loot_display" id="common_loot"></div>
 			</div>
 			<div id="rare">
-				<div id="rare_title"><span id="rare_rewards" onclick="TEST.toggleLootDisplay(this.id)" title="Click here to hide rare rewards">&nbsp;Rare Rewards&nbsp;</span></div>
+				<div class="tab_titles" id="rare_title"><span id="rare_rewards" onclick="TEST.toggleLootDisplay(this.id)" title="Click here to hide rare rewards">&nbsp;Rare Rewards&nbsp;</span></div>
 				<div class="bottom_border"></div>
 				<div class="loot_display" id="rare_loot"></div>
 			</div>
@@ -139,38 +139,15 @@
 		                        <label for="resemblejs" class="algs_label" title="Slower but more accurate algorithm utilizing ResembleJS library.">ResembleJS</label>
 		                        <input type="radio" id="resemblejs" name="algorithm" class="algs_settings_buttons" value="resemblejs" title="Slower but more accurate algorithm utilizing ResembleJS library.">
 		                    </div>
-		                    <label class="title_labels" title="Significantly faster but less accurate algorithm, finding items pixel by pixel.&#10;&#10;There are known items that don't work in TwoPlus and All for this collection.">Pixelmatch Algorithm:<br></label>
+		                    <label class="title_labels" title="Significantly faster but less accurate algorithm, finding items pixel by pixel.">Pixelmatch Algorithm:<br></label>
 		                    <div class="settings_radio_divs">
-		                        <label for="pixelmatch" class="algs_label" title="Significantly faster but less accurate algorithm, finding items pixel by pixel.&#10;&#10;There are known items that don't work in TwoPlus and All for this collection.">Pixelmatch</label>
-		                        <input type="radio" id="pixelmatch" name="algorithm" class="algs_settings_buttons" value="pixelmatch" title="Significantly faster but less accurate algorithm, finding items pixel by pixel.&#10;&#10;There are known items that don't work in TwoPlus and All for this collection.">
+		                        <label for="pixelmatch" class="algs_label" title="Significantly faster but less accurate algorithm, finding items pixel by pixel.">Pixelmatch</label>
+		                        <input type="radio" id="pixelmatch" name="algorithm" class="algs_settings_buttons" value="pixelmatch" title="Significantly faster but less accurate algorithm, finding items pixel by pixel.">
 		                    </div>
 		                    <label class="title_labels" title="A mix between both ResembleJS and Pixelmatch algorithms.&#10;&#10;Good balance of speed and accuracy&#10;Adjust precision in the settings below">Hybrid Algorithm <u>(RECOMMENDED)</u>:<br></label>
 		                    <div class="settings_radio_divs">
 		                        <label for="hybrid" class="algs_label" title="A mix between both ResembleJS and Pixelmatch algorithms.&#10;&#10;Good balance of speed and accuracy&#10;Adjust precision in the settings below">Hybrid&ast;</label>
 		                        <input type="radio" id="hybrid" name="algorithm" class="algs_settings_buttons" value="hybrid" title="A mix between both ResembleJS and Pixelmatch algorithms.&#10;&#10;Good balance of speed and accuracy&#10;Adjust precision in the settings below">
-		                    </div>
-		                </div>
-		                <div class="title_of_section">Reference Image Collection</div>
-		                <div id="imgs_settings">
-		                    <label class="title_labels" title="Complete, full list of reference images. Takes the longest to compare">All Items List:<br></label>
-		                    <div class="settings_radio_divs">
-		                        <label for="all" class="imgs_label" title="Complete, full list of reference images. Takes the longest to compare">All Images</label>
-		                        <input type="radio" id="all" name="imgs" class="imgs_settings_buttons" value="all" title="Complete, full list of reference images. Takes the longest to compare">
-		                    </div>
-		                    <label class="title_labels" title="List of items, where items that appear in two or more tiers are compared with the clue tiers items. Takes the second longest">Two or more List:<br></label>
-		                    <div class="settings_radio_divs">
-		                        <label for="twoplus" class="imgs_label" title="List of items, where items that appear in two or more tiers are compared with the clue tiers items. Takes the second longest to run">TwoPlus</label>
-		                        <input type="radio" id="twoplus" name="imgs" class="imgs_settings_buttons" value="twoplus" title="List of items, where items that appear in two or more tiers are compared with the clue tiers items. Takes the second longest">
-		                    </div>
-		                    <label class="title_labels" title="List of items where items are located in their respective tier. Recommended image collection.">Organized List <U>(RECOMMENDED)</U>:<br></label>
-		                    <div class="settings_radio_divs">
-		                        <label for="orglist" class="imgs_label" title="List of items where items are located in their respective tier. Recommended image collection.">Org List&ast;</label>
-		                        <input type="radio" id="orglist" name="imgs" class="imgs_settings_buttons" value="orglist" title="List of items where items are located in their respective tier. Recommended image collection.">
-		                    </div>
-		                    <label class="title_labels" title="OrgList but with less duplicates. Best for speed, but worst for accuracy due to lower variance.">Organized Minus:<br></label>
-		                    <div class="settings_radio_divs">
-		                        <label for="orgminus" class="imgs_label" title="OrgList but with less duplicates. Best for speed, but worst for accuracy due to lower variance.">Org Minus</label>
-		                        <input type="radio" id="orgminus" name="imgs" class="imgs_settings_buttons" value="orgminus" title="OrgList but with less duplicates. Best for speed, but worst for accuracy due to lower variance.">
 		                    </div>
 		                </div>
 		                <div class="title_of_section">Miscellaneous toggles</div>
@@ -219,10 +196,10 @@
 		                            <input type="radio" id="menuoff" name="menu" class="misc_settings_buttons" value="menuoff" title="Shows the area to keep any menus away from to prevent a double-capture.">
 		                        </div>
 		                    </div>
-		                    <label class="title_labels" title="Determines the level of precision for the Hybrid Algorithm.&#10;&#10;Lower: More precise & faster, Higher: Less precise & slower.&#10;&#10;Default is 0.3, lowest value is 0.1 and highest value is 1.0">Hybrid Alg Precision:<br></label>
+		                    <label class="title_labels" title="Determines the level of precision for the Hybrid Algorithm.&#10;&#10;Lower: More precise & faster, Higher: Less precise & slower.&#10;&#10;Default is 0.5, lowest value is 0.1 and highest value is 1.0">Hybrid Alg Precision:<br></label>
 		                    <div id="hybrid_precision_field">
 		                        <div class="settings_radio_divs">
-		                            <input type="number" min="0" max="2" step="0.1" value="0.3" id="hybrid_precision" name="precision" title="Determines the level of precision for the Hybrid Algorithm.&#10;&#10;Lower: More precise & faster, Higher: Less precise & slower.&#10;&#10;Default is 0.3, lowest value is 0.1 and highest value is 1.0">
+		                            <input type="number" min="0" max="2" step="0.1" value="0.5" id="hybrid_precision" name="precision" title="Determines the level of precision for the Hybrid Algorithm.&#10;&#10;Lower: More precise & faster, Higher: Less precise & slower.&#10;&#10;Default is 0.5, lowest value is 0.1 and highest value is 1.0">
 		                        </div>
 		                    </div>
 							<label class="title_labels" title="Determines how many previous clues will display in the History menu at one time.&#10;&#10;Default value is 25.">History Display Limit:<br></label>
@@ -527,6 +504,26 @@
 					<div class="modal-body" style="user-select: text;">
 						<h2><u>Latest updates</u></h2>
 						<div style="font-size: 15px; font-weight: 600;">
+							<span style="color: rgb(19, 172, 27);">
+								<u>(2026/10/08)</u> <br>
+								Final update for this plugin before porting to new API
+								<ul>
+									<li>Plugin now works with new UI from Road to Restoration</li>
+									<li>Included new furniture plans</li>
+									<li>Some features have been removed or have broken
+									<ul style="margin-top: 0; padding-top: 0;">
+										<li>Removed different JSON types for one list due to removal of legacy and simplicity</li>
+										<li>As of this version, detecting a reroll seems to not be working</li>
+									</ul>
+									</li>
+									<li>For some reason, first scan must be done manually. Unsure why.</li>
+									<li>For existing installs of the project, adjust the hybrid algorithm precision to 0.5 as furniture plans fail to be detected below 0.5.</li>
+									<li>There are most likely other issues, but all of these will be resolved in the API port of this project</li>
+								</ul>
+								This update will be the last update released for OpenLogger before moving onto the new official plugin API.<p>
+								The github for this project will be updated with the new information when ready.
+								<br>
+							</span><br>
 							<span style="color: rgb(224, 228, 18);">
 								<u>(2023/02/13)</u> <br>
 								For the developers, I've applied an MIT license on this project to more clearly state my stance on this project.<br>
@@ -539,11 +536,11 @@
 								<u>(2022/12/11)</u> <br>
 								Greatly tweaked the UI and functions for OpenLogger.<br>
 								<ul>
-									<li>UI should fit better for users with smaller screens</li>
-									<li>Style for History, Insert, and Settings should look better</li>
-									<li>Added different images for item quantites</li>
-									<li>Changed number font for items</li>
-									<li>History and CSV now display capture time and date based on Gametime (UTC) <br>
+									<li style="color: rgb(45, 164, 201);">UI should fit better for users with smaller screens</li>
+									<li style="color: rgb(45, 164, 201);">Style for History, Insert, and Settings should look better</li>
+									<li style="color: rgb(45, 164, 201);">Added different images for item quantites</li>
+									<li style="color: rgb(45, 164, 201);">Changed number font for items</li>
+									<li style="color: rgb(45, 164, 201);">History and CSV now display capture time and date based on Gametime (UTC) <br>
 									(Note: History logs that do not have a date and time will be assigned the current date and time upon plugin startup)</li>
 								</ul>
 							</span><br>
@@ -551,12 +548,6 @@
 								<u>(2022/09/30)</u> <br>
 								Fixed an issue regarding incorrect tiers being selected when selecting the radiobuttons for clues during initialization.<br>
 							</span><br>
-							<span style="color: rgb(42,221,198);">
-								Note for people who installed the plugin between April and End of June:  <br>
-								Considering all of the updates that have happened in that timeframe and now, there may be some plugin-breaking side effects, such as incorrect scans or history logs. <br>
-								I strongly recommend going to Clear Options Menu and selecting Reset OpenLogger to have a fresh experience. <br>
-								It may be worth exporting your CSV if you haven't done so yet.
-							</span>
 						</div><br style='line-height: 1px; content: " "; display: block; margin: 40px 0;'>
 						
 						<h2><u>Github & Discord</u></h2>
@@ -576,11 +567,11 @@
 							</ul>
 						</div>
 						<div style="font-size: 15px; font-weight: 600;">
-							This is my Discord profile! @ <span style="user-select: all; color:#FFC000">RedX1000#3655</span><br>
+							This is my Discord profile! @ <span style="user-select: all; color:#FFC000">redx1000</span><br>
 							Feel free to reach out to me for any of the following reasons:<br>
 							<ul>
-								<li>Bug reports with OpenLogger.</li>
-								<li>Runescape updates breaking OpenLogger.</li>
+								<li style="text-decoration: line-through;">Bug reports with OpenLogger.</li>
+								<li style="text-decoration: line-through;">Runescape updates breaking OpenLogger.</li>
 								<li>Suggestions & Compliments.</li>
 								<li>Literally anything else within reason.</li>
 							</ul>
@@ -618,7 +609,6 @@
 
     		function getSaveDetails(){
     		    let alg;
-    		    let list;
     		    let reroll;
     		    let lag;
     		    let multi;
@@ -632,15 +622,6 @@
     		        alg = "pixelmatch"
     		    else if(document.getElementById("hybrid").checked)
     		        alg = "hybrid"
-			
-    		    if(document.getElementById("all").checked)
-    		        list = "all"
-    		    else if(document.getElementById("twoplus").checked)
-    		        list = "twoplus"
-    		    else if(document.getElementById("orglist").checked)
-    		        list = "orglist"
-    		    else if(document.getElementById("orgminus").checked)
-    		        list = "orgminus"
 			
     		    if(document.getElementById("rerollon").checked)
     		        reroll = "true"
@@ -675,7 +656,7 @@
 					}
 				}
 				else{
-					precision = "0.3"
+					precision = "0.5"
 				}
 
 				if(document.getElementById("history_display_limit").getAttribute("value") != null){
@@ -691,7 +672,7 @@
 					limit = "25"
 				}
 
-    		    TEST.saveSettings(alg, list, reroll, lag, multi, menu, precision, limit)
+    		    TEST.saveSettings(alg, reroll, lag, multi, menu, precision, limit)
 			}
 
 			function insertToDB(){
